@@ -785,7 +785,7 @@
     let quickAmount = 0; 
     let quickCurrency = 'USD';
 
-    // ===== NEW: Flag to prevent concurrent execution =====
+    // Flag to prevent multiple Telegram notifications
     let isProcessingResults = false;
 
     function convertKhmerToGlobalNumber(input) {
@@ -874,8 +874,6 @@
                 history = history.map(item => {
                     if (item.sent12 === undefined) item.sent12 = false;
                     if (item.sent16 === undefined) item.sent16 = false;
-                    if (item.evaluated12 === undefined) item.evaluated12 = false;
-                    if (item.evaluated16 === undefined) item.evaluated16 = false;
                     return item;
                 });
                 
@@ -921,7 +919,7 @@
         
         const numInput = document.getElementById('numberInput');
         if (selectedLetter) {
-            numInput.placeholder = type === 'two' ? 'បញ្ចូលលេខ ២ខ្ទង់ (ឧ. 12,13...)' : 'បញ្ចូលលេខ ៣ខ្ទង់ (ឧ. 123,456...)';
+            numInput.placeholder = type === 'two' ? 'បញ្ចូលលេខ ២ខ្ទង់ (ឧទាហរណ៍ 12,13...)' : 'បញ្ចូលលេខ ៣ខ្ទង់ (ឧទាហរណ៍ 123,456...)';
         }
     }
 
@@ -1535,8 +1533,9 @@
         return x - Math.floor(x);
     }
 
-    // ===== MODIFIED: checkLotteryResults with better duplicate prevention =====
+    // Modified: Only generate results if they don't exist yet
     function checkLotteryResults() {
+        // Prevent concurrent execution
         if (isProcessingResults) return;
         isProcessingResults = true;
 
@@ -1592,7 +1591,7 @@
                 localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
             }
 
-            // ===== CRITICAL: Send to Telegram ONLY ONCE =====
+            // Send to Telegram only once (check sent flags)
             if (todayEntry.res12 && !todayEntry.sent12 && currentHour >= 12) {
                 publishResultToTelegram(todayDisplayStr, '12:00 (២ខ្ទង់)', todayEntry.res12);
                 todayEntry.sent12 = true;
@@ -1605,7 +1604,7 @@
                 localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
             }
 
-            // ===== CRITICAL: Evaluate user bets ONLY ONCE =====
+            // Evaluate user bets only once per time slot
             if (todayEntry.res12 && !todayEntry.evaluated12 && currentHour >= 12) {
                 evaluateUserBets(todayStr, '12:00', 'two', todayEntry.res12);
                 todayEntry.evaluated12 = true;
@@ -1858,11 +1857,15 @@
 
     window.onload = function() {
         cleanOldData();
+        // Run once on load
         checkLotteryResults();
         renderUserBets();
         updateDigitalClockAndCountdown();
         updateConfigDisplayBox();
         setInterval(updateDigitalClockAndCountdown, 1000);
-        setInterval(checkLotteryResults, 60000);
+        // Check every 60 seconds instead of 30 to reduce load
+        setInterval(checkLotteryResults, 60000); 
     };
 </script>
+</body>
+</html>
