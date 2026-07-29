@@ -671,7 +671,7 @@
             <option value="សមាជិកភ្លេចដាក់ពាក្យស្នើសុំកាលពីម្សិលមិញ">សមាជិកភ្លេចដាក់ពាក្យស្នើសុំកាលពីម្សិលមិញ</option>
             <option value="OTHER">✍️ បំពេញមូលហេតុផ្សេងទៀតដោយដៃ...</option>
           </select>
-          <div id="manualLateReasonBox" style="margin-top:8px; display:none;">
+          <div id="manualLateReasonBox" style="margin-top:8px;">
             <label style="color:#d63000; font-size:13px;">✍️ សូមរៀបរាប់មូលហេតុនៃការដកប្រាក់យឺតកាលពីម្សិលមិញ៖</label>
             <textarea id="withdrawLateReasonManual" rows="3" placeholder="សូមសរសេរមូលហេតុរបស់អ្នកនៅទីនេះ..."></textarea>
           </div>
@@ -752,17 +752,7 @@
         RESULT_CHAT_ID: '-1004337529817'
     };
 
-    // Global App State
-    let currentBetType = 'two'; 
-    let selectedDrawTime = '12:00'; 
-    let selectedLetter = ''; 
-    let betNumbers = [];
-    let quickAmount = 0; 
-    let quickCurrency = 'USD';
-
-    // Track announced results to prevent duplicate sends/posts
-    let announcedResultsMap = {};
-
+    // ===== TELEGRAM SENDER FUNCTIONS =====
     function sendTelegramMessage(token, chatId, message, parseMode = 'HTML') {
         return fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
             method: 'POST',
@@ -788,19 +778,12 @@
         });
     }
 
-    function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
-    }
-
-    function showSection(sectionName) {
-        document.getElementById('homeSection').style.display = (sectionName === 'home') ? 'block' : 'none';
-        document.getElementById('historySection').style.display = (sectionName === 'history') ? 'block' : 'none';
-        document.getElementById('rulesSection').style.display = (sectionName === 'rules') ? 'block' : 'none';
-
-        document.getElementById('link-home').classList.toggle('active', sectionName === 'home');
-        document.getElementById('link-history').classList.toggle('active', sectionName === 'history');
-        document.getElementById('link-rules').classList.toggle('active', sectionName === 'rules');
-    }
+    let currentBetType = 'two'; 
+    let selectedDrawTime = '12:00'; 
+    let selectedLetter = ''; 
+    let betNumbers = [];
+    let quickAmount = 0; 
+    let quickCurrency = 'USD';
 
     function convertKhmerToGlobalNumber(input) {
         if (!input) return;
@@ -835,7 +818,11 @@
         document.getElementById('customAlertMessage').innerText = message;
         
         const agentBtn = document.getElementById('btnModalAgent');
-        agentBtn.style.display = showAgentBtn ? 'inline-flex' : 'none';
+        if (showAgentBtn) {
+            agentBtn.style.display = 'inline-flex';
+        } else {
+            agentBtn.style.display = 'none';
+        }
 
         const confirmBtn = document.getElementById('btnModalConfirm');
         confirmBtn.onclick = function() {
@@ -852,7 +839,7 @@
         const url = window.location.href;
         navigator.clipboard.writeText(url).then(() => {
             customAlert("ជោគជ័យ!", "📋 បានចម្លងតំណភ្ជាប់គេហទំព័រដោយជោគជ័យ!", "🔗");
-        }).catch(() => {
+        }).catch(err => {
             customAlert("ព័ត៌មាន", "🌐 តំណភ្ជាប់គេហទំព័រ៖\n" + url, "🔗");
         });
     }
@@ -876,7 +863,18 @@
                 const threeDaysAgo = new Date();
                 threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
                 
-                history = history.filter(item => new Date(item.date) >= threeDaysAgo);
+                history = history.filter(item => {
+                    const itemDate = new Date(item.date);
+                    return itemDate >= threeDaysAgo;
+                });
+                
+                // ធានាថារាល់ entry មានទង់ sent
+                history = history.map(item => {
+                    if (item.sent12 === undefined) item.sent12 = false;
+                    if (item.sent16 === undefined) item.sent16 = false;
+                    return item;
+                });
+                
                 localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
             }
 
@@ -885,7 +883,10 @@
                 const threeDaysAgo = new Date();
                 threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
 
-                userBets = userBets.filter(bet => new Date(bet.date) >= threeDaysAgo);
+                userBets = userBets.filter(bet => {
+                    const betDate = new Date(bet.date);
+                    return betDate >= threeDaysAgo;
+                });
                 localStorage.setItem('khmer_lottery_user_bets', JSON.stringify(userBets));
             }
         } catch (e) {
@@ -904,7 +905,11 @@
         document.getElementById('btnTypeTwo').classList.toggle('active', type === 'two');
         document.getElementById('btnTypeThree').classList.toggle('active', type === 'three');
         
-        setDrawTime(type === 'two' ? '12:00' : '16:00');
+        if(type === 'two') {
+            setDrawTime('12:00');
+        } else {
+            setDrawTime('16:00');
+        }
 
         betNumbers = [];
         updateSelectedDisplay();
@@ -966,6 +971,7 @@
             return;
         }
 
+        let addedCount = 0;
         for (let numStr of validNumbersToAdd) {
             if (betNumbers.length >= 10) {
                 customAlert("ការព្រមាន", "លោកអ្នកអាចជ្រើសរើសបានយ៉ាងច្រើនបំផុតត្រឹម 10 លេខប៉ុណ្ណោះ!", "⚠️");
@@ -975,6 +981,7 @@
             const formatted = `${selectedLetter}:${numStr}`;
             if (!betNumbers.includes(formatted)) {
                 betNumbers.push(formatted);
+                addedCount++;
             }
         }
 
@@ -1018,15 +1025,27 @@
         const amountVal = parseFloat(document.getElementById('quickAmountInput').value);
         const currencyVal = document.getElementById('quickCurrency').value;
 
-        quickAmount = (isNaN(amountVal) || amountVal <= 0) ? 0 : amountVal;
+        if (isNaN(amountVal) || amountVal <= 0) {
+            quickAmount = 0;
+        } else {
+            quickAmount = amountVal;
+        }
         quickCurrency = currencyVal;
 
         const warningEl = document.getElementById('limitWarning');
         if (quickAmount > 0) {
             if (quickCurrency === 'USD') {
-                warningEl.style.display = (quickAmount < 0.25 || quickAmount > 10) ? 'block' : 'none';
+                if (quickAmount < 0.25 || quickAmount > 10) {
+                    warningEl.style.display = 'block';
+                } else {
+                    warningEl.style.display = 'none';
+                }
             } else {
-                warningEl.style.display = (quickAmount < 500 || quickAmount > 40000) ? 'block' : 'none';
+                if (quickAmount < 500 || quickAmount > 40000) {
+                    warningEl.style.display = 'block';
+                } else {
+                    warningEl.style.display = 'none';
+                }
             }
         } else {
             warningEl.style.display = 'none';
@@ -1054,7 +1073,11 @@
         document.getElementById('totalAmount').innerText = displayTotal;
 
         const btnSubmit = document.getElementById('btnSubmitBet');
-        btnSubmit.disabled = !(totalCount > 0 && isAmountValid && quickAmount > 0);
+        if (totalCount > 0 && isAmountValid && quickAmount > 0) {
+            btnSubmit.disabled = false;
+        } else {
+            btnSubmit.disabled = true;
+        }
     }
 
     function submitQuickBet() {
@@ -1104,7 +1127,11 @@
     function toggleManualDepositBankInput() {
         const bankSelect = document.getElementById('depositBank');
         const manualArea = document.getElementById('manualDepositBankArea');
-        manualArea.style.display = (bankSelect.value === 'MANUAL') ? 'block' : 'none';
+        if (bankSelect.value === 'MANUAL') {
+            manualArea.style.display = 'block';
+        } else {
+            manualArea.style.display = 'none';
+        }
         checkInputsForAbaButton();
     }
 
@@ -1117,7 +1144,12 @@
     function checkFinalSubmitButton() {
         const fileInput = document.getElementById('depositScreenshot');
         const btnSubmit = document.getElementById('btnFinalDepositSubmit');
-        btnSubmit.disabled = !(fileInput.files && fileInput.files.length > 0);
+        
+        if (fileInput.files && fileInput.files.length > 0) {
+            btnSubmit.disabled = false;
+        } else {
+            btnSubmit.disabled = true;
+        }
     }
 
     document.getElementById('depositForm').addEventListener('submit', function(e) {
@@ -1211,10 +1243,12 @@
                     document.getElementById('btnFinalDepositSubmit').disabled = true;
                 });
             } else {
-                customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការផ្ញើទិន្នន័យ សូមព្យាយាមម្តងទៀត!", "❌", true);
+                console.error("Telegram API Error:", data);
+                customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការផ្ញើទិន្នន័យ សូមព្យាយាមម្តងទៀត! (កូដកំហុស: " + (data.error_code || 'មិនស្គាល់') + ")", "❌", true);
             }
         })
-        .catch(() => {
+        .catch(err => {
+            console.error("Fetch Error:", err);
             customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការតភ្ជាប់បណ្តាញ! សូមពិនិត្យការតភ្ជាប់អ៊ីនធឺណិតរបស់អ្នក។", "❌", true);
         })
         .finally(() => {
@@ -1239,7 +1273,11 @@
 
             if (bet.status === 'win') {
                 statusBadge = '<span class="status-badge status-win">🎉 ឈ្នះរង្វាន់</span>';
-                statusBadge += bet.claimed ? ' <span class="badge" style="background:#6c757d;">បានដក</span>' : ' <span class="new-win-badge">អាចដកបាន</span>';
+                if (bet.claimed) {
+                    statusBadge += ' <span class="badge" style="background:#6c757d;">បានដក</span>';
+                } else {
+                    statusBadge += ' <span class="new-win-badge">អាចដកបាន</span>';
+                }
                 const payout = bet.type === 'two' ? bet.amountPerNum * 70 : bet.amountPerNum * 500;
                 winRewardText = bet.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
             } else if (bet.status === 'loss') {
@@ -1369,7 +1407,7 @@
             const totalPayout = bet.amountPerNum * rate;
             const displayPayout = bet.currency === 'USD' ? `${totalPayout.toFixed(2)}$` : `${totalPayout.toLocaleString()}៛`;
             
-            detailsEl.innerText = `ប្រភេទ: ${bet.type === 'two' ? '២ខ្ទង់ (សង ៧០ដង)' : '៣ខ្ទង់ (សង ៥០ដង)'} | ដើមទុន: ${bet.amountPerNum}${bet.currency === 'USD' ? '$' : '៛'}`;
+            detailsEl.innerText = `ប្រភេទ: ${bet.type === 'two' ? '២ខ្ទង់ (សង ៧០ដង)' : '៣ខ្ទង់ (សង ៥００ដង)'} | ដើមទុន: ${bet.amountPerNum}${bet.currency === 'USD' ? '$' : '៛'}`;
             payoutEl.innerText = displayPayout;
             btnSubmit.disabled = false;
         }
@@ -1449,6 +1487,8 @@
             messageText += `⚠️ មូលហេតុយឺត: ${reason}\n`;
         }
 
+        messageText += `⏰ ម៉ោងស្នើសុំ: ${now.toLocaleString('km-KH')}`;
+
         const btnSubmit = document.getElementById('btnSubmitWithdraw');
         btnSubmit.disabled = true;
         btnSubmit.innerText = 'កំពុងផ្ញើសំណើ...';
@@ -1465,17 +1505,20 @@
                 userBets[betIndex].claimed = true;
                 localStorage.setItem('khmer_lottery_user_bets', JSON.stringify(userBets));
 
-                customAlert("ជោគជ័យ", "🚀 សំណើដកប្រាក់របស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ! ប្រព័ន្ធនឹងទូទាត់ជូនក្នុងពេលឆាប់ៗនេះ។", "🎉", false, () => {
+                customAlert("ជោគជ័យ", "✅ សំណើដកប្រាក់រង្វាន់របស់អ្នកត្រូវបានផ្ញើទៅកាន់ភ្នាក់ងាររួចរាល់! ប្រព័ន្ធនឹងផ្ទេរប្រាក់ជូនក្នុងពេលឆាប់ៗ។", "🎉", false, () => {
                     closeModal('withdrawModal');
                     renderUserBets();
                     document.getElementById('withdrawForm').reset();
+                    document.getElementById('btnSubmitWithdraw').disabled = true;
                 });
             } else {
-                customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការផ្ញើសំណើដកប្រាក់!", "❌", true);
+                console.error("Telegram API Error:", data);
+                customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការផ្ញើសំណើ សូមព្យាយាមម្តងទៀត! (កូដកំហុស: " + (data.error_code || 'មិនស្គាល់') + ")", "❌", true);
             }
         })
-        .catch(() => {
-            customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការតភ្ជាប់បណ្តាញ!", "❌", true);
+        .catch(err => {
+            console.error("Fetch Error:", err);
+            customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការតភ្ជាប់បណ្តាញ! សូមពិនិត្យការតភ្ជាប់អ៊ីនធឺណិតរបស់អ្នក។", "❌", true);
         })
         .finally(() => {
             btnSubmit.disabled = false;
@@ -1483,191 +1526,316 @@
         });
     });
 
-    // ===== SYSTEM GENERATION & DETERMINISTIC ENGINE =====
-    function generatePseudoRandomResults(dateStr) {
-        let hash = 0;
-        for (let i = 0; i < dateStr.length; i++) {
-            hash = (hash << 5) - hash + dateStr.charCodeAt(i);
-            hash |= 0;
-        }
-
-        const getNum = (seed, length) => {
-            let x = Math.sin(seed) * 10000;
-            let num = Math.floor((x - Math.floor(x)) * Math.pow(10, length));
-            return String(num).padStart(length, '0');
-        };
-
-        return {
-            two: {
-                A: getNum(hash + 1, 2),
-                B: getNum(hash + 2, 2),
-                C: getNum(hash + 3, 2),
-                D: getNum(hash + 4, 2),
-                E: getNum(hash + 5, 2)
-            },
-            three: {
-                A: getNum(hash + 6, 3),
-                B: getNum(hash + 7, 3),
-                C: getNum(hash + 8, 3),
-                D: getNum(hash + 9, 3),
-                E: getNum(hash + 10, 3)
-            }
-        };
+    function seededRandom(seed) {
+        let x = Math.sin(seed++) * 10000;
+        return x - Math.floor(x);
     }
 
-    function checkAndAnnounceResults() {
+    function checkLotteryResults() {
         const now = new Date();
-        const dateKey = now.toLocaleDateString('en-US'); // Identique sur tous les navigateurs
         const currentHour = now.getHours();
-        const currentMinute = now.getMinutes();
 
-        const generated = generatePseudoRandomResults(dateKey);
+        const todayStr = now.toISOString().split('T')[0];
+        const todayDisplayStr = now.toLocaleDateString('km-KH');
 
-        // 12:00 Draw logic
-        if (currentHour > 12 || (currentHour === 12 && currentMinute >= 0)) {
-            document.getElementById('res_two_A').innerText = generated.two.A;
-            document.getElementById('res_two_B').innerText = generated.two.B;
-            document.getElementById('res_two_C').innerText = generated.two.C;
-            document.getElementById('res_two_D').innerText = generated.two.D;
-            document.getElementById('res_two_E').innerText = generated.two.E;
+        let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+        let todayEntry = history.find(h => h.date === todayStr);
 
-            if (!announcedResultsMap[`${dateKey}_12`]) {
-                announcedResultsMap[`${dateKey}_12`] = true;
-                evaluateUserBets('12:00', generated.two);
-                
-                const msg = `📢 <b>លទ្ធផលផ្លូវការ 12:00 (២ខ្ទង់)</b>\n📅 កាលបរិច្ឆេទ: ${now.toLocaleDateString('km-KH')}\n\n` +
-                            `A: <b>${generated.two.A}</b> | B: <b>${generated.two.B}</b>\n` +
-                            `C: <b>${generated.two.C}</b> | D: <b>${generated.two.D}</b>\n` +
-                            `E: <b>${generated.two.E}</b>`;
-                sendTelegramMessage(TELEGRAM_CONFIG.RESULT_TOKEN, TELEGRAM_CONFIG.RESULT_CHAT_ID, msg);
-            }
+        if (!todayEntry) {
+            todayEntry = {
+                date: todayStr,
+                dateDisplay: todayDisplayStr,
+                res12: null,
+                res16: null,
+                sent12: false,
+                sent16: false
+            };
+            history.unshift(todayEntry);
         }
 
-        // 16:00 Draw logic
-        if (currentHour > 16 || (currentHour === 16 && currentMinute >= 0)) {
-            document.getElementById('res_three_A').innerText = generated.three.A;
-            document.getElementById('res_three_B').innerText = generated.three.B;
-            document.getElementById('res_three_C').innerText = generated.three.C;
-            document.getElementById('res_three_D').innerText = generated.three.D;
-            document.getElementById('res_three_E').innerText = generated.three.E;
+        // ធានាថាមានទង់ sent
+        if (todayEntry.sent12 === undefined) todayEntry.sent12 = false;
+        if (todayEntry.sent16 === undefined) todayEntry.sent16 = false;
 
-            if (!announcedResultsMap[`${dateKey}_16`]) {
-                announcedResultsMap[`${dateKey}_16`] = true;
-                evaluateUserBets('16:00', generated.three);
-                
-                const msg = `📢 <b>លទ្ធផលផ្លូវការ 16:00 (៣ខ្ទង់)</b>\n📅 កាលបរិច្ឆេទ: ${now.toLocaleDateString('km-KH')}\n\n` +
-                            `A: <b>${generated.three.A}</b> | B: <b>${generated.three.B}</b>\n` +
-                            `C: <b>${generated.three.C}</b> | D: <b>${generated.three.D}</b>\n` +
-                            `E: <b>${generated.three.E}</b>`;
-                sendTelegramMessage(TELEGRAM_CONFIG.RESULT_TOKEN, TELEGRAM_CONFIG.RESULT_CHAT_ID, msg);
+        // ពិនិត្យលទ្ធផលវេន 12:00
+        if (currentHour >= 12 && !todayEntry.res12) {
+            todayEntry.res12 = generateRiskManagedResults(todayStr, '12:00', 'two');
+            todayEntry.sent12 = false;
+            localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            
+            if (!todayEntry.sent12) {
+                publishResultToTelegram(todayDisplayStr, '12:00 (២ខ្ទង់)', todayEntry.res12);
+                todayEntry.sent12 = true;
+                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
             }
+            evaluateUserBets(todayStr, '12:00', 'two', todayEntry.res12);
         }
 
+        // ពិនិត្យលទ្ធផលវេន 16:00
+        if (currentHour >= 16 && !todayEntry.res16) {
+            todayEntry.res16 = generateRiskManagedResults(todayStr, '16:00', 'three');
+            todayEntry.sent16 = false;
+            localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            
+            if (!todayEntry.sent16) {
+                publishResultToTelegram(todayDisplayStr, '16:00 (៣ខ្ទង់)', todayEntry.res16);
+                todayEntry.sent16 = true;
+                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            }
+            evaluateUserBets(todayStr, '16:00', 'three', todayEntry.res16);
+        }
+
+        // ករណីលទ្ធផលមានរួចហើយ ប៉ុន្តែមិនទាន់ផ្ញើ (ពិនិត្យបន្ថែម)
+        if (todayEntry.res12 && !todayEntry.sent12 && currentHour >= 12) {
+            publishResultToTelegram(todayDisplayStr, '12:00 (២ខ្ទង់)', todayEntry.res12);
+            todayEntry.sent12 = true;
+            localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+        }
+
+        if (todayEntry.res16 && !todayEntry.sent16 && currentHour >= 16) {
+            publishResultToTelegram(todayDisplayStr, '16:00 (៣ខ្ទង់)', todayEntry.res16);
+            todayEntry.sent16 = true;
+            localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+        }
+
+        localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+        updateResultUI(todayEntry);
         renderHistoryTable();
     }
 
-    function evaluateUserBets(drawTime, winningObj) {
+    function generateRiskManagedResults(dateStr, timeStr, type) {
+        const userBets = JSON.parse(localStorage.getItem('khmer_lottery_user_bets') || '[]');
+        const activeBets = userBets.filter(b => b.type === type && (b.drawTime === timeStr || !b.drawTime));
+
+        let seed = 0;
+        for (let i = 0; i < dateStr.length; i++) seed += dateStr.charCodeAt(i);
+        seed += timeStr === '12:00' ? 12 : 16;
+
+        const posts = ['A', 'B', 'C', 'D', 'E'];
+        let bestResult = null;
+
+        for (let attempt = 0; attempt < 50; attempt++) {
+            let tempResult = {};
+            posts.forEach(p => {
+                let num = '';
+                if (type === 'two') {
+                    const val = Math.floor(seededRandom(seed++) * 100);
+                    num = val.toString().padStart(2, '0');
+                } else {
+                    const val = Math.floor(seededRandom(seed++) * 1000);
+                    num = val.toString().padStart(3, '0');
+                }
+                tempResult[p] = num;
+            });
+
+            let totalRevenue = 0;
+            let totalPayout = 0;
+
+            activeBets.forEach(bet => {
+                totalRevenue += bet.totalAmount;
+                const rate = type === 'two' ? 70 : 500;
+
+                bet.numbers.forEach(numTag => {
+                    const [p, n] = numTag.split(':');
+                    if (tempResult[p] === n) {
+                        totalPayout += bet.amountPerNum * rate;
+                    }
+                });
+            });
+
+            if (totalRevenue === 0 || totalPayout <= totalRevenue * 0.70) {
+                bestResult = tempResult;
+                break;
+            }
+
+            bestResult = tempResult;
+        }
+
+        return bestResult;
+    }
+
+    function evaluateUserBets(dateStr, drawTime, type, winningResults) {
         let userBets = JSON.parse(localStorage.getItem('khmer_lottery_user_bets') || '[]');
-        let updated = false;
+        let hasNewWin = false;
 
         userBets.forEach(bet => {
-            if (bet.status === 'pending' && bet.drawTime === drawTime) {
+            if (bet.type === type && (bet.drawTime === drawTime || !bet.drawTime) && bet.status === 'pending') {
                 let isWin = false;
-                bet.numbers.forEach(numStr => {
-                    const [letter, num] = numStr.split(':');
-                    if (winningObj[letter] === num) {
+                bet.numbers.forEach(numTag => {
+                    const [p, n] = numTag.split(':');
+                    if (winningResults[p] === n) {
                         isWin = true;
                     }
                 });
 
-                bet.status = isWin ? 'win' : 'loss';
-                updated = true;
-
                 if (isWin) {
-                    customAlert("🎉 អបអរសាទរ!", `អ្នកបានឈ្នះការទស្សន៍ទាយសម្រាប់វេន ${drawTime}! សូមចូលទៅកាន់ផ្នែកដកប្រាក់។`, "🏆");
+                    bet.status = 'win';
+                    hasNewWin = true;
+                } else {
+                    bet.status = 'loss';
                 }
             }
         });
 
-        if (updated) {
-            localStorage.setItem('khmer_lottery_user_bets', JSON.stringify(userBets));
-            renderUserBets();
+        localStorage.setItem('khmer_lottery_user_bets', JSON.stringify(userBets));
+        renderUserBets();
+
+        if (hasNewWin) {
+            customAlert("🎉 អបអរសាទរ!", "លោកអ្នកបានឈ្នះឆ្នោត! សូមចុចប៊ូតុង «🏦 ស្នើសុំដកប្រាក់រង្វាន់» ដើម្បីទទួលប្រាក់រង្វាន់!", "🏆");
         }
+    }
+
+    function publishResultToTelegram(dateDisplay, timeTitle, resultsObj) {
+        const msg = `📢 <b>លទ្ធផលឆ្នោតខ្មែរ N98 ប្រកាសផ្លូវការ</b>\n` +
+                    `🗓️ កាលបរិច្ឆេទ: <b>${dateDisplay}</b>\n` +
+                    `🕒 វេនចេញ: <b>${timeTitle}</b>\n\n` +
+                    `Ⓐ ប៉ុស្តិ៍ A: <b>${resultsObj.A}</b>\n` +
+                    `Ⓑ ប៉ុស្តិ៍ B: <b>${resultsObj.B}</b>\n` +
+                    `Ⓒ ប៉ុស្តិ៍ C: <b>${resultsObj.C}</b>\n` +
+                    `Ⓓ ប៉ុស្តិ៍ D: <b>${resultsObj.D}</b>\n` +
+                    `Ⓔ ប៉ុស្តិ៍ E: <b>${resultsObj.E}</b>\n\n` +
+                    `🌐 ពិនិត្យប្រវត្តិ និងចាក់បន្ថែមតាមគេហទំព័រផ្លូវការ!`;
+
+        sendTelegramMessage(
+            TELEGRAM_CONFIG.RESULT_TOKEN,
+            TELEGRAM_CONFIG.RESULT_CHAT_ID,
+            msg
+        ).catch(err => console.error("Error publishing results to Telegram", err));
+    }
+
+    function updateResultUI(todayEntry) {
+        const posts = ['A', 'B', 'C', 'D', 'E'];
+        const now = new Date();
+        const currentHour = now.getHours();
+
+        posts.forEach(p => {
+            const elTwo = document.getElementById(`res_two_${p}`);
+            const elThree = document.getElementById(`res_three_${p}`);
+
+            if (currentHour < 12) {
+                elTwo.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
+                elThree.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
+            } else if (currentHour >= 12 && currentHour < 16) {
+                if (todayEntry.res12) {
+                    elTwo.innerText = todayEntry.res12[p];
+                    elTwo.style.color = '#28a745';
+                } else {
+                    elTwo.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
+                }
+                elThree.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
+            } else {
+                elTwo.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
+                if (todayEntry.res16) {
+                    elThree.innerText = todayEntry.res16[p];
+                    elThree.style.color = '#28a745';
+                } else {
+                    elThree.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
+                }
+            }
+        });
     }
 
     function renderHistoryTable() {
+        const history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
         const tbody = document.getElementById('historyBody');
-        let html = '';
-        const today = new Date();
 
-        for (let i = 0; i < 5; i++) {
-            const d = new Date(today);
-            d.setDate(d.getDate() - i);
-            const dateKey = d.toLocaleDateString('en-US');
-            const kmDate = d.toLocaleDateString('km-KH');
-
-            const res = generatePseudoRandomResults(dateKey);
-
-            ['A','B','C','D','E'].forEach((letter, idx) => {
-                html += `
-                    <tr>
-                        ${idx === 0 ? `<td rowspan="5" style="vertical-align:middle; font-weight:bold;">${kmDate}</td>` : ''}
-                        <td><strong style="color:#0078D7;">${letter}</strong></td>
-                        <td>${res.two[letter]}</td>
-                        <td>${res.three[letter]}</td>
-                    </tr>
-                `;
-            });
+        if (history.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="color:#6c757d; padding:15px;">មិនទាន់មានប្រវត្តិលទ្ធផលនៅឡើយទេ</td></tr>';
+            return;
         }
 
-        tbody.innerHTML = html;
+        tbody.innerHTML = history.map(item => {
+            const formatObj = (obj) => {
+                if (!obj) return '<span style="color:#dc3545; font-size:12px;">⏳ រង់ចាំលទ្ធផល</span>';
+                return `A:${obj.A} | B:${obj.B} | C:${obj.C} | D:${obj.D} | E:${obj.E}`;
+            };
+
+            return `
+                <tr>
+                    <td><strong>${item.dateDisplay}</strong></td>
+                    <td>A, B, C, D, E</td>
+                    <td>${formatObj(item.res12)}</td>
+                    <td>${formatObj(item.res16)}</td>
+                </tr>
+            `;
+        }).join('');
     }
 
-    function updateClockAndCountdown() {
+    function updateDigitalClockAndCountdown() {
         const now = new Date();
-        
-        // Widget Time
-        document.getElementById('widgetTime').innerText = now.toLocaleTimeString('en-US', { hour12: false });
-        document.getElementById('widgetDate').innerText = now.toLocaleDateString('km-KH', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
 
-        // Countdown Logic
-        const target12 = new Date(now); target12.setHours(12, 0, 0, 0);
-        const target16 = new Date(now); target16.setHours(16, 0, 0, 0);
+        const timeStr = now.toLocaleTimeString('km-KH', { hour12: false });
+        const dateStr = now.toLocaleDateString('km-KH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
-        let target = null;
-        let labelText = '';
+        document.getElementById('widgetTime').innerText = timeStr;
+        document.getElementById('widgetDate').innerText = dateStr;
 
-        if (now < target12) {
-            target = target12;
-            labelText = '🎯 វេនបន្ទាប់៖ 12:00 ថ្ងៃត្រង់ (២ខ្ទង់)';
-        } else if (now < target16) {
-            target = target16;
-            labelText = '🎯 វេនបន្ទាប់៖ 16:00 រសៀល (៣ខ្ទង់)';
-        } else {
-            target = new Date(now);
-            target.setDate(target.getDate() + 1);
-            target.setHours(12, 0, 0, 0);
-            labelText = '🎯 វេនបន្ទាប់៖ 12:00 ថ្ងៃត្រង់ (ថ្ងៃស្អែក)';
+        const currentHour = now.getHours();
+
+        let targetHour = 12;
+        let targetLabel = "🕛 វេនម៉ោង 12:00 ថ្ងៃត្រង់ (លេខ ២ខ្ទង់)";
+
+        if (currentHour >= 12 && currentHour < 16) {
+            targetHour = 16;
+            targetLabel = "🕓 វេនម៉ោង 16:00 រសៀល (លេខ ៣ខ្ទង់)";
+        } else if (currentHour >= 16) {
+            targetHour = 36; 
+            targetLabel = "🕛 វេនម៉ោង 12:00 ថ្ងៃត្រង់ស្អែក (លេខ ២ខ្ទង់)";
         }
 
-        const diff = target - now;
-        const h = Math.floor(diff / (1000 * 60 * 60)).toString().padStart(2, '0');
-        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-        const s = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        const targetTime = new Date(now);
+        if (targetHour === 36) {
+            targetTime.setDate(targetTime.getDate() + 1);
+            targetTime.setHours(12, 0, 0, 0);
+        } else {
+            targetTime.setHours(targetHour, 0, 0, 0);
+        }
 
-        document.getElementById('countdownDisplay').innerText = `${h}:${m}:${s}`;
-        document.getElementById('nextTimeLabel').innerText = labelText;
+        const diffMs = targetTime - now;
+        const diffSec = Math.floor(diffMs / 1000) % 60;
+        const diffMin = Math.floor(diffMs / (1000 * 60)) % 60;
+        const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
 
-        checkAndAnnounceResults();
+        const formatTwo = (num) => String(num).padStart(2, '0');
+        document.getElementById('countdownDisplay').innerText = `${formatTwo(diffHrs)}:${formatTwo(diffMin)}:${formatTwo(diffSec)}`;
+        document.getElementById('nextTimeLabel').innerText = `🎯 សម្រាប់៖ ${targetLabel}`;
     }
 
-    // Window Init
+    function showSection(sectionName) {
+        document.getElementById('homeSection').style.display = sectionName === 'home' ? 'block' : 'none';
+        document.getElementById('historySection').style.display = sectionName === 'history' ? 'block' : 'none';
+        document.getElementById('rulesSection').style.display = sectionName === 'rules' ? 'block' : 'none';
+
+        document.getElementById('link-home').classList.toggle('active', sectionName === 'home');
+        document.getElementById('link-history').classList.toggle('active', sectionName === 'history');
+        document.getElementById('link-rules').classList.toggle('active', sectionName === 'rules');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const depositModal = document.getElementById('depositModal');
+        const withdrawModal = document.getElementById('withdrawModal');
+        const alertModal = document.getElementById('customAlertModal');
+        const announceGroupModal = document.getElementById('announceGroupModal');
+        const agentModal = document.getElementById('agentModal');
+
+        if (event.target === depositModal) depositModal.style.display = 'none';
+        if (event.target === withdrawModal) withdrawModal.style.display = 'none';
+        if (event.target === alertModal) alertModal.style.display = 'none';
+        if (event.target === announceGroupModal) announceGroupModal.style.display = 'none';
+        if (event.target === agentModal) agentModal.style.display = 'none';
+    };
+
     window.onload = function() {
         cleanOldData();
+        checkLotteryResults();
         renderUserBets();
-        updateConfigDisplayBox();
-        setInterval(updateClockAndCountdown, 1000);
-        updateClockAndCountdown();
+        updateDigitalClockAndCountdown();
+        setInterval(updateDigitalClockAndCountdown, 1000);
+        setInterval(checkLotteryResults, 30000);
     };
   </script>
 </body>
