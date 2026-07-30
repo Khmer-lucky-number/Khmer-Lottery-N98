@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ===== All your existing styles remain the same ===== */
+    /* ===== All styles remain the same ===== */
     * { 
       box-sizing: border-box; 
       font-family: 'Kantumruy Pro', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
@@ -26,44 +26,44 @@
     .nav-bar .nav-links { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:center; }
     .nav-bar .nav-links a, .nav-bar .nav-links button { color:#333; text-decoration:none; font-weight:bold; padding:8px 16px; border-radius:8px; transition:all 0.3s; font-size:14px; cursor:pointer; border:none; background:none; }
     .nav-bar .nav-links a:hover, .nav-bar .nav-links button:hover { background:#0078D7; color:white; }
-    .nav-bar .nav-links a.active { background:#0078D7; color:white; box-shadow: 0 4px 8px rgba(0,120,215,0.2); }
-    .btn-nav-share { background: linear-gradient(135deg, #ff9800, #e65100) !important; color: white !important; }
-    .btn-nav-share:hover { opacity: 0.9; transform: translateY(-1px); }
-    .btn-nav-group { background: linear-gradient(135deg, #0088cc, #006699) !important; color: white !important; }
-    .btn-nav-group:hover { opacity: 0.9; transform: translateY(-1px); }
+    .nav-bar .nav-links a.active { background:#0078D7; color:white; box-shadow:0 4px 8px rgba(0,120,215,0.2); }
+    .btn-nav-share { background:linear-gradient(135deg, #ff9800, #e65100) !important; color:white !important; }
+    .btn-nav-share:hover { opacity:0.9; transform:translateY(-1px); }
+    .btn-nav-group { background:linear-gradient(135deg, #0088cc, #006699) !important; color:white !important; }
+    .btn-nav-group:hover { opacity:0.9; transform:translateY(-1px); }
     
     section { padding:15px; max-width:1100px; margin:0 auto; }
 
     @keyframes floatAnimation {
-      0% { transform: translate(0, 0) rotate(0deg); }
-      25% { transform: translate(6px, -6px) rotate(5deg); }
-      50% { transform: translate(0, -10px) rotate(-5deg); }
-      75% { transform: translate(-6px, -4px) rotate(3deg); }
-      100% { transform: translate(0, 0) rotate(0deg); }
+      0% { transform:translate(0,0) rotate(0deg); }
+      25% { transform:translate(6px,-6px) rotate(5deg); }
+      50% { transform:translate(0,-10px) rotate(-5deg); }
+      75% { transform:translate(-6px,-4px) rotate(3deg); }
+      100% { transform:translate(0,0) rotate(0deg); }
     }
 
-    .sticker-float { display: inline-block; font-size: 28px; animation: floatAnimation 4s ease-in-out infinite; user-select: none; }
-    .sticker-delay { animation-delay: 2s; }
+    .sticker-float { display:inline-block; font-size:28px; animation:floatAnimation 4s ease-in-out infinite; user-select:none; }
+    .sticker-delay { animation-delay:2s; }
 
     @keyframes twinkle {
-      0%, 100% { opacity: 0.3; transform: scale(0.8); }
-      50% { opacity: 1; transform: scale(1.2); }
+      0%,100% { opacity:0.3; transform:scale(0.8); }
+      50% { opacity:1; transform:scale(1.2); }
     }
 
     .digital-clock-container {
-      background: #ffffff; border-radius: 16px; padding: 18px 25px; margin-bottom: 20px;
-      display: flex; justify-content: space-between; align-items: center; border: 2px solid #0078D7;
-      box-shadow: 0 4px 20px rgba(0, 120, 215, 0.15); position: relative; overflow: hidden;
+      background:#ffffff; border-radius:16px; padding:18px 25px; margin-bottom:20px;
+      display:flex; justify-content:space-between; align-items:center; border:2px solid #0078D7;
+      box-shadow:0 4px 20px rgba(0,120,215,0.15); position:relative; overflow:hidden;
     }
     
-    .stars-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-    .star { position: absolute; background: #0078D7; border-radius: 50%; animation: twinkle 3s infinite ease-in-out; box-shadow: 0 0 4px #0078D7; }
-    .star-1 { width: 3px; height: 3px; top: 20%; left: 15%; animation-delay: 0.2s; }
-    .star-2 { width: 4px; height: 4px; top: 65%; left: 25%; animation-delay: 0.8s; }
+    .stars-bg { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+    .star { position:absolute; background:#0078D7; border-radius:50%; animation:twinkle 3s infinite ease-in-out; box-shadow:0 0 4px #0078D7; }
+    .star-1 { width:3px; height:3px; top:20%; left:15%; animation-delay:0.2s; }
+    .star-2 { width:4px; height:4px; top:65%; left:25%; animation-delay:0.8s; }
 
-    .clock-title { color: #4a5568; font-size: 15px; font-weight: bold; z-index: 1; position: relative; }
-    .clock-time { color: #0078D7; font-size: 32px; font-weight: bold; font-family: 'Courier New', monospace; text-shadow: 0 0 5px rgba(0, 120, 215, 0.2); z-index: 1; position: relative; }
-    .clock-date { color: #2d3748; font-size: 14px; font-weight: bold; text-align: right; z-index: 1; position: relative; }
+    .clock-title { color:#4a5568; font-size:15px; font-weight:bold; z-index:1; position:relative; }
+    .clock-time { color:#0078D7; font-size:32px; font-weight:bold; font-family:'Courier New',monospace; text-shadow:0 0 5px rgba(0,120,215,0.2); z-index:1; position:relative; }
+    .clock-date { color:#2d3748; font-size:14px; font-weight:bold; text-align:right; z-index:1; position:relative; }
     
     .lottery-box { background:white; padding:18px; margin:15px 0; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.08); border:1px solid #e9ecef; }
     .time-box { font-weight:bold; color:#0078D7; font-size:17px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
@@ -73,86 +73,88 @@
     .numbers div { background:#f8f9fa; padding:14px 8px; border-radius:8px; text-align:center; flex:1; min-width:70px; transition:all 0.5s ease; font-weight:bold; font-size:16px; border:2px solid #e9ecef; }
     .numbers div .letter { color:#0078D7; font-weight:bold; }
     .numbers div .number { color:#333; font-weight:bold; font-size:18px; }
-    .numbers div .pending-label { color:#dc3545; font-size:12px; font-weight:bold; animation: blinker 1.5s linear infinite; }
+    .numbers div .pending-label { color:#dc3545; font-size:12px; font-weight:bold; animation:blinker 1.5s linear infinite; }
+    .numbers div .next-label { color:#ff9800; font-size:12px; font-weight:bold; }
     
-    @keyframes blinker { 50% { opacity: 0; } }
+    @keyframes blinker { 50% { opacity:0; } }
     
-    .bet-box-container { background: white; border-radius: 16px; padding: 24px; margin: 20px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 2px solid #0078D7; }
-    .bet-box-header { border-bottom: 2px solid #f0f4f8; padding-bottom: 12px; margin-bottom: 20px; }
-    .bet-box-header h2 { margin: 0; color: #0078D7; font-size: 22px; font-weight: bold; }
+    .bet-box-container { background:white; border-radius:16px; padding:24px; margin:20px 0; box-shadow:0 4px 20px rgba(0,0,0,0.08); border:2px solid #0078D7; }
+    .bet-box-header { border-bottom:2px solid #f0f4f8; padding-bottom:12px; margin-bottom:20px; }
+    .bet-box-header h2 { margin:0; color:#0078D7; font-size:22px; font-weight:bold; }
     
     .reward-info-table { width:100%; border-collapse:collapse; margin-bottom:15px; border:1px solid #dee2e6; border-radius:8px; overflow:hidden; }
     .reward-info-table th { background:#e8f4fd; color:#0078D7; padding:8px; font-size:13px; }
     .reward-info-table td { padding:8px; font-size:13px; text-align:center; font-weight:bold; border:1px solid #dee2e6; }
     .text-respond { color:#d63000; font-weight:bold; }
 
-    .type-selector { display: flex; gap: 10px; margin-bottom: 15px; }
-    .type-btn { flex: 1; padding: 12px; border: 2px solid #dee2e6; background: #fff; font-weight: bold; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.3s; font-size: 15px; }
-    .type-btn.active { border-color: #0078D7; background: #e8f4fd; color: #0078D7; box-shadow: 0 4px 8px rgba(0,120,215,0.15); }
+    .type-selector { display:flex; gap:10px; margin-bottom:15px; }
+    .type-btn { flex:1; padding:12px; border:2px solid #dee2e6; background:#fff; font-weight:bold; border-radius:8px; cursor:pointer; text-align:center; transition:all 0.3s; font-size:15px; }
+    .type-btn.active { border-color:#0078D7; background:#e8f4fd; color:#0078D7; box-shadow:0 4px 8px rgba(0,120,215,0.15); }
 
-    .letter-selector { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; }
-    .letter-circle { width: 55px; height: 55px; border-radius: 50%; border: 3px solid #dee2e6; background: #f8f9fa; color: #333; font-size: 20px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; }
-    .letter-circle:hover { border-color: #0078D7; background: #e8f4fd; transform: scale(1.1); }
-    .letter-circle.active { background: linear-gradient(135deg, #0078D7, #005fa3); color: white; border-color: #0078D7; box-shadow: 0 4px 10px rgba(0,120,215,0.3); transform: scale(1.1); }
+    .letter-selector { display:flex; justify-content:center; gap:12px; margin-bottom:20px; }
+    .letter-circle { width:55px; height:55px; border-radius:50%; border:3px solid #dee2e6; background:#f8f9fa; color:#333; font-size:20px; font-weight:bold; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; }
+    .letter-circle:hover { border-color:#0078D7; background:#e8f4fd; transform:scale(1.1); }
+    .letter-circle.active { background:linear-gradient(135deg, #0078D7, #005fa3); color:white; border-color:#0078D7; box-shadow:0 4px 10px rgba(0,120,215,0.3); transform:scale(1.1); }
     
-    .input-row { display: flex; gap: 12px; align-items: center; margin-bottom: 15px; background: #f8f9fa; padding: 15px; border-radius: 12px; border: 1px dashed #0078D7; flex-wrap: wrap; }
-    .input-row input { flex: 1 1 200px; padding: 10px 14px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 15px; font-weight: bold; }
-    .input-row input:focus { border-color: #0078D7; outline: none; }
+    .input-row { display:flex; gap:12px; align-items:center; margin-bottom:15px; background:#f8f9fa; padding:15px; border-radius:12px; border:1px dashed #0078D7; flex-wrap:wrap; }
+    .input-row input { flex:1 1 200px; padding:10px 14px; border:2px solid #dee2e6; border-radius:8px; font-size:15px; font-weight:bold; }
+    .input-row input:focus { border-color:#0078D7; outline:none; }
     
     .countdown { 
-      background: #ffffff; padding: 25px; border-radius: 16px; margin: 15px 0; border: 3px solid #dc3545;
-      text-align: center; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(220, 53, 69, 0.15);
+      background:#ffffff; padding:25px; border-radius:16px; margin:15px 0; border:3px solid #dc3545;
+      text-align:center; position:relative; overflow:hidden; box-shadow:0 4px 20px rgba(220,53,69,0.15);
     }
     .countdown .time-display { 
-      font-size: 48px; color: #dc3545; background: #fff5f5; padding: 10px 30px; 
-      border-radius: 12px; display: inline-block; margin-top: 10px; font-weight: bold; 
-      letter-spacing: 4px; min-width: 190px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
-      font-family: 'Courier New', monospace; border: 1px solid rgba(220, 53, 69, 0.2);
+      font-size:48px; color:#dc3545; background:#fff5f5; padding:10px 30px; 
+      border-radius:12px; display:inline-block; margin-top:10px; font-weight:bold; 
+      letter-spacing:4px; min-width:190px; box-shadow:0 4px 10px rgba(0,0,0,0.05); 
+      font-family:'Courier New',monospace; border:1px solid rgba(220,53,69,0.2);
     }
-    .countdown .next-time { font-size:15px; color:#4a5568; margin-top:10px; font-weight:bold; position: relative; z-index: 1; }
+    .countdown .next-time { font-size:15px; color:#4a5568; margin-top:10px; font-weight:bold; position:relative; z-index:1; }
+    .countdown .status-time { font-size:14px; color:#0078D7; margin-top:5px; font-weight:bold; }
     
     .bet-summary { background:linear-gradient(135deg, #f8f9fa, #e9ecef); padding:12px 15px; border-radius:8px; margin:12px 0; border:2px solid #0078D7; }
     .bet-summary-item { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #dee2e6; font-size:15px; }
     .bet-summary-item:last-child { border-bottom:none; }
     .bet-summary .total { font-weight:bold; color:#d63000; font-size:18px; }
     
-    .btn { color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-size:15px; margin:4px; font-weight:bold; transition:all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn { color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-size:15px; margin:4px; font-weight:bold; transition:all 0.3s; display:inline-flex; align-items:center; justify-content:center; gap:8px; }
     .btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
-    .btn:disabled { background: #ced4da !important; color: #6c757d !important; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+    .btn:disabled { background:#ced4da !important; color:#6c757d !important; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
     .btn-success { background:linear-gradient(135deg, #28a745, #1e7e34); }
     .btn-withdraw { background:linear-gradient(135deg, #6f42c1, #5a32a3); }
     .btn-late-withdraw { background:linear-gradient(135deg, #ff9800, #e65100); }
     .btn-primary { background:linear-gradient(135deg, #0078D7, #005fa3); }
     .btn-danger { background:linear-gradient(135deg, #dc3545, #b02a37); }
     .btn-amount { background:#17a2b8; padding:6px 14px; font-size:13px; border-radius:6px; }
-    .btn-telegram { background: linear-gradient(135deg, #0088cc, #006699); color: white; }
+    .btn-telegram { background:linear-gradient(135deg, #0088cc, #006699); color:white; }
     
-    .bank-sub-group { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 15px 0; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px solid #dee2e6; }
-    .btn-bank-choice { width: 100%; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; text-align: center; display: block; color: white; font-size: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: all 0.2s; }
-    .btn-bank-choice:hover { transform: translateY(-1px); filter: brightness(1.1); }
-    .btn-choice-aba { background: linear-gradient(135deg, #005fa3, #0078D7); }
-    .btn-choice-acleda { background: linear-gradient(135deg, #0b6234, #13874b); }
+    .bank-sub-group { display:flex; flex-direction:column; gap:8px; margin:10px 0 15px 0; background:#f8f9fa; padding:12px; border-radius:8px; border:1px solid #dee2e6; }
+    .btn-bank-choice { width:100%; text-decoration:none; padding:12px; border-radius:8px; font-weight:bold; text-align:center; display:block; color:white; font-size:15px; box-shadow:0 2px 5px rgba(0,0,0,0.1); transition:all 0.2s; }
+    .btn-bank-choice:hover { transform:translateY(-1px); filter:brightness(1.1); }
+    .btn-choice-aba { background:linear-gradient(135deg, #005fa3, #0078D7); }
+    .btn-choice-acleda { background:linear-gradient(135deg, #0b6234, #13874b); }
 
     .selected-numbers-display { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; min-height:44px; padding:12px; background:#f8f9fa; border-radius:8px; border:2px dashed #dee2e6; align-items:center; }
     .selected-number-tag { background:linear-gradient(135deg, #0078D7, #005fa3); color:white; padding:6px 16px; border-radius:20px; font-size:15px; display:inline-flex; align-items:center; gap:10px; font-weight:bold; }
     .selected-number-tag .remove { cursor:pointer; font-weight:bold; color:#ff6b6b; margin-left:5px; font-size:18px; background:rgba(255,255,255,0.2); border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center; }
     
-    .status-badge { padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; }
-    .status-pending { background: #ffeeba; color: #856404; }
-    .status-win { background: #d4edda; color: #155724; animation: winGlow 1s infinite alternate; }
-    .status-loss { background: #f8d7da; color: #721c24; }
-    @keyframes winGlow { 0% { box-shadow: 0 0 5px rgba(40,167,69,0.4); } 100% { box-shadow: 0 0 15px rgba(40,167,69,0.8); } }
+    .status-badge { padding:4px 8px; border-radius:6px; font-weight:bold; font-size:12px; display:inline-block; }
+    .status-pending { background:#ffeeba; color:#856404; }
+    .status-win { background:#d4edda; color:#155724; animation:winGlow 1s infinite alternate; }
+    .status-loss { background:#f8d7da; color:#721c24; }
+    @keyframes winGlow { 0% { box-shadow:0 0 5px rgba(40,167,69,0.4); } 100% { box-shadow:0 0 15px rgba(40,167,69,0.8); } }
 
     .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,0.5); backdrop-filter:blur(5px); }
-    .modal-content { background:white; margin: 3% auto; padding:25px; border-radius:16px; max-width:520px; width:92%; max-height:88vh; overflow-y:auto; box-shadow:0 10px 40px rgba(0,0,0,0.2); }
+    .modal-content { background:white; margin:3% auto; padding:25px; border-radius:16px; max-width:520px; width:92%; max-height:88vh; overflow-y:auto; box-shadow:0 10px 40px rgba(0,0,0,0.2); }
     .modal-content label { display:block; margin:12px 0 4px; font-weight:bold; font-size:14px; color:#333; }
-    .modal-content input, .modal-content select { width:100%; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; box-sizing:border-box; font-size:14px; margin-bottom: 5px; }
+    .modal-content input, .modal-content select { width:100%; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; box-sizing:border-box; font-size:14px; margin-bottom:5px; }
     .close { float:right; font-size:28px; font-weight:bold; cursor:pointer; color:#adb5bd; }
 
-    .alert-modal-content { text-align: center; padding: 30px 20px; max-width: 400px; border-radius: 20px; }
-    .alert-icon { font-size: 50px; margin-bottom: 15px; display: block; }
-    .alert-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
-    .alert-message { font-size: 15px; color: #4a5568; margin-bottom: 20px; line-height: 1.5; }
+    .alert-modal-content { text-align:center; padding:30px 20px; max-width:400px; border-radius:20px; }
+    .alert-icon { font-size:50px; margin-bottom:15px; display:block; }
+    .alert-title { font-size:20px; font-weight:bold; margin-bottom:10px; }
+    .alert-message { font-size:15px; color:#4a5568; margin-bottom:20px; line-height:1.5; }
     
     .history-table { width:100%; border-collapse:collapse; margin-top:8px; border-radius:8px; overflow:hidden; }
     .history-table th { background:linear-gradient(135deg, #0078D7, #005fa3); color:white; padding:10px 8px; font-size:14px; text-align:center; }
@@ -161,148 +163,65 @@
     .rules-section { background:white; padding:25px; border-radius:12px; margin-top:15px; border:1px solid #dee2e6; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
     .rules-section h3 { color:#0078D7; font-size:22px; font-weight:bold; border-bottom:2px solid #f0f4f8; padding-bottom:8px; }
     .rules-section h4 { color:#005fa3; margin-top:20px; margin-bottom:8px; font-size:17px; font-weight:bold; border-left:5px solid #0078D7; padding-left:12px; }
-    .rules-section li { margin-bottom:8px; font-size:14px; color:#2d3748; line-height:1.7; list-style-position: inside; }
+    .rules-section li { margin-bottom:8px; font-size:14px; color:#2d3748; line-height:1.7; list-style-position:inside; }
     .rules-section .step-highlight { background:#e8f4fd; padding:10px 15px; border-radius:8px; margin-bottom:5px; }
 
-    .history-footer-note { font-size: 12px; color: #dc3545; font-weight: 600; line-height: 1.5; margin-top: 15px; padding: 10px; background: #fff5f5; border: 1px dashed #ffb3b3; border-radius: 8px; }
+    .history-footer-note { font-size:12px; color:#dc3545; font-weight:600; line-height:1.5; margin-top:15px; padding:10px; background:#fff5f5; border:1px dashed #ffb3b3; border-radius:8px; }
 
-    .instruction-box { background: #e8f4fd; border: 1px solid #b3d7ff; padding: 15px; border-radius: 10px; margin-top: 20px; }
-    .instruction-box h4 { color: #005fa3; margin-bottom: 8px; font-size: 15px; display: flex; align-items: center; gap: 6px; }
-    .instruction-box ol { padding-left: 18px; color: #2b4c6f; font-size: 13.5px; line-height: 1.6; }
+    .instruction-box { background:#e8f4fd; border:1px solid #b3d7ff; padding:15px; border-radius:10px; margin-top:20px; }
+    .instruction-box h4 { color:#005fa3; margin-bottom:8px; font-size:15px; display:flex; align-items:center; gap:6px; }
+    .instruction-box ol { padding-left:18px; color:#2b4c6f; font-size:13.5px; line-height:1.6; }
 
-    .withdraw-instruction-box { background: #fdf6e2; border: 1px solid #f5d6a7; padding: 15px; border-radius: 10px; margin-top: 20px; }
-    .withdraw-instruction-box h4 { color: #b58900; margin-bottom: 8px; font-size: 15px; display: flex; align-items: center; gap: 6px; }
-    .withdraw-instruction-box ol { padding-left: 18px; color: #5c4308; font-size: 13.5px; line-height: 1.6; }
+    .withdraw-instruction-box { background:#fdf6e2; border:1px solid #f5d6a7; padding:15px; border-radius:10px; margin-top:20px; }
+    .withdraw-instruction-box h4 { color:#b58900; margin-bottom:8px; font-size:15px; display:flex; align-items:center; gap:6px; }
+    .withdraw-instruction-box ol { padding-left:18px; color:#5c4308; font-size:13.5px; line-height:1.6; }
 
     .warning-text { color:#dc3545; font-size:13px; font-weight:bold; display:block; margin-top:4px; }
     footer { background:#1a2634; color:#adb5bd; text-align:center; padding:15px; margin-top:20px; border-top:3px solid #0078D7; }
 
-    .withdraw-notice-box { background: #fff5f5; border: 1px dashed #ff8b8b; padding: 12px; border-radius: 8px; margin-bottom: 15px; }
-    .action-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .withdraw-notice-box { background:#fff5f5; border:1px dashed #ff8b8b; padding:12px; border-radius:8px; margin-bottom:15px; }
+    .action-group { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
     
-    .new-win-badge { background: #ffc107; color: #000; padding: 2px 8px; border-radius: 12px; font-size: 10px; margin-left: 5px; animation: blinker 1s linear infinite; }
+    .new-win-badge { background:#ffc107; color:#000; padding:2px 8px; border-radius:12px; font-size:10px; margin-left:5px; animation:blinker 1s linear infinite; }
 
     .custom-amount-wrapper {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-      background: #ffffff;
-      padding: 12px;
-      border-radius: 12px;
-      border: 2px solid #0078D7;
-      box-shadow: 0 4px 10px rgba(0, 120, 215, 0.08);
+      display:flex; gap:10px; margin-top:12px; background:#ffffff; padding:12px; border-radius:12px; border:2px solid #0078D7; box-shadow:0 4px 10px rgba(0,120,215,0.08);
     }
-    .custom-amount-wrapper input {
-      flex: 2;
-      padding: 12px 15px;
-      border: 2px solid #e9ecef;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      color: #333;
-      transition: all 0.3s;
-      outline: none;
-    }
-    .custom-amount-wrapper input:focus {
-      border-color: #0078D7;
-      box-shadow: 0 0 8px rgba(0, 120, 215, 0.2);
-    }
-    .custom-amount-wrapper select {
-      flex: 1;
-      padding: 12px;
-      border: 2px solid #e9ecef;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: bold;
-      background-color: #f8f9fa;
-      color: #0078D7;
-      cursor: pointer;
-      transition: all 0.3s;
-      outline: none;
-    }
-    .quick-room-guide {
-      background: #eef7ff;
-      border: 1px solid #b6d4fe;
-      padding: 12px 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      font-size: 13.5px;
-      color: #084298;
-      line-height: 1.6;
-    }
-    .quick-room-guide strong { color: #005fa3; }
+    .custom-amount-wrapper input { flex:2; padding:12px 15px; border:2px solid #e9ecef; border-radius:8px; font-size:16px; font-weight:bold; color:#333; transition:all 0.3s; outline:none; }
+    .custom-amount-wrapper input:focus { border-color:#0078D7; box-shadow:0 0 8px rgba(0,120,215,0.2); }
+    .custom-amount-wrapper select { flex:1; padding:12px; border:2px solid #e9ecef; border-radius:8px; font-size:15px; font-weight:bold; background-color:#f8f9fa; color:#0078D7; cursor:pointer; transition:all 0.3s; outline:none; }
+    .quick-room-guide { background:#eef7ff; border:1px solid #b6d4fe; padding:12px 15px; border-radius:10px; margin-bottom:15px; font-size:13.5px; color:#084298; line-height:1.6; }
+    .quick-room-guide strong { color:#005fa3; }
 
     .styled-selection-card {
-      background: linear-gradient(135deg, #e8f4fd 0%, #ffffff 100%);
-      border: 2px solid #0078D7;
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 12px rgba(0, 120, 215, 0.12);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 10px;
+      background:linear-gradient(135deg, #e8f4fd 0%, #ffffff 100%); border:2px solid #0078D7; border-radius:12px; padding:14px; margin-bottom:15px; box-shadow:0 4px 12px rgba(0,120,215,0.12); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
     }
-    .styled-selection-card .card-title {
-      font-size: 14px;
-      font-weight: bold;
-      color: #2d3748;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .styled-selection-card .card-badge {
-      background: linear-gradient(135deg, #0078D7, #005fa3);
-      color: #ffffff;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 6px rgba(0, 120, 215, 0.25);
-    }
+    .styled-selection-card .card-title { font-size:14px; font-weight:bold; color:#2d3748; display:flex; align-items:center; gap:6px; }
+    .styled-selection-card .card-badge { background:linear-gradient(135deg, #0078D7, #005fa3); color:#ffffff; padding:6px 14px; border-radius:20px; font-size:14px; font-weight:bold; letter-spacing:0.5px; box-shadow:0 2px 6px rgba(0,120,215,0.25); }
 
-    .draw-time-selector {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .draw-time-selector .time-btn {
-      flex: 1;
-      padding: 12px;
-      border: 2px solid #dee2e6;
-      background: #fff;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    .draw-time-selector .time-btn.active {
-      border-color: #0078D7;
-      background: #e8f4fd;
-      color: #0078D7;
-      box-shadow: 0 4px 8px rgba(0,120,215,0.15);
-    }
+    .draw-time-selector { display:flex; gap:10px; margin-bottom:15px; }
+    .draw-time-selector .time-btn { flex:1; padding:12px; border:2px solid #dee2e6; background:#fff; font-weight:bold; border-radius:8px; cursor:pointer; text-align:center; transition:all 0.3s; font-size:14px; }
+    .draw-time-selector .time-btn.active { border-color:#0078D7; background:#e8f4fd; color:#0078D7; box-shadow:0 4px 8px rgba(0,120,215,0.15); }
 
-    .amount-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 8px;
+    .amount-buttons { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px; }
+
+    .result-status-bar {
+      background:linear-gradient(135deg, #e8f4fd, #d4edda); padding:10px 15px; border-radius:10px; margin:10px 0; border-left:5px solid #0078D7;
+      display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;
     }
+    .result-status-bar .status-label { font-weight:bold; color:#005fa3; font-size:14px; }
+    .result-status-bar .status-value { font-weight:bold; color:#28a745; font-size:15px; }
+    .result-status-bar .status-pending-text { color:#dc3545; }
+    .result-status-bar .status-next-text { color:#ff9800; }
 
     @media (max-width:768px) {
       header h1 { font-size:26px; }
       .nav-bar { flex-direction:column; gap:8px; padding:10px; }
       .numbers div { min-width:50px; padding:10px 5px; font-size:14px; }
-      .digital-clock-container { flex-direction: column; text-align: center; gap: 10px; padding: 15px; }
-      .input-row { flex-direction: column; align-items: stretch; }
-      .custom-amount-wrapper { flex-direction: row; }
-      .draw-time-selector, .type-selector { flex-direction: column; }
+      .digital-clock-container { flex-direction:column; text-align:center; gap:10px; padding:15px; }
+      .input-row { flex-direction:column; align-items:stretch; }
+      .custom-amount-wrapper { flex-direction:row; }
+      .draw-time-selector, .type-selector { flex-direction:column; }
     }
   </style>
 </head>
@@ -328,14 +247,14 @@
         <div class="star star-1"></div>
         <div class="star star-2"></div>
       </div>
-      <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="display:flex; align-items:center; gap:12px;">
         <span class="sticker-float">⏰</span>
         <div>
           <div class="clock-title">🕒 ម៉ោងបច្ចុប្បន្ន</div>
           <div class="clock-time" id="widgetTime">00:00:00</div>
         </div>
       </div>
-      <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="display:flex; align-items:center; gap:12px;">
         <div>
           <div class="clock-date" id="widgetDate">ថ្ងៃទី...</div>
         </div>
@@ -343,14 +262,21 @@
       </div>
     </div>
 
+    <!-- ===== RESULT STATUS BAR ===== -->
+    <div class="result-status-bar" id="resultStatusBar">
+      <span class="status-label">📊 ស្ថានភាពលទ្ធផលបច្ចុប្បន្ន៖</span>
+      <span class="status-value" id="resultStatusText">កំពុងរង់ចាំលទ្ធផល 12:00</span>
+    </div>
+
     <div class="countdown" id="countdown">
-      <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 5px;">
+      <div style="display:flex; justify-content:center; align-items:center; gap:15px; margin-bottom:5px;">
         <span class="sticker-float">🎲</span>
         <div style="font-size:18px; color:#dc3545; font-weight:bold;">⏳ រាប់ថយក្រោយរហូតដល់ពេលចាក់ឆ្នោតបន្ទាប់</div>
         <span class="sticker-float sticker-delay">📢</span>
       </div>
       <div class="time-display" id="countdownDisplay">--:--:--</div>
       <div class="next-time" id="nextTimeLabel">🎯 ពេលបន្ទាប់...</div>
+      <div class="status-time" id="statusTimeLabel"></div>
     </div>
 
     <!-- Home Section -->
@@ -389,7 +315,7 @@
           ១. ជ្រើសរើស <strong>ពេលវេលាចាក់ឆ្នោត</strong> និង <strong>ប្រភេទលេខ (២ខ្ទង់ ឬ ៣ខ្ទង់)</strong><br>
           ២. ចុចលើអក្សរ <strong>A, B, C, D, E</strong> ដើម្បីជ្រើសរើសប្រភេទ<br>
           ៣. បញ្ចូលលេខ, ចុចបន្ថែម និងកំណត់ចំនួនទឹកប្រាក់<br>
-          ៤. ចុច "ដាក់ប្រាក់តាមរយៈ ABA ឬ ACLEDA" ដើម្បីបញ្ចប់ការទិញ
+          ៤. ចុច "ដាក់ប្រាក់តាមរយៈ ABA / ACLEDA" ដើម្បីបញ្ចប់ការទិញ
         </div>
 
         <table class="reward-info-table">
@@ -788,11 +714,12 @@
       chatId: '-1004337529817'
     };
 
-    // ===== FIX: Declare missing variables =====
+    // ===== Declare missing variables =====
     let selectedDrawTime = '12:00';
     let isProcessingResults = false;
+    let lastResultCheckTime = 0;
 
-    // ===== FIX: Alias for Telegram config =====
+    // ===== Alias for Telegram config =====
     const TELEGRAM_CONFIG = {
         BET_TOKEN: TELEGRAM_BET_CONFIG.token,
         BET_CHAT_ID: TELEGRAM_BET_CONFIG.chatId,
@@ -802,7 +729,7 @@
         RESULT_CHAT_ID: TELEGRAM_RESULT_CONFIG.chatId
     };
 
-    // ===== FIX: Telegram send functions =====
+    // ===== Telegram send functions =====
     async function sendTelegramMessage(token, chatId, text) {
         const url = `https://api.telegram.org/bot${token}/sendMessage`;
         const response = await fetch(url, {
@@ -838,8 +765,8 @@
     let quickAmount = 0; 
     let quickCurrency = 'USD';
 
-    // ===== មុខងារបម្លែងលេខខ្មែរទៅជាលេខអង់គ្លេស (០-៩) =====
-     function convertKhmerToGlobalNumber(input) {
+    // ===== Convert Khmer digits to global numbers =====
+    function convertKhmerToGlobalNumber(input) {
         if (!input) return;
         const khmerDigits = ['០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩'];
         let val = input.value;
@@ -847,23 +774,6 @@
             val = val.replace(new RegExp(khmerDigits[i], 'g'), i);
         }
         input.value = val;
-    }
-
-    function handleAutoFormatNumber(input) {
-        convertKhmerToGlobalNumber(input);
-        let val = input.value.replace(/[^0-9]/g, '');
-        const reqLen = currentBetType === 'two' ? 2 : 3;
-        
-        if (val.length > reqLen) {
-            let formatted = '';
-            for (let i = 0; i < val.length; i += reqLen) {
-                if (i > 0) formatted += ',';
-                formatted += val.substring(i, i + reqLen);
-            }
-            input.value = formatted;
-        } else {
-            input.value = val;
-        }
     }
 
     function customAlert(title, message, icon = '🔔', showAgentBtn = false, confirmCallback = null) {
@@ -904,10 +814,6 @@
 
     function openAnnounceGroupModal() {
         document.getElementById('announceGroupModal').style.display = 'block';
-    }
-
-    function openAgentModal() {
-        document.getElementById('agentModal').style.display = 'block';
     }
 
     function cleanOldData() {
@@ -1584,15 +1490,15 @@
         return x - Math.floor(x);
     }
 
-    // Modified: Only generate results if they don't exist yet
+    // ===== Generate results only once per time slot =====
     function checkLotteryResults() {
-        // Prevent concurrent execution
         if (isProcessingResults) return;
         isProcessingResults = true;
 
         try {
             const now = new Date();
-            const currentHour = now.getHours();
+            const currentHour = now.getMinutes() === 0 && now.getSeconds() < 5;
+            const currentHourExact = now.getHours();
 
             const todayStr = now.toISOString().split('T')[0];
             const todayDisplayStr = now.toLocaleDateString('km-KH');
@@ -1609,7 +1515,8 @@
                     sent12: false,
                     sent16: false,
                     evaluated12: false,
-                    evaluated16: false
+                    evaluated16: false,
+                    sentTime: null
                 };
                 history.unshift(todayEntry);
             }
@@ -1622,54 +1529,74 @@
 
             let updated = false;
 
-            // 12:00 results - only generate if not already generated
-            if (currentHour >= 12 && !todayEntry.res12) {
+            // ===== 12:00 results - only generate at exactly 12:00 =====
+            if (currentHourExact === 12 && !todayEntry.res12) {
                 todayEntry.res12 = generateRiskManagedResults(todayStr, '12:00', 'two');
                 todayEntry.sent12 = false;
                 todayEntry.evaluated12 = false;
                 updated = true;
+                console.log('✅ Generated 12:00 results');
             }
 
-            // 16:00 results - only generate if not already generated
-            if (currentHour >= 16 && !todayEntry.res16) {
+            // ===== 16:00 results - only generate at exactly 16:00 =====
+            if (currentHourExact === 16 && !todayEntry.res16) {
                 todayEntry.res16 = generateRiskManagedResults(todayStr, '16:00', 'three');
                 todayEntry.sent16 = false;
                 todayEntry.evaluated16 = false;
                 updated = true;
+                console.log('✅ Generated 16:00 results');
             }
 
             if (updated) {
                 localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
             }
 
-            // Send to Telegram only once (check sent flags)
-            if (todayEntry.res12 && !todayEntry.sent12 && currentHour >= 12) {
-                publishResultToTelegram(todayDisplayStr, '12:00 (២ខ្ទង់)', todayEntry.res12);
-                todayEntry.sent12 = true;
-                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            // ===== Send results to Telegram only at exact times =====
+            // Send 12:00 results at 12:00:30
+            if (todayEntry.res12 && !todayEntry.sent12 && currentHourExact === 12 && currentHour) {
+                setTimeout(() => {
+                    publishResultToTelegram(todayDisplayStr, '12:00 (២ខ្ទង់)', todayEntry.res12);
+                    todayEntry.sent12 = true;
+                    todayEntry.sentTime = new Date().toISOString();
+                    localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+                    console.log('📤 Sent 12:00 results to Telegram');
+                }, 30000);
             }
 
-            if (todayEntry.res16 && !todayEntry.sent16 && currentHour >= 16) {
-                publishResultToTelegram(todayDisplayStr, '16:00 (៣ខ្ទង់)', todayEntry.res16);
-                todayEntry.sent16 = true;
-                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            // Send 16:00 results at 16:00:30
+            if (todayEntry.res16 && !todayEntry.sent16 && currentHourExact === 16 && currentHour) {
+                setTimeout(() => {
+                    publishResultToTelegram(todayDisplayStr, '16:00 (៣ខ្ទង់)', todayEntry.res16);
+                    todayEntry.sent16 = true;
+                    todayEntry.sentTime = new Date().toISOString();
+                    localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+                    console.log('📤 Sent 16:00 results to Telegram');
+                }, 30000);
             }
 
-            // Evaluate user bets only once per time slot
-            if (todayEntry.res12 && !todayEntry.evaluated12 && currentHour >= 12) {
-                evaluateUserBets(todayStr, '12:00', 'two', todayEntry.res12);
-                todayEntry.evaluated12 = true;
-                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            // ===== Evaluate user bets =====
+            if (todayEntry.res12 && !todayEntry.evaluated12 && currentHourExact === 12) {
+                setTimeout(() => {
+                    evaluateUserBets(todayStr, '12:00', 'two', todayEntry.res12);
+                    todayEntry.evaluated12 = true;
+                    localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+                }, 10000);
             }
 
-            if (todayEntry.res16 && !todayEntry.evaluated16 && currentHour >= 16) {
-                evaluateUserBets(todayStr, '16:00', 'three', todayEntry.res16);
-                todayEntry.evaluated16 = true;
-                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            if (todayEntry.res16 && !todayEntry.evaluated16 && currentHourExact === 16) {
+                setTimeout(() => {
+                    evaluateUserBets(todayStr, '16:00', 'three', todayEntry.res16);
+                    todayEntry.evaluated16 = true;
+                    localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+                }, 10000);
             }
 
-            updateResultUI(todayEntry);
+            // Update UI
+            updateResultUI();
             renderHistoryTable();
+            renderUserBets();
+            updateResultStatusBar();
+
         } finally {
             isProcessingResults = false;
         }
@@ -1758,6 +1685,20 @@
     }
 
     function publishResultToTelegram(dateDisplay, timeTitle, resultsObj) {
+        // Check if already sent today
+        const todayStr = new Date().toISOString().split('T')[0];
+        let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+        let todayEntry = history.find(h => h.date === todayStr);
+        
+        if (!todayEntry) return;
+        
+        // Skip if already sent
+        if ((timeTitle.includes('12:00') && todayEntry.sent12) || 
+            (timeTitle.includes('16:00') && todayEntry.sent16)) {
+            console.log('Result already sent, skipping...');
+            return;
+        }
+        
         const msg = `📢 <b>លទ្ធផលឆ្នោត N98 ប្រចាំថ្ងៃ</b>\n` +
                     `📅 កាលបរិច្ឆេទ: <b>${dateDisplay}</b>\n` +
                     `🕒 ម៉ោងចាក់: <b>${timeTitle}</b>\n\n` +
@@ -1772,44 +1713,104 @@
             TELEGRAM_CONFIG.RESULT_TOKEN,
             TELEGRAM_CONFIG.RESULT_CHAT_ID,
             msg
-        ).catch(err => console.error("Error publishing results to Telegram", err));
+        ).then(() => {
+            console.log('✅ Result sent successfully to Telegram');
+        }).catch(err => {
+            console.error("Error publishing results to Telegram", err);
+        });
     }
 
-    function updateResultUI(todayEntry) {
-        const posts = ['A', 'B', 'C', 'D', 'E'];
+    // ===== Update Result UI =====
+    function updateResultUI() {
         const now = new Date();
         const currentHour = now.getHours();
-
+        const todayStr = now.toISOString().split('T')[0];
+        
+        let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+        let todayEntry = history.find(h => h.date === todayStr);
+        
+        const posts = ['A', 'B', 'C', 'D', 'E'];
+        
         posts.forEach(p => {
             const elTwo = document.getElementById(`res_two_${p}`);
             const elThree = document.getElementById(`res_three_${p}`);
-
+            
+            // ===== 12:00 Results =====
             if (currentHour < 12) {
-                elTwo.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
-                elThree.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
+                elTwo.innerHTML = '<span class="pending-label">⏳ រង់ចាំ 12:00</span>';
+                elTwo.style.color = '#dc3545';
             } else if (currentHour >= 12 && currentHour < 16) {
-                if (todayEntry.res12) {
+                if (todayEntry && todayEntry.res12) {
                     elTwo.innerText = todayEntry.res12[p];
                     elTwo.style.color = '#28a745';
                 } else {
-                    elTwo.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
+                    elTwo.innerHTML = '<span class="pending-label">⏳ កំពុងដំណើរការ...</span>';
+                    elTwo.style.color = '#dc3545';
                 }
-                elThree.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
             } else {
-                if (todayEntry.res12) {
+                if (todayEntry && todayEntry.res12) {
                     elTwo.innerText = todayEntry.res12[p];
                     elTwo.style.color = '#28a745';
                 } else {
-                    elTwo.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
+                    elTwo.innerHTML = '<span class="pending-label">⏳ មិនមានលទ្ធផល</span>';
+                    elTwo.style.color = '#dc3545';
                 }
-                if (todayEntry.res16) {
+            }
+            
+            // ===== 16:00 Results =====
+            if (currentHour < 16) {
+                if (currentHour >= 12 && todayEntry && todayEntry.res12) {
+                    elThree.innerHTML = '<span class="next-label">⏳ រង់ចាំ 16:00</span>';
+                } else {
+                    elThree.innerHTML = '<span class="pending-label">⏳ រង់ចាំ 16:00</span>';
+                }
+                elThree.style.color = '#ff9800';
+            } else {
+                if (todayEntry && todayEntry.res16) {
                     elThree.innerText = todayEntry.res16[p];
                     elThree.style.color = '#28a745';
                 } else {
-                    elThree.innerHTML = '<span class="pending-label">⏳ រង់ចាំលទ្ធផល</span>';
+                    elThree.innerHTML = '<span class="pending-label">⏳ កំពុងដំណើរការ...</span>';
+                    elThree.style.color = '#dc3545';
                 }
             }
         });
+    }
+
+    // ===== Update Result Status Bar =====
+    function updateResultStatusBar() {
+        const now = new Date();
+        const currentHour = now.getHours();
+        const todayStr = now.toISOString().split('T')[0];
+        
+        let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+        let todayEntry = history.find(h => h.date === todayStr);
+        
+        const statusEl = document.getElementById('resultStatusText');
+        
+        if (currentHour < 12) {
+            statusEl.innerHTML = '⏳ កំពុងរង់ចាំលទ្ធផល 12:00 (២ខ្ទង់)';
+            statusEl.className = 'status-value status-pending-text';
+        } else if (currentHour >= 12 && currentHour < 16) {
+            if (todayEntry && todayEntry.res12) {
+                statusEl.innerHTML = '✅ លទ្ធផល 12:00 ចេញហើយ! កំពុងរង់ចាំ 16:00 (៣ខ្ទង់)';
+                statusEl.className = 'status-value';
+            } else {
+                statusEl.innerHTML = '⏳ កំពុងដំណើរការលទ្ធផល 12:00...';
+                statusEl.className = 'status-value status-pending-text';
+            }
+        } else {
+            if (todayEntry && todayEntry.res16) {
+                statusEl.innerHTML = '✅ លទ្ធផល 16:00 ចេញហើយ! សូមរង់ចាំថ្ងៃស្អែកម៉ោង 12:00';
+                statusEl.className = 'status-value';
+            } else if (todayEntry && todayEntry.res12) {
+                statusEl.innerHTML = '⏳ កំពុងរង់ចាំលទ្ធផល 16:00...';
+                statusEl.className = 'status-value status-pending-text';
+            } else {
+                statusEl.innerHTML = '⏳ កំពុងរង់ចាំលទ្ធផល...';
+                statusEl.className = 'status-value status-pending-text';
+            }
+        }
     }
 
     function renderHistoryTable() {
@@ -1848,6 +1849,8 @@
         document.getElementById('widgetDate').innerText = dateStr;
 
         const currentHour = now.getHours();
+        const currentMinute = now.getMinutes();
+        const currentSecond = now.getSeconds();
 
         let targetHour = 12;
         let targetLabel = "🕛 ពេលវេលា 12:00 ថ្ងៃត្រង់ (លេខ ២ខ្ទង់)";
@@ -1875,7 +1878,28 @@
 
         const formatTwo = (num) => String(num).padStart(2, '0');
         document.getElementById('countdownDisplay').innerText = `${formatTwo(diffHrs)}:${formatTwo(diffMin)}:${formatTwo(diffSec)}`;
-        document.getElementById('nextTimeLabel').innerText = `🎯 សូមរង់ចាំការចាក់ឆ្នោតបន្ទាប់៖ ${targetLabel}`;
+        document.getElementById('nextTimeLabel').innerHTML = `🎯 សូមរង់ចាំការចាក់ឆ្នោតបន្ទាប់៖ <strong>${targetLabel}</strong>`;
+        
+        // Add status time label
+        const statusTimeLabel = document.getElementById('statusTimeLabel');
+        if (currentHour < 12) {
+            statusTimeLabel.innerHTML = '⏳ កំពុងរង់ចាំលទ្ធផល 12:00';
+            statusTimeLabel.style.color = '#dc3545';
+        } else if (currentHour >= 12 && currentHour < 16) {
+            statusTimeLabel.innerHTML = '✅ លទ្ធផល 12:00 ចេញហើយ! កំពុងរង់ចាំ 16:00';
+            statusTimeLabel.style.color = '#28a745';
+        } else {
+            const todayStr = now.toISOString().split('T')[0];
+            let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+            let todayEntry = history.find(h => h.date === todayStr);
+            if (todayEntry && todayEntry.res16) {
+                statusTimeLabel.innerHTML = '✅ លទ្ធផល 16:00 ចេញហើយ! សូមរង់ចាំថ្ងៃស្អែក';
+                statusTimeLabel.style.color = '#28a745';
+            } else {
+                statusTimeLabel.innerHTML = '⏳ កំពុងរង់ចាំលទ្ធផល 16:00';
+                statusTimeLabel.style.color = '#dc3545';
+            }
+        }
     }
 
     function showSection(sectionName) {
@@ -1908,14 +1932,19 @@
 
     window.onload = function() {
         cleanOldData();
-        // Run once on load
         checkLotteryResults();
         renderUserBets();
         updateDigitalClockAndCountdown();
         updateConfigDisplayBox();
+        updateResultUI();
+        updateResultStatusBar();
+        
         setInterval(updateDigitalClockAndCountdown, 1000);
-        // Check every 60 seconds instead of 30 to reduce load
-        setInterval(checkLotteryResults, 60000); 
+        setInterval(() => {
+            checkLotteryResults();
+            updateResultUI();
+            updateResultStatusBar();
+        }, 30000); // Check every 30 seconds
     };
   </script>
 </body>
