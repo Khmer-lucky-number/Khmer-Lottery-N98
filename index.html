@@ -2,51 +2,60 @@
 <html lang="km">
 <head>
   <meta charset="UTF-8">
-  <title>ទម្រង់ដាក់ពាក្យធ្វើការ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Application</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f8ff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .form-container {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      width: 350px;
-    }
-    .form-container h2 {
-      text-align: center;
-      color: #007acc;
-    }
+    body { font-family: Arial, sans-serif; margin:0; padding:0; }
+    header { background:#0078D7; color:white; padding:20px; text-align:center; }
+    nav { background:#333; padding:10px; text-align:center; }
+    nav a { color:white; margin:0 15px; text-decoration:none; }
+    section { padding:40px; }
+    .banner { background:#f4f4f4; padding:60px; text-align:center; }
+    .cta { background:#0078D7; color:white; padding:10px 20px; text-decoration:none; border-radius:5px; }
+    footer { background:#333; color:white; text-align:center; padding:20px; }
+    form { max-width:500px; margin:auto; }
     input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      width:100%; padding:10px; margin:10px 0;
+      border:1px solid #ccc; border-radius:5px;
     }
     button {
-      width: 100%;
-      padding: 10px;
-      background: #007acc;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+      background:#0078D7; color:white; padding:12px;
+      border:none; border-radius:5px; cursor:pointer;
+      width:100%;
     }
-    button:hover {
-      background: #005f99;
-    }
+    button:hover { background:#005f99; }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>ដាក់ពាក្យធ្វើការ</h2>
+  <header>
+    <h1>ក្រុមហ៊ុនរបស់យើង</h1>
+    <p>ស្វាគមន៍មកកាន់ទំព័រដាក់ពាក្យធ្វើការ</p>
+  </header>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#jobs">Jobs</a>
+    <a href="#apply">Apply</a>
+  </nav>
+  <section id="home" class="banner">
+    <h2>ស្វាគមន៍!</h2>
+    <p>ចូលរួមជាមួយក្រុមការងាររបស់យើង</p>
+    <a href="#apply" class="cta">Apply Now</a>
+  </section>
+  <section id="about">
+    <h2>អំពីក្រុមហ៊ុន</h2>
+    <p>Vision & Mission របស់យើងគឺបង្កើតឱកាសការងារដ៏មានតម្លៃសម្រាប់មនុស្សគ្រប់គ្នា។</p>
+  </section>
+  <section id="jobs">
+    <h2>ការងារដែលកំពុងបើក</h2>
+    <ul>
+      <li>Web Developer</li>
+      <li>Graphic Designer</li>
+      <li>Marketing Specialist</li>
+    </ul>
+  </section>
+  <section id="apply">
+    <h2>ដាក់ពាក្យ</h2>
     <form id="jobForm">
       <input type="text" placeholder="ឈ្មោះពេញ" required>
       <input type="email" placeholder="អ៊ីមែល" required>
@@ -55,13 +64,16 @@
       <textarea placeholder="សារបន្ថែម..." rows="4"></textarea>
       <button type="submit">ដាក់ពាក្យ</button>
     </form>
-  </div>
+  </section>
+  <footer>
+    <p>&copy; 2026 ក្រុមហ៊ុនរបស់យើង</p>
+  </footer>
 
   <script>
     document.getElementById("jobForm").addEventListener("submit", function(e){
       e.preventDefault();
       alert("ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើ!");
-      // នៅទីនេះ អ្នកអាចបន្ថែម API call ដើម្បីផ្ញើទិន្នន័យទៅ Server
+      // TODO: បន្ថែម API call ដើម្បីផ្ញើទិន្នន័យទៅ Server
     });
   </script>
 </body>
