@@ -1,1321 +1,2073 @@
-<div id="lottery-app">
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>ឆ្នោតខ្មែរ N98</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    /* ===== BASE ===== */
-    * { box-sizing:border-box; font-family:'Kantumruy Pro',system-ui,sans-serif; margin:0; padding:0; }
+    /* ===== Reset & Base ===== */
+    * { 
+      box-sizing: border-box; 
+      font-family: 'Kantumruy Pro', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
+      margin:0; padding:0;
+    }
     body { background:#f0f4f8; min-height:100vh; }
     
-    /* ===== HEADER ===== */
-    .header { background:linear-gradient(135deg,#0078D7,#005fa3); color:white; padding:15px 20px; text-align:center; }
-    .header h1 { font-size:clamp(22px,5vw,34px); font-weight:bold; margin:5px 0; }
-    .header p { font-size:clamp(12px,2vw,15px); opacity:0.9; }
+    /* ===== Header ===== */
+    header { background:linear-gradient(135deg, #0078D7 0%, #005fa3 100%); color:white; padding:15px 20px; text-align:center; box-shadow:0 4px 15px rgba(0,120,215,0.3); }
+    header h1 { font-size:clamp(24px, 5vw, 38px); font-weight:bold; margin:5px 0; text-shadow:2px 2px 4px rgba(0,0,0,0.3); letter-spacing:1px; }
+    header p { font-size:clamp(13px, 2vw, 16px); opacity:0.9; }
     
-    /* ===== NAV ===== */
-    .nav-bar { background:white; padding:8px 12px; display:flex; justify-content:center; flex-wrap:wrap; gap:4px; position:sticky; top:0; z-index:100; }
-    .nav-bar a, .nav-bar button { color:#333; text-decoration:none; font-weight:bold; padding:5px 10px; border-radius:6px; font-size:clamp(11px,1.3vw,13px); cursor:pointer; border:none; background:none; }
-    .nav-bar a:hover, .nav-bar button:hover { background:#0078D7; color:white; }
-    .nav-bar a.active { background:#0078D7; color:white; }
-    .btn-share { background:linear-gradient(135deg,#ff9800,#e65100) !important; color:white !important; }
-    .btn-group { background:linear-gradient(135deg,#0088cc,#006699) !important; color:white !important; }
-    .btn-export { background:linear-gradient(135deg,#28a745,#1e7e34) !important; color:white !important; }
-    .btn-import { background:linear-gradient(135deg,#6f42c1,#5a32a3) !important; color:white !important; }
+    /* ===== Navigation ===== */
+    .nav-bar { background:white; padding:10px 15px; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1); position:sticky; top:0; z-index:100; flex-wrap:wrap; }
+    .nav-bar .nav-links { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; align-items:center; }
+    .nav-bar .nav-links a, .nav-bar .nav-links button { color:#333; text-decoration:none; font-weight:bold; padding:6px 12px; border-radius:8px; transition:all 0.3s; font-size:clamp(12px, 1.5vw, 14px); cursor:pointer; border:none; background:none; white-space:nowrap; }
+    .nav-bar .nav-links a:hover, .nav-bar .nav-links button:hover { background:#0078D7; color:white; }
+    .nav-bar .nav-links a.active { background:#0078D7; color:white; box-shadow:0 4px 8px rgba(0,120,215,0.2); }
+    .btn-nav-share { background:linear-gradient(135deg, #ff9800, #e65100) !important; color:white !important; }
+    .btn-nav-share:hover { opacity:0.9; transform:translateY(-1px); }
+    .btn-nav-group { background:linear-gradient(135deg, #0088cc, #006699) !important; color:white !important; }
+    .btn-nav-group:hover { opacity:0.9; transform:translateY(-1px); }
     
-    /* ===== SECTION ===== */
-    .section { padding:10px 12px; max-width:1100px; margin:0 auto; }
+    /* ===== Section ===== */
+    section { padding:10px 15px; max-width:1100px; margin:0 auto; }
+
+    /* ===== Animations ===== */
+    @keyframes floatAnimation {
+      0% { transform:translate(0,0) rotate(0deg); }
+      25% { transform:translate(6px,-6px) rotate(5deg); }
+      50% { transform:translate(0,-10px) rotate(-5deg); }
+      75% { transform:translate(-6px,-4px) rotate(3deg); }
+      100% { transform:translate(0,0) rotate(0deg); }
+    }
+    .sticker-float { display:inline-block; font-size:clamp(24px, 4vw, 28px); animation:floatAnimation 4s ease-in-out infinite; user-select:none; }
+    .sticker-delay { animation-delay:2s; }
+
+    @keyframes twinkle {
+      0%,100% { opacity:0.3; transform:scale(0.8); }
+      50% { opacity:1; transform:scale(1.2); }
+    }
+    @keyframes blinker { 50% { opacity:0; } }
+    @keyframes winGlow { 0% { box-shadow:0 0 5px rgba(40,167,69,0.4); } 100% { box-shadow:0 0 15px rgba(40,167,69,0.8); } }
+
+    /* ===== Digital Clock ===== */
+    .digital-clock-container {
+      background:#ffffff; border-radius:16px; padding:15px 20px; margin-bottom:15px;
+      display:flex; justify-content:space-between; align-items:center; border:2px solid #0078D7;
+      box-shadow:0 4px 20px rgba(0,120,215,0.15); position:relative; overflow:hidden;
+      flex-wrap:wrap; gap:10px;
+    }
+    .stars-bg { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+    .star { position:absolute; background:#0078D7; border-radius:50%; animation:twinkle 3s infinite ease-in-out; box-shadow:0 0 4px #0078D7; }
+    .star-1 { width:3px; height:3px; top:20%; left:15%; animation-delay:0.2s; }
+    .star-2 { width:4px; height:4px; top:65%; left:25%; animation-delay:0.8s; }
+    .clock-title { color:#4a5568; font-size:clamp(12px, 1.5vw, 15px); font-weight:bold; z-index:1; position:relative; }
+    .clock-time { color:#0078D7; font-size:clamp(24px, 4vw, 32px); font-weight:bold; font-family:'Courier New',monospace; text-shadow:0 0 5px rgba(0,120,215,0.2); z-index:1; position:relative; }
+    .clock-date { color:#2d3748; font-size:clamp(12px, 1.5vw, 14px); font-weight:bold; text-align:right; z-index:1; position:relative; }
     
-    /* ===== CLOCK ===== */
-    .clock-box { background:#fff; border-radius:14px; padding:12px 16px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; border:2px solid #0078D7; flex-wrap:wrap; gap:8px; }
-    .clock-title { color:#4a5568; font-size:clamp(11px,1.3vw,13px); font-weight:bold; }
-    .clock-time { color:#0078D7; font-size:clamp(22px,3.5vw,28px); font-weight:bold; font-family:'Courier New',monospace; }
-    .clock-date { color:#2d3748; font-size:clamp(11px,1.3vw,13px); font-weight:bold; }
+    /* ===== Lottery Box ===== */
+    .lottery-box { background:white; padding:15px; margin:12px 0; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.08); border:1px solid #e9ecef; }
+    .time-box { font-weight:bold; color:#0078D7; font-size:clamp(15px, 2vw, 17px); display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    .time-box .badge { background:#0078D7; color:white; font-size:clamp(10px, 1.2vw, 11px); padding:2px 10px; border-radius:12px; }
+    .time-box .badge-completed { background:#28a745; color:white; font-size:clamp(10px, 1.2vw, 11px); padding:2px 10px; border-radius:12px; }
+    .time-box .badge-waiting { background:#ff9800; color:white; font-size:clamp(10px, 1.2vw, 11px); padding:2px 10px; border-radius:12px; }
     
-    /* ===== LOTTERY BOX ===== */
-    .lottery-box { background:white; padding:12px; margin:10px 0; border-radius:10px; border:1px solid #e9ecef; }
-    .time-box { font-weight:bold; color:#0078D7; font-size:clamp(14px,1.8vw,16px); display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
-    .badge { background:#0078D7; color:white; font-size:clamp(9px,1vw,10px); padding:2px 10px; border-radius:12px; }
-    .badge-completed { background:#28a745; color:white; }
-    .badge-waiting { background:#ff9800; color:white; }
-    .numbers { display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
-    .numbers div { background:#f8f9fa; padding:10px 4px; border-radius:6px; text-align:center; flex:1 1 calc(20% - 6px); min-width:50px; border:2px solid #e9ecef; font-weight:bold; font-size:clamp(13px,1.6vw,15px); }
+    .numbers { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+    .numbers div { background:#f8f9fa; padding:12px 6px; border-radius:8px; text-align:center; flex:1 1 calc(20% - 8px); min-width:55px; transition:all 0.5s ease; font-weight:bold; font-size:clamp(14px, 1.8vw, 16px); border:2px solid #e9ecef; }
     .numbers div .letter { color:#0078D7; font-weight:bold; }
-    .number-result { color:#28a745; font-weight:bold; }
-    .pending-label { color:#dc3545; font-size:clamp(9px,1.1vw,11px); font-weight:bold; animation:blink 1.5s linear infinite; }
-    .next-label { color:#ff9800; font-size:clamp(9px,1.1vw,11px); font-weight:bold; animation:blink 1.5s linear infinite; }
-    @keyframes blink { 50%{opacity:0} }
+    .numbers div .number { color:#333; font-weight:bold; font-size:clamp(16px, 2vw, 18px); }
+    .numbers div .number-result { color:#28a745; font-weight:bold; font-size:clamp(16px, 2vw, 18px); }
+    .numbers div .pending-label { color:#dc3545; font-size:clamp(10px, 1.2vw, 12px); font-weight:bold; animation:blinker 1.5s linear infinite; }
+    .numbers div .next-label { color:#ff9800; font-size:clamp(10px, 1.2vw, 12px); font-weight:bold; animation:blinker 1.5s linear infinite; }
     
-    /* ===== BET BOX ===== */
-    .bet-box { background:white; border-radius:14px; padding:14px; margin:12px 0; border:2px solid #0078D7; }
-    .bet-box h2 { color:#0078D7; font-size:clamp(16px,2.2vw,20px); font-weight:bold; border-bottom:2px solid #f0f4f8; padding-bottom:8px; margin-bottom:12px; }
-    .reward-table { width:100%; border-collapse:collapse; margin-bottom:12px; border:1px solid #dee2e6; border-radius:6px; overflow:hidden; font-size:clamp(11px,1.2vw,12px); }
-    .reward-table th { background:#e8f4fd; color:#0078D7; padding:5px 6px; }
-    .reward-table td { padding:5px 6px; text-align:center; font-weight:bold; border:1px solid #dee2e6; }
-    .text-respond { color:#d63000; }
+    /* ===== Bet Box ===== */
+    .bet-box-container { background:white; border-radius:16px; padding:18px; margin:15px 0; box-shadow:0 4px 20px rgba(0,0,0,0.08); border:2px solid #0078D7; }
+    .bet-box-header { border-bottom:2px solid #f0f4f8; padding-bottom:10px; margin-bottom:15px; }
+    .bet-box-header h2 { margin:0; color:#0078D7; font-size:clamp(18px, 2.5vw, 22px); font-weight:bold; }
     
-    .type-selector, .time-selector { display:flex; gap:6px; margin-bottom:10px; flex-wrap:wrap; }
-    .type-btn, .time-btn { flex:1; min-width:90px; padding:8px; border:2px solid #dee2e6; background:#fff; font-weight:bold; border-radius:6px; cursor:pointer; font-size:clamp(12px,1.3vw,13px); }
-    .type-btn.active, .time-btn.active { border-color:#0078D7; background:#e8f4fd; color:#0078D7; }
+    /* ===== Reward Table ===== */
+    .reward-info-table { width:100%; border-collapse:collapse; margin-bottom:15px; border:1px solid #dee2e6; border-radius:8px; overflow:hidden; font-size:clamp(12px, 1.3vw, 13px); }
+    .reward-info-table th { background:#e8f4fd; color:#0078D7; padding:6px 8px; font-size:clamp(11px, 1.2vw, 13px); }
+    .reward-info-table td { padding:6px 8px; text-align:center; font-weight:bold; border:1px solid #dee2e6; font-size:clamp(11px, 1.2vw, 13px); }
+    .text-respond { color:#d63000; font-weight:bold; }
+
+    /* ===== Selectors ===== */
+    .type-selector { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+    .type-btn { flex:1; min-width:120px; padding:10px; border:2px solid #dee2e6; background:#fff; font-weight:bold; border-radius:8px; cursor:pointer; text-align:center; transition:all 0.3s; font-size:clamp(13px, 1.5vw, 15px); }
+    .type-btn.active { border-color:#0078D7; background:#e8f4fd; color:#0078D7; box-shadow:0 4px 8px rgba(0,120,215,0.15); }
+
+    .letter-selector { display:flex; justify-content:center; gap:8px; margin-bottom:15px; flex-wrap:wrap; }
+    .letter-circle { width:clamp(45px, 7vw, 55px); height:clamp(45px, 7vw, 55px); border-radius:50%; border:3px solid #dee2e6; background:#f8f9fa; color:#333; font-size:clamp(16px, 2vw, 20px); font-weight:bold; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; }
+    .letter-circle:hover { border-color:#0078D7; background:#e8f4fd; transform:scale(1.05); }
+    .letter-circle.active { background:linear-gradient(135deg, #0078D7, #005fa3); color:white; border-color:#0078D7; box-shadow:0 4px 10px rgba(0,120,215,0.3); transform:scale(1.05); }
     
-    .letter-selector { display:flex; justify-content:center; gap:6px; margin-bottom:12px; flex-wrap:wrap; }
-    .letter-circle { width:clamp(40px,6vw,48px); height:clamp(40px,6vw,48px); border-radius:50%; border:3px solid #dee2e6; background:#f8f9fa; color:#333; font-size:clamp(14px,1.8vw,17px); font-weight:bold; display:flex; align-items:center; justify-content:center; cursor:pointer; }
-    .letter-circle:hover { border-color:#0078D7; background:#e8f4fd; }
-    .letter-circle.active { background:linear-gradient(135deg,#0078D7,#005fa3); color:white; border-color:#0078D7; }
-    
-    .input-row { display:flex; gap:8px; align-items:center; margin-bottom:10px; background:#f8f9fa; padding:10px; border-radius:10px; border:1px dashed #0078D7; flex-wrap:wrap; }
-    .input-row input { flex:1 1 150px; padding:8px 10px; border:2px solid #dee2e6; border-radius:6px; font-size:clamp(13px,1.4vw,14px); font-weight:bold; min-width:100px; }
+    /* ===== Input Row ===== */
+    .input-row { display:flex; gap:10px; align-items:center; margin-bottom:12px; background:#f8f9fa; padding:12px; border-radius:12px; border:1px dashed #0078D7; flex-wrap:wrap; }
+    .input-row input { flex:1 1 180px; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; font-size:clamp(14px, 1.6vw, 15px); font-weight:bold; min-width:120px; }
     .input-row input:focus { border-color:#0078D7; outline:none; }
     
-    .selected-display { display:flex; flex-wrap:wrap; gap:5px; margin:8px 0; min-height:36px; padding:8px; background:#f8f9fa; border-radius:6px; border:2px dashed #dee2e6; align-items:center; }
-    .selected-tag { background:linear-gradient(135deg,#0078D7,#005fa3); color:white; padding:4px 12px; border-radius:16px; font-size:clamp(12px,1.3vw,13px); display:inline-flex; align-items:center; gap:6px; font-weight:bold; }
-    .selected-tag .remove { cursor:pointer; font-weight:bold; color:#ff6b6b; font-size:clamp(14px,1.6vw,16px); background:rgba(255,255,255,0.2); border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; }
+    /* ===== Countdown ===== */
+    .countdown { 
+      background:#ffffff; padding:20px; border-radius:16px; margin:12px 0; border:3px solid #dc3545;
+      text-align:center; position:relative; overflow:hidden; box-shadow:0 4px 20px rgba(220,53,69,0.15);
+    }
+    .countdown .time-display { 
+      font-size:clamp(36px, 7vw, 48px); color:#dc3545; background:#fff5f5; padding:8px 20px; 
+      border-radius:12px; display:inline-block; margin-top:8px; font-weight:bold; 
+      letter-spacing:3px; min-width:150px; box-shadow:0 4px 10px rgba(0,0,0,0.05); 
+      font-family:'Courier New',monospace; border:1px solid rgba(220,53,69,0.2);
+    }
+    .countdown .next-time { font-size:clamp(13px, 1.5vw, 15px); color:#4a5568; margin-top:8px; font-weight:bold; position:relative; z-index:1; }
+    .countdown .status-time { font-size:clamp(12px, 1.4vw, 14px); color:#0078D7; margin-top:5px; font-weight:bold; }
     
-    .countdown { background:#fff; padding:16px; border-radius:14px; margin:10px 0; border:3px solid #dc3545; text-align:center; }
-    .countdown .time-display { font-size:clamp(32px,6vw,42px); color:#dc3545; background:#fff5f5; padding:6px 16px; border-radius:10px; display:inline-block; margin-top:6px; font-weight:bold; font-family:'Courier New',monospace; }
-    
-    .btn { color:white; border:none; padding:7px 14px; border-radius:6px; cursor:pointer; font-size:clamp(12px,1.3vw,13px); margin:3px; font-weight:bold; }
-    .btn:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 3px 10px rgba(0,0,0,0.15); }
-    .btn:disabled { background:#ced4da !important; color:#6c757d !important; cursor:not-allowed; }
-    .btn-success { background:linear-gradient(135deg,#28a745,#1e7e34); }
-    .btn-withdraw { background:linear-gradient(135deg,#6f42c1,#5a32a3); }
-    .btn-primary { background:linear-gradient(135deg,#0078D7,#005fa3); }
-    .btn-amount { background:#17a2b8; padding:4px 10px; font-size:clamp(10px,1.1vw,12px); }
-    .btn-telegram { background:linear-gradient(135deg,#0088cc,#006699); }
-    .btn-small { padding:4px 10px; font-size:clamp(10px,1.1vw,12px); }
-    
-    .amount-buttons { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:5px; }
-    .custom-amount { display:flex; gap:6px; margin-top:8px; background:#fff; padding:8px; border-radius:10px; border:2px solid #0078D7; flex-wrap:wrap; }
-    .custom-amount input { flex:2 1 120px; padding:8px 10px; border:2px solid #e9ecef; border-radius:6px; font-size:clamp(13px,1.4vw,14px); min-width:80px; }
-    .custom-amount select { flex:1 1 80px; padding:8px; border:2px solid #e9ecef; border-radius:6px; background:#f8f9fa; color:#0078D7; }
-    
-    .bet-summary { background:linear-gradient(135deg,#f8f9fa,#e9ecef); padding:8px 12px; border-radius:6px; margin:8px 0; border:2px solid #0078D7; }
-    .bet-summary-item { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #dee2e6; font-size:clamp(12px,1.3vw,13px); }
+    /* ===== Bet Summary ===== */
+    .bet-summary { background:linear-gradient(135deg, #f8f9fa, #e9ecef); padding:10px 12px; border-radius:8px; margin:10px 0; border:2px solid #0078D7; }
+    .bet-summary-item { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #dee2e6; font-size:clamp(13px, 1.5vw, 15px); }
     .bet-summary-item:last-child { border-bottom:none; }
-    .bet-summary .total { font-weight:bold; color:#d63000; font-size:clamp(14px,1.6vw,16px); }
+    .bet-summary .total { font-weight:bold; color:#d63000; font-size:clamp(16px, 1.8vw, 18px); }
     
-    .guide-box { background:#eef7ff; border:1px solid #b6d4fe; padding:8px 10px; border-radius:8px; margin-bottom:10px; font-size:clamp(11px,1.2vw,12.5px); color:#084298; }
-    .guide-box strong { color:#005fa3; }
+    /* ===== Buttons ===== */
+    .btn { color:white; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-size:clamp(13px, 1.5vw, 15px); margin:3px; font-weight:bold; transition:all 0.3s; display:inline-flex; align-items:center; justify-content:center; gap:6px; }
+    .btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .btn:disabled { background:#ced4da !important; color:#6c757d !important; cursor:not-allowed; transform:none !important; box-shadow:none !important; }
+    .btn-success { background:linear-gradient(135deg, #28a745, #1e7e34); }
+    .btn-withdraw { background:linear-gradient(135deg, #6f42c1, #5a32a3); }
+    .btn-late-withdraw { background:linear-gradient(135deg, #ff9800, #e65100); }
+    .btn-primary { background:linear-gradient(135deg, #0078D7, #005fa3); }
+    .btn-amount { background:#17a2b8; padding:5px 12px; font-size:clamp(11px, 1.2vw, 13px); border-radius:6px; }
+    .btn-telegram { background:linear-gradient(135deg, #0088cc, #006699); color:white; }
     
-    .status-bar { background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:6px 10px; border-radius:8px; margin:6px 0; border-left:4px solid #0078D7; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:5px; }
-    .status-bar .label { font-weight:bold; color:#005fa3; font-size:clamp(11px,1.2vw,13px); }
-    .status-bar .value { font-weight:bold; color:#28a745; font-size:clamp(12px,1.3vw,14px); }
-    .status-bar .pending { color:#dc3545; }
+    /* ===== Bank Choices ===== */
+    .bank-sub-group { display:flex; flex-direction:column; gap:8px; margin:10px 0 12px 0; background:#f8f9fa; padding:10px; border-radius:8px; border:1px solid #dee2e6; }
+    .btn-bank-choice { width:100%; text-decoration:none; padding:10px; border-radius:8px; font-weight:bold; text-align:center; display:block; color:white; font-size:clamp(13px, 1.5vw, 15px); box-shadow:0 2px 5px rgba(0,0,0,0.1); transition:all 0.2s; }
+    .btn-bank-choice:hover { transform:translateY(-1px); filter:brightness(1.1); }
+    .btn-choice-aba { background:linear-gradient(135deg, #005fa3, #0078D7); }
+    .btn-choice-acleda { background:linear-gradient(135deg, #0b6234, #13874b); }
+
+    /* ===== Selected Numbers ===== */
+    .selected-numbers-display { display:flex; flex-wrap:wrap; gap:6px; margin:10px 0; min-height:40px; padding:10px; background:#f8f9fa; border-radius:8px; border:2px dashed #dee2e6; align-items:center; }
+    .selected-number-tag { background:linear-gradient(135deg, #0078D7, #005fa3); color:white; padding:5px 14px; border-radius:20px; font-size:clamp(13px, 1.5vw, 15px); display:inline-flex; align-items:center; gap:8px; font-weight:bold; }
+    .selected-number-tag .remove { cursor:pointer; font-weight:bold; color:#ff6b6b; margin-left:3px; font-size:clamp(16px, 1.8vw, 18px); background:rgba(255,255,255,0.2); border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; }
     
-    .config-card { background:linear-gradient(135deg,#e8f4fd,#fff); border:2px solid #0078D7; border-radius:10px; padding:10px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:6px; }
-    .config-card .badge { background:linear-gradient(135deg,#0078D7,#005fa3); color:#fff; padding:4px 10px; border-radius:16px; font-size:clamp(11px,1.2vw,13px); font-weight:bold; }
-    
-    .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); backdrop-filter:blur(3px); }
-    .modal-content { background:white; margin:3% auto; padding:16px; border-radius:14px; max-width:500px; width:94%; max-height:85vh; overflow-y:auto; }
-    .modal-content label { display:block; margin:8px 0 3px; font-weight:bold; font-size:clamp(12px,1.3vw,13px); }
-    .modal-content input, .modal-content select { width:100%; padding:7px 10px; border:2px solid #dee2e6; border-radius:6px; font-size:clamp(12px,1.3vw,13px); margin-bottom:4px; }
-    .close { float:right; font-size:26px; font-weight:bold; cursor:pointer; color:#adb5bd; }
-    
-    .alert-modal { text-align:center; padding:20px; max-width:380px; border-radius:16px; }
-    .alert-icon { font-size:44px; margin-bottom:10px; display:block; }
-    .alert-title { font-size:clamp(16px,2vw,18px); font-weight:bold; margin-bottom:6px; }
-    .alert-message { font-size:clamp(12px,1.3vw,14px); color:#4a5568; margin-bottom:12px; }
-    
-    .history-table { width:100%; border-collapse:collapse; margin-top:6px; border-radius:6px; overflow:hidden; font-size:clamp(10px,1.1vw,12px); }
-    .history-table th { background:linear-gradient(135deg,#0078D7,#005fa3); color:white; padding:6px 4px; text-align:center; }
-    .history-table td { padding:6px 4px; text-align:center; border-bottom:1px solid #dee2e6; }
-    
-    .status-badge { padding:2px 6px; border-radius:4px; font-weight:bold; font-size:clamp(9px,1vw,10px); display:inline-block; }
+    /* ===== Status Badges ===== */
+    .status-badge { padding:3px 8px; border-radius:6px; font-weight:bold; font-size:clamp(10px, 1.2vw, 12px); display:inline-block; }
     .status-pending { background:#ffeeba; color:#856404; }
     .status-win { background:#d4edda; color:#155724; animation:winGlow 1s infinite alternate; }
     .status-loss { background:#f8d7da; color:#721c24; }
-    @keyframes winGlow { 0%{box-shadow:0 0 5px rgba(40,167,69,0.4)} 100%{box-shadow:0 0 15px rgba(40,167,69,0.8)} }
+
+    /* ===== Modals ===== */
+    .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,0.5); backdrop-filter:blur(5px); }
+    .modal-content { background:white; margin:3% auto; padding:20px; border-radius:16px; max-width:520px; width:94%; max-height:88vh; overflow-y:auto; box-shadow:0 10px 40px rgba(0,0,0,0.2); }
+    .modal-content label { display:block; margin:10px 0 4px; font-weight:bold; font-size:clamp(13px, 1.4vw, 14px); color:#333; }
+    .modal-content input, .modal-content select { width:100%; padding:8px 10px; border:2px solid #dee2e6; border-radius:8px; box-sizing:border-box; font-size:clamp(13px, 1.4vw, 14px); margin-bottom:5px; }
+    .close { float:right; font-size:28px; font-weight:bold; cursor:pointer; color:#adb5bd; }
+
+    /* ===== Alert Modal ===== */
+    .alert-modal-content { text-align:center; padding:25px 20px; max-width:400px; border-radius:20px; }
+    .alert-icon { font-size:50px; margin-bottom:12px; display:block; }
+    .alert-title { font-size:clamp(18px, 2.5vw, 20px); font-weight:bold; margin-bottom:8px; }
+    .alert-message { font-size:clamp(13px, 1.5vw, 15px); color:#4a5568; margin-bottom:15px; line-height:1.5; }
     
-    .bank-sub-group { display:flex; flex-direction:column; gap:6px; margin:8px 0 10px; background:#f8f9fa; padding:8px; border-radius:6px; }
-    .btn-bank { width:100%; padding:8px; border-radius:6px; font-weight:bold; text-align:center; display:block; color:white; font-size:clamp(12px,1.3vw,13px); text-decoration:none; }
-    .btn-bank:hover { transform:translateY(-1px); filter:brightness(1.05); }
-    .btn-aba { background:linear-gradient(135deg,#005fa3,#0078D7); }
-    .btn-acleda { background:linear-gradient(135deg,#0b6234,#13874b); }
+    /* ===== Tables ===== */
+    .history-table { width:100%; border-collapse:collapse; margin-top:8px; border-radius:8px; overflow:hidden; font-size:clamp(11px, 1.2vw, 13px); }
+    .history-table th { background:linear-gradient(135deg, #0078D7, #005fa3); color:white; padding:8px 6px; font-size:clamp(11px, 1.2vw, 13px); text-align:center; }
+    .history-table td { padding:8px 6px; font-size:clamp(11px, 1.2vw, 13px); text-align:center; border-bottom:1px solid #dee2e6; }
     
-    .instruction-box { background:#e8f4fd; border:1px solid #b3d7ff; padding:10px; border-radius:8px; margin-top:10px; }
-    .instruction-box ol { padding-left:14px; color:#2b4c6f; font-size:clamp(11px,1.2vw,12.5px); }
-    
-    .footer { background:#1a2634; color:#adb5bd; text-align:center; padding:10px; margin-top:12px; border-top:3px solid #0078D7; font-size:clamp(11px,1.2vw,13px); }
-    .action-group { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
-    .withdraw-notice { background:#fff5f5; border:1px dashed #ff8b8b; padding:8px; border-radius:6px; margin-bottom:10px; font-size:clamp(11px,1.2vw,12px); }
-    .data-tools { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; padding-top:8px; border-top:1px solid #dee2e6; }
-    
-    .file-input-hidden { display:none; }
-    
-    @media(max-width:768px){
-      .numbers div { flex:1 1 calc(33.33% - 5px); min-width:45px; padding:8px 3px; font-size:12px; }
-      .clock-box { flex-direction:column; text-align:center; gap:4px; }
-      .input-row { flex-direction:column; align-items:stretch; }
-      .type-selector, .time-selector { flex-direction:column; }
-      .type-btn, .time-btn { min-width:100%; }
-      .letter-circle { width:38px; height:38px; font-size:14px; }
+    /* ===== Rules ===== */
+    .rules-section { background:white; padding:20px; border-radius:12px; margin-top:12px; border:1px solid #dee2e6; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+    .rules-section h3 { color:#0078D7; font-size:clamp(18px, 2.5vw, 22px); font-weight:bold; border-bottom:2px solid #f0f4f8; padding-bottom:8px; }
+    .rules-section h4 { color:#005fa3; margin-top:15px; margin-bottom:6px; font-size:clamp(15px, 1.8vw, 17px); font-weight:bold; border-left:5px solid #0078D7; padding-left:10px; }
+    .rules-section li { margin-bottom:6px; font-size:clamp(13px, 1.4vw, 14px); color:#2d3748; line-height:1.7; list-style-position:inside; }
+    .rules-section .step-highlight { background:#e8f4fd; padding:8px 12px; border-radius:8px; margin-bottom:4px; font-size:clamp(13px, 1.4vw, 14px); }
+
+    /* ===== Misc ===== */
+    .history-footer-note { font-size:clamp(11px, 1.2vw, 12px); color:#dc3545; font-weight:600; line-height:1.5; margin-top:12px; padding:8px; background:#fff5f5; border:1px dashed #ffb3b3; border-radius:8px; }
+    .instruction-box { background:#e8f4fd; border:1px solid #b3d7ff; padding:12px; border-radius:10px; margin-top:15px; }
+    .instruction-box h4 { color:#005fa3; margin-bottom:6px; font-size:clamp(13px, 1.5vw, 15px); display:flex; align-items:center; gap:6px; }
+    .instruction-box ol { padding-left:16px; color:#2b4c6f; font-size:clamp(12px, 1.3vw, 13.5px); line-height:1.6; }
+    .withdraw-instruction-box { background:#fdf6e2; border:1px solid #f5d6a7; padding:12px; border-radius:10px; margin-top:15px; }
+    .withdraw-instruction-box h4 { color:#b58900; margin-bottom:6px; font-size:clamp(13px, 1.5vw, 15px); display:flex; align-items:center; gap:6px; }
+    .withdraw-instruction-box ol { padding-left:16px; color:#5c4308; font-size:clamp(12px, 1.3vw, 13.5px); line-height:1.6; }
+    .warning-text { color:#dc3545; font-size:clamp(12px, 1.3vw, 13px); font-weight:bold; display:block; margin-top:4px; }
+    .withdraw-notice-box { background:#fff5f5; border:1px dashed #ff8b8b; padding:10px; border-radius:8px; margin-bottom:12px; }
+    .action-group { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .new-win-badge { background:#ffc107; color:#000; padding:2px 8px; border-radius:12px; font-size:clamp(9px, 1vw, 10px); margin-left:4px; animation:blinker 1s linear infinite; }
+
+    /* ===== Custom Amount ===== */
+    .custom-amount-wrapper {
+      display:flex; gap:8px; margin-top:10px; background:#ffffff; padding:10px; border-radius:12px; border:2px solid #0078D7; box-shadow:0 4px 10px rgba(0,120,215,0.08); flex-wrap:wrap;
     }
-    @media(max-width:480px){
-      .numbers div { flex:1 1 calc(50% - 5px); min-width:35px; padding:6px 2px; font-size:11px; }
-      .countdown .time-display { font-size:28px; padding:4px 12px; min-width:100px; }
+    .custom-amount-wrapper input { flex:2 1 150px; padding:10px 12px; border:2px solid #e9ecef; border-radius:8px; font-size:clamp(14px, 1.6vw, 16px); font-weight:bold; color:#333; transition:all 0.3s; outline:none; min-width:100px; }
+    .custom-amount-wrapper input:focus { border-color:#0078D7; box-shadow:0 0 8px rgba(0,120,215,0.2); }
+    .custom-amount-wrapper select { flex:1 1 100px; padding:10px; border:2px solid #e9ecef; border-radius:8px; font-size:clamp(13px, 1.5vw, 15px); font-weight:bold; background-color:#f8f9fa; color:#0078D7; cursor:pointer; transition:all 0.3s; outline:none; }
+    .quick-room-guide { background:#eef7ff; border:1px solid #b6d4fe; padding:10px 12px; border-radius:10px; margin-bottom:12px; font-size:clamp(12px, 1.3vw, 13.5px); color:#084298; line-height:1.6; }
+    .quick-room-guide strong { color:#005fa3; }
+    .draw-time-selector { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+    .draw-time-selector .time-btn { flex:1; min-width:120px; padding:10px; border:2px solid #dee2e6; background:#fff; font-weight:bold; border-radius:8px; cursor:pointer; text-align:center; transition:all 0.3s; font-size:clamp(12px, 1.4vw, 14px); }
+    .draw-time-selector .time-btn.active { border-color:#0078D7; background:#e8f4fd; color:#0078D7; box-shadow:0 4px 8px rgba(0,120,215,0.15); }
+    .amount-buttons { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:6px; }
+
+    /* ===== Result Status Bar ===== */
+    .result-status-bar {
+      background:linear-gradient(135deg, #e8f4fd, #d4edda); padding:8px 12px; border-radius:10px; margin:8px 0; border-left:5px solid #0078D7;
+      display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+    }
+    .result-status-bar .status-label { font-weight:bold; color:#005fa3; font-size:clamp(12px, 1.4vw, 14px); }
+    .result-status-bar .status-value { font-weight:bold; color:#28a745; font-size:clamp(13px, 1.5vw, 15px); }
+    .result-status-bar .status-pending-text { color:#dc3545; }
+    .result-status-bar .status-next-text { color:#ff9800; }
+
+    .styled-selection-card {
+      background:linear-gradient(135deg, #e8f4fd 0%, #ffffff 100%); border:2px solid #0078D7; border-radius:12px; padding:12px; margin-bottom:12px; box-shadow:0 4px 12px rgba(0,120,215,0.12); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;
+    }
+    .styled-selection-card .card-title { font-size:clamp(12px, 1.4vw, 14px); font-weight:bold; color:#2d3748; display:flex; align-items:center; gap:6px; }
+    .styled-selection-card .card-badge { background:linear-gradient(135deg, #0078D7, #005fa3); color:#ffffff; padding:5px 12px; border-radius:20px; font-size:clamp(12px, 1.4vw, 14px); font-weight:bold; letter-spacing:0.5px; box-shadow:0 2px 6px rgba(0,120,215,0.25); }
+
+    footer { background:#1a2634; color:#adb5bd; text-align:center; padding:12px; margin-top:15px; border-top:3px solid #0078D7; font-size:clamp(12px, 1.3vw, 14px); }
+
+    /* ===== Responsive ===== */
+    @media (max-width:768px) {
+      header h1 { font-size:24px; }
+      .nav-bar { padding:8px 10px; }
+      .nav-bar .nav-links { gap:5px; }
+      .nav-bar .nav-links a, .nav-bar .nav-links button { font-size:12px; padding:5px 10px; }
+      .numbers div { flex:1 1 calc(33.33% - 6px); min-width:50px; padding:10px 4px; font-size:13px; }
+      .digital-clock-container { flex-direction:column; text-align:center; gap:6px; padding:12px; }
+      .input-row { flex-direction:column; align-items:stretch; }
+      .custom-amount-wrapper { flex-direction:column; }
+      .draw-time-selector, .type-selector { flex-direction:column; }
+      .draw-time-selector .time-btn, .type-btn { min-width:100%; }
+      .letter-selector { gap:6px; }
+      .letter-circle { width:42px; height:42px; font-size:16px; }
+      .modal-content { margin:5% auto; padding:15px; width:96%; }
+      .result-status-bar { flex-direction:column; text-align:center; }
+    }
+
+    @media (max-width:480px) {
+      .numbers div { flex:1 1 calc(50% - 6px); min-width:40px; padding:8px 3px; font-size:12px; }
+      .countdown .time-display { font-size:32px; padding:6px 15px; min-width:120px; }
+      .clock-time { font-size:22px; }
+      .btn { font-size:12px; padding:6px 12px; }
+      .bet-box-container { padding:12px; }
+      .lottery-box { padding:10px; }
     }
   </style>
-
-  <!-- ===== HEADER ===== -->
-  <div class="header">
-    <h1>🎰 ឆ្នោតខ្មែរ N98</h1>
+</head>
+<body>
+  <header>
+    <h1>ឆ្នោតខ្មែរ N98</h1>
     <p>ប្រព័ន្ធទិញលេខឆ្នោត និងទទួលបានរង្វាន់</p>
-  </div>
+  </header>
 
-  <!-- ===== NAV ===== -->
-  <div class="nav-bar">
-    <a href="#" class="active" onclick="showSection('home')">🏠 ដើម</a>
-    <a href="#" onclick="showSection('history')">📊 ប្រវត្តិ</a>
-    <a href="#" onclick="showSection('rules')">📋 ច្បាប់</a>
-    <button class="btn-share" onclick="copyLink()">🔗 ចែករំលែក</button>
-    <button class="btn-group" onclick="openGroup()">📢 ក្រុម</button>
-    <button class="btn-export" onclick="exportData()">⬇️ ទាញយកទិន្នន័យ</button>
-    <button class="btn-import" onclick="document.getElementById('importFile').click()">⬆️ នាំចូលទិន្នន័យ</button>
-    <input type="file" id="importFile" class="file-input-hidden" accept=".json" onchange="importData(event)">
-  </div>
+  <nav class="nav-bar">
+    <div class="nav-links">
+      <a href="#" class="active" id="link-home" onclick="showSection('home')">🏠 ទំព័រដើម</a>
+      <a href="#" id="link-history" onclick="showSection('history')">📊 ប្រវត្តិ</a>
+      <a href="#" id="link-rules" onclick="showSection('rules')">📋 ច្បាប់</a>
+      <button class="btn-nav-share" onclick="copyWebsiteLink()">🔗 ចែករំលែក</button>
+      <button class="btn-nav-group" onclick="openAnnounceGroupModal()">📢 ក្រុម</button>
+    </div>
+  </nav>
 
-  <!-- ===== SECTION ===== -->
-  <div class="section">
-
-    <!-- ===== CLOCK ===== -->
-    <div class="clock-box">
-      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-        <span style="font-size:clamp(22px,3.5vw,26px);">⏰</span>
+  <section>
+    <!-- ===== Digital Clock ===== -->
+    <div class="digital-clock-container" id="digitalClockWidget">
+      <div class="stars-bg"><div class="star star-1"></div><div class="star star-2"></div></div>
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <span class="sticker-float">⏰</span>
         <div>
           <div class="clock-title">🕒 ម៉ោងបច្ចុប្បន្ន</div>
           <div class="clock-time" id="widgetTime">00:00:00</div>
         </div>
       </div>
-      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
         <div><div class="clock-date" id="widgetDate">ថ្ងៃទី...</div></div>
-        <span style="font-size:clamp(22px,3.5vw,26px);">📆</span>
+        <span class="sticker-float sticker-delay">📆</span>
       </div>
     </div>
 
-    <!-- ===== STATUS ===== -->
-    <div class="status-bar">
-      <span class="label">📊 ស្ថានភាព៖</span>
-      <span class="value" id="resultStatusText">កំពុងផ្ទុក...</span>
+    <!-- ===== Result Status Bar ===== -->
+    <div class="result-status-bar" id="resultStatusBar">
+      <span class="status-label">📊 ស្ថានភាពលទ្ធផល៖</span>
+      <span class="status-value" id="resultStatusText">កំពុងរង់ចាំលទ្ធផល 12:00</span>
     </div>
 
-    <!-- ===== COUNTDOWN ===== -->
-    <div class="countdown">
-      <div style="display:flex; justify-content:center; align-items:center; gap:8px; flex-wrap:wrap;">
-        <span style="font-size:clamp(22px,3.5vw,26px);">🎲</span>
-        <span style="font-size:clamp(15px,1.8vw,17px); color:#dc3545; font-weight:bold;">⏳ រាប់ថយក្រោយ</span>
+    <!-- ===== Countdown ===== -->
+    <div class="countdown" id="countdown">
+      <div style="display:flex; justify-content:center; align-items:center; gap:10px; flex-wrap:wrap;">
+        <span class="sticker-float">🎲</span>
+        <div style="font-size:clamp(16px, 2vw, 18px); color:#dc3545; font-weight:bold;">⏳ រាប់ថយក្រោយ</div>
+        <span class="sticker-float sticker-delay">📢</span>
       </div>
       <div class="time-display" id="countdownDisplay">--:--:--</div>
-      <div style="font-size:clamp(12px,1.3vw,14px); color:#4a5568; margin-top:6px; font-weight:bold;" id="nextTimeLabel">🎯 ពេលបន្ទាប់...</div>
+      <div class="next-time" id="nextTimeLabel">🎯 ពេលបន្ទាប់...</div>
+      <div class="status-time" id="statusTimeLabel"></div>
     </div>
 
-    <!-- ===== HOME ===== -->
+    <!-- ===== Home Section ===== -->
     <div id="homeSection">
-
-      <!-- 12:00 RESULT -->
+      <!-- 12:00 Result -->
       <div class="lottery-box">
-        <div class="time-box">
-          🕛 លទ្ធផល 12:00 
+        <div class="time-box" id="timeBox12">
+          🕛 លទ្ធផលម៉ោង 12:00 
           <span class="badge" id="badge12">ព្រឹកពីរ</span>
         </div>
-        <div class="numbers" id="box12">
-          <div><span class="letter">A:</span> <span id="r12_A">--</span></div>
-          <div><span class="letter">B:</span> <span id="r12_B">--</span></div>
-          <div><span class="letter">C:</span> <span id="r12_C">--</span></div>
-          <div><span class="letter">D:</span> <span id="r12_D">--</span></div>
-          <div><span class="letter">E:</span> <span id="r12_E">--</span></div>
+        <div class="numbers" id="box_two_container">
+          <div><span class="letter">A:</span> <span class="number" id="res_two_A">--</span></div>
+          <div><span class="letter">B:</span> <span class="number" id="res_two_B">--</span></div>
+          <div><span class="letter">C:</span> <span class="number" id="res_two_C">--</span></div>
+          <div><span class="letter">D:</span> <span class="number" id="res_two_D">--</span></div>
+          <div><span class="letter">E:</span> <span class="number" id="res_two_E">--</span></div>
         </div>
       </div>
 
-      <!-- 16:00 RESULT -->
+      <!-- 16:00 Result -->
       <div class="lottery-box">
-        <div class="time-box">
-          🕓 លទ្ធផល 16:00 
+        <div class="time-box" id="timeBox16">
+          🕓 លទ្ធផលម៉ោង 16:00 
           <span class="badge" id="badge16">ល្ងាចបី</span>
         </div>
-        <div class="numbers" id="box16">
-          <div><span class="letter">A:</span> <span id="r16_A">---</span></div>
-          <div><span class="letter">B:</span> <span id="r16_B">---</span></div>
-          <div><span class="letter">C:</span> <span id="r16_C">---</span></div>
-          <div><span class="letter">D:</span> <span id="r16_D">---</span></div>
-          <div><span class="letter">E:</span> <span id="r16_E">---</span></div>
+        <div class="numbers" id="box_three_container">
+          <div><span class="letter">A:</span> <span class="number" id="res_three_A">---</span></div>
+          <div><span class="letter">B:</span> <span class="number" id="res_three_B">---</span></div>
+          <div><span class="letter">C:</span> <span class="number" id="res_three_C">---</span></div>
+          <div><span class="letter">D:</span> <span class="number" id="res_three_D">---</span></div>
+          <div><span class="letter">E:</span> <span class="number" id="res_three_E">---</span></div>
         </div>
       </div>
 
-      <!-- ===== BET BOX ===== -->
-      <div class="bet-box">
-        <h2>🎯 ទិញលេខឆ្នោត (A, B, C, D, E)</h2>
+      <!-- ===== Bet Box ===== -->
+      <div class="bet-box-container">
+        <div class="bet-box-header"><h2>🎯 ទិញលេខឆ្នោត (A, B, C, D, E)</h2></div>
 
-        <div class="guide-box">
-          💡 <strong>របៀបប្រើ៖</strong><br>
-          ១. ជ្រើសរើស <strong>ពេលវេលា</strong> និង <strong>ប្រភេទលេខ</strong><br>
-          ២. ចុចអក្សរ <strong>A, B, C, D, E</strong><br>
-          ៣. បញ្ចូលលេខ (ឧ. 01,02,03) ចុចបន្ថែម<br>
-          ៤. ជ្រើសរើសចំនួនទឹកប្រាក់ រួចចុច "ដាក់ប្រាក់"
+        <div class="quick-room-guide">
+          💡 <strong>របៀបប្រើប្រាស់៖</strong><br>
+          ១. ជ្រើសរើស <strong>ពេលវេលា</strong> និង <strong>ប្រភេទលេខ (២ ឬ ៣ ខ្ទង់)</strong><br>
+          ២. ចុចលើអក្សរ <strong>A, B, C, D, E</strong><br>
+          ៣. បញ្ចូលលេខ (ឧ. 01,02,03 ឬ 010203) ចុចបន្ថែម<br>
+          ៤. ជ្រើសរើសចំនួនទឹកប្រាក់ រួចចុច "ដាក់ប្រាក់តាម ABA / ACLEDA"
         </div>
 
-        <table class="reward-table">
-          <thead><tr><th>ប្រភេទ</th><th>ម៉ោង</th><th>អត្រា</th></tr></thead>
+        <table class="reward-info-table">
+          <thead><tr><th>ប្រភេទ</th><th>ម៉ោងចាក់</th><th>អត្រារង្វាន់</th></tr></thead>
           <tbody>
-            <tr><td>២ខ្ទង់ (A-E)</td><td>12:00</td><td>1$ → <span class="text-respond">70$</span></td></tr>
-            <tr><td>៣ខ្ទង់ (A-E)</td><td>16:00</td><td>1$ → <span class="text-respond">500$</span></td></tr>
+            <tr><td>លេខ ២ខ្ទង់ (A-E)</td><td>🕛 12:00</td><td>ចាក់ 1$ បាន <span class="text-respond">70$</span></td></tr>
+            <tr><td>លេខ ៣ខ្ទង់ (A-E)</td><td>🕓 16:00</td><td>ចាក់ 1$ បាន <span class="text-respond">500$</span></td></tr>
           </tbody>
         </table>
-
-        <div style="background:#fff5f5; border:1px solid #ffb3b3; padding:6px; border-radius:6px; margin-bottom:10px; text-align:center;">
-          <span style="color:#d63000; font-weight:bold; font-size:clamp(11px,1.2vw,13px);">⚠️ ចាក់ពី 500៛/0.25$ ដល់ 40,000៛/10$ អតិបរមា 10 លេខ</span>
+        
+        <div style="background:#fff5f5; border:1px solid #ffb3b3; padding:8px; border-radius:8px; margin-bottom:12px; text-align:center;">
+          <span style="color:#d63000; font-weight:bold; font-size:clamp(12px, 1.3vw, 14px);">⚠️ ចាក់តែពី 500៛ / 0.25$ ទៅ 40,000៛ / 10$ អតិបរមា 10 លេខ</span>
         </div>
 
-        <div style="font-weight:bold; color:#0078D7; font-size:clamp(12px,1.3vw,14px); margin-bottom:8px;">
-          ជ្រើសរើស ពេលវេលា ប្រភេទ និង A,B,C,D,E
-        </div>
-
-        <div class="time-selector">
-          <button class="time-btn active" onclick="setTime('12:00')">🕛 12:00</button>
-          <button class="time-btn" onclick="setTime('16:00')">🕓 16:00</button>
+        <label style="font-weight:bold; color:#0078D7; font-size:clamp(13px, 1.5vw, 15px); display:block; margin-bottom:8px;">
+          ជ្រើសរើស ពេលវេលា ប្រភេទលេខ និងប្រភេទ A,B,C,D,E
+        </label>
+        
+        <div class="draw-time-selector">
+          <button type="button" class="time-btn active" id="btnTime12" onclick="setDrawTime('12:00')">🕛 12:00</button>
+          <button type="button" class="time-btn" id="btnTime16" onclick="setDrawTime('16:00')">🕓 16:00</button>
         </div>
 
         <div class="type-selector">
-          <button class="type-btn active" onclick="setType('two')">🔢 ២ខ្ទង់</button>
-          <button class="type-btn" onclick="setType('three')">🔢 ៣ខ្ទង់</button>
+          <button type="button" class="type-btn active" id="btnTypeTwo" onclick="setBetType('two')">🔢 ២ ខ្ទង់</button>
+          <button type="button" class="type-btn" id="btnTypeThree" onclick="setBetType('three')">🔢 ៣ ខ្ទង់</button>
         </div>
 
-        <div class="config-card">
-          <span>📌 បច្ចុប្បន្ន៖</span>
-          <span class="badge" id="configBadge">12:00 | ២ខ្ទង់</span>
+        <div class="styled-selection-card">
+          <div class="card-title">📌 បច្ចុប្បន្ន៖</div>
+          <div class="card-badge" id="selectedConfigDisplayBadge">12:00 | ២ ខ្ទង់</div>
         </div>
 
-        <div style="font-weight:bold; color:#0078D7; font-size:clamp(12px,1.3vw,14px); text-align:center; margin-bottom:8px;">
+        <label style="font-weight:bold; color:#0078D7; font-size:clamp(13px, 1.5vw, 15px); display:block; margin-bottom:8px; text-align:center;">
           ចុចជ្រើសរើស A,B,C,D,E
-        </div>
+        </label>
         <div class="letter-selector">
-          <div class="letter-circle" onclick="selectLetter('A')">A</div>
-          <div class="letter-circle" onclick="selectLetter('B')">B</div>
-          <div class="letter-circle" onclick="selectLetter('C')">C</div>
-          <div class="letter-circle" onclick="selectLetter('D')">D</div>
-          <div class="letter-circle" onclick="selectLetter('E')">E</div>
+          <div class="letter-circle" id="circle_A" onclick="selectLetter('A')">A</div>
+          <div class="letter-circle" id="circle_B" onclick="selectLetter('B')">B</div>
+          <div class="letter-circle" id="circle_C" onclick="selectLetter('C')">C</div>
+          <div class="letter-circle" id="circle_D" onclick="selectLetter('D')">D</div>
+          <div class="letter-circle" id="circle_E" onclick="selectLetter('E')">E</div>
         </div>
 
         <div class="input-row">
-          <input type="text" id="numInput" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled>
-          <button class="btn btn-primary" id="btnAdd" onclick="addNumber()" disabled>➕ បន្ថែម</button>
+          <input type="text" id="numberInput" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled oninput="formatNumberInput(this)">
+          <button class="btn btn-primary" id="btnAddNumber" onclick="addBetNumber()" style="margin:0; padding:8px 16px;" disabled>➕ បន្ថែម</button>
         </div>
 
-        <div class="selected-display" id="selectedDisplay">
-          <span style="color:#6c757d; font-size:clamp(11px,1.2vw,12px);">មិនទាន់មានលេខ</span>
+        <div class="selected-numbers-display" id="selectedNumbersDisplay">
+          <span style="color:#6c757d; font-size:clamp(12px, 1.3vw, 13px);">មិនទាន់មានលេខ</span>
         </div>
 
-        <div style="display:flex; gap:6px; align-items:center; margin-bottom:8px; flex-wrap:wrap;">
-          <span style="font-size:clamp(11px,1.2vw,12px); color:#6c757d;">ចំនួន៖ <strong id="countDisplay" style="color:#0078D7; font-size:clamp(13px,1.4vw,15px);">0</strong> / 10</span>
+        <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px; flex-wrap:wrap;">
+          <span style="font-size:clamp(12px, 1.3vw, 13px); color:#6c757d;">ចំនួន៖ <strong id="selectedCount" style="color:#0078D7; font-size:clamp(14px, 1.6vw, 16px);">0</strong> / 10</span>
         </div>
 
         <div>
-          <label style="font-weight:bold; color:#0078D7; font-size:clamp(11px,1.2vw,13px);">💰 ចំនួនក្នុងមួយលេខ</label>
+          <label style="font-weight:bold; color:#0078D7; font-size:clamp(12px, 1.4vw, 14px); display:block; margin-bottom:5px;">💰 ចំនួនទឹកប្រាក់ក្នុងមួយលេខ</label>
           <div class="amount-buttons">
-            <button class="btn btn-amount" onclick="setAmount(500,'៛')">500៛</button>
-            <button class="btn btn-amount" onclick="setAmount(1000,'៛')">1000៛</button>
-            <button class="btn btn-amount" onclick="setAmount(5000,'៛')">5000៛</button>
-            <button class="btn btn-amount" onclick="setAmount(10000,'៛')">10000៛</button>
-            <button class="btn btn-amount" onclick="setAmount(0.25,'$')">0.25$</button>
-            <button class="btn btn-amount" onclick="setAmount(1,'$')">1$</button>
-            <button class="btn btn-amount" onclick="setAmount(5,'$')">5$</button>
-            <button class="btn btn-amount" onclick="setAmount(10,'$')">10$</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickAmount(500, '៛')">500៛</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickAmount(1000, '៛')">1000៛</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickAmount(5000, '៛')">5000៛</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickAmount(10000, '៛')">10000៛</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickAmount(0.25, '$')">0.25$</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickAmount(1, '$')">1$</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickAmount(5, '$')">5$</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickAmount(10, '$')">10$</button>
           </div>
-          <div class="custom-amount">
-            <input type="number" id="amountInput" placeholder="✍️ បញ្ចូលដោយខ្លួន" min="0.01" step="any" oninput="updateAmount()">
-            <select id="currencySelect" onchange="updateAmount()">
+          
+          <div class="custom-amount-wrapper">
+            <input type="number" id="quickAmountInput" placeholder="✍️ បញ្ចូលដោយខ្លួន..." min="0.01" step="any" oninput="updateQuickAmountDisplay()">
+            <select id="quickCurrency" onchange="updateQuickAmountDisplay()">
               <option value="USD">ដុល្លារ ($)</option>
               <option value="KHR">រៀល (៛)</option>
             </select>
           </div>
-          <span class="warning-text" id="limitWarning" style="display:none; color:#dc3545; font-size:clamp(11px,1.2vw,12px);">⚠️ ត្រូវចាប់ពី 500៛/0.25$ ដល់ 40,000៛/10$</span>
+          <span class="warning-text" id="limitWarning" style="display:none;">⚠️ ត្រូវចាប់ពី 500៛ / 0.25$ ដល់ 40,000៛ / 10$!</span>
         </div>
 
         <div class="bet-summary">
-          <div class="bet-summary-item"><span>📊 ចំនួនលេខសរុប៖</span><span id="totalCount">0</span></div>
-          <div class="bet-summary-item total"><span>💵 សរុប៖</span><span id="totalAmountDisplay">0</span></div>
+          <div class="bet-summary-item"><span>📊 ចំនួនលេខសរុប៖</span><span id="totalSelected">0</span></div>
+          <div class="bet-summary-item total"><span>💵 ចំនួនទឹកប្រាក់សរុប៖</span><span id="totalAmount">0</span></div>
         </div>
-
-        <button class="btn btn-success" id="btnSubmit" onclick="submitBet()" style="width:100%; padding:10px; font-size:clamp(13px,1.4vw,15px);" disabled>
+        
+        <button class="btn btn-success" id="btnSubmitBet" onclick="submitQuickBet()" style="width:100%; padding:10px; font-size:clamp(14px, 1.6vw, 16px);" disabled>
           💳 ដាក់ប្រាក់តាម ABA / ACLEDA
         </button>
       </div>
 
-      <!-- ===== USER HISTORY ===== -->
+      <!-- ===== User Bet History ===== -->
       <div class="lottery-box">
         <div class="time-box" style="color:#6f42c1;">🕒 ប្រវត្តិចាក់របស់អ្នក</div>
-        <div style="overflow-x:auto; margin-top:6px;">
-          <table class="history-table">
-            <thead><tr style="background:linear-gradient(135deg,#6f42c1,#5a32a3);">
-              <th>កាលបរិច្ឆេទ</th><th>📱 លេខទូរស័ព្ទ</th><th>លេខចាក់</th><th>ប្រភេទ</th><th>ចំនួន</th><th>ស្ថានភាព</th><th>រង្វាន់</th>
-            </tr></thead>
-            <tbody id="userHistoryBody">
-              <tr><td colspan="7" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>
+        <div style="overflow-x:auto; margin-top:8px;">
+          <table class="history-table" style="background:#fff;">
+            <thead>
+              <tr style="background:linear-gradient(135deg, #6f42c1, #5a32a3);">
+                <th>កាលបរិច្ឆេទ</th><th>📱 លេខទូរស័ព្ទ</th><th>លេខចាក់</th><th>ប្រភេទ</th><th>ចំនួន</th><th>ស្ថានភាព</th><th>រង្វាន់</th>
+              </tr>
+            </thead>
+            <tbody id="userBetHistoryBody">
+              <tr><td colspan="7" style="color:#6c757d; padding:12px;">មិនទាន់មានប្រវត្តិ</td></tr>
             </tbody>
           </table>
         </div>
-        <div style="font-size:clamp(10px,1.1vw,11px); color:#dc3545; font-weight:600; margin-top:10px; padding:6px; background:#fff5f5; border:1px dashed #ffb3b3; border-radius:6px;">
-          ⚠️ ទិន្នន័យរក្សាទុកក្នុងកុំព្យូទ័ររបស់អ្នក ប្រើប៊ូតុង "ទាញយកទិន្នន័យ" ដើម្បីផ្ទេរទៅឧបករណ៍ផ្សេង
+        <div class="history-footer-note">
+          ⚠️ ទិន្នន័យរក្សាទុកក្នុងកុំព្យូទ័ររបស់អ្នក បើលុបវានឹងបាត់បង់។
         </div>
       </div>
 
-      <!-- ===== WITHDRAW ===== -->
+      <!-- ===== Withdraw ===== -->
       <div class="lottery-box">
         <div class="time-box">🦅 ដកប្រាក់</div>
-        <p style="font-size:clamp(11px,1.2vw,13px); color:#4a5568; margin:4px 0;">ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
+        <p style="font-size:clamp(12px, 1.3vw, 13.5px); color:#4a5568; margin:6px 0;">ដកប្រាក់បានបន្ទាប់ពីម៉ោង 12:00 និង 16:00៖</p>
         <div class="action-group">
-          <button class="btn btn-withdraw" onclick="openWithdraw('normal')">🦅 ដកទៀងទាត់</button>
-          <button class="btn btn-withdraw" onclick="openWithdraw('late')">⏰ ដកយឺត</button>
-          <button class="btn btn-telegram" onclick="contactAdmin()">✈️ ទាក់ទង</button>
+          <button class="btn btn-withdraw" onclick="openWithdrawModal('normal')">🦅 ដកប្រាក់ (ទៀងទាត់)</button>
+          <button class="btn btn-late-withdraw" onclick="openWithdrawModal('late')">⏰ ដកប្រាក់យឺត</button>
+          <button class="btn btn-telegram" onclick="contactAdminTelegram()">✈️ ទាក់ទងភ្នាក់ងារ</button>
         </div>
       </div>
     </div>
 
-    <!-- ===== HISTORY ===== -->
+    <!-- ===== History Section ===== -->
     <div id="historySection" style="display:none;">
       <div class="lottery-box">
         <div class="time-box">📊 ប្រវត្តិលទ្ធផល</div>
-        <div style="overflow-x:auto; margin-top:6px;">
+        <div style="overflow-x:auto; margin-top:8px;">
           <table class="history-table">
-            <thead><tr style="background:linear-gradient(135deg,#0078D7,#005fa3);">
-              <th>កាលបរិច្ឆេទ</th><th>ប្រភេទ</th><th>១២:០០</th><th>១៦:០០</th>
-            </tr></thead>
-            <tbody id="historyBody">
-              <tr><td colspan="4" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>
-            </tbody>
+            <thead>
+              <tr style="background:linear-gradient(135deg, #0078D7, #005fa3);">
+                <th>កាលបរិច្ឆេទ</th><th>ប្រភេទ</th><th>លទ្ធផល ១២:០០</th><th>លទ្ធផល ១៦:០០</th>
+              </tr>
+            </thead>
+            <tbody id="historyBody"></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ===== RULES ===== -->
+    <!-- ===== Rules Section ===== -->
     <div id="rulesSection" style="display:none;">
-      <div class="bet-box">
-        <h2>📋 ច្បាប់ និងរបៀបប្រើប្រាស់</h2>
-        <div style="padding:10px; font-size:clamp(12px,1.3vw,13px); line-height:1.8;">
-          <h4 style="color:#005fa3;">១. របៀបចាក់</h4>
-          <p>១. ជ្រើសរើសពេលវេលា (12:00 ឬ 16:00)</p>
-          <p>២. ជ្រើសរើសប្រភេទ (២ ឬ ៣ ខ្ទង់)</p>
-          <p>៣. ចុចជ្រើសរើស A, B, C, D, E</p>
-          <p>៤. បញ្ចូលលេខ ចុច "បន្ថែម"</p>
-          <p>៥. ជ្រើសរើសចំនួនទឹកប្រាក់</p>
-          <p>៦. ចុច "ដាក់ប្រាក់តាម ABA / ACLEDA"</p>
+      <div class="rules-section">
+        <h3>📋 ច្បាប់ និងរបៀបប្រើប្រាស់</h3>
+        
+        <h4>១. របៀបចាក់ឆ្នោត</h4>
+        <div class="step-highlight">១. ជ្រើសរើសពេលវេលា (12:00 ឬ 16:00)</div>
+        <div class="step-highlight">២. ជ្រើសរើសប្រភេទលេខ (២ ឬ ៣ ខ្ទង់)</div>
+        <div class="step-highlight">៣. ចុចជ្រើសរើស A, B, C, D, ឬ E</div>
+        <div class="step-highlight">៤. បញ្ចូលលេខ (អាចបញ្ចូលច្រើនក្នុងពេលតែមួយ) ចុច "បន្ថែម"</div>
+        <div class="step-highlight">៥. ជ្រើសរើសចំនួនទឹកប្រាក់</div>
+        <div class="step-highlight">៦. ចុច "ដាក់ប្រាក់តាម ABA / ACLEDA" បំពេញព័ត៌មាន</div>
 
-          <h4 style="color:#005fa3; margin-top:12px;">២. អត្រារង្វាន់</h4>
-          <p>• 12:00 - ២ខ្ទង់ (A-E) ៖ 1$ → 70$</p>
-          <p>• 16:00 - ៣ខ្ទង់ (A-E) ៖ 1$ → 500$</p>
-          <p>• ចាក់ពី 500៛/0.25$ ដល់ 40,000៛/10$</p>
+        <h4>២. ម៉ោងចាក់ និងអត្រារង្វាន់</h4>
+        <ul>
+          <li><strong>១២:០០</strong> - លេខ ២ខ្ទង់ (A-E) ៖ <strong>ចាក់ ១$ បាន ៧០$</strong></li>
+          <li><strong>១៦:០០</strong> - លេខ ៣ខ្ទង់ (A-E) ៖ <strong>ចាក់ ១$ បាន ៥០០$</strong></li>
+          <li>ចាក់បានពី ១០ ទៅ ៤០,០០០ រៀល (ឬ ០.២៥$ ដល់ ១០$)</li>
+        </ul>
 
-          <h4 style="color:#005fa3; margin-top:12px;">៣. របៀបដកប្រាក់</h4>
-          <p>• ទៀងទាត់៖ ដកបាន 12:00 ដល់ 22:00</p>
-          <p>• យឺត៖ សម្រាប់អ្នកភ្លេចដក</p>
-          <p>• សុពលភាព៖ ៣ ថ្ងៃគិតចាប់ពីពេលចេញលទ្ធផល</p>
-        </div>
+        <h4>៣. របៀបដកប្រាក់</h4>
+        <ul>
+          <li><strong>ទៀងទាត់</strong>៖ ដកបានបន្ទាប់ពីម៉ោង ១២:០០ ដល់ ២២:០០</li>
+          <li><strong>យឺត</strong>៖ សម្រាប់អ្នកភ្លេចដកក្នុងពេលកំណត់</li>
+          <li><strong>សុពលភាព</strong>៖ រង្វាន់មានសុពលភាព ៣ ថ្ងៃគិតចាប់ពីពេលចេញលទ្ធផល។ បើលើស ៣ ថ្ងៃ មិនអាចដកប្រាក់បានឡើយ។</li>
+        </ul>
+
+        <h4>៤. សុវត្ថិភាព</h4>
+        <ul>
+          <li>រក្សាទុកភស្តុតាង (Screenshot) ជានិច្ច</li>
+          <li>ទាក់ទងភ្នាក់ងារប្រសិនបើមានបញ្ហា</li>
+        </ul>
       </div>
     </div>
+  </section>
 
-  </div>
+  <footer>
+    <p>© 2026 Khmer Lottery N98 | ប្រព័ន្ធទិញលេខឆ្នោត និងទទួលបានរង្វាន់</p>
+  </footer>
 
-  <!-- ===== FOOTER ===== -->
-  <div class="footer">
-    © 2026 Khmer Lottery N98 | ប្រព័ន្ធទិញលេខឆ្នោត
-  </div>
-
-  <!-- ===== MODALS ===== -->
+  <!-- ====== 💳 Deposit Modal ====== -->
   <div class="modal" id="depositModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('depositModal')">&times;</span>
-      <h2 style="color:#0078D7;">💳 បញ្ជាក់ការទូទាត់</h2>
+      <h2>💳 បញ្ជាក់ការទូទាត់</h2>
       <form id="depositForm">
         <div class="bet-summary">
-          <div class="bet-summary-item"><span>🔢 លេខ៖</span><span id="confirmNumbers">-</span></div>
+          <div class="bet-summary-item"><span>🔢 លេខដែលបានជ្រើស៖</span><span id="confirmNumbers" style="font-weight:bold; color:#0078D7;">-</span></div>
           <div class="bet-summary-item total"><span>💵 សរុប៖</span><span id="confirmTotal">-</span></div>
         </div>
+
         <label>លេខទូរស័ព្ទ *</label>
-        <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ">
+        <input type="tel" id="depositPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" oninput="convertKhmerToGlobalNumber(this); checkInputsForAbaButton();">
+        
         <label>ធនាគារ *</label>
-        <select id="depBank" required>
-          <option value="">-- ជ្រើសរើស --</option>
+        <select id="depositBank" required onchange="toggleManualDepositBankInput()">
+          <option value="">-- ជ្រើសរើសធនាគារ --</option>
           <option value="ABA Bank">ABA Bank</option>
           <option value="ACLEDA Bank">ACLEDA Bank</option>
           <option value="Wing Bank">Wing Bank</option>
           <option value="TrueMoney">TrueMoney</option>
           <option value="Canadia Bank">Canadia Bank</option>
+          <option value="MANUAL">✍️ បញ្ចូលឈ្មោះដោយខ្លួន</option>
         </select>
-        <label>ឈ្មោះគណនី *</label>
-        <input type="text" id="depAccName" required placeholder="បញ្ចូលឈ្មោះគណនី">
-        <div class="bank-sub-group">
-          <a href="https://pay.ababank.com/oRF8/yi1odxjr" target="_blank" class="btn-bank btn-aba">🏦 ABA Bank</a>
-          <a href="https://acledabank.com.kh/acleda?payment_data=qWY5B2SAUfIhLblxzOtfu5ckLzMHjaSki6Ru0bsOyNK+ylPBgZ0sHH6BeGUscKoEvwWMQxRVuo9BvYnC+Eqn59mcNpvEDJ02Ykc2JeXeOQRBoJl+0Vgz3i7uyQ+CVBDyUOtXr3RaKb/Vh+YblnvX7lxl84B/WDqKJxbvUoSX43dvPirO3o6PgaJbR+2GLeVT0vQcWYuR0eqnnrc0x6xjBdGhYvdj5TxOPrC4Z/4gsl3ahJ1w6zTiFTKsYFcLFuCw&key=khqr" target="_blank" class="btn-bank btn-acleda">🏦 ACLEDA Bank</a>
+
+        <div id="manualDepositBankArea" style="display:none; margin-top:6px;">
+          <label style="color:#e65100;">✍️ ឈ្មោះធនាគារផ្សេងទៀត៖</label>
+          <input type="text" id="depositBankManual" placeholder="បញ្ចូលឈ្មោះធនាគារ..." oninput="checkInputsForAbaButton()">
         </div>
-        <label>ភស្តុតាង (Screenshot) *</label>
-        <input type="file" id="depScreenshot" accept="image/*" required>
-        <button type="submit" class="btn btn-success" style="width:100%; margin-top:12px;">បញ្ជាក់ការទូទាត់</button>
+        
+        <label>ឈ្មោះគណនី *</label>
+        <input type="text" id="depositAccountName" required placeholder="បញ្ចូលឈ្មោះគណនី" oninput="checkInputsForAbaButton()">
+
+        <div id="bankLinkArea" style="margin:8px 0;">
+          <label style="color:#0078D7;">⬇️ ចុចដើម្បីទូទាត់៖</label>
+          <div class="bank-sub-group">
+            <a href="https://pay.ababank.com/oRF8/yi1odxjr" target="_blank" class="btn-bank-choice btn-choice-aba disabled" id="btnLinkABA" onclick="enableScreenshotInput()">🏦 ABA Bank</a>
+            <a href="https://acledabank.com.kh/acleda?payment_data=qWY5B2SAUfIhLblxzOtfu5ckLzMHjaSki6Ru0bsOyNK+ylPBgZ0sHH6BeGUscKoEvwWMQxRVuo9BvYnC+Eqn59mcNpvEDJ02Ykc2JeXeOQRBoJl+0Vgz3i7uyQ+CVBDyUOtXr3RaKb/Vh+YblnvX7lxl84B/WDqKJxbvUoSX43dvPirO3o6PgaJbR+2GLeVT0vQcWYuR0eqnnrc0x6xjBdGhYvdj5TxOPrC4Z/4gsl3ahJ1w6zTiFTKsYFcLFuCw&key=khqr" target="_blank" class="btn-bank-choice btn-choice-acleda disabled" id="btnLinkAcleda" onclick="enableScreenshotInput()">🏦 ACLEDA Bank</a>
+          </div>
+        </div>
+        
+        <div id="screenshotArea" style="opacity:0.5; pointer-events:none; margin-top:10px;">
+          <label>ភស្តុតាង (Screenshot) *</label>
+          <input type="file" id="depositScreenshot" accept="image/*" required onchange="checkFinalSubmitButton()">
+        </div>
+
+        <button type="submit" class="btn btn-success" id="btnFinalDepositSubmit" style="width:100%; margin-top:15px;" disabled>បញ្ជាក់ការទូទាត់</button>
       </form>
+
+      <div class="instruction-box">
+        <h4>💡 ការណែនាំ</h4>
+        <ol>
+          <li>បញ្ចូលព័ត៌មានឱ្យបានត្រឹមត្រូវ</li>
+          <li>ចុចលើធនាគារដើម្បីចាប់ផ្តើមទូទាត់</li>
+          <li>ថតរូបភាពភស្តុតាង (Screenshot)</li>
+          <li>ចុច "បញ្ជាក់ការទូទាត់"</li>
+        </ol>
+      </div>
     </div>
   </div>
 
+  <!-- ====== 🦅 Withdraw Modal ====== -->
   <div class="modal" id="withdrawModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('withdrawModal')">&times;</span>
-      <h2 id="withdrawTitle" style="color:#0078D7;">🦅 ស្នើសុំដកប្រាក់</h2>
-      <div class="withdraw-notice" id="withdrawNotice">...</div>
+      <h2 id="withdrawModalTitle">🦅 ស្នើសុំដកប្រាក់</h2>
+      
+      <div class="withdraw-notice-box">
+        <span style="font-size:clamp(12px, 1.3vw, 13px); color:#4a5568; font-weight:bold;" id="withdrawNoticeDesc">...</span>
+      </div>
+      
       <form id="withdrawForm">
-        <label>ជ្រើសរើសលេខឈ្នះ *</label>
-        <select id="winSelect" required><option value="">-- ជ្រើសរើស --</option></select>
-        <div style="background:#e8f4fd; border:2px dashed #0078D7; padding:8px; border-radius:6px; margin:10px 0; text-align:center;">
-          <span style="font-weight:bold;">💵 រង្វាន់៖</span>
-          <span id="payoutDisplay" style="font-size:clamp(18px,2.5vw,22px); color:#28a745; font-weight:bold;">0.00</span>
+        <label>១. ជ្រើសរើសលេខឈ្នះ *</label>
+        <select id="withdrawSelectBet" onchange="onWithdrawBetSelected()" required>
+          <option value="">-- ជ្រើសរើសលេខ --</option>
+        </select>
+        <p style="font-size:clamp(11px, 1.2vw, 12px); color:#28a745; margin:2px 0 8px 0;" id="withdrawSelectedDetails"></p>
+        <p id="noWinningBetAlert" style="display:none; color:#dc3545; font-weight:bold; font-size:clamp(12px, 1.3vw, 13px); padding:6px; background:#fff0f0;">⚠️ មិនមានប្រវត្តិឈ្នះទេ</p>
+
+        <div style="background:#e8f4fd; border:2px dashed #0078D7; padding:10px; border-radius:8px; margin-bottom:12px; text-align:center;">
+          <span style="font-size:clamp(13px, 1.4vw, 14px); font-weight:bold; display:block;">💵 ចំនួនទឹកប្រាក់រង្វាន់៖</span>
+          <span id="payoutRewardDisplay" style="font-size:clamp(20px, 3vw, 24px); color:#28a745; font-weight:bold;">0.00</span>
         </div>
-        <label>លេខទូរស័ព្ទ *</label>
-        <input type="tel" id="wdPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ">
-        <label>ធនាគារ *</label>
-        <select id="wdBank" required>
-          <option value="">-- ជ្រើសរើស --</option>
+
+        <label>២. លេខទូរស័ព្ទ *</label>
+        <input type="tel" id="withdrawPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" oninput="convertKhmerToGlobalNumber(this)">
+        
+        <label>៣. ធនាគារ *</label>
+        <select id="withdrawBank" required onchange="toggleManualBankInput()">
+          <option value="">-- ជ្រើសរើសធនាគារ --</option>
           <option value="ABA Bank">ABA Bank</option>
           <option value="ACLEDA Bank">ACLEDA Bank</option>
           <option value="Wing Bank">Wing Bank</option>
           <option value="TrueMoney">TrueMoney</option>
           <option value="Canadia Bank">Canadia Bank</option>
+          <option value="Sathapana Bank">Sathapana Bank</option>
+          <option value="MANUAL">✍️ បញ្ចូលឈ្មោះដោយខ្លួន</option>
         </select>
-        <label>លេខគណនី *</label>
-        <input type="text" id="wdAccNo" required placeholder="បញ្ចូលលេខគណនី">
-        <label>ឈ្មោះគណនី *</label>
-        <input type="text" id="wdAccName" required placeholder="បញ្ចូលឈ្មោះគណនី">
-        <label>QR Code គណនី *</label>
-        <input type="file" id="wdQrCode" accept="image/*" required>
-        <button type="submit" class="btn btn-withdraw" style="width:100%; margin-top:10px;">🚀 បញ្ជាក់ដកប្រាក់</button>
+
+        <div id="manualBankInputArea" style="display:none; margin-top:6px;">
+          <label style="color:#e65100;">✍️ ឈ្មោះធនាគារ៖</label>
+          <input type="text" id="withdrawBankManual" placeholder="បញ្ចូលឈ្មោះធនាគារ...">
+        </div>
+
+        <label>៤. លេខគណនី *</label>
+        <input type="text" id="withdrawAccNo" placeholder="បញ្ចូលលេខគណនី" required oninput="convertKhmerToGlobalNumber(this)">
+        
+        <label>៥. ឈ្មោះគណនី *</label>
+        <input type="text" id="withdrawAccName" placeholder="បញ្ចូលឈ្មោះគណនី" required>
+
+        <div id="lateReasonArea" style="display:none;">
+          <label>៦. មូលហេតុយឺត *</label>
+          <select id="withdrawLateReason" onchange="toggleManualLateReason()">
+            <option value="ប្រព័ន្ធធនាគារមានបញ្ហា">ប្រព័ន្ធធនាគារមានបញ្ហា</option>
+            <option value="ភ្នាក់ងារយឺត">ភ្នាក់ងារយឺត</option>
+            <option value="ភ្លេចដក">ភ្លេចដក</option>
+            <option value="OTHER">✍️ ផ្សេងទៀត...</option>
+          </select>
+          <div id="manualLateReasonBox" style="margin-top:6px;">
+            <label style="color:#d63000; font-size:clamp(12px, 1.3vw, 13px);">✍️ បញ្ជាក់មូលហេតុ៖</label>
+            <textarea id="withdrawLateReasonManual" rows="2" placeholder="បញ្ជាក់មូលហេតុ..."></textarea>
+          </div>
+        </div>
+
+        <div id="lateHistoryArea" style="display:none;">
+          <label id="lblLateHistory">៧. ភស្តុតាងប្រវត្តិចាក់ (Screenshot) *</label>
+          <input type="file" id="withdrawLateHistory" accept="image/*">
+          <p style="font-size:clamp(11px, 1.2vw, 12px); color:#6c757d; margin-top:3px;">ថតរូបភាពប្រវត្តិចាក់ឆ្នោត</p>
+        </div>
+        
+        <label id="lblQrCode">៦. QR Code គណនី *</label>
+        <input type="file" id="withdrawQrCode" accept="image/*" required>
+        
+        <input type="hidden" id="withdrawRequestType" value="normal">
+        <button type="submit" class="btn btn-withdraw" id="btnSubmitWithdraw" style="width:100%; margin-top:12px;" disabled>🚀 បញ្ជាក់ដកប្រាក់</button>
       </form>
+
+      <div class="withdraw-instruction-box" id="withdrawInstructionBox">
+        <h4 id="withdrawInstructionTitle">💡 ការណែនាំ</h4>
+        <ol id="withdrawInstructionList"></ol>
+      </div>
     </div>
   </div>
 
-  <div class="modal" id="groupModal">
+  <!-- ====== 📢 Announce Group Modal ====== -->
+  <div class="modal" id="announceGroupModal">
     <div class="modal-content" style="text-align:center;">
-      <span class="close" onclick="closeModal('groupModal')">&times;</span>
-      <div style="font-size:44px;">📢</div>
-      <h2 style="color:#0078D7;">ចូលក្រុម Telegram</h2>
-      <p style="font-size:clamp(12px,1.3vw,14px); color:#4a5568; margin:10px 0;">ទទួលបានព័ត៌មានថ្មីៗ!</p>
-      <a href="https://t.me/+LK-keKzRqPcxYmM1" target="_blank" class="btn btn-telegram" style="width:100%; padding:10px; text-decoration:none;">👉 ចុចចូលក្រុម</a>
+      <span class="close" onclick="closeModal('announceGroupModal')">&times;</span>
+      <div style="font-size:50px; margin-bottom:8px;">📢</div>
+      <h2 style="color:#0078D7; margin-bottom:8px;">ចូលក្រុម Telegram</h2>
+      <p style="font-size:clamp(13px, 1.5vw, 14.5px); color:#4a5568; line-height:1.6; margin-bottom:15px;">
+        ចូលក្រុមដើម្បីទទួលបានព័ត៌មានថ្មីៗអំពីលទ្ធផលឆ្នោត!
+      </p>
+      <a href="https://t.me/+LK-keKzRqPcxYmM1" target="_blank" class="btn btn-telegram" style="width:100%; padding:10px; font-size:clamp(14px, 1.6vw, 16px); border-radius:10px; text-decoration:none;">
+        👉 ចុចចូលក្រុម (Telegram)
+      </a>
     </div>
   </div>
 
-  <div class="modal" id="alertModal">
-    <div class="modal-content alert-modal">
-      <span class="alert-icon" id="alertIcon">🔔</span>
-      <h3 class="alert-title" id="alertTitle">ការជូនដំណឹង</h3>
-      <p class="alert-message" id="alertMessage">សារសំខាន់...</p>
-      <button class="btn btn-primary" onclick="closeModal('alertModal')" style="padding:8px 24px; border-radius:20px;">យល់ព្រម</button>
+  <!-- ====== ✈️ Agent Modal ====== -->
+  <div class="modal" id="agentModal">
+    <div class="modal-content" style="text-align:center;">
+      <span class="close" onclick="closeModal('agentModal')">&times;</span>
+      <div style="font-size:50px; margin-bottom:8px;">✈️</div>
+      <h2 style="color:#0078D7; margin-bottom:8px;">ទាក់ទងភ្នាក់ងារ</h2>
+      <p style="font-size:clamp(13px, 1.5vw, 14.5px); color:#4a5568; line-height:1.6; margin-bottom:15px;">
+        ទំនាក់ទំនងមកភ្នាក់ងារប្រសិនបើមានបញ្ហា។
+      </p>
+      <button class="btn btn-telegram" onclick="contactAdminTelegram()" style="width:100%; padding:10px; font-size:clamp(14px, 1.6vw, 16px); border-radius:10px;">
+        💬 ទាក់ទង (@Sreypich8889999)
+      </button>
     </div>
   </div>
 
-  <!-- ============================================================ -->
+  <!-- ====== Custom Alert Modal ====== -->
+  <div class="modal" id="customAlertModal">
+    <div class="modal-content alert-modal-content">
+      <span class="alert-icon" id="customAlertIcon">🔔</span>
+      <h3 class="alert-title" id="customAlertTitle">ការជូនដំណឹង</h3>
+      <p class="alert-message" id="customAlertMessage">សារសំខាន់...</p>
+      <div id="customAlertButtons" style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn btn-primary" id="btnModalConfirm" onclick="closeModal('customAlertModal')" style="padding:8px 20px; border-radius:20px;">យល់ព្រម</button>
+        <button class="btn btn-telegram" id="btnModalAgent" onclick="contactAdminTelegram()" style="padding:8px 20px; border-radius:20px; display:none;">✈️ ទាក់ទង</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // ================================================================
-    // TELEGRAM CONFIG
-    // ================================================================
-    const TELEGRAM = {
-      BET_TOKEN: '8603184541:AAHmaJnY057ywvAhh04p1NfrIYiBPo8p8TI',
-      BET_CHAT: '-1003922702406',
-      WITHDRAW_TOKEN: '8822939753:AAHHgovBXqIyDPw9fBvvHG7M2oyaIGYhFIo',
-      WITHDRAW_CHAT: '-5142906656',
-      RESULT_TOKEN: '8404060424:AAFSc2A5tAlEsmzOebSizHw2BHOy-Bnb834',
-      RESULT_CHAT: '-1004337529817'
+    // ===== TELEGRAM CONFIGURATIONS =====
+    const TELEGRAM_BET_CONFIG = {
+      token: '8603184541:AAHmaJnY057ywvAhh04p1NfrIYiBPo8p8TI',
+      chatId: '-1003922702406'
     };
 
-    // ================================================================
-    // STATE
-    // ================================================================
-    let selectedTime = '12:00';
-    let betType = 'two';
-    let selectedLetter = '';
-    let numbers = [];
-    let amount = 0;
-    let currency = 'USD';
-    let isProcessing = false;
+    const TELEGRAM_WITHDRAW_CONFIG = {
+      token: '8822939753:AAHHgovBXqIyDPw9fBvvHG7M2oyaIGYhFIo',
+      chatId: '-5142906656'
+    };
 
-    // ================================================================
-    // DATA MANAGEMENT (localStorage)
-    // ================================================================
-    function getBets() {
-      try {
-        return JSON.parse(localStorage.getItem('lottery_bets') || '[]');
-      } catch { return []; }
+    const TELEGRAM_RESULT_CONFIG = {
+      token: '8404060424:AAFSc2A5tAlEsmzOebSizHw2BHOy-Bnb834',
+      chatId: '-1004476774053'
+    };
+
+    // ===== Declare variables =====
+    let selectedDrawTime = '12:00';
+    let isProcessingResults = false;
+    let resultSentToday = false;
+    let lastResultCheckTime = 0;
+
+    // ===== Alias for Telegram config =====
+    const TELEGRAM_CONFIG = {
+        BET_TOKEN: TELEGRAM_BET_CONFIG.token,
+        BET_CHAT_ID: TELEGRAM_BET_CONFIG.chatId,
+        WITHDRAW_TOKEN: TELEGRAM_WITHDRAW_CONFIG.token,
+        WITHDRAW_CHAT_ID: TELEGRAM_WITHDRAW_CONFIG.chatId,
+        RESULT_TOKEN: TELEGRAM_RESULT_CONFIG.token,
+        RESULT_CHAT_ID: TELEGRAM_RESULT_CONFIG.chatId
+    };
+
+    // ===== Telegram send functions =====
+    async function sendTelegramMessage(token, chatId, text) {
+        const url = `https://api.telegram.org/bot${token}/sendMessage`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: text,
+                parse_mode: 'HTML'
+            })
+        });
+        return response;
     }
 
-    function saveBets(bets) {
-      localStorage.setItem('lottery_bets', JSON.stringify(bets));
+    async function sendTelegramPhoto(token, chatId, photoFile, caption) {
+        const formData = new FormData();
+        formData.append('chat_id', chatId);
+        formData.append('photo', photoFile);
+        formData.append('caption', caption);
+        formData.append('parse_mode', 'HTML');
+
+        const url = `https://api.telegram.org/bot${token}/sendPhoto`;
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData
+        });
+        return response;
     }
 
-    function getResults() {
-      try {
-        return JSON.parse(localStorage.getItem('lottery_results') || '[]');
-      } catch { return []; }
+    let currentBetType = 'two'; 
+    let selectedLetter = ''; 
+    let betNumbers = [];
+    let quickAmount = 0; 
+    let quickCurrency = 'USD';
+
+    // ===== Convert Khmer digits =====
+    function convertKhmerToGlobalNumber(input) {
+        if (!input) return;
+        const khmerDigits = ['០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩'];
+        let val = input.value;
+        for (let i = 0; i < 10; i++) {
+            val = val.replace(new RegExp(khmerDigits[i], 'g'), i);
+        }
+        input.value = val;
     }
 
-    function saveResults(results) {
-      localStorage.setItem('lottery_results', JSON.stringify(results));
-    }
-
-    function addBet(bet) {
-      const bets = getBets();
-      bets.unshift(bet);
-      saveBets(bets);
-      return bets;
-    }
-
-    function updateBet(id, updates) {
-      const bets = getBets();
-      const idx = bets.findIndex(b => b.id === id);
-      if (idx !== -1) {
-        bets[idx] = { ...bets[idx], ...updates };
-        saveBets(bets);
-        return true;
-      }
-      return false;
-    }
-
-    // ================================================================
-    // EXPORT / IMPORT DATA
-    // ================================================================
-    function exportData() {
-      const data = {
-        version: '1.0',
-        exportedAt: new Date().toISOString(),
-        bets: getBets(),
-        results: getResults()
-      };
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `lottery_data_${new Date().toISOString().split('T')[0]}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      showAlert('ជោគជ័យ', '✅ ទិន្នន័យត្រូវបានទាញយករួចរាល់!', '📥');
-    }
-
-    function importData(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const data = JSON.parse(e.target.result);
-          if (!data.bets || !data.results) {
-            showAlert('កំហុស', '❌ ឯកសារមិនត្រឹមត្រូវ!', '❌');
+    // ===== Format number input with auto comma =====
+    function formatNumberInput(input) {
+        convertKhmerToGlobalNumber(input);
+        let val = input.value.replace(/[^0-9]/g, '');
+        
+        if (val.length === 0) {
+            input.value = '';
             return;
-          }
-          if (confirm('តើអ្នកចង់ជំនួសទិន្នន័យបច្ចុប្បន្នទាំងអស់មែនទេ?')) {
-            saveBets(data.bets);
-            saveResults(data.results);
-            renderUserBets();
-            renderHistory();
-            checkResults();
-            showAlert('ជោគជ័យ', '✅ ទិន្នន័យត្រូវបាននាំចូលរួចរាល់!', '📤');
-          }
-        } catch (err) {
-          showAlert('កំហុស', '❌ មិនអាចអានឯកសារបាន!', '❌');
         }
-      };
-      reader.readAsText(file);
-      event.target.value = '';
+        
+        const reqLen = currentBetType === 'two' ? 2 : 3;
+        let formatted = '';
+        
+        for (let i = 0; i < val.length; i += reqLen) {
+            if (i > 0) formatted += ',';
+            let chunk = val.substring(i, i + reqLen);
+            if (chunk.length === reqLen) {
+                formatted += chunk;
+            } else {
+                formatted += chunk;
+            }
+        }
+        
+        input.value = formatted;
     }
 
-    // ================================================================
-    // HELPERS
-    // ================================================================
-    function getReqLen() { return betType === 'two' ? 2 : 3; }
+    // ===== Custom Alert =====
+    function customAlert(title, message, icon = '🔔', showAgentBtn = false, confirmCallback = null) {
+        document.getElementById('customAlertIcon').innerText = icon;
+        document.getElementById('customAlertTitle').innerText = title;
+        document.getElementById('customAlertMessage').innerText = message;
+        
+        const agentBtn = document.getElementById('btnModalAgent');
+        agentBtn.style.display = showAgentBtn ? 'inline-flex' : 'none';
 
-    function showAlert(title, msg, icon = '🔔') {
-      document.getElementById('alertIcon').textContent = icon;
-      document.getElementById('alertTitle').textContent = title;
-      document.getElementById('alertMessage').textContent = msg;
-      document.getElementById('alertModal').style.display = 'block';
+        const confirmBtn = document.getElementById('btnModalConfirm');
+        confirmBtn.onclick = function() {
+            closeModal('customAlertModal');
+            if (typeof confirmCallback === 'function') {
+                confirmCallback();
+            }
+        };
+
+        document.getElementById('customAlertModal').style.display = 'block';
     }
 
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-    function showSection(name) {
-      document.getElementById('homeSection').style.display = name === 'home' ? 'block' : 'none';
-      document.getElementById('historySection').style.display = name === 'history' ? 'block' : 'none';
-      document.getElementById('rulesSection').style.display = name === 'rules' ? 'block' : 'none';
-      document.querySelectorAll('.nav-bar a').forEach(a => a.classList.remove('active'));
-      if (event && event.target) event.target.classList.add('active');
+    function copyWebsiteLink() {
+        const url = window.location.href;
+        navigator.clipboard.writeText(url).then(() => {
+            customAlert("ជោគជ័យ!", "📋 បានចម្លងទំព័រដោយជោគជ័យ!", "🔗");
+        }).catch(err => {
+            customAlert("បរាជ័យ", "🌐 ចម្លងដោយខ្លួនឯង៖\n" + url, "🔗");
+        });
     }
 
-    function copyLink() {
-      const url = window.location.href;
-      navigator.clipboard.writeText(url).then(() => showAlert('ជោគជ័យ!', '📋 បានចម្លងទំព័រ!', '🔗'))
-        .catch(() => showAlert('បរាជ័យ', '🌐 ចម្លងដោយខ្លួនឯង៖\n' + url, '🔗'));
+    function contactAdminTelegram() {
+        window.open("https://t.me/Sreypich8889999", "_blank");
     }
 
-    function contactAdmin() { window.open('https://t.me/Sreypich8889999', '_blank'); }
-    function openGroup() { document.getElementById('groupModal').style.display = 'block'; }
-
-    // ================================================================
-    // TELEGRAM
-    // ================================================================
-    async function sendPhoto(token, chatId, file, caption) {
-      const fd = new FormData();
-      fd.append('chat_id', chatId);
-      fd.append('photo', file);
-      fd.append('caption', caption);
-      fd.append('parse_mode', 'HTML');
-      return fetch(`https://api.telegram.org/bot${token}/sendPhoto`, { method: 'POST', body: fd });
+    function openAnnounceGroupModal() {
+        document.getElementById('announceGroupModal').style.display = 'block';
     }
 
-    async function sendMsg(token, chatId, text) {
-      return fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: 'HTML' })
-      });
+    // ===== Clean old data =====
+    function cleanOldData() {
+        try {
+            let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+            if (history.length > 0) {
+                const threeDaysAgo = new Date();
+                threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+                
+                history = history.filter(item => {
+                    const itemDate = new Date(item.date);
+                    return itemDate >= threeDaysAgo;
+                });
+                
+                history = history.map(item => {
+                    if (item.sent12 === undefined) item.sent12 = false;
+                    if (item.sent16 === undefined) item.sent16 = false;
+                    return item;
+                });
+                
+                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            }
+
+            let userBets = JSON.parse(localStorage.getItem('khmer_lottery_user_bets') || '[]');
+            if (userBets.length > 0) {
+                const threeDaysAgo = new Date();
+                threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
+
+                userBets = userBets.filter(bet => {
+                    const betDate = new Date(bet.date);
+                    return betDate >= threeDaysAgo;
+                });
+                localStorage.setItem('khmer_lottery_user_bets', JSON.stringify(userBets));
+            }
+        } catch (e) {
+            console.error("Error cleaning old data", e);
+        }
     }
 
-    // ================================================================
-    // BET FUNCTIONS
-    // ================================================================
-    function setTime(t) {
-      selectedTime = t;
-      document.querySelectorAll('.time-selector .time-btn').forEach(b => b.classList.remove('active'));
-      if (event && event.target) event.target.classList.add('active');
-      updateConfig();
+    function updateConfigDisplayBox() {
+        const timeText = selectedDrawTime === '12:00' ? '12:00' : '16:00';
+        const typeText = currentBetType === 'two' ? '២ ខ្ទង់' : '៣ ខ្ទង់';
+        document.getElementById('selectedConfigDisplayBadge').innerText = `${timeText} | ${typeText}`;
     }
 
-    function setType(t) {
-      betType = t;
-      document.querySelectorAll('.type-selector .type-btn').forEach(b => b.classList.remove('active'));
-      if (event && event.target) event.target.classList.add('active');
-      numbers = [];
-      updateDisplay();
-      updateConfig();
-      const inp = document.getElementById('numInput');
-      if (selectedLetter) {
-        inp.placeholder = t === 'two' ? 'បញ្ចូល ២ខ្ទង់ (ឧ. 01,02)' : 'បញ្ចូល ៣ខ្ទង់ (ឧ. 123,456)';
-      }
-    }
-
-    function updateConfig() {
-      document.getElementById('configBadge').textContent =
-        `${selectedTime} | ${betType === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}`;
-    }
-
-    function selectLetter(l) {
-      selectedLetter = l;
-      document.querySelectorAll('.letter-circle').forEach(el => el.classList.remove('active'));
-      if (event && event.target) event.target.classList.add('active');
-      const inp = document.getElementById('numInput');
-      inp.disabled = false;
-      inp.placeholder = betType === 'two' ? `បញ្ចូល ២ខ្ទង់សម្រាប់ ${l}` : `បញ្ចូល ៣ខ្ទង់សម្រាប់ ${l}`;
-      inp.focus();
-      document.getElementById('btnAdd').disabled = false;
-    }
-
-    function formatInput() {
-      const inp = document.getElementById('numInput');
-      let val = inp.value.replace(/[^0-9]/g, '');
-      const len = getReqLen();
-      let parts = [];
-      for (let i = 0; i < val.length; i += len) {
-        let chunk = val.substring(i, i + len);
-        if (chunk.length === len) parts.push(chunk);
-        else if (chunk.length > 0) parts.push(chunk);
-      }
-      inp.value = parts.join(',');
-    }
-
-    document.getElementById('numInput').addEventListener('input', formatInput);
-
-    function addNumber() {
-      const inp = document.getElementById('numInput');
-      let raw = inp.value.trim();
-      if (!selectedLetter) { showAlert('ការព្រមាន', 'សូមជ្រើសរើស A-E ជាមុន!', '⚠️'); return; }
-      if (!raw) { showAlert('ការព្រមាន', 'សូមបញ្ចូលលេខ!', '⚠️'); return; }
-
-      const len = getReqLen();
-      let items = raw.split(',').map(s => s.trim().replace(/[^0-9]/g, ''));
-      let valid = items.filter(s => s.length === len);
-
-      if (valid.length === 0) { showAlert('ការព្រមាន', `សូមបញ្ចូលលេខ ${len} ខ្ទង់!`, '⚠️'); return; }
-
-      let added = 0;
-      for (let n of valid) {
-        if (numbers.length >= 10) { showAlert('ការព្រមាន', 'ចាក់បានត្រឹមតែ 10 លេខ!', '⚠️'); break; }
-        const tag = `${selectedLetter}:${n}`;
-        if (!numbers.includes(tag)) { numbers.push(tag); added++; }
-      }
-      inp.value = '';
-      updateDisplay();
-      inp.focus();
-    }
-
-    function removeNum(idx) {
-      numbers.splice(idx, 1);
-      updateDisplay();
-    }
-
-    function updateDisplay() {
-      const container = document.getElementById('selectedDisplay');
-      const countEl = document.getElementById('countDisplay');
-      if (numbers.length === 0) {
-        container.innerHTML = '<span style="color:#6c757d; font-size:clamp(11px,1.2vw,12px);">មិនទាន់មានលេខ</span>';
-        countEl.textContent = '0';
-      } else {
-        container.innerHTML = numbers.map((n, i) =>
-          `<span class="selected-tag">${n} <span class="remove" onclick="removeNum(${i})">&times;</span></span>`
-        ).join('');
-        countEl.textContent = numbers.length;
-      }
-      updateSummary();
-    }
-
-    function setAmount(val, sym) {
-      document.getElementById('amountInput').value = val;
-      document.getElementById('currencySelect').value = sym === '$' ? 'USD' : 'KHR';
-      updateAmount();
-    }
-
-    function updateAmount() {
-      const v = parseFloat(document.getElementById('amountInput').value);
-      const c = document.getElementById('currencySelect').value;
-      amount = isNaN(v) || v <= 0 ? 0 : v;
-      currency = c;
-      const warn = document.getElementById('limitWarning');
-      if (amount > 0) {
-        if (currency === 'USD') {
-          warn.style.display = (amount < 0.25 || amount > 10) ? 'block' : 'none';
+    function setBetType(type) {
+        currentBetType = type;
+        document.getElementById('btnTypeTwo').classList.toggle('active', type === 'two');
+        document.getElementById('btnTypeThree').classList.toggle('active', type === 'three');
+        
+        if(type === 'two') {
+            setDrawTime('12:00');
         } else {
-          warn.style.display = (amount < 500 || amount > 40000) ? 'block' : 'none';
+            setDrawTime('16:00');
         }
-      } else { warn.style.display = 'none'; }
-      updateSummary();
+
+        betNumbers = [];
+        updateSelectedDisplay();
+        updateConfigDisplayBox();
+        
+        const numInput = document.getElementById('numberInput');
+        if (selectedLetter) {
+            numInput.placeholder = type === 'two' ? 'បញ្ចូលលេខ ២ខ្ទង់ (ឧ. 12,13 ឬ 1213)' : 'បញ្ចូលលេខ ៣ខ្ទង់ (ឧ. 123,456 ឬ 123456)';
+        }
+    }
+
+    function setDrawTime(time) {
+        selectedDrawTime = time;
+        document.getElementById('btnTime12').classList.toggle('active', time === '12:00');
+        document.getElementById('btnTime16').classList.toggle('active', time === '16:00');
+        updateConfigDisplayBox();
+    }
+
+    function selectLetter(letter) {
+        selectedLetter = letter;
+        ['A','B','C','D','E'].forEach(l => {
+            const el = document.getElementById(`circle_${l}`);
+            if(el) el.classList.toggle('active', l === letter);
+        });
+        const input = document.getElementById('numberInput');
+        input.disabled = false;
+        input.placeholder = currentBetType === 'two' ? `បញ្ចូលលេខ ២ខ្ទង់សម្រាប់ ${letter}` : `បញ្ចូលលេខ ៣ខ្ទង់សម្រាប់ ${letter}`;
+        input.focus();
+        document.getElementById('btnAddNumber').disabled = false;
+    }
+
+    function addBetNumber() {
+        const input = document.getElementById('numberInput');
+        let rawVal = input.value.trim();
+        
+        if (!selectedLetter) {
+            customAlert("ការព្រមាន", "សូមជ្រើសរើស A, B, C, D, E ជាមុន!", "⚠️");
+            return;
+        }
+
+        if (!rawVal) {
+            customAlert("ការព្រមាន", "សូមបញ្ចូលលេខ!", "⚠️");
+            return;
+        }
+
+        const reqLength = currentBetType === 'two' ? 2 : 3;
+        let cleanVal = rawVal.replace(/,/g, '');
+        let rawArray = [];
+        
+        if (!rawVal.includes(',')) {
+            for (let i = 0; i < cleanVal.length; i += reqLength) {
+                let chunk = cleanVal.substring(i, i + reqLength);
+                if (chunk.length === reqLength) {
+                    rawArray.push(chunk);
+                }
+            }
+        } else {
+            rawArray = rawVal.split(',').map(s => s.trim());
+        }
+        
+        let validNumbersToAdd = [];
+
+        for (let item of rawArray) {
+            let cleanItem = item.replace(/[^0-9]/g, '');
+            if (cleanItem.length === reqLength) {
+                validNumbersToAdd.push(cleanItem);
+            }
+        }
+
+        if (validNumbersToAdd.length === 0) {
+            customAlert("ការព្រមាន", `សូមបញ្ចូលលេខ ${reqLength} ខ្ទង់!`, "⚠️");
+            return;
+        }
+
+        let addedCount = 0;
+        for (let numStr of validNumbersToAdd) {
+            if (betNumbers.length >= 10) {
+                customAlert("ការព្រមាន", "ចាក់បានត្រឹមតែ 10 លេខ!", "⚠️");
+                break;
+            }
+
+            const formatted = `${selectedLetter}:${numStr}`;
+            if (!betNumbers.includes(formatted)) {
+                betNumbers.push(formatted);
+                addedCount++;
+            }
+        }
+
+        input.value = '';
+        updateSelectedDisplay();
+        input.focus();
+    }
+
+    function removeBetNumber(index) {
+        betNumbers.splice(index, 1);
+        updateSelectedDisplay();
+    }
+
+    function updateSelectedDisplay() {
+        const container = document.getElementById('selectedNumbersDisplay');
+        const countEl = document.getElementById('selectedCount');
+        
+        if (betNumbers.length === 0) {
+            container.innerHTML = '<span style="color:#6c757d; font-size:clamp(12px, 1.3vw, 13px);">មិនទាន់មានលេខ</span>';
+            countEl.innerText = '0';
+        } else {
+            container.innerHTML = betNumbers.map((num, idx) => `
+                <span class="selected-number-tag">
+                    ${num}
+                    <span class="remove" onclick="removeBetNumber(${idx})">&times;</span>
+                </span>
+            `).join('');
+            countEl.innerText = betNumbers.length;
+        }
+        
+        updateSummary();
+    }
+
+    function selectQuickAmount(amount, currencySymbol) {
+        document.getElementById('quickAmountInput').value = amount;
+        document.getElementById('quickCurrency').value = (currencySymbol === '$' ? 'USD' : 'KHR');
+        updateQuickAmountDisplay();
+    }
+
+    function updateQuickAmountDisplay() {
+        const amountVal = parseFloat(document.getElementById('quickAmountInput').value);
+        const currencyVal = document.getElementById('quickCurrency').value;
+
+        if (isNaN(amountVal) || amountVal <= 0) {
+            quickAmount = 0;
+        } else {
+            quickAmount = amountVal;
+        }
+        quickCurrency = currencyVal;
+
+        const warningEl = document.getElementById('limitWarning');
+        if (quickAmount > 0) {
+            if (quickCurrency === 'USD') {
+                if (quickAmount < 0.25 || quickAmount > 10) {
+                    warningEl.style.display = 'block';
+                } else {
+                    warningEl.style.display = 'none';
+                }
+            } else {
+                if (quickAmount < 500 || quickAmount > 40000) {
+                    warningEl.style.display = 'block';
+                } else {
+                    warningEl.style.display = 'none';
+                }
+            }
+        } else {
+            warningEl.style.display = 'none';
+        }
+
+        updateSummary();
     }
 
     function updateSummary() {
-      const cnt = numbers.length;
-      document.getElementById('totalCount').textContent = cnt;
-      let valid = false;
-      if (currency === 'USD') valid = (amount >= 0.25 && amount <= 10);
-      else valid = (amount >= 500 && amount <= 40000);
-      const total = cnt * amount;
-      const display = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
-      document.getElementById('totalAmountDisplay').textContent = display;
-      document.getElementById('btnSubmit').disabled = !(cnt > 0 && valid && amount > 0);
-    }
-
-    // ================================================================
-    // SUBMIT BET
-    // ================================================================
-    function submitBet() {
-      if (numbers.length === 0) { showAlert('ការព្រមាន', 'សូមជ្រើសរើសយ៉ាងហោចណាស់មួយលេខ!', '⚠️'); return; }
-      const total = numbers.length * amount;
-      const display = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
-      document.getElementById('confirmNumbers').textContent = numbers.join(', ');
-      document.getElementById('confirmTotal').textContent = display;
-      document.getElementById('depositModal').style.display = 'block';
-    }
-
-    document.getElementById('depositForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const phone = document.getElementById('depPhone').value.trim();
-      const bank = document.getElementById('depBank').value;
-      const name = document.getElementById('depAccName').value.trim();
-      const file = document.getElementById('depScreenshot');
-
-      if (!phone || !bank || !name || !file.files[0]) {
-        showAlert('ការព្រមាន', 'សូមបំពេញព័ត៌មាន និងភ្ជាប់ភស្តុតាង!', '⚠️');
-        return;
-      }
-
-      const total = numbers.length * amount;
-      const per = currency === 'USD' ? `${amount}$` : `${amount}៛`;
-      const totalD = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
-      const now = new Date();
-      const exp = new Date(now);
-      exp.setDate(exp.getDate() + 3);
-
-      const bet = {
-        id: 'BET-' + Date.now(),
-        date: now.toISOString(),
-        dateStr: now.toLocaleDateString('km-KH'),
-        drawTime: selectedTime,
-        phone: phone,
-        numbers: [...numbers],
-        type: betType,
-        amount: amount,
-        currency: currency,
-        total: total,
-        bank: bank,
-        name: name,
-        status: 'pending',
-        claimed: false,
-        expire: exp.toISOString()
-      };
-
-      const btn = e.target.querySelector('button[type="submit"]');
-      btn.disabled = true;
-      btn.textContent = 'កំពុងបញ្ជូន...';
-
-      // Save to localStorage
-      addBet(bet);
-
-      // Send to Telegram
-      const msg = `🎯 <b>ការចាក់ឆ្នោតថ្មី</b>\n\n` +
-        `🕒 ពេល: <b>${selectedTime}</b>\n` +
-        `📱 ទូរស័ព្ទ: <code>${phone}</code>\n` +
-        `🏦 ធនាគារ: ${bank}\n` +
-        `👤 ឈ្មោះ: ${name}\n` +
-        `🔢 ប្រភេទ: ${betType === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}\n` +
-        `🎯 លេខ: <b>${numbers.join(', ')}</b>\n` +
-        `💵 ក្នុងមួយលេខ: ${per}\n` +
-        `💰 សរុប: <b>${totalD}</b>\n` +
-        `⏰ ចាក់: ${bet.dateStr}\n` +
-        `⏳ ផុតកំណត់: ${exp.toLocaleDateString('km-KH')} (៣ថ្ងៃ)`;
-
-      try {
-        const res = await sendPhoto(TELEGRAM.BET_TOKEN, TELEGRAM.BET_CHAT, file.files[0], msg);
-        const data = await res.json();
-        if (data.ok) {
-          showAlert('ជោគជ័យ', '✅ ការចាក់ឆ្នោតត្រូវបានបញ្ជូន!', '🎉');
-          closeModal('depositModal');
-          numbers = [];
-          updateDisplay();
-          renderUserBets();
-          document.getElementById('depositForm').reset();
+        const totalCount = betNumbers.length;
+        document.getElementById('totalSelected').innerText = totalCount;
+        
+        let isAmountValid = false;
+        if (quickCurrency === 'USD') {
+            isAmountValid = (quickAmount >= 0.25 && quickAmount <= 10);
         } else {
-          showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការបញ្ជូនទៅ Telegram!', '❌');
+            isAmountValid = (quickAmount >= 500 && quickAmount <= 40000);
         }
-      } catch (err) {
-        showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការតភ្ជាប់!', '❌');
-      }
-      btn.disabled = false;
-      btn.textContent = 'បញ្ជាក់ការទូទាត់';
-    });
 
-    // ================================================================
-    // RENDER USER BETS
-    // ================================================================
-    function renderUserBets() {
-      const bets = getBets();
-      const tbody = document.getElementById('userHistoryBody');
-      const now = new Date();
-      let updated = false;
+        const totalAmt = totalCount * quickAmount;
+        const displayTotal = quickCurrency === 'USD' 
+            ? `${totalAmt.toFixed(2)}$` 
+            : `${totalAmt.toLocaleString()}៛`;
+        
+        document.getElementById('totalAmount').innerText = displayTotal;
 
-      bets.forEach(b => {
-        if (b.status === 'pending' && b.expire) {
-          if (new Date(b.expire) < now) { b.status = 'expired';
-            updated = true; }
-        }
-      });
-      if (updated) saveBets(bets);
-
-      if (bets.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = bets.map(b => {
-        const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
-        let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
-        let reward = '-';
-        if (b.status === 'win') {
-          badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
-          if (b.claimed) badge += ' <span style="background:#6c757d;color:#fff;padding:1px 6px;border-radius:4px;font-size:10px;">ដក</span>';
-          else badge += ' <span style="background:#ffc107;color:#000;padding:1px 6px;border-radius:4px;font-size:10px;">អាចដក</span>';
-          const payout = b.type === 'two' ? b.amount * 70 : b.amount * 500;
-          reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
-        } else if (b.status === 'loss') {
-          badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
-        } else if (b.status === 'expired') {
-          badge = '<span class="status-badge status-loss">⏰ ផុតកំណត់</span>';
-        }
-        return `<tr>
-          <td>${b.dateStr} (${b.drawTime})</td>
-          <td><code>${b.phone}</code></td>
-          <td><strong style="color:#0078D7;">${b.numbers.join(', ')}</strong></td>
-          <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
-          <td>${amt}</td>
-          <td>${badge}</td>
-          <td>${reward}</td>
-        </tr>`;
-      }).join('');
-    }
-
-    // ================================================================
-    // WITHDRAW
-    // ================================================================
-    function openWithdraw(mode) {
-      const modal = document.getElementById('withdrawModal');
-      const title = document.getElementById('withdrawTitle');
-      const notice = document.getElementById('withdrawNotice');
-      if (mode === 'late') {
-        title.textContent = '⏰ ដកប្រាក់យឺត';
-        notice.innerHTML = '⚠️ <strong>យឺតពេលកំណត់</strong> សុពលភាព ៣ ថ្ងៃ';
-      } else {
-        title.textContent = '🦅 ដកប្រាក់ទៀងទាត់';
-        notice.innerHTML = '✅ ដកបាន 12:00 ដល់ 22:00 សុពលភាព ៣ ថ្ងៃ';
-      }
-      populateWinSelect();
-      modal.style.display = 'block';
-    }
-
-    function populateWinSelect() {
-      const bets = getBets();
-      const sel = document.getElementById('winSelect');
-      const now = new Date();
-      const wins = bets.filter(b => {
-        if (b.status === 'win' && !b.claimed) {
-          if (b.expire && new Date(b.expire) < now) { b.status = 'expired';
-            saveBets(bets); return false; }
-          return true;
-        }
-        return false;
-      });
-
-      sel.innerHTML = '<option value="">-- ជ្រើសរើស --</option>';
-      if (wins.length === 0) {
-        document.getElementById('payoutDisplay').textContent = '0.00';
-      } else {
-        wins.forEach(b => {
-          const opt = document.createElement('option');
-          opt.value = b.id;
-          opt.textContent = `[${b.dateStr}] ${b.numbers.join(',')} (${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'})`;
-          sel.appendChild(opt);
-        });
-      }
-    }
-
-    document.getElementById('winSelect').addEventListener('change', function() {
-      const bets = getBets();
-      const id = this.value;
-      const bet = bets.find(b => b.id === id);
-      const payout = document.getElementById('payoutDisplay');
-      if (!bet) { payout.textContent = '0.00'; return; }
-      const rate = bet.type === 'two' ? 70 : 500;
-      const total = bet.amount * rate;
-      payout.textContent = bet.currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
-    });
-
-    document.getElementById('withdrawForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const id = document.getElementById('winSelect').value;
-      const phone = document.getElementById('wdPhone').value.trim();
-      const bank = document.getElementById('wdBank').value;
-      const accNo = document.getElementById('wdAccNo').value.trim();
-      const accName = document.getElementById('wdAccName').value.trim();
-      const qr = document.getElementById('wdQrCode');
-
-      if (!id || !phone || !bank || !accNo || !accName || !qr.files[0]) {
-        showAlert('ការព្រមាន', 'សូមបំពេញព័ត៌មានទាំងអស់!', '⚠️');
-        return;
-      }
-
-      const bets = getBets();
-      const bet = bets.find(b => b.id === id);
-      if (!bet) { showAlert('កំហុស', 'មិនរកឃើញប្រវត្តិ!', '❌'); return; }
-      if (bet.expire && new Date(bet.expire) < new Date()) {
-        showAlert('កំហុស', '⏰ លេខនេះផុតកំណត់ហើយ! (៣ ថ្ងៃ)', '⏰');
-        return;
-      }
-
-      const rate = bet.type === 'two' ? 70 : 500;
-      const total = bet.amount * rate;
-      const display = bet.currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
-
-      const msg = `🦅 <b>ស្នើសុំដកប្រាក់</b>\n\n` +
-        `📱 ទូរស័ព្ទ: <code>${phone}</code>\n` +
-        `🎯 លេខចាក់: <b>${bet.numbers.join(', ')}</b>\n` +
-        `💰 រង្វាន់: <b>${display}</b>\n` +
-        `🏦 ធនាគារ: ${bank}\n` +
-        `💳 គណនី: <code>${accNo}</code>\n` +
-        `👤 ឈ្មោះ: ${accName}\n` +
-        `⏰ ចាក់: ${bet.dateStr}`;
-
-      const btn = this.querySelector('button[type="submit"]');
-      btn.disabled = true;
-      btn.textContent = 'កំពុងបញ្ជូន...';
-
-      try {
-        const res = await sendPhoto(TELEGRAM.WITHDRAW_TOKEN, TELEGRAM.WITHDRAW_CHAT, qr.files[0], msg);
-        const data = await res.json();
-        if (data.ok) {
-          updateBet(id, { claimed: true });
-          showAlert('ជោគជ័យ', '✅ ស្នើសុំដកប្រាក់ត្រូវបានបញ្ជូន!', '🎉');
-          closeModal('withdrawModal');
-          renderUserBets();
-          this.reset();
+        const btnSubmit = document.getElementById('btnSubmitBet');
+        if (totalCount > 0 && isAmountValid && quickAmount > 0) {
+            btnSubmit.disabled = false;
         } else {
-          showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការបញ្ជូន!', '❌');
+            btnSubmit.disabled = true;
         }
-      } catch (err) {
-        showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការតភ្ជាប់!', '❌');
-      }
-      btn.disabled = false;
-      btn.textContent = '🚀 បញ្ជាក់ដកប្រាក់';
-    });
-
-    // ================================================================
-    // LOTTERY RESULTS
-    // ================================================================
-    function seededRandom(seed) {
-      let x = Math.sin(seed++) * 10000;
-      return x - Math.floor(x);
     }
 
-    function generateResults(dateStr, timeStr, type) {
-      const bets = getBets();
-      const active = bets.filter(b => b.type === type && (b.drawTime === timeStr || !b.drawTime));
-      let seed = 0;
-      for (let i = 0; i < dateStr.length; i++) seed += dateStr.charCodeAt(i);
-      seed += timeStr === '12:00' ? 12 : 16;
-      const posts = ['A', 'B', 'C', 'D', 'E'];
-      let best = null;
-      for (let attempt = 0; attempt < 50; attempt++) {
-        let temp = {};
-        posts.forEach(p => {
-          let num = '';
-          if (type === 'two') {
-            const v = Math.floor(seededRandom(seed++) * 100);
-            num = v.toString().padStart(2, '0');
-          } else {
-            const v = Math.floor(seededRandom(seed++) * 1000);
-            num = v.toString().padStart(3, '0');
-          }
-          temp[p] = num;
-        });
-        let revenue = 0,
-          payout = 0;
-        active.forEach(b => {
-          revenue += b.total;
-          const rate = type === 'two' ? 70 : 500;
-          b.numbers.forEach(tag => {
-            const [p, n] = tag.split(':');
-            if (temp[p] === n) payout += b.amount * rate;
-          });
-        });
-        if (revenue === 0 || payout <= revenue * 0.70) { best = temp; break; }
-        best = temp;
-      }
-      return best;
-    }
-
-    function evaluateBets(dateStr, drawTime, type, results) {
-      const bets = getBets();
-      let hasWin = false;
-      const now = new Date();
-      const exp = new Date(now);
-      exp.setDate(exp.getDate() + 3);
-      bets.forEach(b => {
-        if (b.type === type && (b.drawTime === drawTime || !b.drawTime) && b.status === 'pending') {
-          let win = false;
-          b.numbers.forEach(tag => {
-            const [p, n] = tag.split(':');
-            if (results[p] === n) win = true;
-          });
-          if (win) { b.status = 'win';
-            b.expire = exp.toISOString();
-            hasWin = true; } else b.status = 'loss';
+    function submitQuickBet() {
+        if (betNumbers.length === 0) {
+            customAlert("ការព្រមាន", "សូមជ្រើសរើសយ៉ាងហោចណាស់មួយលេខ!", "⚠️");
+            return;
         }
-      });
-      saveBets(bets);
-      renderUserBets();
-      if (hasWin) showAlert('🎉 អបអរសាទរ!', 'អ្នកបានឈ្នះឆ្នោត! (សុពលភាព ៣ ថ្ងៃ)', '🏆');
+
+        const totalAmt = betNumbers.length * quickAmount;
+        const displayTotal = quickCurrency === 'USD' 
+            ? `${totalAmt.toFixed(2)}$` 
+            : `${totalAmt.toLocaleString()}៛`;
+
+        document.getElementById('confirmNumbers').innerText = betNumbers.join(', ');
+        document.getElementById('confirmTotal').innerText = displayTotal;
+
+        document.getElementById('depositModal').style.display = 'block';
     }
 
-    function publishResult(dateDisplay, timeTitle, results) {
-      const resultsData = getResults();
-      const today = new Date().toISOString().split('T')[0];
-      let entry = resultsData.find(h => h.date === today);
-      if (!entry) return;
-      if ((timeTitle.includes('12:00') && entry.sent12) || (timeTitle.includes('16:00') && entry.sent16)) {
-        console.log('Already sent');
-        return;
-      }
-      const msg = `📢 <b>លទ្ធផលឆ្នោត N98</b>\n📅 ${dateDisplay}\n🕒 ${timeTitle}\n\n` +
-        `A: ${results.A}\nB: ${results.B}\nC: ${results.C}\nD: ${results.D}\nE: ${results.E}\n\n` +
-        `⏳ សុពលភាព ៣ ថ្ងៃ`;
-      sendMsg(TELEGRAM.RESULT_TOKEN, TELEGRAM.RESULT_CHAT, msg).catch(console.error);
+    function checkInputsForAbaButton() {
+        const phone = document.getElementById('depositPhone').value.trim();
+        const bank = document.getElementById('depositBank').value;
+        const accName = document.getElementById('depositAccountName').value.trim();
+        
+        let bankValid = (bank !== '');
+        if (bank === 'MANUAL') {
+            const manualBank = document.getElementById('depositBankManual').value.trim();
+            bankValid = (manualBank !== '');
+        }
+
+        const btnLinkABA = document.getElementById('btnLinkABA');
+        const btnLinkAcleda = document.getElementById('btnLinkAcleda');
+
+        if (phone !== '' && bankValid && accName !== '') {
+            btnLinkABA.classList.remove('disabled');
+            btnLinkABA.style.pointerEvents = 'auto';
+            btnLinkAcleda.classList.remove('disabled');
+            btnLinkAcleda.style.pointerEvents = 'auto';
+        } else {
+            btnLinkABA.classList.add('disabled');
+            btnLinkABA.style.pointerEvents = 'none';
+            btnLinkAcleda.classList.add('disabled');
+            btnLinkAcleda.style.pointerEvents = 'none';
+        }
     }
 
-    function checkResults() {
-      if (isProcessing) return;
-      isProcessing = true;
-      try {
+    function toggleManualDepositBankInput() {
+        const bankSelect = document.getElementById('depositBank');
+        const manualArea = document.getElementById('manualDepositBankArea');
+        if (bankSelect.value === 'MANUAL') {
+            manualArea.style.display = 'block';
+        } else {
+            manualArea.style.display = 'none';
+        }
+        checkInputsForAbaButton();
+    }
+
+    function enableScreenshotInput() {
+        const screenshotArea = document.getElementById('screenshotArea');
+        screenshotArea.style.opacity = '1';
+        screenshotArea.style.pointerEvents = 'auto';
+    }
+
+    function checkFinalSubmitButton() {
+        const fileInput = document.getElementById('depositScreenshot');
+        const btnSubmit = document.getElementById('btnFinalDepositSubmit');
+        
+        if (fileInput.files && fileInput.files.length > 0) {
+            btnSubmit.disabled = false;
+        } else {
+            btnSubmit.disabled = true;
+        }
+    }
+
+    document.getElementById('depositForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const phone = document.getElementById('depositPhone').value.trim();
+        let bank = document.getElementById('depositBank').value;
+        if (bank === 'MANUAL') {
+            bank = document.getElementById('depositBankManual').value.trim() + " (បញ្ចូលដោយខ្លួន)";
+        }
+
+        const accName = document.getElementById('depositAccountName').value.trim();
+        const fileInput = document.getElementById('depositScreenshot');
+
+        if (!phone || !bank || !accName || !fileInput.files[0]) {
+            customAlert("ការព្រមាន", "សូមបំពេញព័ត៌មាន និងភ្ជាប់ភស្តុតាង!", "⚠️");
+            return;
+        }
+
+        const totalAmt = betNumbers.length * quickAmount;
+        const displayAmountPerNum = quickCurrency === 'USD' ? `${quickAmount}$` : `${quickAmount}៛`;
+        const displayTotal = quickCurrency === 'USD' ? `${totalAmt.toFixed(2)}$` : `${totalAmt.toLocaleString()}៛`;
+        
         const now = new Date();
-        const h = now.getHours(),
-          m = now.getMinutes(),
-          s = now.getSeconds();
-        const today = now.toISOString().split('T')[0];
-        const display = now.toLocaleDateString('km-KH');
-        let resultsData = getResults();
-        let entry = resultsData.find(e => e.date === today);
-        if (!entry) {
-          entry = { date: today, display: display, res12: null, res16: null, sent12: false, sent16: false, eval12: false, eval16: false };
-          resultsData.unshift(entry);
-          saveResults(resultsData);
-        }
+        const expireDate = new Date(now);
+        expireDate.setDate(expireDate.getDate() + 3);
 
-        if (h === 12 && m === 0 && !entry.res12) {
-          entry.res12 = generateResults(today, '12:00', 'two');
-          entry.sent12 = false;
-          entry.eval12 = false;
-          saveResults(resultsData);
-          console.log('Generated 12:00');
-        }
-        if (h === 16 && m === 0 && !entry.res16) {
-          entry.res16 = generateResults(today, '16:00', 'three');
-          entry.sent16 = false;
-          entry.eval16 = false;
-          saveResults(resultsData);
-          console.log('Generated 16:00');
-        }
+        const betDateFormatted = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`;
+        const expireDateFormatted = `${expireDate.getMonth() + 1}/${expireDate.getDate()}/${expireDate.getFullYear()}`;
 
-        if (entry.res12 && !entry.sent12 && h === 12 && m === 0 && s >= 30) {
-          publishResult(display, '12:00 (២ខ្ទង់)', entry.res12);
-          entry.sent12 = true;
-          saveResults(resultsData);
-        }
-        if (entry.res16 && !entry.sent16 && h === 16 && m === 0 && s >= 30) {
-          publishResult(display, '16:00 (៣ខ្ទង់)', entry.res16);
-          entry.sent16 = true;
-          saveResults(resultsData);
-        }
-
-        if (entry.res12 && !entry.eval12 && h === 12 && m >= 1) {
-          evaluateBets(today, '12:00', 'two', entry.res12);
-          entry.eval12 = true;
-          saveResults(resultsData);
-        }
-        if (entry.res16 && !entry.eval16 && h === 16 && m >= 1) {
-          evaluateBets(today, '16:00', 'three', entry.res16);
-          entry.eval16 = true;
-          saveResults(resultsData);
-        }
-
-        updateResultUI(entry);
-        renderHistory();
-        updateStatusBar(entry);
-      } finally { isProcessing = false; }
-    }
-
-    function updateResultUI(entry) {
-      const posts = ['A', 'B', 'C', 'D', 'E'];
-      const now = new Date();
-      const h = now.getHours();
-
-      const b12 = document.getElementById('badge12');
-      const b16 = document.getElementById('badge16');
-      if (h >= 12 && entry && entry.res12) { b12.textContent = '✅ ចេញហើយ';
-        b12.className = 'badge badge-completed'; } else if (h < 12) { b12.textContent = '⏳ រង់ចាំ';
-        b12.className = 'badge badge-waiting'; } else { b12.textContent = 'ព្រឹកពីរ';
-        b12.className = 'badge'; }
-
-      if (h >= 16 && entry && entry.res16) { b16.textContent = '✅ ចេញហើយ';
-        b16.className = 'badge badge-completed'; } else if (h < 16) { b16.textContent = '⏳ រង់ចាំ';
-        b16.className = 'badge badge-waiting'; } else { b16.textContent = 'ល្ងាចបី';
-        b16.className = 'badge'; }
-
-      posts.forEach(p => {
-        const el12 = document.getElementById(`r12_${p}`);
-        const el16 = document.getElementById(`r16_${p}`);
-        if (h < 12) {
-          el12.innerHTML = '<span class="pending-label">⏳ 12:00</span>';
-        } else if (h >= 12 && h < 16) {
-          if (entry && entry.res12) { el12.textContent = entry.res12[p];
-            el12.className = 'number-result'; } else { el12.innerHTML = '<span class="pending-label">⏳ ...</span>'; }
-        } else {
-          if (entry && entry.res12) { el12.textContent = entry.res12[p];
-            el12.className = 'number-result'; } else { el12.innerHTML = '<span class="pending-label">⏳ គ្មាន</span>'; }
-        }
-
-        if (h < 16) {
-          el16.innerHTML = '<span class="next-label">⏳ 16:00</span>';
-        } else {
-          if (entry && entry.res16) { el16.textContent = entry.res16[p];
-            el16.className = 'number-result'; } else { el16.innerHTML = '<span class="pending-label">⏳ ...</span>'; }
-        }
-      });
-    }
-
-    function renderHistory() {
-      const resultsData = getResults();
-      const tbody = document.getElementById('historyBody');
-      if (resultsData.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>';
-        return;
-      }
-      tbody.innerHTML = resultsData.map(item => {
-        const fmt = (obj) => {
-          if (!obj) return '<span style="color:#dc3545;font-size:11px;">⏳ រង់ចាំ</span>';
-          return `A:${obj.A} B:${obj.B} C:${obj.C} D:${obj.D} E:${obj.E}`;
+        const newBet = {
+            id: 'BET-' + Date.now(),
+            date: now.toISOString(),
+            dateStr: now.toLocaleDateString('km-KH'),
+            timeStr: now.toLocaleTimeString('km-KH', {hour:'2-digit', minute:'2-digit'}),
+            drawTime: selectedDrawTime,
+            phone: phone,
+            numbers: [...betNumbers],
+            type: currentBetType,
+            amountPerNum: quickAmount,
+            currency: quickCurrency,
+            totalAmount: totalAmt,
+            bank: bank,
+            accName: accName,
+            status: 'pending',
+            claimed: false,
+            expireDate: expireDate.toISOString()
         };
-        return `<tr><td><strong>${item.display}</strong></td><td>A-E</td><td>${fmt(item.res12)}</td><td>${fmt(item.res16)}</td></tr>`;
-      }).join('');
-    }
 
-    function updateStatusBar(entry) {
-      const el = document.getElementById('resultStatusText');
-      const h = new Date().getHours();
-      if (h < 12) {
-        el.textContent = '⏳ រង់ចាំ 12:00 (២ខ្ទង់)';
-        el.className = 'value pending';
-      } else if (h >= 12 && h < 16) {
-        if (entry && entry.res12) {
-          el.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00 (៣ខ្ទង់)';
-          el.className = 'value';
-        } else {
-          el.textContent = '⏳ កំពុងដំណើរការ 12:00...';
-          el.className = 'value pending';
+        let userBets = JSON.parse(localStorage.getItem('khmer_lottery_user_bets') || '[]');
+        userBets.unshift(newBet);
+        localStorage.setItem('khmer_lottery_user_bets', JSON.stringify(userBets));
+
+        const messageText = `🎯 <b>ការចាក់ឆ្នោតថ្មី</b>\n\n` +
+                            `🕒 ពេលវេលា: <b>${selectedDrawTime}</b>\n` +
+                            `📱 លេខទូរស័ព្ទ: <code>${phone}</code>\n` +
+                            `🏦 ធនាគារ: ${bank}\n` +
+                            `👤 ឈ្មោះគណនី: ${accName}\n` +
+                            `🔢 ប្រភេទ: ${currentBetType === 'two' ? '២ ខ្ទង់' : '៣ ខ្ទង់'}\n` +
+                            `🎯 លេខចាក់: <b>${betNumbers.join(', ')}</b>\n` +
+                            `💵 ក្នុងមួយលេខ: ${displayAmountPerNum}\n` +
+                            `💰 សរុប: <b>${displayTotal}</b>\n` +
+                            `⏰ កាលបរិច្ឆេទចាក់: ${betDateFormatted}\n` +
+                            `⏳ ផុតកំណត់: <b>${expireDateFormatted}</b> (៣ ថ្ងៃ)`;
+
+        const btnSubmit = document.getElementById('btnFinalDepositSubmit');
+        btnSubmit.disabled = true;
+        btnSubmit.innerText = 'កំពុងបញ្ជូន...';
+
+        sendTelegramPhoto(
+            TELEGRAM_CONFIG.BET_TOKEN,
+            TELEGRAM_CONFIG.BET_CHAT_ID,
+            fileInput.files[0],
+            messageText
+        )
+        .then(res => res.json())
+        .then(data => {
+            if (data.ok) {
+                customAlert("ជោគជ័យ", "✅ ការចាក់ឆ្នោតត្រូវបានបញ្ជូនដោយជោគជ័យ!", "🎉", false, () => {
+                    closeModal('depositModal');
+                    betNumbers = [];
+                    updateSelectedDisplay();
+                    renderUserBets();
+                    document.getElementById('depositForm').reset();
+                    document.getElementById('screenshotArea').style.opacity = '0.5';
+                    document.getElementById('screenshotArea').style.pointerEvents = 'none';
+                    document.getElementById('btnFinalDepositSubmit').disabled = true;
+                });
+            } else {
+                console.error("Telegram API Error:", data);
+                customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការបញ្ជូន!", "❌", true);
+            }
+        })
+        .catch(err => {
+            console.error("Fetch Error:", err);
+            customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការតភ្ជាប់!", "❌", true);
+        })
+        .finally(() => {
+            btnSubmit.disabled = false;
+            btnSubmit.innerText = 'បញ្ជាក់ការទូទាត់';
+        });
+    });
+
+    function renderUserBets() {
+        const userBets = JSON.parse(localStorage.getItem('khmer_lottery_user_bets') || '[]');
+        const tbody = document.getElementById('userBetHistoryBody');
+        
+        const now = new Date();
+        let updated = false;
+        userBets.forEach(bet => {
+            if (bet.status === 'pending' && bet.expireDate) {
+                const expireDate = new Date(bet.expireDate);
+                if (now > expireDate) {
+                    bet.status = 'expired';
+                    updated = true;
+                }
+            }
+        });
+        if (updated) {
+            localStorage.setItem('khmer_lottery_user_bets', JSON.stringify(userBets));
         }
-      } else {
-        if (entry && entry.res16) {
-          el.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
-          el.className = 'value';
-        } else {
-          el.textContent = '⏳ រង់ចាំ 16:00...';
-          el.className = 'value pending';
+        
+        if (userBets.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:12px;">មិនទាន់មានប្រវត្តិ</td></tr>';
+            return;
         }
-      }
+
+        tbody.innerHTML = userBets.map(bet => {
+            const amtStr = bet.currency === 'USD' ? `${bet.amountPerNum}$` : `${bet.amountPerNum}៛`;
+            let statusBadge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
+            let winRewardText = '-';
+
+            if (bet.status === 'win') {
+                statusBadge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
+                if (bet.claimed) {
+                    statusBadge += ' <span class="badge" style="background:#6c757d;">បានដក</span>';
+                } else {
+                    statusBadge += ' <span class="new-win-badge">អាចដក</span>';
+                }
+                const payout = bet.type === 'two' ? bet.amountPerNum * 70 : bet.amountPerNum * 500;
+                winRewardText = bet.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
+            } else if (bet.status === 'loss') {
+                statusBadge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
+            } else if (bet.status === 'expired') {
+                statusBadge = '<span class="status-badge status-loss">⏰ ផុតកំណត់</span>';
+            }
+
+            return `
+                <tr>
+                    <td>${bet.dateStr} (${bet.drawTime || '12:00'})</td>
+                    <td><code>${bet.phone}</code></td>
+                    <td><strong style="color:#0078D7;">${bet.numbers.join(', ')}</strong></td>
+                    <td>${bet.type === 'two' ? '២ ខ្ទង់' : '៣ ខ្ទង់'}</td>
+                    <td>${amtStr}</td>
+                    <td>${statusBadge}</td>
+                    <td>${winRewardText}</td>
+                </tr>
+            `;
+        }).join('');
     }
 
-    // ================================================================
-    // CLOCK & COUNTDOWN
-    // ================================================================
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('widgetTime').textContent = now.toLocaleTimeString('km-KH', { hour12: false });
-      document.getElementById('widgetDate').textContent = now.toLocaleDateString('km-KH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    function openWithdrawModal(mode = 'normal') {
+        const modal = document.getElementById('withdrawModal');
+        const title = document.getElementById('withdrawModalTitle');
+        const noticeDesc = document.getElementById('withdrawNoticeDesc');
+        const lateReasonArea = document.getElementById('lateReasonArea');
+        const lateHistoryArea = document.getElementById('lateHistoryArea');
+        const reqTypeInput = document.getElementById('withdrawRequestType');
+        const qrLbl = document.getElementById('lblQrCode');
+        
+        const instrTitle = document.getElementById('withdrawInstructionTitle');
+        const instrList = document.getElementById('withdrawInstructionList');
 
-      const h = now.getHours();
-      let target = 12,
-        label = '🕛 12:00 (២ខ្ទង់)';
-      if (h >= 12 && h < 16) { target = 16;
-        label = '🕓 16:00 (៣ខ្ទង់)'; } else if (h >= 16) { target = 36;
-        label = '🕛 12:00 ថ្ងៃស្អែក'; }
-      const t = new Date(now);
-      if (target === 36) { t.setDate(t.getDate() + 1);
-        t.setHours(12, 0, 0, 0); } else t.setHours(target, 0, 0, 0);
-      const diff = Math.floor((t - now) / 1000);
-      const hrs = String(Math.floor(diff / 3600)).padStart(2, '0');
-      const mins = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
-      const secs = String(diff % 60).padStart(2, '0');
-      document.getElementById('countdownDisplay').textContent = `${hrs}:${mins}:${secs}`;
-      document.getElementById('nextTimeLabel').textContent = `🎯 ពេលបន្ទាប់៖ ${label}`;
+        reqTypeInput.value = mode;
+
+        if (mode === 'late') {
+            title.innerText = "⏰ ដកប្រាក់យឺត";
+            noticeDesc.innerHTML = "⚠️ <strong>ការជូនដំណឹង៖</strong> អ្នកកំពុងដកប្រាក់យឺត។ សុពលភាពរង្វាន់ ៣ ថ្ងៃគិតចាប់ពីពេលចេញលទ្ធផល។";
+            lateReasonArea.style.display = 'block';
+            lateHistoryArea.style.display = 'block';
+            qrLbl.innerText = "៨. QR Code គណនី *";
+            document.getElementById('withdrawLateHistory').required = true;
+
+            instrTitle.innerHTML = "💡 ការណែនាំដកប្រាក់យឺត";
+            instrList.innerHTML = `
+                <li>ជ្រើសរើសលេខឈ្នះ</li>
+                <li>បំពេញព័ត៌មានរបស់អ្នក</li>
+                <li>បញ្ជាក់មូលហេតុយឺត</li>
+                <li>ភ្ជាប់ភស្តុតាងប្រវត្តិចាក់</li>
+                <li>ភ្ជាប់ QR Code គណនី</li>
+                <li><strong>សុពលភាព ៣ ថ្ងៃគិតចាប់ពីពេលចេញលទ្ធផល</strong></li>
+            `;
+        } else {
+            title.innerText = "🦅 ដកប្រាក់ (ទៀងទាត់)";
+            noticeDesc.innerHTML = "✅ <strong>ការជូនដំណឹង៖</strong> ដកបានបន្ទាប់ពី 12:00 ដល់ 22:00។ សុពលភាព ៣ ថ្ងៃ។";
+            lateReasonArea.style.display = 'none';
+            lateHistoryArea.style.display = 'none';
+            qrLbl.innerText = "៦. QR Code គណនី *";
+            document.getElementById('withdrawLateHistory').required = false;
+
+            instrTitle.innerHTML = "💡 ការណែនាំដកប្រាក់";
+            instrList.innerHTML = `
+                <li>ជ្រើសរើសលេខឈ្នះ</li>
+                <li>បំពេញព័ត៌មានរបស់អ្នក</li>
+                <li>ភ្ជាប់ QR Code គណនី</li>
+                <li><strong>សុពលភាព ៣ ថ្ងៃគិតចាប់ពីពេលចេញលទ្ធផល</strong></li>
+            `;
+        }
+
+        populateWithdrawBetOptions();
+        modal.style.display = 'block';
     }
 
-    // ================================================================
-    // INIT
-    // ================================================================
-    function init() {
-      renderUserBets();
-      renderHistory();
-      updateConfig();
-      updateDisplay();
-      checkResults();
-      updateClock();
-      setInterval(updateClock, 1000);
-      setInterval(() => { checkResults(); }, 10000);
+    function toggleManualLateReason() {
+        const select = document.getElementById('withdrawLateReason');
+        const box = document.getElementById('manualLateReasonBox');
+        if (select.value === 'OTHER') {
+            box.style.display = 'block';
+            document.getElementById('withdrawLateReasonManual').required = true;
+        } else {
+            box.style.display = 'none';
+            document.getElementById('withdrawLateReasonManual').required = false;
+        }
     }
 
-    // Run
-    document.addEventListener('DOMContentLoaded', init);
-    window.onclick = function(e) {
-      if (e.target.classList.contains('modal')) e.target.style.display = 'none';
+    function populateWithdrawBetOptions() {
+        const select = document.getElementById('withdrawSelectBet');
+        const userBets = JSON.parse(localStorage.getItem('khmer_lottery_user_bets') || '[]');
+        const noWinAlert = document.getElementById('noWinningBetAlert');
+        const btnSubmit = document.getElementById('btnSubmitWithdraw');
+
+        select.innerHTML = '<option value="">-- ជ្រើសរើសលេខ --</option>';
+
+        const now = new Date();
+        const winningBets = userBets.filter(b => {
+            if (b.status === 'win' && !b.claimed) {
+                if (b.expireDate) {
+                    const expireDate = new Date(b.expireDate);
+                    if (now > expireDate) {
+                        b.status = 'expired';
+                        return false;
+                    }
+                }
+                return true;
+            }
+            return false;
+        });
+        
+        if (winningBets.length > 0) {
+            localStorage.setItem('khmer_lottery_user_bets', JSON.stringify(userBets));
+        }
+
+        if (winningBets.length === 0) {
+            noWinAlert.style.display = 'block';
+            btnSubmit.disabled = true;
+            document.getElementById('payoutRewardDisplay').innerText = '0.00';
+        } else {
+            noWinAlert.style.display = 'none';
+            winningBets.forEach(bet => {
+                const opt = document.createElement('option');
+                opt.value = bet.id;
+                opt.innerText = `[${bet.dateStr}] ${bet.numbers.join(',')} (${bet.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'})`;
+                select.appendChild(opt);
+            });
+        }
+    }
+
+    function onWithdrawBetSelected() {
+        const betId = document.getElementById('withdrawSelectBet').value;
+        const detailsEl = document.getElementById('withdrawSelectedDetails');
+        const payoutEl = document.getElementById('payoutRewardDisplay');
+        const btnSubmit = document.getElementById('btnSubmitWithdraw');
+
+        if (!betId) {
+            detailsEl.innerText = '';
+            payoutEl.innerText = '0.00';
+            btnSubmit.disabled = true;
+            return;
+        }
+
+        const userBets = JSON.parse(localStorage.getItem('khmer_lottery_user_bets') || '[]');
+        const bet = userBets.find(b => b.id === betId);
+
+        if (bet) {
+            const rate = bet.type === 'two' ? 70 : 500;
+            const totalPayout = bet.amountPerNum * rate;
+            const displayPayout = bet.currency === 'USD' ? `${totalPayout.toFixed(2)}$` : `${totalPayout.toLocaleString()}៛`;
+            
+            detailsEl.innerText = `ប្រភេទ: ${bet.type === 'two' ? '២ខ្ទង់ (៧០$)' : '៣ខ្ទង់ (៥០០$)'} | ចំនួន: ${bet.amountPerNum}${bet.currency === 'USD' ? '$' : '៛'}`;
+            payoutEl.innerText = displayPayout;
+            btnSubmit.disabled = false;
+        }
+    }
+
+    function toggleManualBankInput() {
+        const bankSelect = document.getElementById('withdrawBank');
+        const manualArea = document.getElementById('manualBankInputArea');
+        if (bankSelect.value === 'MANUAL') {
+            manualArea.style.display = 'block';
+            document.getElementById('withdrawBankManual').required = true;
+        } else {
+            manualArea.style.display = 'none';
+            document.getElementById('withdrawBankManual').required = false;
+        }
+    }
+
+    document.getElementById('withdrawForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const betId = document.getElementById('withdrawSelectBet').value;
+        const phone = document.getElementById('withdrawPhone').value.trim();
+        let bank = document.getElementById('withdrawBank').value;
+        
+        if (bank === 'MANUAL') {
+            bank = document.getElementById('withdrawBankManual').value.trim() + " (បញ្ចូលដោយខ្លួន)";
+        }
+
+        const accNo = document.getElementById('withdrawAccNo').value.trim();
+        const accName = document.getElementById('withdrawAccName').value.trim();
+        const qrFile = document.getElementById('withdrawQrCode').files[0];
+        const reqType = document.getElementById('withdrawRequestType').value;
+
+        if (!betId || !phone || !bank || !accNo || !accName || !qrFile) {
+            customAlert("ការព្រមាន", "សូមបំពេញព័ត៌មានទាំងអស់!", "⚠️");
+            return;
+        }
+
+        const userBets = JSON.parse(localStorage.getItem('khmer_lottery_user_bets') || '[]');
+        const betIndex = userBets.findIndex(b => b.id === betId);
+        if (betIndex === -1) {
+            customAlert("កំហុស", "មិនរកឃើញប្រវត្តិទេ!", "❌");
+            return;
+        }
+
+        const bet = userBets[betIndex];
+        
+        if (bet.expireDate) {
+            const now = new Date();
+            const expireDate = new Date(bet.expireDate);
+            if (now > expireDate) {
+                customAlert("កំហុស", "⏰ លេខនេះផុតកំណត់ហើយ! (៣ ថ្ងៃ)", "⏰");
+                return;
+            }
+        }
+        
+        const rate = bet.type === 'two' ? 70 : 500;
+        const totalPayout = bet.amountPerNum * rate;
+        const displayPayout = bet.currency === 'USD' ? `${totalPayout.toFixed(2)}$` : `${totalPayout.toLocaleString()}៛`;
+
+        const now = new Date();
+        const requestDateFormatted = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()}`;
+        
+        const betObjDate = new Date(bet.date);
+        const betDateFormatted = `${betObjDate.getMonth() + 1}/${betObjDate.getDate()}/${betObjDate.getFullYear()}`;
+        
+        const expireDate = new Date(betObjDate);
+        expireDate.setDate(expireDate.getDate() + 3);
+        const expireDateFormatted = `${expireDate.getMonth() + 1}/${expireDate.getDate()}/${expireDate.getFullYear()}`;
+
+        let messageText = `🦅 <b>ស្នើសុំដកប្រាក់ (${reqType === 'late' ? 'យឺត' : 'ទៀងទាត់'})</b>\n\n` +
+                            `📱 លេខទូរស័ព្ទ: <code>${phone}</code>\n` +
+                            `🎯 លេខចាក់: <b>${bet.numbers.join(', ')}</b>\n` +
+                            `💰 រង្វាន់: <b>${displayPayout}</b>\n` +
+                            `🏦 ធនាគារ: ${bank}\n` +
+                            `💳 លេខគណនី: <code>${accNo}</code>\n` +
+                            `👤 ឈ្មោះគណនី: ${accName}\n` +
+                            `📅 កាលបរិច្ឆេទស្នើ: ${requestDateFormatted}\n` +
+                            `⏰ កាលបរិច្ឆេទចាក់: ${betDateFormatted}\n` +
+                            `⏳ ផុតកំណត់: ${expireDateFormatted}\n`;
+
+        if (reqType === 'late') {
+            let reason = document.getElementById('withdrawLateReason').value;
+            if (reason === 'OTHER') {
+                reason = document.getElementById('withdrawLateReasonManual').value.trim() + " (បញ្ជាក់ដោយខ្លួន)";
+            }
+            messageText += `⚠️ មូលហេតុយឺត: ${reason}\n`;
+        }
+
+        messageText += `⏰ ម៉ោងស្នើ: ${now.toLocaleString('km-KH')}`;
+
+        const btnSubmit = document.getElementById('btnSubmitWithdraw');
+        btnSubmit.disabled = true;
+        btnSubmit.innerText = 'កំពុងបញ្ជូន...';
+
+        sendTelegramPhoto(
+            TELEGRAM_CONFIG.WITHDRAW_TOKEN,
+            TELEGRAM_CONFIG.WITHDRAW_CHAT_ID,
+            qrFile,
+            messageText
+        )
+        .then(res => res.json())
+        .then(data => {
+            if (data.ok) {
+                userBets[betIndex].claimed = true;
+                localStorage.setItem('khmer_lottery_user_bets', JSON.stringify(userBets));
+
+                customAlert("ជោគជ័យ", "✅ ស្នើសុំដកប្រាក់ត្រូវបានបញ្ជូន!", "🎉", false, () => {
+                    closeModal('withdrawModal');
+                    renderUserBets();
+                    document.getElementById('withdrawForm').reset();
+                    document.getElementById('btnSubmitWithdraw').disabled = true;
+                });
+            } else {
+                console.error("Telegram API Error:", data);
+                customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការបញ្ជូន!", "❌", true);
+            }
+        })
+        .catch(err => {
+            console.error("Fetch Error:", err);
+            customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការតភ្ជាប់!", "❌", true);
+        })
+        .finally(() => {
+            btnSubmit.disabled = false;
+            btnSubmit.innerText = '🚀 បញ្ជាក់ដកប្រាក់';
+        });
+    });
+
+    function seededRandom(seed) {
+        let x = Math.sin(seed++) * 10000;
+        return x - Math.floor(x);
+    }
+
+    // ===== Generate results only once at exact times =====
+    function checkLotteryResults() {
+        if (isProcessingResults) return;
+        isProcessingResults = true;
+
+        try {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentSecond = now.getSeconds();
+
+            const todayStr = now.toISOString().split('T')[0];
+            const todayDisplayStr = now.toLocaleDateString('km-KH');
+
+            let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+            let todayEntry = history.find(h => h.date === todayStr);
+
+            if (!todayEntry) {
+                todayEntry = {
+                    date: todayStr,
+                    dateDisplay: todayDisplayStr,
+                    res12: null,
+                    res16: null,
+                    sent12: false,
+                    sent16: false,
+                    evaluated12: false,
+                    evaluated16: false,
+                    sentTime: null
+                };
+                history.unshift(todayEntry);
+            }
+
+            if (todayEntry.sent12 === undefined) todayEntry.sent12 = false;
+            if (todayEntry.sent16 === undefined) todayEntry.sent16 = false;
+            if (todayEntry.evaluated12 === undefined) todayEntry.evaluated12 = false;
+            if (todayEntry.evaluated16 === undefined) todayEntry.evaluated16 = false;
+
+            let updated = false;
+
+            // ===== Generate 12:00 results ONLY at 12:00 =====
+            if (currentHour === 12 && currentMinute === 0 && !todayEntry.res12) {
+                todayEntry.res12 = generateRiskManagedResults(todayStr, '12:00', 'two');
+                todayEntry.sent12 = false;
+                todayEntry.evaluated12 = false;
+                updated = true;
+                console.log('✅ Generated 12:00 results');
+            }
+
+            // ===== Generate 16:00 results ONLY at 16:00 =====
+            if (currentHour === 16 && currentMinute === 0 && !todayEntry.res16) {
+                todayEntry.res16 = generateRiskManagedResults(todayStr, '16:00', 'three');
+                todayEntry.sent16 = false;
+                todayEntry.evaluated16 = false;
+                updated = true;
+                console.log('✅ Generated 16:00 results');
+            }
+
+            if (updated) {
+                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            }
+
+            // ===== Send 12:00 results to Telegram at 12:00:30 (ONCE) =====
+            if (todayEntry.res12 && !todayEntry.sent12 && 
+                currentHour === 12 && currentMinute === 0 && currentSecond >= 30) {
+                publishResultToTelegram(todayDisplayStr, '12:00 (២ខ្ទង់)', todayEntry.res12);
+                todayEntry.sent12 = true;
+                todayEntry.sentTime = new Date().toISOString();
+                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+                console.log('📤 Sent 12:00 results to Telegram');
+            }
+
+            // ===== Send 16:00 results to Telegram at 16:00:30 (ONCE) =====
+            if (todayEntry.res16 && !todayEntry.sent16 && 
+                currentHour === 16 && currentMinute === 0 && currentSecond >= 30) {
+                publishResultToTelegram(todayDisplayStr, '16:00 (៣ខ្ទង់)', todayEntry.res16);
+                todayEntry.sent16 = true;
+                todayEntry.sentTime = new Date().toISOString();
+                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+                console.log('📤 Sent 16:00 results to Telegram');
+            }
+
+            // ===== Evaluate user bets =====
+            if (todayEntry.res12 && !todayEntry.evaluated12 && 
+                currentHour === 12 && currentMinute >= 1) {
+                evaluateUserBets(todayStr, '12:00', 'two', todayEntry.res12);
+                todayEntry.evaluated12 = true;
+                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            }
+
+            if (todayEntry.res16 && !todayEntry.evaluated16 && 
+                currentHour === 16 && currentMinute >= 1) {
+                evaluateUserBets(todayStr, '16:00', 'three', todayEntry.res16);
+                todayEntry.evaluated16 = true;
+                localStorage.setItem('khmer_lottery_results_history', JSON.stringify(history));
+            }
+
+            // Update UI
+            updateResultUI();
+            renderHistoryTable();
+            renderUserBets();
+            updateResultStatusBar();
+
+        } finally {
+            isProcessingResults = false;
+        }
+    }
+
+    function generateRiskManagedResults(dateStr, timeStr, type) {
+        const userBets = JSON.parse(localStorage.getItem('khmer_lottery_user_bets') || '[]');
+        const activeBets = userBets.filter(b => b.type === type && (b.drawTime === timeStr || !b.drawTime));
+
+        let seed = 0;
+        for (let i = 0; i < dateStr.length; i++) seed += dateStr.charCodeAt(i);
+        seed += timeStr === '12:00' ? 12 : 16;
+
+        const posts = ['A', 'B', 'C', 'D', 'E'];
+        let bestResult = null;
+
+        for (let attempt = 0; attempt < 50; attempt++) {
+            let tempResult = {};
+            posts.forEach(p => {
+                let num = '';
+                if (type === 'two') {
+                    const val = Math.floor(seededRandom(seed++) * 100);
+                    num = val.toString().padStart(2, '0');
+                } else {
+                    const val = Math.floor(seededRandom(seed++) * 1000);
+                    num = val.toString().padStart(3, '0');
+                }
+                tempResult[p] = num;
+            });
+
+            let totalRevenue = 0;
+            let totalPayout = 0;
+
+            activeBets.forEach(bet => {
+                totalRevenue += bet.totalAmount;
+                const rate = type === 'two' ? 70 : 500;
+
+                bet.numbers.forEach(numTag => {
+                    const [p, n] = numTag.split(':');
+                    if (tempResult[p] === n) {
+                        totalPayout += bet.amountPerNum * rate;
+                    }
+                });
+            });
+
+            if (totalRevenue === 0 || totalPayout <= totalRevenue * 0.70) {
+                bestResult = tempResult;
+                break;
+            }
+
+            bestResult = tempResult;
+        }
+
+        return bestResult;
+    }
+
+    function evaluateUserBets(dateStr, drawTime, type, winningResults) {
+        let userBets = JSON.parse(localStorage.getItem('khmer_lottery_user_bets') || '[]');
+        let hasNewWin = false;
+        const now = new Date();
+        const expireDate = new Date(now);
+        expireDate.setDate(expireDate.getDate() + 3);
+
+        userBets.forEach(bet => {
+            if (bet.type === type && (bet.drawTime === drawTime || !bet.drawTime) && bet.status === 'pending') {
+                let isWin = false;
+                bet.numbers.forEach(numTag => {
+                    const [p, n] = numTag.split(':');
+                    if (winningResults[p] === n) {
+                        isWin = true;
+                    }
+                });
+
+                if (isWin) {
+                    bet.status = 'win';
+                    bet.expireDate = expireDate.toISOString();
+                    hasNewWin = true;
+                } else {
+                    bet.status = 'loss';
+                }
+            }
+        });
+
+        localStorage.setItem('khmer_lottery_user_bets', JSON.stringify(userBets));
+        renderUserBets();
+
+        if (hasNewWin) {
+            customAlert("🎉 អបអរសាទរ!", "អ្នកបានឈ្នះឆ្នោត! សូមចុច «🦅 ស្នើសុំដកប្រាក់» ដើម្បីទាមទាររង្វាន់! (សុពលភាព ៣ ថ្ងៃ)", "🏆");
+        }
+    }
+
+    function publishResultToTelegram(dateDisplay, timeTitle, resultsObj) {
+        const todayStr = new Date().toISOString().split('T')[0];
+        let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+        let todayEntry = history.find(h => h.date === todayStr);
+        
+        if (!todayEntry) return;
+        
+        if ((timeTitle.includes('12:00') && todayEntry.sent12) || 
+            (timeTitle.includes('16:00') && todayEntry.sent16)) {
+            console.log('Result already sent, skipping...');
+            return;
+        }
+        
+        const msg = `📢 <b>លទ្ធផលឆ្នោត N98</b>\n` +
+                    `📅 កាលបរិច្ឆេទ: <b>${dateDisplay}</b>\n` +
+                    `🕒 ម៉ោងចាក់: <b>${timeTitle}</b>\n\n` +
+                    `Ⓐ A: <b>${resultsObj.A}</b>\n` +
+                    `Ⓑ B: <b>${resultsObj.B}</b>\n` +
+                    `Ⓒ C: <b>${resultsObj.C}</b>\n` +
+                    `Ⓓ D: <b>${resultsObj.D}</b>\n` +
+                    `Ⓔ E: <b>${resultsObj.E}</b>\n\n` +
+                    `⏳ សុពលភាពរង្វាន់: ៣ ថ្ងៃ\n` +
+                    `🌐 ពិនិត្យប្រវត្តិ និងទាមទាររង្វាន់!`;
+
+        sendTelegramMessage(
+            TELEGRAM_CONFIG.RESULT_TOKEN,
+            TELEGRAM_CONFIG.RESULT_CHAT_ID,
+            msg
+        ).then(() => {
+            console.log('✅ Result sent to Telegram');
+        }).catch(err => {
+            console.error("Error publishing results to Telegram", err);
+        });
+    }
+
+    // ===== Update Result UI =====
+    function updateResultUI() {
+        const now = new Date();
+        const currentHour = now.getHours();
+        const todayStr = now.toISOString().split('T')[0];
+        
+        let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+        let todayEntry = history.find(h => h.date === todayStr);
+        
+        const posts = ['A', 'B', 'C', 'D', 'E'];
+        
+        // Update badges
+        const badge12 = document.getElementById('badge12');
+        const badge16 = document.getElementById('badge16');
+        
+        if (currentHour >= 12 && todayEntry && todayEntry.res12) {
+            badge12.innerText = '✅ ចេញហើយ';
+            badge12.className = 'badge-completed';
+        } else if (currentHour < 12) {
+            badge12.innerText = '⏳ រង់ចាំ';
+            badge12.className = 'badge-waiting';
+        } else {
+            badge12.innerText = 'ព្រឹកពីរ';
+            badge12.className = 'badge';
+        }
+        
+        if (currentHour >= 16 && todayEntry && todayEntry.res16) {
+            badge16.innerText = '✅ ចេញហើយ';
+            badge16.className = 'badge-completed';
+        } else if (currentHour < 16) {
+            badge16.innerText = '⏳ រង់ចាំ';
+            badge16.className = 'badge-waiting';
+        } else {
+            badge16.innerText = 'ល្ងាចបី';
+            badge16.className = 'badge';
+        }
+        
+        posts.forEach(p => {
+            const elTwo = document.getElementById(`res_two_${p}`);
+            const elThree = document.getElementById(`res_three_${p}`);
+            
+            // ===== 12:00 =====
+            if (currentHour < 12) {
+                elTwo.innerHTML = '<span class="pending-label">⏳ រង់ចាំ 12:00</span>';
+                elTwo.style.color = '#dc3545';
+            } else if (currentHour >= 12 && currentHour < 16) {
+                if (todayEntry && todayEntry.res12) {
+                    elTwo.innerText = todayEntry.res12[p];
+                    elTwo.className = 'number-result';
+                } else {
+                    elTwo.innerHTML = '<span class="pending-label">⏳ កំពុងដំណើរការ...</span>';
+                    elTwo.style.color = '#dc3545';
+                }
+            } else {
+                if (todayEntry && todayEntry.res12) {
+                    elTwo.innerText = todayEntry.res12[p];
+                    elTwo.className = 'number-result';
+                } else {
+                    elTwo.innerHTML = '<span class="pending-label">⏳ មិនមាន</span>';
+                    elTwo.style.color = '#dc3545';
+                }
+            }
+            
+            // ===== 16:00 =====
+            if (currentHour < 16) {
+                if (currentHour >= 12 && todayEntry && todayEntry.res12) {
+                    elThree.innerHTML = '<span class="next-label">⏳ រង់ចាំ 16:00</span>';
+                } else {
+                    elThree.innerHTML = '<span class="pending-label">⏳ រង់ចាំ 16:00</span>';
+                }
+                elThree.style.color = '#ff9800';
+            } else {
+                if (todayEntry && todayEntry.res16) {
+                    elThree.innerText = todayEntry.res16[p];
+                    elThree.className = 'number-result';
+                } else {
+                    elThree.innerHTML = '<span class="pending-label">⏳ កំពុងដំណើរការ...</span>';
+                    elThree.style.color = '#dc3545';
+                }
+            }
+        });
+    }
+
+    function updateResultStatusBar() {
+        const now = new Date();
+        const currentHour = now.getHours();
+        const todayStr = now.toISOString().split('T')[0];
+        
+        let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+        let todayEntry = history.find(h => h.date === todayStr);
+        
+        const statusEl = document.getElementById('resultStatusText');
+        
+        if (currentHour < 12) {
+            statusEl.innerHTML = '⏳ រង់ចាំលទ្ធផល 12:00 (២ខ្ទង់)';
+            statusEl.className = 'status-value status-pending-text';
+        } else if (currentHour >= 12 && currentHour < 16) {
+            if (todayEntry && todayEntry.res12) {
+                statusEl.innerHTML = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00 (៣ខ្ទង់)';
+                statusEl.className = 'status-value';
+            } else {
+                statusEl.innerHTML = '⏳ កំពុងដំណើរការ...';
+                statusEl.className = 'status-value status-pending-text';
+            }
+        } else {
+            if (todayEntry && todayEntry.res16) {
+                statusEl.innerHTML = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
+                statusEl.className = 'status-value';
+            } else if (todayEntry && todayEntry.res12) {
+                statusEl.innerHTML = '⏳ រង់ចាំលទ្ធផល 16:00...';
+                statusEl.className = 'status-value status-pending-text';
+            } else {
+                statusEl.innerHTML = '⏳ រង់ចាំលទ្ធផល...';
+                statusEl.className = 'status-value status-pending-text';
+            }
+        }
+    }
+
+    function renderHistoryTable() {
+        const history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+        const tbody = document.getElementById('historyBody');
+
+        if (history.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="color:#6c757d; padding:12px;">មិនទាន់មានប្រវត្តិ</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = history.map(item => {
+            const formatObj = (obj) => {
+                if (!obj) return '<span style="color:#dc3545; font-size:clamp(11px, 1.2vw, 12px);">⏳ រង់ចាំ</span>';
+                return `A:${obj.A} B:${obj.B} C:${obj.C} D:${obj.D} E:${obj.E}`;
+            };
+
+            return `
+                <tr>
+                    <td><strong>${item.dateDisplay}</strong></td>
+                    <td>A-E</td>
+                    <td>${formatObj(item.res12)}</td>
+                    <td>${formatObj(item.res16)}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function updateDigitalClockAndCountdown() {
+        const now = new Date();
+
+        const timeStr = now.toLocaleTimeString('km-KH', { hour12: false });
+        const dateStr = now.toLocaleDateString('km-KH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+        document.getElementById('widgetTime').innerText = timeStr;
+        document.getElementById('widgetDate').innerText = dateStr;
+
+        const currentHour = now.getHours();
+
+        let targetHour = 12;
+        let targetLabel = "🕛 12:00 ថ្ងៃត្រង់ (២ខ្ទង់)";
+
+        if (currentHour >= 12 && currentHour < 16) {
+            targetHour = 16;
+            targetLabel = "🕓 16:00 ល្ងាច (៣ខ្ទង់)";
+        } else if (currentHour >= 16) {
+            targetHour = 36; 
+            targetLabel = "🕛 12:00 ថ្ងៃស្អែក (២ខ្ទង់)";
+        }
+
+        const targetTime = new Date(now);
+        if (targetHour === 36) {
+            targetTime.setDate(targetTime.getDate() + 1);
+            targetTime.setHours(12, 0, 0, 0);
+        } else {
+            targetTime.setHours(targetHour, 0, 0, 0);
+        }
+
+        const diffMs = targetTime - now;
+        const diffSec = Math.floor(diffMs / 1000) % 60;
+        const diffMin = Math.floor(diffMs / (1000 * 60)) % 60;
+        const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+
+        const formatTwo = (num) => String(num).padStart(2, '0');
+        document.getElementById('countdownDisplay').innerText = `${formatTwo(diffHrs)}:${formatTwo(diffMin)}:${formatTwo(diffSec)}`;
+        document.getElementById('nextTimeLabel').innerHTML = `🎯 ពេលបន្ទាប់៖ <strong>${targetLabel}</strong>`;
+        
+        const statusTimeLabel = document.getElementById('statusTimeLabel');
+        const todayStr = now.toISOString().split('T')[0];
+        let history = JSON.parse(localStorage.getItem('khmer_lottery_results_history') || '[]');
+        let todayEntry = history.find(h => h.date === todayStr);
+        
+        if (currentHour < 12) {
+            statusTimeLabel.innerHTML = '⏳ រង់ចាំលទ្ធផល 12:00';
+            statusTimeLabel.style.color = '#dc3545';
+        } else if (currentHour >= 12 && currentHour < 16) {
+            if (todayEntry && todayEntry.res12) {
+                statusTimeLabel.innerHTML = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
+                statusTimeLabel.style.color = '#28a745';
+            } else {
+                statusTimeLabel.innerHTML = '⏳ កំពុងដំណើរការ 12:00';
+                statusTimeLabel.style.color = '#dc3545';
+            }
+        } else {
+            if (todayEntry && todayEntry.res16) {
+                statusTimeLabel.innerHTML = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
+                statusTimeLabel.style.color = '#28a745';
+            } else if (todayEntry && todayEntry.res12) {
+                statusTimeLabel.innerHTML = '⏳ រង់ចាំលទ្ធផល 16:00';
+                statusTimeLabel.style.color = '#dc3545';
+            } else {
+                statusTimeLabel.innerHTML = '⏳ រង់ចាំលទ្ធផល...';
+                statusTimeLabel.style.color = '#dc3545';
+            }
+        }
+    }
+
+    function showSection(sectionName) {
+        document.getElementById('homeSection').style.display = sectionName === 'home' ? 'block' : 'none';
+        document.getElementById('historySection').style.display = sectionName === 'history' ? 'block' : 'none';
+        document.getElementById('rulesSection').style.display = sectionName === 'rules' ? 'block' : 'none';
+
+        document.getElementById('link-home').classList.toggle('active', sectionName === 'home');
+        document.getElementById('link-history').classList.toggle('active', sectionName === 'history');
+        document.getElementById('link-rules').classList.toggle('active', sectionName === 'rules');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        const modals = ['depositModal', 'withdrawModal', 'customAlertModal', 'announceGroupModal', 'agentModal'];
+        modals.forEach(id => {
+            const modal = document.getElementById(id);
+            if (event.target === modal) modal.style.display = 'none';
+        });
+    };
+
+    window.onload = function() {
+        cleanOldData();
+        checkLotteryResults();
+        renderUserBets();
+        updateDigitalClockAndCountdown();
+        updateConfigDisplayBox();
+        updateResultUI();
+        updateResultStatusBar();
+        
+        setInterval(updateDigitalClockAndCountdown, 1000);
+        setInterval(() => {
+            checkLotteryResults();
+            updateResultUI();
+            updateResultStatusBar();
+        }, 10000); // Check every 10 seconds for more accurate timing
     };
   </script>
-</div>
+</body>
+</html>
