@@ -1613,45 +1613,44 @@
       badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
     }
     
-    // ✅ កែការបង្ហាញកាលបរិច្ឆេទ
-    let dateStr = '';
-    let timeStr = '';
+    // ✅✅✅ កែការបង្ហាញកាលបរិច្ឆេទ ✅✅✅
+    let dateDisplay = '';
+    let timeDisplay = '';
     
     if (b.date) {
-      // ប្រសិនបើជា format "dd/MM/yyyy HH:mm:ss"
-      if (b.date.includes('/')) {
-        const parts = String(b.date).split(' ');
-        dateStr = parts[0] || '';
-        timeStr = parts[1] || '';
-      } else {
-        // ប្រសិនបើជា Date object ចាស់
-        try {
-          const d = new Date(b.date);
-          if (!isNaN(d.getTime())) {
-            dateStr = String(d.getDate()).padStart(2, '0') + '/' +
-                      String(d.getMonth() + 1).padStart(2, '0') + '/' +
-                      d.getFullYear();
-            timeStr = String(d.getHours()).padStart(2, '0') + ':' +
-                      String(d.getMinutes()).padStart(2, '0');
-          } else {
-            dateStr = b.date;
-          }
-        } catch(e) {
-          dateStr = b.date;
-        }
+      const dateStr = String(b.date);
+      
+      // ប្រសិនបើជា format ខុស (1899, 1900)
+      if (dateStr.includes('1899') || dateStr.includes('1900') || 
+          dateStr.includes('GMT') || dateStr.includes('Sat Dec') ||
+          dateStr.includes('Sun Dec') || dateStr.includes('Mon Dec')) {
+        // ប្រើកាលបរិច្ឆេទបច្ចុប្បន្ន
+        const nowDate = new Date();
+        dateDisplay = String(nowDate.getDate()).padStart(2, '0') + '/' +
+                      String(nowDate.getMonth() + 1).padStart(2, '0') + '/' +
+                      nowDate.getFullYear();
+      } 
+      // ប្រសិនបើជា format ត្រឹមត្រូវ dd/MM/yyyy HH:mm:ss
+      else if (dateStr.includes('/')) {
+        const parts = dateStr.split(' ');
+        dateDisplay = parts[0] || dateStr;
+        timeDisplay = parts[1] || '';
+      } 
+      else {
+        dateDisplay = dateStr;
       }
     }
     
-    // ប្រសិនបើ drawTime មាន ប្រើវា
+    // ប្រើ drawTime ប្រសិនបើមាន
     if (b.drawTime) {
-      timeStr = b.drawTime;
+      timeDisplay = b.drawTime;
     }
     
     return `<tr>
       <td style="text-align:left; font-size:10px;">
         <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
-        <div style="font-weight:bold;">${dateStr}</div>
-        <div style="color:#6c757d;">${timeStr}</div>
+        <div style="font-weight:bold;">${dateDisplay}</div>
+        <div style="color:#6c757d;">${timeDisplay}</div>
       </td>
       <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
       <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
