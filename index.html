@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ===== All your existing styles ===== */
     * { box-sizing:border-box; font-family:'Kantumruy Pro',system-ui,sans-serif; margin:0; padding:0; }
     body { background:#f0f4f8; }
     header { background:linear-gradient(135deg,#0078D7,#005fa3); color:white; padding:15px 20px; text-align:center; }
@@ -155,25 +154,21 @@
   </style>
 </head>
 <body>
-  <!-- ===== HEADER ===== -->
   <header>
     <h1>🎰 ឆ្នោតខ្មែរ N98</h1>
     <p>ប្រព័ន្ធទិញលេខឆ្នោត និងទទួលបានរង្វាន់</p>
   </header>
 
-  <!-- ===== NAV ===== -->
   <nav class="nav-bar">
-    <a href="#" class="active" onclick="showSection('home')">🏠 ដើម</a>
-    <a href="#" onclick="showSection('history')">📊 ប្រវត្តិ</a>
-    <a href="#" onclick="showSection('rules')">📋 ច្បាប់</a>
+    <a href="#" class="active" onclick="showSection('home', event)">🏠 ដើម</a>
+    <a href="#" onclick="showSection('history', event)">📊 ប្រវត្តិ</a>
+    <a href="#" onclick="showSection('rules', event)">📋 ច្បាប់</a>
     <button class="btn-share" onclick="copyLink()">🔗 ចែករំលែក</button>
     <button class="btn-group" onclick="openGroup()">📢 ក្រុម</button>
   </nav>
 
-  <!-- ===== SECTION ===== -->
   <div class="section">
 
-    <!-- ===== CLOCK ===== -->
     <div class="clock-box">
       <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
         <span style="font-size:clamp(20px,3vw,24px);">⏰</span>
@@ -188,19 +183,16 @@
       </div>
     </div>
 
-    <!-- ===== DATA SYNC STATUS ===== -->
     <div class="data-sync-bar" id="syncBar">
       <span>📡 ស្ថានភាពទិន្នន័យ៖</span>
       <span class="sync-status" id="syncStatus">✅ រួចរាល់</span>
     </div>
 
-    <!-- ===== STATUS ===== -->
     <div class="status-bar">
       <span class="label">📊 ស្ថានភាព៖</span>
       <span class="value" id="resultStatusText">កំពុងផ្ទុក...</span>
     </div>
 
-    <!-- ===== COUNTDOWN ===== -->
     <div class="countdown">
       <div style="display:flex; justify-content:center; align-items:center; gap:6px; flex-wrap:wrap;">
         <span style="font-size:clamp(20px,3vw,24px);">🎲</span>
@@ -211,15 +203,14 @@
       <div class="status-time" id="statusTimeLabel"></div>
     </div>
 
-    <!-- ===== HOME ===== -->
     <div id="homeSection">
 
-      <!-- 12:00 RESULT -->
       <div class="lottery-box">
         <div class="time-box">
           🕛 លទ្ធផល 12:00 
           <span class="badge" id="badge12">ព្រឹកពីរ</span>
         </div>
+        <div style="font-weight:bold;color:#0078D7;font-size:12px;margin-top:6px;">🔢 ២ខ្ទង់</div>
         <div class="numbers" id="box12">
           <div><span class="letter">A:</span> <span id="r12_A">--</span></div>
           <div><span class="letter">B:</span> <span id="r12_B">--</span></div>
@@ -227,24 +218,39 @@
           <div><span class="letter">D:</span> <span id="r12_D">--</span></div>
           <div><span class="letter">E:</span> <span id="r12_E">--</span></div>
         </div>
+        <div style="font-weight:bold;color:#6f42c1;font-size:12px;margin-top:8px;">🔢 ៣ខ្ទង់</div>
+        <div class="numbers" id="box12_3d">
+          <div><span class="letter">A:</span> <span id="r12_3d_A">--</span></div>
+          <div><span class="letter">B:</span> <span id="r12_3d_B">--</span></div>
+          <div><span class="letter">C:</span> <span id="r12_3d_C">--</span></div>
+          <div><span class="letter">D:</span> <span id="r12_3d_D">--</span></div>
+          <div><span class="letter">E:</span> <span id="r12_3d_E">--</span></div>
+        </div>
       </div>
 
-      <!-- 16:00 RESULT -->
       <div class="lottery-box">
         <div class="time-box">
           🕓 លទ្ធផល 16:00 
           <span class="badge" id="badge16">ល្ងាចបី</span>
         </div>
+        <div style="font-weight:bold;color:#0078D7;font-size:12px;margin-top:6px;">🔢 ២ខ្ទង់</div>
         <div class="numbers" id="box16">
-          <div><span class="letter">A:</span> <span id="r16_A">---</span></div>
-          <div><span class="letter">B:</span> <span id="r16_B">---</span></div>
-          <div><span class="letter">C:</span> <span id="r16_C">---</span></div>
-          <div><span class="letter">D:</span> <span id="r16_D">---</span></div>
-          <div><span class="letter">E:</span> <span id="r16_E">---</span></div>
+          <div><span class="letter">A:</span> <span id="r16_A">--</span></div>
+          <div><span class="letter">B:</span> <span id="r16_B">--</span></div>
+          <div><span class="letter">C:</span> <span id="r16_C">--</span></div>
+          <div><span class="letter">D:</span> <span id="r16_D">--</span></div>
+          <div><span class="letter">E:</span> <span id="r16_E">--</span></div>
+        </div>
+        <div style="font-weight:bold;color:#6f42c1;font-size:12px;margin-top:8px;">🔢 ៣ខ្ទង់</div>
+        <div class="numbers" id="box16_3d">
+          <div><span class="letter">A:</span> <span id="r16_3d_A">--</span></div>
+          <div><span class="letter">B:</span> <span id="r16_3d_B">--</span></div>
+          <div><span class="letter">C:</span> <span id="r16_3d_C">--</span></div>
+          <div><span class="letter">D:</span> <span id="r16_3d_D">--</span></div>
+          <div><span class="letter">E:</span> <span id="r16_3d_E">--</span></div>
         </div>
       </div>
 
-      <!-- ===== BET BOX ===== -->
       <div class="bet-box">
         <h2>🎯 ទិញលេខឆ្នោត (A, B, C, D, E)</h2>
 
@@ -259,8 +265,8 @@
         <table class="reward-table">
           <thead><tr><th>ប្រភេទ</th><th>ម៉ោង</th><th>អត្រា</th></tr></thead>
           <tbody>
-            <tr><td>២ខ្ទង់ (A-E)</td><td>12:00</td><td>1$ → <span class="text-respond">70$</span></td></tr>
-            <tr><td>៣ខ្ទង់ (A-E)</td><td>16:00</td><td>1$ → <span class="text-respond">500$</span></td></tr>
+            <tr><td>២ខ្ទង់ (A-E)</td><td>12:00 & 16:00</td><td>1$ → <span class="text-respond">70$</span></td></tr>
+            <tr><td>៣ខ្ទង់ (A-E)</td><td>12:00 & 16:00</td><td>1$ → <span class="text-respond">500$</span></td></tr>
           </tbody>
         </table>
 
@@ -273,13 +279,13 @@
         </div>
 
         <div class="time-selector">
-          <button class="time-btn active" onclick="setTime('12:00')">🕛 12:00</button>
-          <button class="time-btn" onclick="setTime('16:00')">🕓 16:00</button>
+          <button class="time-btn active" onclick="setTime('12:00', event)">🕛 12:00</button>
+          <button class="time-btn" onclick="setTime('16:00', event)">🕓 16:00</button>
         </div>
 
         <div class="type-selector">
-          <button class="type-btn active" onclick="setType('two')">🔢 ២ខ្ទង់</button>
-          <button class="type-btn" onclick="setType('three')">🔢 ៣ខ្ទង់</button>
+          <button class="type-btn active" onclick="setType('two', event)">🔢 ២ខ្ទង់</button>
+          <button class="type-btn" onclick="setType('three', event)">🔢 ៣ខ្ទង់</button>
         </div>
 
         <div class="config-card">
@@ -291,11 +297,11 @@
           ចុចជ្រើសរើស A,B,C,D,E
         </div>
         <div class="letter-selector">
-          <div class="letter-circle" onclick="selectLetter('A')">A</div>
-          <div class="letter-circle" onclick="selectLetter('B')">B</div>
-          <div class="letter-circle" onclick="selectLetter('C')">C</div>
-          <div class="letter-circle" onclick="selectLetter('D')">D</div>
-          <div class="letter-circle" onclick="selectLetter('E')">E</div>
+          <div class="letter-circle" onclick="selectLetter('A', event)">A</div>
+          <div class="letter-circle" onclick="selectLetter('B', event)">B</div>
+          <div class="letter-circle" onclick="selectLetter('C', event)">C</div>
+          <div class="letter-circle" onclick="selectLetter('D', event)">D</div>
+          <div class="letter-circle" onclick="selectLetter('E', event)">E</div>
         </div>
 
         <div class="input-row">
@@ -343,7 +349,6 @@
         </button>
       </div>
 
-      <!-- ===== USER HISTORY ===== -->
       <div class="lottery-box">
         <div class="time-box" style="color:#6f42c1;">🕒 ប្រវត្តិចាក់របស់អ្នក</div>
         <div style="overflow-x:auto; margin-top:4px;">
@@ -361,26 +366,24 @@
         </div>
       </div>
 
-      <!-- ===== WITHDRAW ===== -->
       <div class="lottery-box">
-        <div class="time-box">🦅 ដកប្រាក់</div>
+        <div class="time-box">🏦 ដកប្រាក់</div>
         <p style="font-size:clamp(11px,1.2vw,13px); color:#4a5568; margin:3px 0;">ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
         <div class="action-group">
-          <button class="btn btn-withdraw" onclick="openWithdraw('normal')">🦅 ដកទៀងទាត់</button>
-          <button class="btn btn-withdraw" onclick="openWithdraw('late')">⏰ ដកយឺត</button>
+          <button class="btn btn-withdraw" onclick="openWithdraw('normal')">🏦 ដកប្រាក់រង្វាន់</button>
+          <button class="btn btn-withdraw" onclick="openWithdraw('late')">🏦 ដកប្រាក់រង្វាន់ / ⏰ ដកយឺត</button>
           <button class="btn btn-telegram" onclick="contactAdmin()">✈️ ទាក់ទង</button>
         </div>
       </div>
     </div>
 
-    <!-- ===== HISTORY ===== -->
     <div id="historySection" style="display:none;">
       <div class="lottery-box">
         <div class="time-box">📊 ប្រវត្តិលទ្ធផល</div>
         <div style="overflow-x:auto; margin-top:4px;">
           <table class="history-table">
             <thead><tr style="background:linear-gradient(135deg,#0078D7,#005fa3);">
-              <th>កាលបរិច្ឆេទ</th><th>ប្រភេទ</th><th>១២:០០</th><th>១៦:០០</th>
+              <th>កាលបរិច្ឆេទ</th><th>ម៉ោង</th><th>២ខ្ទង់</th><th>៣ខ្ទង់</th>
             </tr></thead>
             <tbody id="historyBody">
               <tr><td colspan="4" style="color:#6c757d; padding:8px;">កំពុងផ្ទុក...</td></tr>
@@ -390,7 +393,6 @@
       </div>
     </div>
 
-    <!-- ===== RULES ===== -->
     <div id="rulesSection" style="display:none;">
       <div class="bet-box">
         <h2>📋 ច្បាប់ និងរបៀបប្រើប្រាស់</h2>
@@ -404,26 +406,24 @@
           <p>៦. ចុច "ដាក់ប្រាក់តាម ABA / ACLEDA"</p>
 
           <h4 style="color:#005fa3; margin-top:10px;">២. អត្រារង្វាន់</h4>
-          <p>• 12:00 - ២ខ្ទង់ (A-E) ៖ 1$ → 70$</p>
-          <p>• 16:00 - ៣ខ្ទង់ (A-E) ៖ 1$ → 500$</p>
+          <p>• 12:00 & 16:00 - ២ខ្ទង់ (A-E) ៖ 1$ → 70$</p>
+          <p>• 12:00 & 16:00 - ៣ខ្ទង់ (A-E) ៖ 1$ → 500$</p>
           <p>• ចាក់ពី 500៛/0.25$ ដល់ 40,000៛/10$</p>
 
           <h4 style="color:#005fa3; margin-top:10px;">៣. របៀបដកប្រាក់</h4>
-          <p>• ទៀងទាត់៖ ដកបាន 12:00 ដល់ 22:00</p>
-          <p>• យឺត៖ សម្រាប់អ្នកភ្លេចដក</p>
-          <p>• សុពលភាព៖ ៣ ថ្ងៃគិតចាប់ពីពេលចេញលទ្ធផល</p>
+          <p>• ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
+          <p>• សុពលភាព៖ ២៤ ម៉ោង បន្ទាប់ពីប្រកាសលទ្ធផល</p>
+          <p>• បន្ទាប់ពីផុតកំណត់ លេខនឹងត្រូវបានលុបចោល</p>
         </div>
       </div>
     </div>
 
   </div>
 
-  <!-- ===== FOOTER ===== -->
   <div class="footer">
     © 2026 Khmer Lottery N98 | ប្រព័ន្ធទិញលេខឆ្នោត
   </div>
 
-  <!-- ===== MODALS ===== -->
   <div class="modal" id="depositModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('depositModal')">&times;</span>
@@ -460,7 +460,7 @@
   <div class="modal" id="withdrawModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('withdrawModal')">&times;</span>
-      <h2 id="withdrawTitle" style="color:#0078D7; font-size:clamp(18px,2.2vw,22px);">🦅 ស្នើសុំដកប្រាក់</h2>
+      <h2 id="withdrawTitle" style="color:#0078D7; font-size:clamp(18px,2.2vw,22px);">🏦 ស្នើសុំដកប្រាក់រង្វាន់</h2>
       <div class="withdraw-notice" id="withdrawNotice">...</div>
       <form id="withdrawForm">
         <label>ជ្រើសរើសលេខឈ្នះ *</label>
@@ -510,22 +510,23 @@
     </div>
   </div>
 
-  <!-- ============================================================ -->
   <script>
     // ================================================================
     // TELEGRAM CONFIG
     // ================================================================
     const TELEGRAM = {
-      // Bot for sending results (use this bot to store results)
       RESULT_TOKEN: '8404060424:AAFSc2A5tAlEsmzOebSizHw2BHOy-Bnb834',
-      RESULT_CHAT: '-1004337529817',
-      // Bot for bets
+      RESULT_CHAT: '-1004476774053',
+      
       BET_TOKEN: '8603184541:AAHmaJnY057ywvAhh04p1NfrIYiBPo8p8TI',
-      BET_CHAT: '-1003922702406',
-      // Bot for withdraw
+      BET_CHAT: '-1004349853491',
+      
       WITHDRAW_TOKEN: '8822939753:AAHHgovBXqIyDPw9fBvvHG7M2oyaIGYhFIo',
-      WITHDRAW_CHAT: '-5142906656'
+      WITHDRAW_CHAT: '-1004369245881'
     };
+
+    // ⚠️ សូមជំនួសដោយ Web App URL ពិតរបស់អ្នក
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbx1pQy12FcF6fJPiyjO4EvbXuc6YdReM_DsOWbVhkkyb6aAmiSnE_Or6Kc3PRLey55FsQ/exec';
 
     // ================================================================
     // STATE
@@ -536,9 +537,6 @@
     let numbers = [];
     let amount = 0;
     let currency = 'USD';
-    let isProcessing = false;
-
-    // Cached results from Telegram
     let cachedResults = [];
     let isSyncing = false;
 
@@ -572,112 +570,6 @@
     }
 
     // ================================================================
-    // TELEGRAM - READ RESULTS FROM CHANNEL
-    // ================================================================
-    async function fetchResultsFromTelegram() {
-      try {
-        const url = `https://api.telegram.org/bot${TELEGRAM.RESULT_TOKEN}/getUpdates`;
-        const res = await fetch(url);
-        const data = await res.json();
-        
-        if (data.ok && data.result) {
-          // Parse results from messages
-          const results = [];
-          for (const update of data.result) {
-            if (update.message && update.message.text) {
-              const text = update.message.text;
-              // Parse result format: "📢 <b>លទ្ធផលឆ្នោត N98</b>..."
-              if (text.includes('លទ្ធផលឆ្នោត N98')) {
-                const parsed = parseResultMessage(text);
-                if (parsed) results.push(parsed);
-              }
-            }
-          }
-          return results;
-        }
-        return [];
-      } catch (e) {
-        console.error('Error fetching results from Telegram:', e);
-        return [];
-      }
-    }
-
-    function parseResultMessage(text) {
-      try {
-        // Extract date
-        const dateMatch = text.match(/📅 កាលបរិច្ឆេទ: <b>(.*?)<\/b>/);
-        const timeMatch = text.match(/🕒 ម៉ោងចាក់: <b>(.*?)<\/b>/);
-        const aMatch = text.match(/Ⓐ A: <b>(.*?)<\/b>/);
-        const bMatch = text.match(/Ⓑ B: <b>(.*?)<\/b>/);
-        const cMatch = text.match(/Ⓒ C: <b>(.*?)<\/b>/);
-        const dMatch = text.match(/Ⓓ D: <b>(.*?)<\/b>/);
-        const eMatch = text.match(/Ⓔ E: <b>(.*?)<\/b>/);
-
-        if (!dateMatch || !aMatch) return null;
-
-        const date = dateMatch[1];
-        const time = timeMatch ? timeMatch[1] : '12:00';
-        const isTwoDigit = time.includes('២ខ្ទង់') || time.includes('12:00');
-
-        return {
-          date: date,
-          time: time,
-          type: isTwoDigit ? 'two' : 'three',
-          results: {
-            A: aMatch ? aMatch[1] : '--',
-            B: bMatch ? bMatch[1] : '--',
-            C: cMatch ? cMatch[1] : '--',
-            D: dMatch ? dMatch[1] : '--',
-            E: eMatch ? eMatch[1] : '--'
-          }
-        };
-      } catch (e) {
-        return null;
-      }
-    }
-
-    // ================================================================
-    // SYNC RESULTS FROM TELEGRAM
-    // ================================================================
-    async function syncResults() {
-      if (isSyncing) return;
-      isSyncing = true;
-      document.getElementById('syncStatus').textContent = '⏳ កំពុងធ្វើសមកាលកម្ម...';
-      document.getElementById('syncStatus').className = 'sync-pending';
-
-      try {
-        const results = await fetchResultsFromTelegram();
-        if (results.length > 0) {
-          // Store results in localStorage as cache
-          localStorage.setItem('telegram_results_cache', JSON.stringify(results));
-          cachedResults = results;
-          renderHistoryTable();
-          updateResultsUI();
-          document.getElementById('syncStatus').textContent = '✅ រួចរាល់';
-          document.getElementById('syncStatus').className = 'sync-status';
-        } else {
-          // Try to load from cache
-          const cached = localStorage.getItem('telegram_results_cache');
-          if (cached) {
-            cachedResults = JSON.parse(cached);
-            renderHistoryTable();
-            updateResultsUI();
-            document.getElementById('syncStatus').textContent = '📦 ពីឃ្លាំងស្តុក';
-            document.getElementById('syncStatus').className = 'sync-status';
-          } else {
-            document.getElementById('syncStatus').textContent = '⚠️ មិនមានទិន្នន័យ';
-            document.getElementById('syncStatus').className = 'sync-pending';
-          }
-        }
-      } catch (e) {
-        console.error('Sync error:', e);
-        document.getElementById('syncStatus').textContent = '❌ កំហុស';
-        document.getElementById('syncStatus').className = 'sync-pending';
-      }
-      isSyncing = false;
-    }
-
-    // ================================================================
     // HELPERS
     // ================================================================
     function getReqLen() { return betType === 'two' ? 2 : 3; }
@@ -691,12 +583,12 @@
 
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-    function showSection(name) {
+    function showSection(name, evt) {
       document.getElementById('homeSection').style.display = name === 'home' ? 'block' : 'none';
       document.getElementById('historySection').style.display = name === 'history' ? 'block' : 'none';
       document.getElementById('rulesSection').style.display = name === 'rules' ? 'block' : 'none';
       document.querySelectorAll('.nav-bar a').forEach(a => a.classList.remove('active'));
-      if (event && event.target) event.target.classList.add('active');
+      if (evt && evt.target) evt.target.classList.add('active');
     }
 
     function copyLink() {
@@ -720,28 +612,60 @@
       return fetch(`https://api.telegram.org/bot${token}/sendPhoto`, { method: 'POST', body: fd });
     }
 
-    async function sendMsg(token, chatId, text) {
-      return fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: chatId, text: text, parse_mode: 'HTML' })
-      });
+    // ================================================================
+    // FETCH RESULTS FROM WEB APP
+    // ================================================================
+    async function checkResults() {
+      if (isSyncing) return;
+      isSyncing = true;
+      const syncEl = document.getElementById('syncStatus');
+      syncEl.textContent = '⏳ កំពុងទាញទិន្នន័យ...';
+      syncEl.className = 'sync-pending';
+
+      try {
+        const res = await fetch(WEB_APP_URL + '?action=getResults&limit=30');
+        const data = await res.json();
+        if (data.ok && data.results) {
+          cachedResults = data.results;
+          localStorage.setItem('telegram_results_cache', JSON.stringify(cachedResults));
+          updateResultsUI();
+          renderHistoryTable();
+          syncEl.textContent = '✅ រួចរាល់';
+          syncEl.className = 'sync-status';
+        } else {
+          syncEl.textContent = '⚠️ មិនមានទិន្នន័យ';
+          syncEl.className = 'sync-pending';
+        }
+      } catch (err) {
+        console.error('Error fetching results:', err);
+        const cached = localStorage.getItem('telegram_results_cache');
+        if (cached) {
+          try {
+            cachedResults = JSON.parse(cached);
+            updateResultsUI();
+            renderHistoryTable();
+          } catch(e) {}
+        }
+        syncEl.textContent = '❌ កំហុស';
+        syncEl.className = 'sync-pending';
+      }
+      isSyncing = false;
     }
 
     // ================================================================
     // BET FUNCTIONS
     // ================================================================
-    function setTime(t) {
+    function setTime(t, evt) {
       selectedTime = t;
       document.querySelectorAll('.time-selector .time-btn').forEach(b => b.classList.remove('active'));
-      if (event && event.target) event.target.classList.add('active');
+      if (evt && evt.target) evt.target.classList.add('active');
       updateConfig();
     }
 
-    function setType(t) {
+    function setType(t, evt) {
       betType = t;
       document.querySelectorAll('.type-selector .type-btn').forEach(b => b.classList.remove('active'));
-      if (event && event.target) event.target.classList.add('active');
+      if (evt && evt.target) evt.target.classList.add('active');
       numbers = [];
       updateDisplay();
       updateConfig();
@@ -756,10 +680,10 @@
         `${selectedTime} | ${betType === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}`;
     }
 
-    function selectLetter(l) {
+    function selectLetter(l, evt) {
       selectedLetter = l;
       document.querySelectorAll('.letter-circle').forEach(el => el.classList.remove('active'));
-      if (event && event.target) event.target.classList.add('active');
+      if (evt && evt.target) evt.target.classList.add('active');
       const inp = document.getElementById('numInput');
       inp.disabled = false;
       inp.placeholder = betType === 'two' ? `បញ្ចូល ២ខ្ទង់សម្រាប់ ${l}` : `បញ្ចូល ៣ខ្ទង់សម្រាប់ ${l}`;
@@ -774,8 +698,7 @@
       let parts = [];
       for (let i = 0; i < val.length; i += len) {
         let chunk = val.substring(i, i + len);
-        if (chunk.length === len) parts.push(chunk);
-        else if (chunk.length > 0) parts.push(chunk);
+        if (chunk.length > 0) parts.push(chunk);
       }
       inp.value = parts.join(',');
     }
@@ -888,7 +811,7 @@
       const totalD = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
       const now = new Date();
       const exp = new Date(now);
-      exp.setDate(exp.getDate() + 3);
+      exp.setDate(exp.getDate() + 1);
 
       const bet = {
         id: 'BET-' + Date.now(),
@@ -912,26 +835,44 @@
       btn.disabled = true;
       btn.textContent = 'កំពុងបញ្ជូន...';
 
-      // Save to localStorage
       addBet(bet);
 
-      // Send to Telegram
-      const msg = `🎯 <b>ការចាក់ឆ្នោតថ្មី</b>\n\n` +
-        `🕒 ពេល: <b>${selectedTime}</b>\n` +
-        `📱 ទូរស័ព្ទ: <code>${phone}</code>\n` +
-        `🏦 ធនាគារ: ${bank}\n` +
-        `👤 ឈ្មោះ: ${name}\n` +
-        `🔢 ប្រភេទ: ${betType === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}\n` +
-        `🎯 លេខ: <b>${numbers.join(', ')}</b>\n` +
-        `💵 ក្នុងមួយលេខ: ${per}\n` +
-        `💰 សរុប: <b>${totalD}</b>\n` +
-        `⏰ ចាក់: ${bet.dateStr}\n` +
-        `⏳ ផុតកំណត់: ${exp.toLocaleDateString('km-KH')} (៣ថ្ងៃ)`;
-
       try {
-        const res = await sendPhoto(TELEGRAM.BET_TOKEN, TELEGRAM.BET_CHAT, file.files[0], msg);
+        const payload = {
+          action: 'placeBet',
+          phone: phone,
+          numbers: numbers,
+          type: betType,
+          amount: amount,
+          currency: currency,
+          total: total,
+          bank: bank,
+          name: name,
+          drawTime: selectedTime
+        };
+
+        const res = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'text/plain' }
+        });
         const data = await res.json();
+        
         if (data.ok) {
+          const msg = `🎯 <b>ការចាក់ឆ្នោតថ្មី</b>\n\n` +
+            `🆔 លេខកូដ: <code>${data.betId}</code>\n` +
+            `🕒 ម៉ោង: <b>${selectedTime}</b>\n` +
+            `📱 ទូរស័ព្ទ: <code>${phone}</code>\n` +
+            `🏦 ធនាគារ: ${bank}\n` +
+            `👤 ឈ្មោះ: ${name}\n` +
+            `🔢 ប្រភេទ: ${betType === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}\n` +
+            `🎯 លេខ: <b>${numbers.join(', ')}</b>\n` +
+            `💵 ក្នុងមួយលេខ: ${per}\n` +
+            `💰 សរុប: <b>${totalD}</b>\n` +
+            `⏰ ចាក់: ${now.toLocaleString('km-KH')}`;
+
+          await sendPhoto(TELEGRAM.BET_TOKEN, TELEGRAM.BET_CHAT, file.files[0], msg);
+
           showAlert('ជោគជ័យ', '✅ ការចាក់ឆ្នោតត្រូវបានបញ្ជូន!', '🎉');
           closeModal('depositModal');
           numbers = [];
@@ -939,9 +880,10 @@
           renderUserBets();
           document.getElementById('depositForm').reset();
         } else {
-          showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការបញ្ជូនទៅ Telegram!', '❌');
+          showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការបញ្ជូន!', '❌');
         }
       } catch (err) {
+        console.error('Error:', err);
         showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការតភ្ជាប់!', '❌');
       }
       btn.disabled = false;
@@ -959,8 +901,7 @@
 
       bets.forEach(b => {
         if (b.status === 'pending' && b.expire) {
-          if (new Date(b.expire) < now) { b.status = 'expired';
-            updated = true; }
+          if (new Date(b.expire) < now) { b.status = 'expired'; updated = true; }
         }
       });
       if (updated) saveBets(bets);
@@ -1005,11 +946,11 @@
       const title = document.getElementById('withdrawTitle');
       const notice = document.getElementById('withdrawNotice');
       if (mode === 'late') {
-        title.textContent = '⏰ ដកប្រាក់យឺត';
-        notice.innerHTML = '⚠️ <strong>យឺតពេលកំណត់</strong> សុពលភាព ៣ ថ្ងៃ';
+        title.textContent = '🏦 ដកប្រាក់រង្វាន់ / ⏰ ដកយឺត';
+        notice.innerHTML = '⚠️ <strong>យឺតពេលកំណត់</strong> សុពលភាព ២៤ ម៉ោង';
       } else {
-        title.textContent = '🦅 ដកប្រាក់ទៀងទាត់';
-        notice.innerHTML = '✅ ដកបាន 12:00 ដល់ 22:00 សុពលភាព ៣ ថ្ងៃ';
+        title.textContent = '🏦 ដកប្រាក់រង្វាន់';
+        notice.innerHTML = '✅ ដកបានបន្ទាប់ពី 12:00 និង 16:00 សុពលភាព ២៤ ម៉ោង';
       }
       populateWinSelect();
       modal.style.display = 'block';
@@ -1021,8 +962,7 @@
       const now = new Date();
       const wins = bets.filter(b => {
         if (b.status === 'win' && !b.claimed) {
-          if (b.expire && new Date(b.expire) < now) { b.status = 'expired';
-            saveBets(bets); return false; }
+          if (b.expire && new Date(b.expire) < now) { b.status = 'expired'; saveBets(bets); return false; }
           return true;
         }
         return false;
@@ -1070,7 +1010,7 @@
       const bet = bets.find(b => b.id === id);
       if (!bet) { showAlert('កំហុស', 'មិនរកឃើញប្រវត្តិ!', '❌'); return; }
       if (bet.expire && new Date(bet.expire) < new Date()) {
-        showAlert('កំហុស', '⏰ លេខនេះផុតកំណត់ហើយ! (៣ ថ្ងៃ)', '⏰');
+        showAlert('កំហុស', '⏰ លេខនេះផុតកំណត់ហើយ! (២៤ ម៉ោង)', '⏰');
         return;
       }
 
@@ -1078,23 +1018,41 @@
       const total = bet.amount * rate;
       const display = bet.currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
 
-      const msg = `🦅 <b>ស្នើសុំដកប្រាក់</b>\n\n` +
-        `📱 ទូរស័ព្ទ: <code>${phone}</code>\n` +
-        `🎯 លេខចាក់: <b>${bet.numbers.join(', ')}</b>\n` +
-        `💰 រង្វាន់: <b>${display}</b>\n` +
-        `🏦 ធនាគារ: ${bank}\n` +
-        `💳 គណនី: <code>${accNo}</code>\n` +
-        `👤 ឈ្មោះ: ${accName}\n` +
-        `⏰ ចាក់: ${bet.dateStr}`;
-
       const btn = this.querySelector('button[type="submit"]');
       btn.disabled = true;
       btn.textContent = 'កំពុងបញ្ជូន...';
 
       try {
-        const res = await sendPhoto(TELEGRAM.WITHDRAW_TOKEN, TELEGRAM.WITHDRAW_CHAT, qr.files[0], msg);
+        const payload = {
+          action: 'requestWithdraw',
+          phone: phone,
+          numbers: bet.numbers.join(', '),
+          reward: display,
+          bank: bank,
+          accNo: accNo,
+          accName: accName
+        };
+
+        const res = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: { 'Content-Type': 'text/plain' }
+        });
         const data = await res.json();
+
         if (data.ok) {
+          const msg = `🏦 <b>ស្នើសុំដកប្រាក់រង្វាន់</b>\n\n` +
+            `🆔 លេខកូដ: <code>${data.withdrawId}</code>\n` +
+            `📱 ទូរស័ព្ទ: <code>${phone}</code>\n` +
+            `🎯 លេខចាក់: <b>${bet.numbers.join(', ')}</b>\n` +
+            `💰 រង្វាន់: <b>${display}</b>\n` +
+            `🏦 ធនាគារ: ${bank}\n` +
+            `💳 គណនី: <code>${accNo}</code>\n` +
+            `👤 ឈ្មោះ: ${accName}\n` +
+            `⏰ ស្នើ: ${new Date().toLocaleString('km-KH')}`;
+
+          await sendPhoto(TELEGRAM.WITHDRAW_TOKEN, TELEGRAM.WITHDRAW_CHAT, qr.files[0], msg);
+
           updateBet(id, { claimed: true });
           showAlert('ជោគជ័យ', '✅ ស្នើសុំដកប្រាក់ត្រូវបានបញ្ជូន!', '🎉');
           closeModal('withdrawModal');
@@ -1104,134 +1062,12 @@
           showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការបញ្ជូន!', '❌');
         }
       } catch (err) {
+        console.error('Error:', err);
         showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការតភ្ជាប់!', '❌');
       }
       btn.disabled = false;
       btn.textContent = '🚀 បញ្ជាក់ដកប្រាក់';
     });
-
-    // ================================================================
-    // LOTTERY RESULTS (using Telegram data)
-    // ================================================================
-    function seededRandom(seed) {
-      let x = Math.sin(seed++) * 10000;
-      return x - Math.floor(x);
-    }
-
-    function generateResults(dateStr, timeStr, type) {
-      const bets = getBets();
-      const active = bets.filter(b => b.type === type && (b.drawTime === timeStr || !b.drawTime));
-      let seed = 0;
-      for (let i = 0; i < dateStr.length; i++) seed += dateStr.charCodeAt(i);
-      seed += timeStr === '12:00' ? 12 : 16;
-      const posts = ['A', 'B', 'C', 'D', 'E'];
-      let best = null;
-      for (let attempt = 0; attempt < 50; attempt++) {
-        let temp = {};
-        posts.forEach(p => {
-          let num = '';
-          if (type === 'two') {
-            const v = Math.floor(seededRandom(seed++) * 100);
-            num = v.toString().padStart(2, '0');
-          } else {
-            const v = Math.floor(seededRandom(seed++) * 1000);
-            num = v.toString().padStart(3, '0');
-          }
-          temp[p] = num;
-        });
-        let revenue = 0,
-          payout = 0;
-        active.forEach(b => {
-          revenue += b.total;
-          const rate = type === 'two' ? 70 : 500;
-          b.numbers.forEach(tag => {
-            const [p, n] = tag.split(':');
-            if (temp[p] === n) payout += b.amount * rate;
-          });
-        });
-        if (revenue === 0 || payout <= revenue * 0.70) { best = temp; break; }
-        best = temp;
-      }
-      return best;
-    }
-
-    function evaluateBets(dateStr, drawTime, type, results) {
-      const bets = getBets();
-      let hasWin = false;
-      const now = new Date();
-      const exp = new Date(now);
-      exp.setDate(exp.getDate() + 3);
-      bets.forEach(b => {
-        if (b.type === type && (b.drawTime === drawTime || !b.drawTime) && b.status === 'pending') {
-          let win = false;
-          b.numbers.forEach(tag => {
-            const [p, n] = tag.split(':');
-            if (results[p] === n) win = true;
-          });
-          if (win) { b.status = 'win';
-            b.expire = exp.toISOString();
-            hasWin = true; } else b.status = 'loss';
-        }
-      });
-      saveBets(bets);
-      renderUserBets();
-      if (hasWin) showAlert('🎉 អបអរសាទរ!', 'អ្នកបានឈ្នះឆ្នោត! (សុពលភាព ៣ ថ្ងៃ)', '🏆');
-    }
-
-    function publishResult(dateDisplay, timeTitle, results) {
-      const msg = `📢 <b>លទ្ធផលឆ្នោត N98</b>\n📅 ${dateDisplay}\n🕒 ${timeTitle}\n\n` +
-        `Ⓐ A: <b>${results.A}</b>\nⒷ B: <b>${results.B}</b>\nⒸ C: <b>${results.C}</b>\nⒹ D: <b>${results.D}</b>\nⒺ E: <b>${results.E}</b>\n\n` +
-        `⏳ សុពលភាព ៣ ថ្ងៃ\n🌐 ពិនិត្យប្រវត្តិតាមទំព័រ!`;
-      sendMsg(TELEGRAM.RESULT_TOKEN, TELEGRAM.RESULT_CHAT, msg).catch(console.error);
-    }
-
-    // ================================================================
-    // CHECK RESULTS
-    // ================================================================
-    function checkResults() {
-      if (isProcessing) return;
-      isProcessing = true;
-      try {
-        const now = new Date();
-        const h = now.getHours(),
-          m = now.getMinutes(),
-          s = now.getSeconds();
-        const today = now.toISOString().split('T')[0];
-        const display = now.toLocaleDateString('km-KH');
-
-        // Check if we already have today's results from Telegram
-        const existing = cachedResults.find(r => r.date === display);
-        const has12 = existing && existing.time.includes('12:00');
-        const has16 = existing && existing.time.includes('16:00');
-
-        // Generate if needed and send to Telegram
-        if (h === 12 && m === 0 && !has12) {
-          const res = generateResults(today, '12:00', 'two');
-          setTimeout(() => {
-            publishResult(display, '12:00 (២ខ្ទង់)', res);
-            // Evaluate bets after sending result
-            setTimeout(() => evaluateBets(today, '12:00', 'two', res), 5000);
-          }, 5000);
-        }
-
-        if (h === 16 && m === 0 && !has16) {
-          const res = generateResults(today, '16:00', 'three');
-          setTimeout(() => {
-            publishResult(display, '16:00 (៣ខ្ទង់)', res);
-            setTimeout(() => evaluateBets(today, '16:00', 'three', res), 5000);
-          }, 5000);
-        }
-
-        // Sync results from Telegram periodically
-        if (m % 5 === 0 && s < 5) {
-          syncResults();
-        }
-
-        updateResultsUI();
-        renderHistoryTable();
-
-      } finally { isProcessing = false; }
-    }
 
     // ================================================================
     // UPDATE UI
@@ -1241,67 +1077,59 @@
       const h = now.getHours();
       const today = now.toLocaleDateString('km-KH');
 
-      // Find today's results from cached data
-      const todayResult = cachedResults.find(r => r.date === today);
-
+      const todayResults = cachedResults.filter(r => r.date === today);
       const posts = ['A', 'B', 'C', 'D', 'E'];
 
-      // Update 12:00 results
-      const has12 = todayResult && todayResult.time.includes('12:00');
+      // 12:00 results
+      const has12 = todayResults.some(r => r.time && r.time.includes('12:00'));
       const badge12 = document.getElementById('badge12');
 
       if (h >= 12 && has12) {
         badge12.textContent = '✅ ចេញហើយ';
         badge12.className = 'badge badge-completed';
-        posts.forEach(p => {
-          const el = document.getElementById(`r12_${p}`);
-          if (todayResult && todayResult.results[p]) {
-            el.textContent = todayResult.results[p];
-            el.className = 'number-result';
-          }
+        ['two', 'three'].forEach(t => {
+          const r = todayResults.find(x => x.time && x.time.includes('12:00') && x.type === t);
+          const suffix = t === 'two' ? '' : '_3d_';
+          posts.forEach(p => {
+            const el = document.getElementById(`r12${suffix}${p}`);
+            if (el && r && r.results[p]) {
+              el.textContent = r.results[p];
+              el.className = 'number-result';
+            }
+          });
         });
       } else if (h < 12) {
         badge12.textContent = '⏳ រង់ចាំ';
         badge12.className = 'badge badge-waiting';
-        posts.forEach(p => {
-          const el = document.getElementById(`r12_${p}`);
-          el.innerHTML = '<span class="pending-label">⏳ 12:00</span>';
-        });
-      } else {
-        badge12.textContent = 'ព្រឹកពីរ';
-        badge12.className = 'badge';
       }
 
-      // Update 16:00 results
-      const has16 = todayResult && todayResult.time.includes('16:00');
+      // 16:00 results
+      const has16 = todayResults.some(r => r.time && r.time.includes('16:00'));
       const badge16 = document.getElementById('badge16');
 
       if (h >= 16 && has16) {
         badge16.textContent = '✅ ចេញហើយ';
         badge16.className = 'badge badge-completed';
-        posts.forEach(p => {
-          const el = document.getElementById(`r16_${p}`);
-          if (todayResult && todayResult.results[p]) {
-            el.textContent = todayResult.results[p];
-            el.className = 'number-result';
-          }
+        ['two', 'three'].forEach(t => {
+          const r = todayResults.find(x => x.time && x.time.includes('16:00') && x.type === t);
+          const suffix = t === 'two' ? '' : '_3d_';
+          posts.forEach(p => {
+            const el = document.getElementById(`r16${suffix}${p}`);
+            if (el && r && r.results[p]) {
+              el.textContent = r.results[p];
+              el.className = 'number-result';
+            }
+          });
         });
       } else if (h < 16) {
         badge16.textContent = '⏳ រង់ចាំ';
         badge16.className = 'badge badge-waiting';
-        posts.forEach(p => {
-          const el = document.getElementById(`r16_${p}`);
-          el.innerHTML = '<span class="next-label">⏳ 16:00</span>';
-        });
-      } else {
-        badge16.textContent = 'ល្ងាចបី';
-        badge16.className = 'badge';
       }
 
-      // Update status bar
+      // Status bar
       const statusEl = document.getElementById('resultStatusText');
       if (h < 12) {
-        statusEl.textContent = '⏳ រង់ចាំ 12:00 (២ខ្ទង់)';
+        statusEl.textContent = '⏳ រង់ចាំ 12:00';
         statusEl.className = 'value pending';
       } else if (h >= 12 && h < 16) {
         if (has12) {
@@ -1329,28 +1157,28 @@
         return;
       }
 
-      // Group by date
+      // Group by date + time
       const grouped = {};
       cachedResults.forEach(r => {
-        if (!grouped[r.date]) grouped[r.date] = [];
-        grouped[r.date].push(r);
+        const key = r.date + '|' + r.time;
+        if (!grouped[key]) grouped[key] = { date: r.date, time: r.time, two: null, three: null };
+        if (r.type === 'two') grouped[key].two = r;
+        if (r.type === 'three') grouped[key].three = r;
       });
 
       let html = '';
-      for (const [date, items] of Object.entries(grouped)) {
-        const res12 = items.find(i => i.time.includes('12:00') || i.type === 'two');
-        const res16 = items.find(i => i.time.includes('16:00') || i.type === 'three');
+      Object.values(grouped).forEach(g => {
         const fmt = (r) => {
           if (!r || !r.results) return '<span style="color:#dc3545;">⏳ រង់ចាំ</span>';
-          return `A:${r.results.A} B:${r.results.B} C:${r.results.C} D:${r.results.D} E:${r.results.E}`;
+          return `<b style="color:#28a745;">A:${r.results.A} B:${r.results.B} C:${r.results.C} D:${r.results.D} E:${r.results.E}</b>`;
         };
         html += `<tr>
-          <td><strong>${date}</strong></td>
-          <td>A-E</td>
-          <td>${fmt(res12)}</td>
-          <td>${fmt(res16)}</td>
+          <td><strong>${g.date}</strong></td>
+          <td>${g.time}</td>
+          <td>${fmt(g.two)}</td>
+          <td>${fmt(g.three)}</td>
         </tr>`;
-      }
+      });
       tbody.innerHTML = html;
     }
 
@@ -1363,14 +1191,12 @@
       document.getElementById('widgetDate').textContent = now.toLocaleDateString('km-KH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
       const h = now.getHours();
-      let target = 12,
-        label = '🕛 12:00 (២ខ្ទង់)';
-      if (h >= 12 && h < 16) { target = 16;
-        label = '🕓 16:00 (៣ខ្ទង់)'; } else if (h >= 16) { target = 36;
-        label = '🕛 12:00 ថ្ងៃស្អែក'; }
+      let target = 12, label = '🕛 12:00';
+      if (h >= 12 && h < 16) { target = 16; label = '🕓 16:00'; }
+      else if (h >= 16) { target = 36; label = '🕛 12:00 ថ្ងៃស្អែក'; }
       const t = new Date(now);
-      if (target === 36) { t.setDate(t.getDate() + 1);
-        t.setHours(12, 0, 0, 0); } else t.setHours(target, 0, 0, 0);
+      if (target === 36) { t.setDate(t.getDate() + 1); t.setHours(12, 0, 0, 0); }
+      else t.setHours(target, 0, 0, 0);
       const diff = Math.floor((t - now) / 1000);
       const hrs = String(Math.floor(diff / 3600)).padStart(2, '0');
       const mins = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
@@ -1379,27 +1205,15 @@
       document.getElementById('nextTimeLabel').textContent = `🎯 ពេលបន្ទាប់៖ ${label}`;
 
       const statusLabel = document.getElementById('statusTimeLabel');
-      const today = now.toLocaleDateString('km-KH');
-      const todayResult = cachedResults.find(r => r.date === today);
       if (h < 12) {
         statusLabel.textContent = '⏳ រង់ចាំ 12:00';
         statusLabel.style.color = '#dc3545';
       } else if (h >= 12 && h < 16) {
-        if (todayResult && todayResult.time.includes('12:00')) {
-          statusLabel.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ!';
-          statusLabel.style.color = '#28a745';
-        } else {
-          statusLabel.textContent = '⏳ កំពុងដំណើរការ 12:00';
-          statusLabel.style.color = '#dc3545';
-        }
+        statusLabel.textContent = '⏳ រង់ចាំ 16:00';
+        statusLabel.style.color = '#dc3545';
       } else {
-        if (todayResult && todayResult.time.includes('16:00')) {
-          statusLabel.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ!';
-          statusLabel.style.color = '#28a745';
-        } else {
-          statusLabel.textContent = '⏳ រង់ចាំ 16:00';
-          statusLabel.style.color = '#dc3545';
-        }
+        statusLabel.textContent = '✅ លទ្ធផលថ្ងៃនេះចេញហើយ!';
+        statusLabel.style.color = '#28a745';
       }
     }
 
@@ -1411,33 +1225,22 @@
       updateConfig();
       updateDisplay();
 
-      // Load cached results
       const cached = localStorage.getItem('telegram_results_cache');
       if (cached) {
-        try {
-          cachedResults = JSON.parse(cached);
-        } catch (e) { cachedResults = []; }
+        try { cachedResults = JSON.parse(cached); } catch (e) { cachedResults = []; }
       }
 
-      // Sync from Telegram
-      await syncResults();
-
-      // Check results
-      checkResults();
+      updateResultsUI();
+      renderHistoryTable();
       updateClock();
 
-      // Set intervals
-      setInterval(updateClock, 1000);
-      setInterval(() => {
-        checkResults();
-        updateResultsUI();
-      }, 30000);
+      // Fetch from Web App
+      await checkResults();
 
-      // Sync every 5 minutes
-      setInterval(syncResults, 300000);
+      setInterval(updateClock, 1000);
+      setInterval(checkResults, 60000);
     }
 
-    // Run
     document.addEventListener('DOMContentLoaded', init);
     window.onclick = function(e) {
       if (e.target.classList.contains('modal')) e.target.style.display = 'none';
