@@ -1615,9 +1615,9 @@
     
     // ✅✅✅ ទាញកាលបរិច្ឆេទពី ID (timestamp) ✅✅✅
     let dateDisplay = '';
-    let timeDisplay = b.drawTime || '';
+    let timeDisplay = '';
     
-    // ព្យាយាមទាញ timestamp ពី ID (ឧ. BET-1791050472772)
+    // ទាញ timestamp ពី ID (ឧ. BET-1791055782598)
     if (b.id && b.id.startsWith('BET-')) {
       const timestamp = parseInt(b.id.replace('BET-', ''), 10);
       if (!isNaN(timestamp) && timestamp > 1000000000000) {
@@ -1625,22 +1625,37 @@
         dateDisplay = String(d.getDate()).padStart(2, '0') + '/' +
                       String(d.getMonth() + 1).padStart(2, '0') + '/' +
                       d.getFullYear();
-        if (!timeDisplay) {
-          timeDisplay = String(d.getHours()).padStart(2, '0') + ':' +
-                        String(d.getMinutes()).padStart(2, '0');
-        }
+        timeDisplay = String(d.getHours()).padStart(2, '0') + ':' +
+                      String(d.getMinutes()).padStart(2, '0');
       }
     }
     
-    // ប្រសិនបើទាញពី ID មិនបាន → ប្រើ b.date
-    if (!dateDisplay && b.date) {
-      const dateStr = String(b.date);
-      if (dateStr.includes('/')) {
-        const parts = dateStr.split(' ');
-        dateDisplay = parts[0] || dateStr;
-      } else {
-        dateDisplay = dateStr;
+    // ✅✅✅ ប្រសិនបើ drawTime ជា string ត្រឹមត្រូវ (ដូចជា "12:00") → ប្រើវា ✅✅✅
+    if (b.drawTime) {
+      const dt = String(b.drawTime);
+      // ប្រសិនបើជាម៉ោងត្រឹមត្រូវ (HH:mm)
+      if (/^\d{1,2}:\d{2}$/.test(dt.trim())) {
+        timeDisplay = dt.trim();
+      } 
+      // ប្រសិនបើជា Date object ខុស → ប្រើពី ID
+      else if (dt.includes('1899') || dt.includes('1900') || dt.includes('GMT')) {
+        // ទុក timeDisplay ពី ID (ខាងលើ)
       }
+      // បើមិនដូច្នេះ → ព្យាយាមទាញម៉ោង
+      else {
+        try {
+          const d = new Date(dt);
+          if (!isNaN(d.getTime())) {
+            timeDisplay = String(d.getHours()).padStart(2, '0') + ':' +
+                          String(d.getMinutes()).padStart(2, '0');
+          }
+        } catch(e) {}
+      }
+    }
+    
+    // ប្រសិនបើគ្មាន timeDisplay → ប្រើ "12:00" ជា default
+    if (!timeDisplay) {
+      timeDisplay = '12:00';
     }
     
     return `<tr>
