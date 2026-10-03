@@ -1613,37 +1613,34 @@
       badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
     }
     
-    // ✅✅✅ កែការបង្ហាញកាលបរិច្ឆេទ ✅✅✅
+    // ✅✅✅ ទាញកាលបរិច្ឆេទពី ID (timestamp) ✅✅✅
     let dateDisplay = '';
-    let timeDisplay = '';
+    let timeDisplay = b.drawTime || '';
     
-    if (b.date) {
-      const dateStr = String(b.date);
-      
-      // ប្រសិនបើជា format ខុស (1899, 1900)
-      if (dateStr.includes('1899') || dateStr.includes('1900') || 
-          dateStr.includes('GMT') || dateStr.includes('Sat Dec') ||
-          dateStr.includes('Sun Dec') || dateStr.includes('Mon Dec')) {
-        // ប្រើកាលបរិច្ឆេទបច្ចុប្បន្ន
-        const nowDate = new Date();
-        dateDisplay = String(nowDate.getDate()).padStart(2, '0') + '/' +
-                      String(nowDate.getMonth() + 1).padStart(2, '0') + '/' +
-                      nowDate.getFullYear();
-      } 
-      // ប្រសិនបើជា format ត្រឹមត្រូវ dd/MM/yyyy HH:mm:ss
-      else if (dateStr.includes('/')) {
-        const parts = dateStr.split(' ');
-        dateDisplay = parts[0] || dateStr;
-        timeDisplay = parts[1] || '';
-      } 
-      else {
-        dateDisplay = dateStr;
+    // ព្យាយាមទាញ timestamp ពី ID (ឧ. BET-1791050472772)
+    if (b.id && b.id.startsWith('BET-')) {
+      const timestamp = parseInt(b.id.replace('BET-', ''), 10);
+      if (!isNaN(timestamp) && timestamp > 1000000000000) {
+        const d = new Date(timestamp);
+        dateDisplay = String(d.getDate()).padStart(2, '0') + '/' +
+                      String(d.getMonth() + 1).padStart(2, '0') + '/' +
+                      d.getFullYear();
+        if (!timeDisplay) {
+          timeDisplay = String(d.getHours()).padStart(2, '0') + ':' +
+                        String(d.getMinutes()).padStart(2, '0');
+        }
       }
     }
     
-    // ប្រើ drawTime ប្រសិនបើមាន
-    if (b.drawTime) {
-      timeDisplay = b.drawTime;
+    // ប្រសិនបើទាញពី ID មិនបាន → ប្រើ b.date
+    if (!dateDisplay && b.date) {
+      const dateStr = String(b.date);
+      if (dateStr.includes('/')) {
+        const parts = dateStr.split(' ');
+        dateDisplay = parts[0] || dateStr;
+      } else {
+        dateDisplay = dateStr;
+      }
     }
     
     return `<tr>
