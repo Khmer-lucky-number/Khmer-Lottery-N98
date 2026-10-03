@@ -119,7 +119,6 @@
     .modal-content label { display:block; margin:10px 0 4px; font-weight:bold; font-size:clamp(12px,1.3vw,13px); color:#2d3748; }
     .modal-content input, .modal-content select { width:100%; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; font-size:clamp(13px,1.4vw,14px); margin-bottom:4px; transition:border 0.3s; }
     .modal-content input:focus, .modal-content select:focus { border-color:#0078D7; outline:none; box-shadow:0 0 0 3px rgba(0,120,215,0.1); }
-    .modal-content input[readonly] { background:#f0f0f0; cursor:not-allowed; color:#6c757d; }
     .close { float:right; font-size:28px; font-weight:bold; cursor:pointer; color:#adb5bd; line-height:1; }
     .close:hover { color:#dc3545; }
     
@@ -827,8 +826,8 @@
           <div class="bet-summary-item"><span>🔢 លេខ៖</span><span id="confirmNumbers">-</span></div>
           <div class="bet-summary-item total"><span>💵 សរុប៖</span><span id="confirmTotal">-</span></div>
         </div>
-        <label>លេខទូរស័ព្ទ</label>
-        <input type="tel" id="depPhone" readonly>
+        <label>លេខទូរស័ព្ទ *</label>
+        <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ">
         <div class="bank-sub-group">
           <a href="https://pay.ababank.com/oRF8/yi1odxjr" target="_blank" class="btn-bank btn-aba">🏦 ABA Bank</a>
         </div>
@@ -852,8 +851,8 @@
           <div class="bet-summary-item"><span>🔢 លេខ៖</span><span id="directConfirmNumbers">-</span></div>
           <div class="bet-summary-item total"><span>💵 សរុប៖</span><span id="directConfirmTotal">-</span></div>
         </div>
-        <label>លេខទូរស័ព្ទ</label>
-        <input type="tel" id="directPhone" readonly>
+        <label>លេខទូរស័ព្ទ *</label>
+        <input type="tel" id="directPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ">
         <label>ឈ្មោះ *</label>
         <input type="text" id="directName" required placeholder="បញ្ចូលឈ្មោះ">
         <div class="balance-box" style="margin-top:10px;">
@@ -880,8 +879,8 @@
           <span id="payoutDisplay" style="font-size:clamp(20px,3vw,26px); color:#28a745; font-weight:bold; display:block; margin-top:4px;">0.00</span>
         </div>
         
-        <label>លេខទូរស័ព្ទ</label>
-        <input type="tel" id="wdPhone" readonly>
+        <label>លេខទូរស័ព្ទ *</label>
+        <input type="tel" id="wdPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ">
         
         <label>QR Code គណនី (ABA) *</label>
         <input type="file" id="wdQrCode" accept="image/*" required>
@@ -917,7 +916,7 @@
     // WEB APP URL
     // ================================================================
     // ⚠️ សូមជំនួសដោយ Web App URL ពិតរបស់អ្នក
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby5eezen9FHdT2yL_4bvUuzddcXMBIouPWnR-zoavqFx-TdpqOohfcbz7vbT_Bh9xZG/exec';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/[YOUR_ID]/exec';
 
     // ================================================================
     // STATE
@@ -1139,14 +1138,14 @@
       document.getElementById('mainApp').style.display = 'block';
       
       document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
-      document.getElementById('displayCurrentPhone').textContent = maskPhoneJS(currentUser.phone);
+      // ✅ បង្ហាញលេខទូរស័ព្ទពេញ
+      document.getElementById('displayCurrentPhone').textContent = currentUser.phone;
       
-      // បំពេញលេខទូរស័ព្ទក្នុងប្រអប់ទាំងអស់ (readonly — អ្នកប្រើមិនអាចមើលឃើញពេញ)
+      // ✅ បំពេញលេខទូរស័ព្ទក្នុងប្រអប់ (អាចកែបាន)
       document.getElementById('directPhone').value = currentUser.phone;
       document.getElementById('depPhone').value = currentUser.phone;
       document.getElementById('wdPhone').value = currentUser.phone;
       
-      // ទាញទិន្នន័យពី Server
       fetchBalance(currentUser.phone);
       checkResults();
       fetchUserBets();
@@ -1155,13 +1154,6 @@
       setInterval(updateClock, 1000);
       setInterval(checkResults, 60000);
       setInterval(fetchUserBets, 60000);
-      setInterval(renderUserBets, 300000);
-    }
-
-    function maskPhoneJS(phone) {
-      const s = String(phone);
-      if (s.length < 6) return s;
-      return s.substring(0, 3) + '***' + s.substring(s.length - 2);
     }
 
     // ================================================================
@@ -1199,48 +1191,6 @@
     function openGroup() { document.getElementById('groupModal').style.display = 'block'; }
 
     // ================================================================
-    // DATA MANAGEMENT (Local Storage - For temporary)
-    // ================================================================
-    function getBets() {
-      try { return JSON.parse(localStorage.getItem('lottery_bets') || '[]'); } catch { return []; }
-    }
-
-    function saveBets(bets) {
-      localStorage.setItem('lottery_bets', JSON.stringify(bets));
-    }
-
-    function addBet(bet) {
-      const bets = getBets();
-      bets.unshift(bet);
-      saveBets(bets);
-      return bets;
-    }
-
-    function updateBet(id, updates) {
-      const bets = getBets();
-      const idx = bets.findIndex(b => b.id === id);
-      if (idx !== -1) {
-        bets[idx] = { ...bets[idx], ...updates };
-        saveBets(bets);
-        return true;
-      }
-      return false;
-    }
-
-    function cleanExpiredBets() {
-      const bets = getBets();
-      const now = new Date();
-      const filtered = bets.filter(b => {
-        if (!b.expire) return true;
-        return new Date(b.expire) > now;
-      });
-      if (filtered.length !== bets.length) {
-        saveBets(filtered);
-      }
-      return filtered;
-    }
-
-    // ================================================================
     // FETCH FROM WEB APP
     // ================================================================
     async function checkResults() {
@@ -1253,15 +1203,22 @@
       try {
         const res = await fetch(WEB_APP_URL + '?action=getResults&limit=30');
         const data = await res.json();
-        if (data.ok && data.results) {
+        
+        if (data.ok && data.results && data.results.length > 0) {
           cachedResults = data.results;
           localStorage.setItem('telegram_results_cache', JSON.stringify(cachedResults));
           updateResultsUI();
           renderHistoryTable();
-          syncEl.textContent = '✅ រួចរាល់';
+          syncEl.textContent = '✅ រួចរាល់ (' + cachedResults.length + ')';
           syncEl.className = 'sync-status';
-        } else {
+        } else if (data.ok && data.results && data.results.length === 0) {
+          cachedResults = [];
+          updateResultsUI();
+          renderHistoryTable();
           syncEl.textContent = '⚠️ មិនមានទិន្នន័យ';
+          syncEl.className = 'sync-pending';
+        } else {
+          syncEl.textContent = '❌ Error';
           syncEl.className = 'sync-pending';
         }
       } catch (err) {
@@ -1301,34 +1258,7 @@
         const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(currentUser.phone));
         const data = await res.json();
         if (data.ok && data.bets) {
-          // Merge with local bets (server takes precedence)
-          const serverBets = data.bets.map(b => {
-            const now = new Date();
-            const exp = new Date(now);
-            exp.setDate(exp.getDate() + 1);
-            return {
-              id: b.id,
-              date: b.date,
-              dateStr: new Date(b.date).toLocaleDateString('km-KH'),
-              drawTime: b.drawTime,
-              phone: b.phone,
-              numbers: b.numbers.split(',').map(s => s.trim()),
-              type: b.type,
-              amount: b.amount,
-              currency: b.currency,
-              total: b.total,
-              bank: b.bank,
-              name: b.name,
-              status: b.status,
-              claimed: b.paid === 'yes',
-              paid: b.paid === 'yes',
-              payMethod: b.payMethod,
-              payout: b.payout,
-              expire: exp.toISOString()
-            };
-          });
-          saveBets(serverBets);
-          renderUserBets();
+          renderUserBetsFromServer(data.bets);
         }
       } catch (err) {
         console.error('Error fetching user bets:', err);
@@ -1507,11 +1437,13 @@
       if (betMode === 'direct') {
         document.getElementById('directConfirmNumbers').textContent = numbers.join(', ');
         document.getElementById('directConfirmTotal').textContent = display;
+        document.getElementById('directPhone').value = currentUser.phone;
         document.getElementById('directBalanceAmount').textContent = currentBalance.toFixed(2) + (currentBalanceCurrency === 'USD' ? '$' : '៛');
         document.getElementById('directBetModal').style.display = 'block';
       } else {
         document.getElementById('confirmNumbers').textContent = numbers.join(', ');
         document.getElementById('confirmTotal').textContent = display;
+        document.getElementById('depPhone').value = currentUser.phone;
         document.getElementById('depositModal').style.display = 'block';
       }
     }
@@ -1525,7 +1457,7 @@
       const name = document.getElementById('directName').value.trim();
 
       if (!phone || !name) {
-        showAlert('ការព្រមាន', 'សូមបំពេញឈ្មោះ!', '⚠️');
+        showAlert('ការព្រមាន', 'សូមបំពេញព័ត៌មាន!', '⚠️');
         return;
       }
 
@@ -1649,25 +1581,24 @@
     });
 
     // ================================================================
-    // RENDER USER BETS
+    // RENDER USER BETS FROM SERVER (មើលឃើញគ្រប់ឧបករណ៍)
     // ================================================================
-    function renderUserBets() {
-      const bets = cleanExpiredBets();
+    function renderUserBetsFromServer(serverBets) {
       const tbody = document.getElementById('userHistoryBody');
 
-      if (bets.length === 0) {
+      if (!serverBets || serverBets.length === 0) {
         tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
         return;
       }
 
-      tbody.innerHTML = bets.map(b => {
+      tbody.innerHTML = serverBets.map(b => {
         const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
         let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
         let reward = '-';
         let actionBtn = '-';
         
         if (b.status === 'win') {
-          if (b.paid) {
+          if (b.paid === 'yes') {
             badge = '<span class="status-badge status-paid">✅ បានសង</span>';
           } else {
             badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
@@ -1682,9 +1613,21 @@
           badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
         }
         
+        // ទម្រង់កាលបរិច្ឆេទខ្លី
+        let dateShort = b.date || '';
+        if (b.date && b.date.includes(' ')) {
+          const parts = b.date.split(' ');
+          dateShort = parts[0];
+        }
+        const timeShort = b.drawTime || '';
+        
         return `<tr>
-          <td>${b.dateStr} (${b.drawTime})</td>
-          <td><strong style="color:#0078D7;">${b.numbers.join(', ')}</strong></td>
+          <td style="text-align:left; font-size:10px;">
+            <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
+            <div style="font-weight:bold;">${dateShort}</div>
+            <div style="color:#6c757d;">${timeShort}</div>
+          </td>
+          <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
           <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
           <td>${amt}</td>
           <td>${badge}</td>
@@ -1709,8 +1652,7 @@
         const data = await res.json();
         
         if (data.ok) {
-          updateBet(betId, { paid: true, claimed: true });
-          renderUserBets();
+          await fetchUserBets();
           showAlert('ជោគជ័យ', '✅ បានសម្គាល់ថាសងរួច!', '✅');
         } else {
           showAlert('បរាជ័យ', '❌ ' + (data.error || 'មានបញ្ហា!'), '❌');
@@ -1737,51 +1679,65 @@
         notice.innerHTML = '✅ ដកបានបន្ទាប់ពី 12:00 និង 16:00 សុពលភាព ២៤ ម៉ោង';
       }
       
+      document.getElementById('wdPhone').value = currentUser.phone;
       populateWinList();
       modal.style.display = 'block';
     }
 
-    function populateWinList() {
-      const bets = cleanExpiredBets();
+    async function populateWinList() {
       const container = document.getElementById('winListContainer');
-      const wins = bets.filter(b => b.status === 'win' && !b.paid && !b.claimed);
       
-      selectedWinIds = [];
-      
-      if (wins.length === 0) {
-        container.innerHTML = '<div style="text-align:center; padding:20px; color:#6c757d;">មិនមានលេខឈ្នះ</div>';
-        document.getElementById('payoutDisplay').textContent = '0.00';
-        return;
-      }
-      
-      wins.forEach(b => selectedWinIds.push(b.id));
-      
-      container.innerHTML = wins.map(b => {
-        const rate = b.type === 'two' ? 70 : 500;
-        const payout = b.payout || (b.amount * rate);
-        const payoutStr = b.currency === 'USD' ? `${payout.toFixed(2)}$` : `${payout.toLocaleString()}៛`;
+      try {
+        const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(currentUser.phone));
+        const data = await res.json();
         
-        return `
-          <div style="background:#d4edda; border:2px solid #28a745; border-radius:8px; padding:8px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong style="color:#155724;">${b.numbers.join(', ')}</strong>
-              <div style="font-size:11px; color:#155724;">${b.dateStr} - ${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</div>
+        if (!data.ok || !data.bets) {
+          container.innerHTML = '<div style="text-align:center; padding:20px; color:#6c757d;">មិនមានលេខឈ្នះ</div>';
+          document.getElementById('payoutDisplay').textContent = '0.00';
+          return;
+        }
+        
+        const wins = data.bets.filter(b => b.status === 'win' && b.paid !== 'yes');
+        
+        selectedWinIds = [];
+        
+        if (wins.length === 0) {
+          container.innerHTML = '<div style="text-align:center; padding:20px; color:#6c757d;">មិនមានលេខឈ្នះ</div>';
+          document.getElementById('payoutDisplay').textContent = '0.00';
+          return;
+        }
+        
+        wins.forEach(b => selectedWinIds.push(b.id));
+        
+        container.innerHTML = wins.map(b => {
+          const rate = b.type === 'two' ? 70 : 500;
+          const payout = b.payout || (b.amount * rate);
+          const payoutStr = b.currency === 'USD' ? `${payout.toFixed(2)}$` : `${payout.toLocaleString()}៛`;
+          
+          return `
+            <div style="background:#d4edda; border:2px solid #28a745; border-radius:8px; padding:8px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong style="color:#155724;">${b.numbers}</strong>
+                <div style="font-size:11px; color:#155724;">${b.id}</div>
+              </div>
+              <div style="color:#28a745; font-weight:bold; font-size:14px;">${payoutStr}</div>
             </div>
-            <div style="color:#28a745; font-weight:bold; font-size:14px;">${payoutStr}</div>
-          </div>
-        `;
-      }).join('');
-      
-      updateTotalPayout();
+          `;
+        }).join('');
+        
+        updateTotalPayout(data.bets);
+      } catch (err) {
+        console.error('Error:', err);
+        container.innerHTML = '<div style="text-align:center; padding:20px; color:#dc3545;">មានបញ្ហាក្នុងការទាញទិន្នន័យ</div>';
+      }
     }
 
-    function updateTotalPayout() {
-      const bets = getBets();
+    function updateTotalPayout(allBets) {
       let total = 0;
       let totalCurrency = 'USD';
       
       selectedWinIds.forEach(id => {
-        const bet = bets.find(b => b.id === id);
+        const bet = allBets.find(b => b.id === id);
         if (bet) {
           const rate = bet.type === 'two' ? 70 : 500;
           const payout = bet.payout || (bet.amount * rate);
@@ -1809,7 +1765,6 @@
         return;
       }
 
-      const bets = getBets();
       const totalPayout = document.getElementById('payoutDisplay').textContent;
 
       const btn = this.querySelector('button[type="submit"]');
@@ -1822,16 +1777,11 @@
         reader.onload = async function() {
           const base64 = reader.result.split(',')[1];
           
-          const numbersList = selectedWinIds.map(id => {
-            const b = bets.find(x => x.id === id);
-            return b ? b.numbers.join(',') : '';
-          }).join(' | ');
-          
           const payload = {
             action: 'requestWithdraw',
             phone: phone,
             userId: currentUser.userId,
-            numbers: numbersList,
+            numbers: 'ច្រើនលេខ',
             reward: totalPayout,
             betId: selectedWinIds.join(','),
             imageBase64: base64
@@ -1845,13 +1795,9 @@
           const data = await res.json();
 
           if (data.ok) {
-            selectedWinIds.forEach(id => {
-              updateBet(id, { claimed: true });
-            });
-            
             showAlert('ជោគជ័យ', '✅ ស្នើសុំដកប្រាក់ត្រូវបានបញ្ជូន!', '🎉');
             closeModal('withdrawModal');
-            renderUserBets();
+            await fetchUserBets();
             document.getElementById('withdrawForm').reset();
             document.getElementById('wdPhone').value = currentUser.phone;
             selectedWinIds = [];
@@ -1875,55 +1821,73 @@
     function updateResultsUI() {
       const now = new Date();
       const h = now.getHours();
-      const today = now.toLocaleDateString('km-KH');
-
-      const todayResults = cachedResults.filter(r => r.date === today);
+      
+      // ✅ បង្កើតកាលបរិច្ឆេទជាច្រើនទម្រង់ ដើម្បីប្រៀបធៀប
+      const todayFormats = [
+        now.toLocaleDateString('km-KH'),
+        now.toLocaleDateString('en-GB'),
+        String(now.getDate()).padStart(2, '0') + '/' + 
+          String(now.getMonth() + 1).padStart(2, '0') + '/' + 
+          now.getFullYear(),
+        now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear()
+      ];
+      
+      // ✅ ពិនិត្យលទ្ធផលថ្ងៃនេះ
+      const todayResults = cachedResults.filter(r => {
+        if (!r.date) return false;
+        const rDate = String(r.date).trim();
+        return todayFormats.some(f => rDate === f);
+      });
+      
       const posts = ['A', 'B', 'C', 'D', 'E'];
 
-      const has12 = todayResults.some(r => r.time && r.time.includes('12:00'));
+      // 12:00 RESULTS
+      const has12 = todayResults.some(r => r.time && String(r.time).includes('12:00'));
       const badge12 = document.getElementById('badge12');
 
-      if (h >= 12 && has12) {
+      if (has12) {
         badge12.textContent = '✅ ចេញហើយ';
         badge12.className = 'badge badge-completed';
         ['two', 'three'].forEach(t => {
-          const r = todayResults.find(x => x.time && x.time.includes('12:00') && x.type === t);
+          const r = todayResults.find(x => String(x.time).includes('12:00') && x.type === t);
           const suffix = t === 'two' ? '' : '_3d_';
           posts.forEach(p => {
             const el = document.getElementById(`r12${suffix}${p}`);
-            if (el && r && r.results[p]) {
+            if (el && r && r.results && r.results[p] !== undefined) {
               el.textContent = r.results[p];
               el.className = 'number-result';
             }
           });
         });
-      } else if (h < 12) {
-        badge12.textContent = '⏳ រង់ចាំ';
+      } else {
+        badge12.textContent = h < 12 ? '⏳ រង់ចាំ' : '⏳ រង់ចាំ';
         badge12.className = 'badge badge-waiting';
       }
 
-      const has16 = todayResults.some(r => r.time && r.time.includes('16:00'));
+      // 16:00 RESULTS
+      const has16 = todayResults.some(r => r.time && String(r.time).includes('16:00'));
       const badge16 = document.getElementById('badge16');
 
-      if (h >= 16 && has16) {
+      if (has16) {
         badge16.textContent = '✅ ចេញហើយ';
         badge16.className = 'badge badge-completed';
         ['two', 'three'].forEach(t => {
-          const r = todayResults.find(x => x.time && x.time.includes('16:00') && x.type === t);
+          const r = todayResults.find(x => String(x.time).includes('16:00') && x.type === t);
           const suffix = t === 'two' ? '' : '_3d_';
           posts.forEach(p => {
             const el = document.getElementById(`r16${suffix}${p}`);
-            if (el && r && r.results[p]) {
+            if (el && r && r.results && r.results[p] !== undefined) {
               el.textContent = r.results[p];
               el.className = 'number-result';
             }
           });
         });
-      } else if (h < 16) {
-        badge16.textContent = '⏳ រង់ចាំ';
+      } else {
+        badge16.textContent = h < 16 ? '⏳ រង់ចាំ' : '⏳ រង់ចាំ';
         badge16.className = 'badge badge-waiting';
       }
 
+      // STATUS BAR
       const statusEl = document.getElementById('resultStatusText');
       if (h < 12) {
         statusEl.textContent = '⏳ រង់ចាំ 12:00';
@@ -1956,8 +1920,10 @@
 
       const grouped = {};
       cachedResults.forEach(r => {
-        const key = r.date + '|' + r.time;
-        if (!grouped[key]) grouped[key] = { date: r.date, time: r.time, two: null, three: null };
+        let d = String(r.date || '');
+        let t = String(r.time || '');
+        const key = d + '|' + t;
+        if (!grouped[key]) grouped[key] = { date: d, time: t, two: null, three: null };
         if (r.type === 'two') grouped[key].two = r;
         if (r.type === 'three') grouped[key].three = r;
       });
