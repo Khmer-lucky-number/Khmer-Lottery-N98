@@ -6,7 +6,7 @@
   <title>ឆ្នោតខ្មែរ N98</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing:border-box; font-family:'Kantumruy Pro',system-ui,sans-serif; margin:0; padding:0; }
     body { background:#f0f4f8; }
@@ -14,7 +14,7 @@
     header h1 { font-size:clamp(24px,5vw,38px); font-weight:bold; margin:8px 0; }
     header p { font-size:clamp(13px,2vw,16px); opacity:0.9; }
     .nav-bar { background:white; padding:10px 15px; display:flex; justify-content:center; flex-wrap:wrap; gap:6px; position:sticky; top:0; z-index:100; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
-    .nav-bar a, .nav-bar button { color:#333; text-decoration:none; font-weight:bold; padding:6px 12px; border-radius:6px; font-size:clamp(12px,1.4vw,14px); cursor:pointer; border:none; background:none; }
+    .nav-bar a, .nav-bar button { color:#333; text-decoration:none; font-weight:bold; padding:6px 12px; border-radius:6px; font-size:clamp(12px,1.4vw,14px); cursor:pointer; border:none; background:none; transition:all 0.3s; }
     .nav-bar a:hover, .nav-bar button:hover { background:#0078D7; color:white; }
     .nav-bar a.active { background:#0078D7; color:white; }
     .btn-share { background:linear-gradient(135deg,#ff9800,#e65100) !important; color:white !important; }
@@ -27,9 +27,9 @@
     .clock-time { color:#0078D7; font-size:clamp(22px,3.5vw,28px); font-weight:bold; font-family:'Courier New',monospace; }
     .clock-date { color:#2d3748; font-size:clamp(11px,1.3vw,13px); font-weight:bold; }
     
-    .user-info-bar { background:linear-gradient(135deg,#d4edda,#c3e6cb); padding:8px 12px; border-radius:8px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; border:1px solid #28a745; }
+    .user-info-bar { background:linear-gradient(135deg,#d4edda,#c3e6cb); padding:10px 14px; border-radius:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; border:2px solid #28a745; }
     .user-info-bar .label { color:#155724; font-size:clamp(11px,1.3vw,13px); font-weight:bold; }
-    .user-info-bar .value { color:#28a745; font-size:clamp(12px,1.4vw,14px); font-weight:bold; font-family:'Courier New',monospace; }
+    .user-info-bar .value { color:#28a745; font-size:clamp(12px,1.4vw,15px); font-weight:bold; font-family:'Courier New',monospace; letter-spacing:1px; }
     
     .lottery-box { background:white; padding:12px; margin:8px 0; border-radius:10px; border:1px solid #e9ecef; }
     .time-box { font-weight:bold; color:#0078D7; font-size:clamp(14px,1.8vw,16px); display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
@@ -113,12 +113,13 @@
     .config-card { background:linear-gradient(135deg,#e8f4fd,#fff); border:2px solid #0078D7; border-radius:8px; padding:8px; margin-bottom:8px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:4px; }
     .config-card .badge { background:linear-gradient(135deg,#0078D7,#005fa3); color:#fff; padding:3px 8px; border-radius:12px; font-size:clamp(11px,1.2vw,13px); font-weight:bold; }
     
-    .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter:blur(5px); }
+    .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); }
     .modal-content { background:white; margin:3% auto; padding:20px; border-radius:16px; max-width:480px; width:94%; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
     .modal-content h2 { color:#0078D7; font-size:clamp(18px,2.2vw,22px); margin-bottom:12px; text-align:center; }
     .modal-content label { display:block; margin:10px 0 4px; font-weight:bold; font-size:clamp(12px,1.3vw,13px); color:#2d3748; }
     .modal-content input, .modal-content select { width:100%; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; font-size:clamp(13px,1.4vw,14px); margin-bottom:4px; transition:border 0.3s; }
     .modal-content input:focus, .modal-content select:focus { border-color:#0078D7; outline:none; box-shadow:0 0 0 3px rgba(0,120,215,0.1); }
+    .modal-content input[readonly] { background:#f0f0f0; cursor:not-allowed; color:#6c757d; }
     .close { float:right; font-size:28px; font-weight:bold; cursor:pointer; color:#adb5bd; line-height:1; }
     .close:hover { color:#dc3545; }
     
@@ -155,34 +156,208 @@
     
     .info-message { background:#e8f4fd; border:1px solid #0078D7; border-radius:8px; padding:10px 14px; margin-top:10px; font-size:clamp(11px,1.2vw,12.5px); color:#005fa3; text-align:center; font-weight:600; }
     
-    /* Registration Modal Styles */
+    /* ============================================================ */
+    /* ANIMATED REGISTRATION MODAL BACKGROUND */
+    /* ============================================================ */
+    #registerModal {
+      background: linear-gradient(-45deg, #0078D7, #005fa3, #6f42c1, #28a745);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .floating-shapes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .shape {
+      position: absolute;
+      opacity: 0.15;
+      color: white;
+      font-size: 60px;
+      animation: floatShape 20s infinite linear;
+    }
+    
+    .shape:nth-child(1) { left: 5%; animation-delay: 0s; font-size: 50px; }
+    .shape:nth-child(2) { left: 20%; animation-delay: 2s; font-size: 70px; }
+    .shape:nth-child(3) { left: 40%; animation-delay: 4s; font-size: 45px; }
+    .shape:nth-child(4) { left: 60%; animation-delay: 6s; font-size: 65px; }
+    .shape:nth-child(5) { left: 75%; animation-delay: 8s; font-size: 55px; }
+    .shape:nth-child(6) { left: 90%; animation-delay: 10s; font-size: 60px; }
+    .shape:nth-child(7) { left: 15%; animation-delay: 12s; font-size: 40px; }
+    .shape:nth-child(8) { left: 50%; animation-delay: 14s; font-size: 75px; }
+    
+    @keyframes floatShape {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.2; }
+      90% { opacity: 0.2; }
+      100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+    }
+    
+    .reg-modal-content {
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+      animation: modalPopIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes modalPopIn {
+      0% { transform: scale(0.7); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
     .reg-step { display:none; }
-    .reg-step.active { display:block; animation:fadeIn 0.4s ease; }
-    @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
+    .reg-step.active { display:block; animation:fadeSlideIn 0.5s ease; }
+    @keyframes fadeSlideIn { 
+      from { opacity:0; transform:translateY(15px); } 
+      to { opacity:1; transform:translateY(0); } 
+    }
     
     .reg-header { text-align:center; margin-bottom:20px; }
-    .reg-header .icon { font-size:60px; margin-bottom:10px; }
-    .reg-header h2 { color:#0078D7; font-size:clamp(20px,2.5vw,24px); margin-bottom:6px; }
-    .reg-header p { color:#64748b; font-size:clamp(12px,1.3vw,13px); }
+    .reg-header .icon { 
+      font-size:70px; 
+      margin-bottom:10px; 
+      display:inline-block;
+      animation: iconFloat 3s ease-in-out infinite;
+    }
+    
+    @keyframes iconFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .reg-header h2 { color:#0078D7; font-size:clamp(20px,2.5vw,24px); margin-bottom:6px; font-weight:700; }
+    .reg-header p { color:#64748b; font-size:clamp(12px,1.3vw,14px); }
     
     .reg-input-group { margin:16px 0; }
     .reg-input-group label { display:block; font-weight:bold; margin-bottom:6px; color:#2d3748; font-size:clamp(12px,1.3vw,14px); }
-    .reg-input-group input { width:100%; padding:14px 16px; border:2px solid #dee2e6; border-radius:10px; font-size:clamp(14px,1.5vw,16px); font-weight:bold; text-align:center; letter-spacing:2px; transition:all 0.3s; }
-    .reg-input-group input:focus { border-color:#0078D7; outline:none; box-shadow:0 0 0 4px rgba(0,120,215,0.1); }
+    .reg-input-group input { 
+      width:100%; 
+      padding:14px 16px; 
+      border:2px solid #dee2e6; 
+      border-radius:12px; 
+      font-size:clamp(14px,1.5vw,16px); 
+      font-weight:bold; 
+      text-align:center; 
+      letter-spacing:3px; 
+      transition:all 0.3s; 
+    }
+    .reg-input-group input:focus { 
+      border-color:#0078D7; 
+      outline:none; 
+      box-shadow:0 0 0 4px rgba(0,120,215,0.15); 
+      transform: translateY(-2px);
+    }
     .reg-input-group input.error { border-color:#dc3545; background:#fff5f5; }
     
-    .reg-btn { width:100%; padding:14px; background:linear-gradient(135deg,#0078D7,#005fa3); color:white; border:none; border-radius:10px; font-size:clamp(14px,1.5vw,16px); font-weight:bold; cursor:pointer; margin-top:10px; transition:all 0.3s; }
-    .reg-btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,120,215,0.3); }
-    .reg-btn:disabled { background:#ced4da; cursor:not-allowed; }
-    .reg-btn.success { background:linear-gradient(135deg,#28a745,#1e7e34); }
+    .reg-btn { 
+      width:100%; 
+      padding:15px; 
+      background:linear-gradient(135deg,#0078D7,#005fa3); 
+      color:white; 
+      border:none; 
+      border-radius:12px; 
+      font-size:clamp(14px,1.5vw,16px); 
+      font-weight:bold; 
+      cursor:pointer; 
+      margin-top:12px; 
+      transition:all 0.3s; 
+      box-shadow: 0 6px 20px rgba(0,120,215,0.3);
+    }
+    .reg-btn:hover:not(:disabled) { 
+      transform:translateY(-3px); 
+      box-shadow:0 10px 30px rgba(0,120,215,0.4); 
+    }
+    .reg-btn:disabled { background:#ced4da; cursor:not-allowed; box-shadow:none; }
+    .reg-btn.success { 
+      background:linear-gradient(135deg,#28a745,#1e7e34); 
+      box-shadow: 0 6px 20px rgba(40,167,69,0.3);
+    }
+    .reg-btn.success:hover:not(:disabled) { box-shadow:0 10px 30px rgba(40,167,69,0.4); }
     
-    .id-display-box { background:linear-gradient(135deg,#fff3cd,#ffe69c); border:3px solid #ffc107; border-radius:14px; padding:20px; text-align:center; margin:16px 0; }
+    .id-display-box { 
+      background:linear-gradient(135deg,#fff3cd,#ffe69c); 
+      border:3px solid #ffc107; 
+      border-radius:16px; 
+      padding:20px; 
+      text-align:center; 
+      margin:16px 0; 
+      animation: pulseGlow 2s infinite;
+    }
+    
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4); }
+      50% { box-shadow: 0 0 25px 5px rgba(255, 193, 7, 0.4); }
+    }
+    
     .id-display-box .label { color:#856404; font-size:clamp(12px,1.3vw,14px); font-weight:bold; margin-bottom:8px; }
-    .id-display-box .id-value { color:#856404; font-size:clamp(32px,6vw,42px); font-weight:bold; font-family:'Courier New',monospace; letter-spacing:4px; background:white; padding:12px; border-radius:10px; margin:10px 0; }
-    .id-display-box .warning { color:#721c24; font-size:clamp(11px,1.2vw,13px); font-weight:bold; margin-top:10px; padding:10px; background:#fff5f5; border-radius:8px; }
+    .id-display-box .id-value { 
+      color:#856404; 
+      font-size:clamp(32px,6vw,42px); 
+      font-weight:bold; 
+      font-family:'Courier New',monospace; 
+      letter-spacing:6px; 
+      background:white; 
+      padding:14px; 
+      border-radius:12px; 
+      margin:10px 0; 
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .id-display-box .warning { color:#721c24; font-size:clamp(11px,1.2vw,13px); font-weight:bold; margin-top:10px; padding:10px; background:#fff5f5; border-radius:8px; line-height: 1.5; }
     
-    .code-input { width:100%; padding:20px; border:3px solid #0078D7; border-radius:12px; font-size:clamp(24px,4vw,32px); font-weight:bold; text-align:center; letter-spacing:8px; font-family:'Courier New',monospace; text-transform:uppercase; }
-    .code-input:focus { outline:none; box-shadow:0 0 0 5px rgba(0,120,215,0.15); }
+    .code-input { 
+      width:100%; 
+      padding:20px; 
+      border:3px solid #0078D7; 
+      border-radius:14px; 
+      font-size:clamp(24px,4vw,32px); 
+      font-weight:bold; 
+      text-align:center; 
+      letter-spacing:10px; 
+      font-family:'Courier New',monospace; 
+      text-transform:uppercase; 
+      transition: all 0.3s;
+    }
+    .code-input:focus { 
+      outline:none; 
+      box-shadow:0 0 0 5px rgba(0,120,215,0.15); 
+      transform: translateY(-2px);
+    }
+    
+    .forgot-pin-box {
+      text-align: center;
+      margin-top: 16px;
+      padding: 12px;
+      background: #fff5f5;
+      border: 1px dashed #ffb3b3;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    
+    .forgot-pin-box a {
+      color: #dc3545;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    
+    .forgot-pin-box a:hover {
+      text-decoration: underline;
+    }
     
     @media(max-width:768px){
       .numbers div { flex:1 1 calc(33.33% - 5px); min-width:42px; padding:6px 3px; font-size:12px; }
@@ -200,11 +375,23 @@
 </head>
 <body>
 
+  <!-- ===== FLOATING SHAPES BACKGROUND ===== -->
+  <div class="floating-shapes" id="floatingShapes" style="display:none;">
+    <div class="shape">🎰</div>
+    <div class="shape">💰</div>
+    <div class="shape">🎲</div>
+    <div class="shape">⭐</div>
+    <div class="shape">🎯</div>
+    <div class="shape">💎</div>
+    <div class="shape">🏆</div>
+    <div class="shape">🎁</div>
+  </div>
+
   <!-- ===== REGISTRATION MODAL ===== -->
   <div class="modal" id="registerModal" style="display:block;">
-    <div class="modal-content" style="max-width:520px;">
+    <div class="modal-content reg-modal-content" style="max-width:520px;">
       
-      <!-- Step 1: Phone Input -->
+      <!-- Step 1: Phone + PIN Input -->
       <div class="reg-step active" id="regStep1">
         <div class="reg-header">
           <div class="icon">🎰</div>
@@ -217,9 +404,19 @@
           <input type="tel" id="regPhone" placeholder="012345678" maxlength="10">
         </div>
         
+        <div class="reg-input-group">
+          <label>🔐 PIN ៤ ខ្ទង់ (សម្រាប់ចូលប្រើ)</label>
+          <input type="tel" id="regPin" placeholder="----" maxlength="4">
+        </div>
+        
         <button class="reg-btn" id="regNextBtn" onclick="handleRegister()">
           បន្ត →
         </button>
+        
+        <div class="forgot-pin-box" style="background:#e8f4fd; border-color:#b6d4fe;">
+          <a href="#" onclick="contactAdmin()" style="color:#0078D7;">✈️ ទាក់ទង Admin</a>
+          <div style="color:#005fa3; margin-top:4px;">ប្រសិនបើអ្នកមានបញ្ហា</div>
+        </div>
         
         <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b;">
           មានគណនីរួចហើយ? <a href="#" onclick="showLoginStep()" style="color:#0078D7; font-weight:bold;">ចូលប្រើ</a>
@@ -275,12 +472,12 @@
         </div>
       </div>
       
-      <!-- Login Step -->
+      <!-- Login Step (UserID + PIN) -->
       <div class="reg-step" id="regLoginStep">
         <div class="reg-header">
           <div class="icon">🔐</div>
           <h2>ចូលប្រើប្រាស់</h2>
-          <p>បញ្ចូល ID និង Code ដើម្បីចូល</p>
+          <p>បញ្ចូល ID និង PIN ដើម្បីចូល</p>
         </div>
         
         <div class="reg-input-group">
@@ -289,13 +486,17 @@
         </div>
         
         <div class="reg-input-group">
-          <label>🔑 លេខកូដ ៤ ខ្ទង់</label>
-          <input type="text" id="loginCode" placeholder="----" maxlength="4" oninput="this.value = this.value.toUpperCase()">
+          <label>🔐 PIN ៤ ខ្ទង់</label>
+          <input type="tel" id="loginPin" placeholder="----" maxlength="4">
         </div>
         
         <button class="reg-btn" id="loginBtn" onclick="handleLogin()">
           ចូលប្រើ →
         </button>
+        
+        <div class="forgot-pin-box">
+          🔑 ភ្លេច PIN? <a href="#" onclick="contactAdmin()">ទាក់ទង Admin</a>
+        </div>
         
         <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b;">
           មិនមានគណនី? <a href="#" onclick="showRegisterStep()" style="color:#0078D7; font-weight:bold;">ចុះឈ្មោះ</a>
@@ -305,7 +506,7 @@
     </div>
   </div>
 
-  <!-- ===== MAIN APP (Hidden until registered) ===== -->
+  <!-- ===== MAIN APP ===== -->
   <div id="mainApp" style="display:none;">
     
     <header>
@@ -543,7 +744,7 @@
             </table>
           </div>
           <div style="font-size:clamp(10px,1.1vw,11px); color:#dc3545; font-weight:600; margin-top:8px; padding:4px; background:#fff5f5; border:1px dashed #ffb3b3; border-radius:4px;">
-            ⚠️ ទិន្នន័យរក្សាទុកក្នុងឧបករណ៍របស់អ្នក ហើយនឹងលុបដោយស្វ័យប្រវត្តិបន្ទាប់ពី ២៤ ម៉ោង
+            ⚠️ ប្រវត្តិចាក់នឹងលុបដោយស្វ័យប្រវត្តិបន្ទាប់ពី ២៤ ម៉ោង ហើយអាចមើលឃើញដូចគ្នាគ្រប់ឧបករណ៍
           </div>
         </div>
 
@@ -599,6 +800,11 @@
             <h4 style="color:#005fa3; margin-top:10px;">៤. មុខងារចាក់</h4>
             <p>• <strong>ចាក់ដោយផ្ទាល់៖</strong> ត្រូវមានសមតុល្យ (admin បញ្ចូល)</p>
             <p>• <strong>ចាក់តាមអនឡាញ៖</strong> បង់ប្រាក់តាម ABA រួចភ្ជាប់ភស្តុតាង</p>
+
+            <h4 style="color:#005fa3; margin-top:10px;">៥. PIN និងសុវត្ថិភាព</h4>
+            <p>• PIN ត្រូវបានរក្សាទុកក្នុង Google Sheets</p>
+            <p>• ប្រសិនបើភ្លេច PIN → ទាក់ទង Admin</p>
+            <p>• Admin នឹងជូន PIN ត្រឡប់វិញ</p>
           </div>
         </div>
       </div>
@@ -621,8 +827,8 @@
           <div class="bet-summary-item"><span>🔢 លេខ៖</span><span id="confirmNumbers">-</span></div>
           <div class="bet-summary-item total"><span>💵 សរុប៖</span><span id="confirmTotal">-</span></div>
         </div>
-        <label>លេខទូរស័ព្ទ *</label>
-        <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ">
+        <label>លេខទូរស័ព្ទ</label>
+        <input type="tel" id="depPhone" readonly>
         <div class="bank-sub-group">
           <a href="https://pay.ababank.com/oRF8/yi1odxjr" target="_blank" class="btn-bank btn-aba">🏦 ABA Bank</a>
         </div>
@@ -646,8 +852,8 @@
           <div class="bet-summary-item"><span>🔢 លេខ៖</span><span id="directConfirmNumbers">-</span></div>
           <div class="bet-summary-item total"><span>💵 សរុប៖</span><span id="directConfirmTotal">-</span></div>
         </div>
-        <label>លេខទូរស័ព្ទ *</label>
-        <input type="tel" id="directPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ">
+        <label>លេខទូរស័ព្ទ</label>
+        <input type="tel" id="directPhone" readonly>
         <label>ឈ្មោះ *</label>
         <input type="text" id="directName" required placeholder="បញ្ចូលឈ្មោះ">
         <div class="balance-box" style="margin-top:10px;">
@@ -674,8 +880,8 @@
           <span id="payoutDisplay" style="font-size:clamp(20px,3vw,26px); color:#28a745; font-weight:bold; display:block; margin-top:4px;">0.00</span>
         </div>
         
-        <label>លេខទូរស័ព្ទ *</label>
-        <input type="tel" id="wdPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" readonly>
+        <label>លេខទូរស័ព្ទ</label>
+        <input type="tel" id="wdPhone" readonly>
         
         <label>QR Code គណនី (ABA) *</label>
         <input type="file" id="wdQrCode" accept="image/*" required>
@@ -706,7 +912,7 @@
     </div>
   </div>
 
-   <script>
+    <script>
     // ================================================================
     // WEB APP URL
     // ================================================================
@@ -716,7 +922,7 @@
     // ================================================================
     // STATE
     // ================================================================
-    let currentUser = null; // { userId, phone, verified }
+    let currentUser = null;
     let selectedTime = '12:00';
     let betType = 'two';
     let selectedLetter = '';
@@ -741,12 +947,13 @@
     function showLoginStep() {
       showRegStep('regLoginStep');
       document.getElementById('loginUserId').value = '';
-      document.getElementById('loginCode').value = '';
+      document.getElementById('loginPin').value = '';
     }
 
     function showRegisterStep() {
       showRegStep('regStep1');
       document.getElementById('regPhone').value = '';
+      document.getElementById('regPin').value = '';
     }
 
     function showVerifyStep() {
@@ -765,6 +972,7 @@
     // ================================================================
     async function handleRegister() {
       const phone = document.getElementById('regPhone').value.trim();
+      const pin = document.getElementById('regPin').value.trim();
       const btn = document.getElementById('regNextBtn');
       
       if (!phone) {
@@ -779,13 +987,19 @@
         return;
       }
       
+      if (!pin || pin.length !== 4 || !/^[0-9]{4}$/.test(pin)) {
+        showAlert('ការព្រមាន', 'PIN ត្រូវមាន ៤ ខ្ទង់ (ឧ. 1234)', '⚠️');
+        document.getElementById('regPin').classList.add('error');
+        return;
+      }
+      
       btn.disabled = true;
       btn.textContent = 'កំពុងចុះឈ្មោះ...';
       
       try {
         const res = await fetch(WEB_APP_URL, {
           method: 'POST',
-          body: JSON.stringify({ action: 'register', phone: phone }),
+          body: JSON.stringify({ action: 'register', phone: phone, pin: pin }),
           headers: { 'Content-Type': 'text/plain' }
         });
         const data = await res.json();
@@ -793,7 +1007,6 @@
         if (data.ok) {
           showIdStep(data.userId);
         } else if (data.userId) {
-          // មានគណនីរួចហើយ
           if (data.verified) {
             showAlert('មានគណនីរួចហើយ', 'សូមចូលប្រើដោយ ID: ' + data.userId, 'ℹ️');
             showLoginStep();
@@ -836,7 +1049,6 @@
         const data = await res.json();
         
         if (data.ok) {
-          // រក្សាទុកក្នុង localStorage
           currentUser = {
             userId: data.userId,
             phone: data.phone,
@@ -863,11 +1075,11 @@
 
     async function handleLogin() {
       const userId = document.getElementById('loginUserId').value.trim();
-      const code = document.getElementById('loginCode').value.trim().toUpperCase();
+      const pin = document.getElementById('loginPin').value.trim();
       const btn = document.getElementById('loginBtn');
       
-      if (!userId || !code) {
-        showAlert('ការព្រមាន', 'សូមបំពេញ ID និង Code!', '⚠️');
+      if (!userId || !pin) {
+        showAlert('ការព្រមាន', 'សូមបំពេញ ID និង PIN!', '⚠️');
         return;
       }
       
@@ -877,7 +1089,7 @@
       try {
         const res = await fetch(WEB_APP_URL, {
           method: 'POST',
-          body: JSON.stringify({ action: 'verifyCode', userId: userId, code: code }),
+          body: JSON.stringify({ action: 'loginWithPin', userId: userId, pin: pin }),
           headers: { 'Content-Type': 'text/plain' }
         });
         const data = await res.json();
@@ -896,7 +1108,7 @@
             enterApp();
           }, 800);
         } else {
-          showAlert('បរាជ័យ', data.error || 'ID ឬ Code មិនត្រឹមត្រូវ!', '❌');
+          showAlert('បរាជ័យ', data.error || 'ID ឬ PIN មិនត្រឹមត្រូវ!', '❌');
         }
       } catch (err) {
         console.error('Error:', err);
@@ -911,30 +1123,39 @@
       if (!confirm('តើអ្នកប្រាកដថាចង់ចាកចេញ?')) return;
       
       localStorage.removeItem('lottery_user');
-      localStorage.removeItem('lottery_bets');
       localStorage.removeItem('telegram_results_cache');
       currentUser = null;
+      numbers = [];
       
       document.getElementById('mainApp').style.display = 'none';
       document.getElementById('registerModal').style.display = 'block';
+      document.getElementById('floatingShapes').style.display = 'block';
       showRegisterStep();
     }
 
     function enterApp() {
       document.getElementById('registerModal').style.display = 'none';
+      document.getElementById('floatingShapes').style.display = 'none';
       document.getElementById('mainApp').style.display = 'block';
       
       document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
       document.getElementById('displayCurrentPhone').textContent = maskPhoneJS(currentUser.phone);
+      
+      // បំពេញលេខទូរស័ព្ទក្នុងប្រអប់ទាំងអស់ (readonly — អ្នកប្រើមិនអាចមើលឃើញពេញ)
+      document.getElementById('directPhone').value = currentUser.phone;
+      document.getElementById('depPhone').value = currentUser.phone;
       document.getElementById('wdPhone').value = currentUser.phone;
       
+      // ទាញទិន្នន័យពី Server
       fetchBalance(currentUser.phone);
       checkResults();
+      fetchUserBets();
       updateClock();
-      renderUserBets();
       
       setInterval(updateClock, 1000);
       setInterval(checkResults, 60000);
+      setInterval(fetchUserBets, 60000);
+      setInterval(renderUserBets, 300000);
     }
 
     function maskPhoneJS(phone) {
@@ -971,11 +1192,14 @@
         .catch(() => showAlert('បរាជ័យ', '🌐 ចម្លងដោយខ្លួនឯង៖\n' + url, '🔗'));
     }
 
-    function contactAdmin() { window.open('https://t.me/Sreypich8889999', '_blank'); }
+    function contactAdmin() { 
+      window.open('https://t.me/Sreypich8889999', '_blank'); 
+    }
+    
     function openGroup() { document.getElementById('groupModal').style.display = 'block'; }
 
     // ================================================================
-    // DATA MANAGEMENT
+    // DATA MANAGEMENT (Local Storage - For temporary)
     // ================================================================
     function getBets() {
       try { return JSON.parse(localStorage.getItem('lottery_bets') || '[]'); } catch { return []; }
@@ -1068,6 +1292,46 @@
         }
       } catch (err) {
         console.error('Error fetching balance:', err);
+      }
+    }
+
+    async function fetchUserBets() {
+      if (!currentUser || !currentUser.phone) return;
+      try {
+        const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(currentUser.phone));
+        const data = await res.json();
+        if (data.ok && data.bets) {
+          // Merge with local bets (server takes precedence)
+          const serverBets = data.bets.map(b => {
+            const now = new Date();
+            const exp = new Date(now);
+            exp.setDate(exp.getDate() + 1);
+            return {
+              id: b.id,
+              date: b.date,
+              dateStr: new Date(b.date).toLocaleDateString('km-KH'),
+              drawTime: b.drawTime,
+              phone: b.phone,
+              numbers: b.numbers.split(',').map(s => s.trim()),
+              type: b.type,
+              amount: b.amount,
+              currency: b.currency,
+              total: b.total,
+              bank: b.bank,
+              name: b.name,
+              status: b.status,
+              claimed: b.paid === 'yes',
+              paid: b.paid === 'yes',
+              payMethod: b.payMethod,
+              payout: b.payout,
+              expire: exp.toISOString()
+            };
+          });
+          saveBets(serverBets);
+          renderUserBets();
+        }
+      } catch (err) {
+        console.error('Error fetching user bets:', err);
       }
     }
 
@@ -1243,13 +1507,11 @@
       if (betMode === 'direct') {
         document.getElementById('directConfirmNumbers').textContent = numbers.join(', ');
         document.getElementById('directConfirmTotal').textContent = display;
-        document.getElementById('directPhone').value = currentUser.phone;
         document.getElementById('directBalanceAmount').textContent = currentBalance.toFixed(2) + (currentBalanceCurrency === 'USD' ? '$' : '៛');
         document.getElementById('directBetModal').style.display = 'block';
       } else {
         document.getElementById('confirmNumbers').textContent = numbers.join(', ');
         document.getElementById('confirmTotal').textContent = display;
-        document.getElementById('depPhone').value = currentUser.phone;
         document.getElementById('depositModal').style.display = 'block';
       }
     }
@@ -1263,7 +1525,7 @@
       const name = document.getElementById('directName').value.trim();
 
       if (!phone || !name) {
-        showAlert('ការព្រមាន', 'សូមបំពេញព័ត៌មាន!', '⚠️');
+        showAlert('ការព្រមាន', 'សូមបំពេញឈ្មោះ!', '⚠️');
         return;
       }
 
@@ -1283,6 +1545,7 @@
         const payload = {
           action: 'placeDirectBet',
           phone: phone,
+          userId: currentUser.userId,
           numbers: numbers,
           type: betType,
           amount: amount,
@@ -1300,38 +1563,14 @@
         const data = await res.json();
 
         if (data.ok) {
-          const now = new Date();
-          const exp = new Date(now);
-          exp.setDate(exp.getDate() + 1);
-          
-          const bet = {
-            id: data.betId,
-            date: now.toISOString(),
-            dateStr: now.toLocaleDateString('km-KH'),
-            drawTime: selectedTime,
-            phone: phone,
-            numbers: [...numbers],
-            type: betType,
-            amount: amount,
-            currency: currency,
-            total: total,
-            bank: 'DIRECT',
-            name: name,
-            status: 'pending',
-            claimed: false,
-            paid: false,
-            payMethod: 'direct',
-            expire: exp.toISOString()
-          };
-          addBet(bet);
-
           showAlert('ជោគជ័យ', '✅ ការចាក់ឆ្នោតត្រូវបានបញ្ជូន!', '🎉');
           closeModal('directBetModal');
           numbers = [];
           updateDisplay();
-          renderUserBets();
-          fetchBalance(phone);
+          await fetchBalance(phone);
+          await fetchUserBets();
           document.getElementById('directBetForm').reset();
+          document.getElementById('directPhone').value = currentUser.phone;
         } else {
           showAlert('បរាជ័យ', '❌ ' + (data.error || 'មានបញ្ហា!'), '❌');
         }
@@ -1352,15 +1591,11 @@
       const file = document.getElementById('depScreenshot');
 
       if (!phone || !file.files[0]) {
-        showAlert('ការព្រមាន', 'សូមបំពេញព័ត៌មាន និងភ្ជាប់ភស្តុតាង!', '⚠️');
+        showAlert('ការព្រមាន', 'សូមភ្ជាប់ភស្តុតាង!', '⚠️');
         return;
       }
 
       const total = numbers.length * amount;
-      const now = new Date();
-      const exp = new Date(now);
-      exp.setDate(exp.getDate() + 1);
-
       const btn = e.target.querySelector('button[type="submit"]');
       btn.disabled = true;
       btn.textContent = 'កំពុងបញ្ជូន...';
@@ -1374,13 +1609,12 @@
           const payload = {
             action: 'placeBet',
             phone: phone,
+            userId: currentUser.userId,
             numbers: numbers,
             type: betType,
             amount: amount,
             currency: currency,
             total: total,
-            bank: 'ABA Bank',
-            name: '',
             drawTime: selectedTime,
             imageBase64: base64
           };
@@ -1393,33 +1627,13 @@
           const data = await res.json();
 
           if (data.ok) {
-            const bet = {
-              id: data.betId,
-              date: now.toISOString(),
-              dateStr: now.toLocaleDateString('km-KH'),
-              drawTime: selectedTime,
-              phone: phone,
-              numbers: [...numbers],
-              type: betType,
-              amount: amount,
-              currency: currency,
-              total: total,
-              bank: 'ABA Bank',
-              name: '',
-              status: 'pending',
-              claimed: false,
-              paid: false,
-              payMethod: 'online',
-              expire: exp.toISOString()
-            };
-            addBet(bet);
-
             showAlert('ជោគជ័យ', '✅ ការចាក់ឆ្នោតត្រូវបានបញ្ជូន!', '🎉');
             closeModal('depositModal');
             numbers = [];
             updateDisplay();
-            renderUserBets();
+            await fetchUserBets();
             document.getElementById('depositForm').reset();
+            document.getElementById('depPhone').value = currentUser.phone;
           } else {
             showAlert('បរាជ័យ', '❌ ' + (data.error || 'មានបញ្ហា!'), '❌');
           }
@@ -1462,7 +1676,7 @@
             }
           }
           const rate = b.type === 'two' ? 70 : 500;
-          const payout = b.amount * rate;
+          const payout = b.payout || (b.amount * rate);
           reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
         } else if (b.status === 'loss') {
           badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
@@ -1495,7 +1709,7 @@
         const data = await res.json();
         
         if (data.ok) {
-          updateBet(betId, { paid: true });
+          updateBet(betId, { paid: true, claimed: true });
           renderUserBets();
           showAlert('ជោគជ័យ', '✅ បានសម្គាល់ថាសងរួច!', '✅');
         } else {
@@ -1523,7 +1737,6 @@
         notice.innerHTML = '✅ ដកបានបន្ទាប់ពី 12:00 និង 16:00 សុពលភាព ២៤ ម៉ោង';
       }
       
-      document.getElementById('wdPhone').value = currentUser.phone;
       populateWinList();
       modal.style.display = 'block';
     }
@@ -1541,12 +1754,11 @@
         return;
       }
       
-      // ជ្រើសរើសទាំងអស់ដោយស្វ័យប្រវត្តិ
       wins.forEach(b => selectedWinIds.push(b.id));
       
       container.innerHTML = wins.map(b => {
         const rate = b.type === 'two' ? 70 : 500;
-        const payout = b.amount * rate;
+        const payout = b.payout || (b.amount * rate);
         const payoutStr = b.currency === 'USD' ? `${payout.toFixed(2)}$` : `${payout.toLocaleString()}៛`;
         
         return `
@@ -1572,13 +1784,9 @@
         const bet = bets.find(b => b.id === id);
         if (bet) {
           const rate = bet.type === 'two' ? 70 : 500;
-          const payout = bet.amount * rate;
-          if (bet.currency === 'USD') {
-            total += payout;
-          } else {
-            total += payout;
-            totalCurrency = 'KHR';
-          }
+          const payout = bet.payout || (bet.amount * rate);
+          total += payout;
+          if (bet.currency === 'KHR') totalCurrency = 'KHR';
         }
       });
       
@@ -1592,7 +1800,7 @@
       const qr = document.getElementById('wdQrCode');
 
       if (!phone || !qr.files[0]) {
-        showAlert('ការព្រមាន', 'សូមបំពេញព័ត៌មានទាំងអស់!', '⚠️');
+        showAlert('ការព្រមាន', 'សូមភ្ជាប់ QR Code!', '⚠️');
         return;
       }
       
@@ -1602,7 +1810,6 @@
       }
 
       const bets = getBets();
-      const firstBet = bets.find(b => b.id === selectedWinIds[0]);
       const totalPayout = document.getElementById('payoutDisplay').textContent;
 
       const btn = this.querySelector('button[type="submit"]');
@@ -1623,11 +1830,9 @@
           const payload = {
             action: 'requestWithdraw',
             phone: phone,
+            userId: currentUser.userId,
             numbers: numbersList,
             reward: totalPayout,
-            bank: 'ABA Bank',
-            accNo: '',
-            accName: '',
             betId: selectedWinIds.join(','),
             imageBase64: base64
           };
@@ -1648,6 +1853,7 @@
             closeModal('withdrawModal');
             renderUserBets();
             document.getElementById('withdrawForm').reset();
+            document.getElementById('wdPhone').value = currentUser.phone;
             selectedWinIds = [];
           } else {
             showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការបញ្ជូន!', '❌');
@@ -1823,6 +2029,7 @@
       }
       
       document.getElementById('registerModal').style.display = 'block';
+      document.getElementById('floatingShapes').style.display = 'block';
       document.getElementById('mainApp').style.display = 'none';
       showRegisterStep();
     }
