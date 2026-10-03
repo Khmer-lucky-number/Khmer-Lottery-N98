@@ -1584,58 +1584,85 @@
     // RENDER USER BETS FROM SERVER (មើលឃើញគ្រប់ឧបករណ៍)
     // ================================================================
     function renderUserBetsFromServer(serverBets) {
-      const tbody = document.getElementById('userHistoryBody');
+  const tbody = document.getElementById('userHistoryBody');
 
-      if (!serverBets || serverBets.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
-        return;
+  if (!serverBets || serverBets.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = serverBets.map(b => {
+    const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
+    let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
+    let reward = '-';
+    let actionBtn = '-';
+    
+    if (b.status === 'win') {
+      if (b.paid === 'yes') {
+        badge = '<span class="status-badge status-paid">✅ បានសង</span>';
+      } else {
+        badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
+        if (b.payMethod === 'direct') {
+          actionBtn = `<button class="btn btn-ok" onclick="markPaid('${b.id}')">✅ បានសង</button>`;
+        }
       }
-
-      tbody.innerHTML = serverBets.map(b => {
-        const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
-        let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
-        let reward = '-';
-        let actionBtn = '-';
-        
-        if (b.status === 'win') {
-          if (b.paid === 'yes') {
-            badge = '<span class="status-badge status-paid">✅ បានសង</span>';
-          } else {
-            badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
-            if (b.payMethod === 'direct') {
-              actionBtn = `<button class="btn btn-ok" onclick="markPaid('${b.id}')">✅ បានសង</button>`;
-            }
-          }
-          const rate = b.type === 'two' ? 70 : 500;
-          const payout = b.payout || (b.amount * rate);
-          reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
-        } else if (b.status === 'loss') {
-          badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
-        }
-        
-        // ទម្រង់កាលបរិច្ឆេទខ្លី
-        let dateShort = b.date || '';
-        if (b.date && b.date.includes(' ')) {
-          const parts = b.date.split(' ');
-          dateShort = parts[0];
-        }
-        const timeShort = b.drawTime || '';
-        
-        return `<tr>
-          <td style="text-align:left; font-size:10px;">
-            <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
-            <div style="font-weight:bold;">${dateShort}</div>
-            <div style="color:#6c757d;">${timeShort}</div>
-          </td>
-          <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
-          <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
-          <td>${amt}</td>
-          <td>${badge}</td>
-          <td>${reward}</td>
-          <td>${actionBtn}</td>
-        </tr>`;
-      }).join('');
+      const rate = b.type === 'two' ? 70 : 500;
+      const payout = b.payout || (b.amount * rate);
+      reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
+    } else if (b.status === 'loss') {
+      badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
     }
+    
+    // ✅ កែការបង្ហាញកាលបរិច្ឆេទ
+    let dateStr = '';
+    let timeStr = '';
+    
+    if (b.date) {
+      // ប្រសិនបើជា format "dd/MM/yyyy HH:mm:ss"
+      if (b.date.includes('/')) {
+        const parts = String(b.date).split(' ');
+        dateStr = parts[0] || '';
+        timeStr = parts[1] || '';
+      } else {
+        // ប្រសិនបើជា Date object ចាស់
+        try {
+          const d = new Date(b.date);
+          if (!isNaN(d.getTime())) {
+            dateStr = String(d.getDate()).padStart(2, '0') + '/' +
+                      String(d.getMonth() + 1).padStart(2, '0') + '/' +
+                      d.getFullYear();
+            timeStr = String(d.getHours()).padStart(2, '0') + ':' +
+                      String(d.getMinutes()).padStart(2, '0');
+          } else {
+            dateStr = b.date;
+          }
+        } catch(e) {
+          dateStr = b.date;
+        }
+      }
+    }
+    
+    // ប្រសិនបើ drawTime មាន ប្រើវា
+    if (b.drawTime) {
+      timeStr = b.drawTime;
+    }
+    
+    return `<tr>
+      <td style="text-align:left; font-size:10px;">
+        <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
+        <div style="font-weight:bold;">${dateStr}</div>
+        <div style="color:#6c757d;">${timeStr}</div>
+      </td>
+      <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
+      <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
+      <td>${amt}</td>
+      <td>${badge}</td>
+      <td>${reward}</td>
+      <td>${actionBtn}</td>
+    </tr>`;
+  }).join('');
+}
+
 
     // ================================================================
     // MARK PAID
