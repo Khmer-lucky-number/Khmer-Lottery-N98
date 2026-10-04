@@ -138,6 +138,51 @@
     .status-paid { background:#cce5ff; color:#004085; }
     @keyframes winGlow { 0%{box-shadow:0 0 5px rgba(40,167,69,0.4)} 100%{box-shadow:0 0 15px rgba(40,167,69,0.8)} }
     
+    /* ✅ ស្ទីលថ្មី */
+    .amount-tag {
+      background: linear-gradient(135deg, #28a745, #1e7e34);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 3px;
+    }
+    
+    .total-display {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 6px;
+      padding: 4px 8px;
+      margin-top: 4px;
+      font-size: 10px;
+      text-align: center;
+    }
+    
+    .btn-disabled-strict {
+      background: #ced4da !important;
+      color: #6c757d !important;
+      cursor: not-allowed !important;
+      box-shadow: none !important;
+      opacity: 0.6;
+    }
+    
+    .warning-box {
+      background: #fff5f5;
+      border: 1px solid #ff8b8b;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 10px;
+      font-size: 11px;
+      color: #721c24;
+      line-height: 1.6;
+      text-align: left;
+    }
+    
+    .warning-box strong { color: #d63000; }
+    .warning-box .icon { font-size: 16px; margin-right: 6px; }
+    
     .bank-sub-group { display:flex; flex-direction:column; gap:4px; margin:10px 0; background:#f8f9fa; padding:8px; border-radius:8px; }
     .btn-bank { width:100%; padding:10px; border-radius:8px; font-weight:bold; text-align:center; display:block; color:white; font-size:clamp(13px,1.4vw,14px); text-decoration:none; transition:all 0.3s; }
     .btn-bank:hover { transform:translateY(-2px); filter:brightness(1.05); }
@@ -155,9 +200,7 @@
     
     .info-message { background:#e8f4fd; border:1px solid #0078D7; border-radius:8px; padding:10px 14px; margin-top:10px; font-size:clamp(11px,1.2vw,12.5px); color:#005fa3; text-align:center; font-weight:600; }
     
-    /* ============================================================ */
-    /* ANIMATED REGISTRATION MODAL BACKGROUND */
-    /* ============================================================ */
+    /* Registration Modal Styles */
     #registerModal {
       background: linear-gradient(-45deg, #0078D7, #005fa3, #6f42c1, #28a745);
       background-size: 400% 400%;
@@ -172,10 +215,8 @@
     
     .floating-shapes {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       pointer-events: none;
       overflow: hidden;
       z-index: 1;
@@ -354,9 +395,7 @@
       text-decoration: none;
     }
     
-    .forgot-pin-box a:hover {
-      text-decoration: underline;
-    }
+    .forgot-pin-box a:hover { text-decoration: underline; }
     
     @media(max-width:768px){
       .numbers div { flex:1 1 calc(33.33% - 5px); min-width:42px; padding:6px 3px; font-size:12px; }
@@ -374,7 +413,7 @@
 </head>
 <body>
 
-  <!-- ===== FLOATING SHAPES BACKGROUND ===== -->
+  <!-- FLOATING SHAPES -->
   <div class="floating-shapes" id="floatingShapes" style="display:none;">
     <div class="shape">🎰</div>
     <div class="shape">💰</div>
@@ -386,11 +425,10 @@
     <div class="shape">🎁</div>
   </div>
 
-  <!-- ===== REGISTRATION MODAL ===== -->
+  <!-- REGISTRATION MODAL -->
   <div class="modal" id="registerModal" style="display:block;">
     <div class="modal-content reg-modal-content" style="max-width:520px;">
       
-      <!-- Step 1: Phone + PIN Input -->
       <div class="reg-step active" id="regStep1">
         <div class="reg-header">
           <div class="icon">🎰</div>
@@ -422,7 +460,6 @@
         </div>
       </div>
       
-      <!-- Step 2: Show UserID -->
       <div class="reg-step" id="regStep2">
         <div class="reg-header">
           <div class="icon">✅</div>
@@ -449,7 +486,6 @@
         </button>
       </div>
       
-      <!-- Step 3: Verify Code -->
       <div class="reg-step" id="regStep3">
         <div class="reg-header">
           <div class="icon">🔑</div>
@@ -471,7 +507,6 @@
         </div>
       </div>
       
-      <!-- Login Step (UserID + PIN) -->
       <div class="reg-step" id="regLoginStep">
         <div class="reg-header">
           <div class="icon">🔐</div>
@@ -505,7 +540,7 @@
     </div>
   </div>
 
-  <!-- ===== MAIN APP ===== -->
+  <!-- MAIN APP -->
   <div id="mainApp" style="display:none;">
     
     <header>
@@ -635,7 +670,7 @@
             💡 <strong>របៀបប្រើ៖</strong><br>
             ១. ជ្រើសរើស <strong>ពេលវេលា</strong> និង <strong>ប្រភេទលេខ</strong><br>
             ២. ចុចអក្សរ <strong>A, B, C, D, E</strong><br>
-            ៣. បញ្ចូលលេខ (ឧ. 01,02,03) ចុចបន្ថែម<br>
+            ៣. បញ្ចូលលេខ (ឧ. 01,02,03) — <strong>នឹងបន្ថែមស្វ័យប្រវត្តិ</strong><br>
             ៤. ជ្រើសរើសចំនួនទឹកប្រាក់ រួចចុច "ដាក់ប្រាក់"
           </div>
 
@@ -681,9 +716,9 @@
             <div class="letter-circle" onclick="selectLetter('E', event)">E</div>
           </div>
 
-          <div class="input-row">
-            <input type="text" id="numInput" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled>
-            <button class="btn btn-primary" id="btnAdd" onclick="addNumber()" disabled>➕ បន្ថែម</button>
+          <!-- ✅ លុបប៊ូតុង +បន្ថែម ចេញ -->
+          <div class="input-row" style="flex-direction:column; align-items:stretch;">
+            <input type="text" id="numInput" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled oninput="autoAddNumbers()">
           </div>
 
           <div class="selected-display" id="selectedDisplay">
@@ -774,36 +809,54 @@
         </div>
       </div>
 
+      <!-- ✅ ច្បាប់កែសម្រួលថ្មី -->
       <div id="rulesSection" style="display:none;">
         <div class="bet-box">
           <h2>📋 ច្បាប់ និងរបៀបប្រើប្រាស់</h2>
-          <div style="padding:8px; font-size:clamp(12px,1.3vw,13px); line-height:1.6;">
-            <h4 style="color:#005fa3;">១. របៀបចាក់</h4>
+          <div style="padding:8px; font-size:clamp(12px,1.3vw,13px); line-height:1.8;">
+            
+            <h4 style="color:#005fa3; background:#e8f4fd; padding:6px 10px; border-radius:6px;">១. របៀបចាក់ឆ្នោត</h4>
             <p>១. ជ្រើសរើសពេលវេលា (12:00 ឬ 16:00)</p>
             <p>២. ជ្រើសរើសប្រភេទ (២ ឬ ៣ ខ្ទង់)</p>
-            <p>៣. ចុចជ្រើសរើស A, B, C, D, E</p>
-            <p>៤. បញ្ចូលលេខ ចុច "បន្ថែម"</p>
-            <p>៥. ជ្រើសរើសចំនួនទឹកប្រាក់</p>
+            <p>៣. ចុចជ្រើសរើស A, B, C, D, ឬ E</p>
+            <p>៤. បញ្ចូលលេខ (ឧ. 01, 02, 03) — <strong>លេខនឹងបន្ថែមស្វ័យប្រវត្តិ</strong></p>
+            <p>៥. ជ្រើសរើសចំនួនទឹកប្រាក់ក្នុងមួយលេខ</p>
             <p>៦. ចុច "ដាក់ប្រាក់"</p>
 
-            <h4 style="color:#005fa3; margin-top:10px;">២. អត្រារង្វាន់</h4>
-            <p>• 12:00 & 16:00 - ២ខ្ទង់ (A-E) ៖ 1$ → 70$</p>
-            <p>• 12:00 & 16:00 - ៣ខ្ទង់ (A-E) ៖ 1$ → 500$</p>
+            <h4 style="color:#005fa3; background:#e8f4fd; padding:6px 10px; border-radius:6px; margin-top:12px;">២. អត្រារង្វាន់</h4>
+            <p>• <strong>២ខ្ទង់ (A-E)</strong> ម៉ោង 12:00 & 16:00 ៖ 1$ → 70$</p>
+            <p>• <strong>៣ខ្ទង់ (A-E)</strong> ម៉ោង 12:00 & 16:00 ៖ 1$ → 500$</p>
             <p>• ចាក់ពី 500៛/0.25$ ដល់ 40,000៛/10$</p>
+            <p>• អតិបរមា 10 លេខក្នុងមួយចាក់</p>
 
-            <h4 style="color:#005fa3; margin-top:10px;">៣. របៀបដកប្រាក់</h4>
+            <h4 style="color:#005fa3; background:#e8f4fd; padding:6px 10px; border-radius:6px; margin-top:12px;">៣. មុខងារចាក់</h4>
+            <p><strong>💵 ចាក់ដោយផ្ទាល់៖</strong></p>
+            <p>• ត្រូវមានសមតុល្យ (Admin បញ្ចូលឱ្យ)</p>
+            <p>• ទឹកប្រាក់កាត់ស្វ័យប្រវត្តិពេលចាក់</p>
+            <p>• ត្រូវផ្តល់ឈ្មោះពិតប្រាកដ</p>
+            
+            <p style="margin-top:8px;"><strong>🌐 ចាក់តាមអនឡាញ៖</strong></p>
+            <p>• បង់ប្រាក់តាម ABA Bank ជាមុន</p>
+            <p>• ភ្ជាប់រូបថតវិក្កយបត្រ (Screenshot)</p>
+            <p>• បំពេញលេខទូរស័ព្ទពិតប្រាកដ</p>
+            <p>• <strong style="color:#d63000;">⚠️ ប្រសិនបើព័ត៌មានមិនពិត → ចាត់ទុកជាមោឃៈ</strong></p>
+
+            <h4 style="color:#005fa3; background:#e8f4fd; padding:6px 10px; border-radius:6px; margin-top:12px;">៤. របៀបដកប្រាក់</h4>
             <p>• ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
-            <p>• សុពលភាព៖ ២៤ ម៉ោង បន្ទាប់ពីប្រកាសលទ្ធផល</p>
-            <p>• បន្ទាប់ពីផុតកំណត់ លេខនឹងត្រូវបានលុបចោល</p>
+            <p>• សុពលភាព៖ 24 ម៉ោង បន្ទាប់ពីប្រកាសលទ្ធផល</p>
+            <p>• បន្ទាប់ពីផុតកំណត់ → លេខត្រូវលុបចោល</p>
+            <p>• ត្រូវផ្តល់ QR Code គណនី ABA</p>
 
-            <h4 style="color:#005fa3; margin-top:10px;">៤. មុខងារចាក់</h4>
-            <p>• <strong>ចាក់ដោយផ្ទាល់៖</strong> ត្រូវមានសមតុល្យ (admin បញ្ចូល)</p>
-            <p>• <strong>ចាក់តាមអនឡាញ៖</strong> បង់ប្រាក់តាម ABA រួចភ្ជាប់ភស្តុតាង</p>
-
-            <h4 style="color:#005fa3; margin-top:10px;">៥. PIN និងសុវត្ថិភាព</h4>
-            <p>• PIN ត្រូវបានរក្សាទុកក្នុង Google Sheets</p>
+            <h4 style="color:#005fa3; background:#e8f4fd; padding:6px 10px; border-radius:6px; margin-top:12px;">៥. PIN និងសុវត្ថិភាព</h4>
+            <p>• PIN 4 ខ្ទង់ ត្រូវចងចាំឱ្យបាន</p>
             <p>• ប្រសិនបើភ្លេច PIN → ទាក់ទង Admin</p>
             <p>• Admin នឹងជូន PIN ត្រឡប់វិញ</p>
+            <p>• កុំប្រាប់ PIN ដល់អ្នកដទៃ</p>
+
+            <h4 style="color:#005fa3; background:#e8f4fd; padding:6px 10px; border-radius:6px; margin-top:12px;">៦. ការទទួលខុសត្រូវ</h4>
+            <p>• រាល់ការចាក់ត្រូវទទួលខុសត្រូវដោយខ្លួនឯង</p>
+            <p>• ការឆបោក ឬការក្លែងបន្លំ → ចាត់ទុកជាបទឧក្រិដ្ឋ</p>
+            <p>• ប្រព័ន្ធរក្សាសិទ្ធិក្នុងការបដិសេធការចាក់ណាមួយ</p>
           </div>
         </div>
       </div>
@@ -816,7 +869,7 @@
 
   </div>
 
-  <!-- ===== ONLINE DEPOSIT MODAL ===== -->
+  <!-- ONLINE DEPOSIT MODAL -->
   <div class="modal" id="depositModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('depositModal')">&times;</span>
@@ -828,12 +881,24 @@
         </div>
         <label>លេខទូរស័ព្ទ *</label>
         <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ">
+        
         <div class="bank-sub-group">
-          <a href="https://pay.ababank.com/oRF8/yi1odxjr" target="_blank" class="btn-bank btn-aba">🏦 ABA Bank</a>
+          <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" class="btn-bank btn-aba">🏦 ABA Bank</a>
         </div>
+        
         <label>ភស្តុតាង (Screenshot) *</label>
         <input type="file" id="depScreenshot" accept="image/*" required>
-        <button type="submit" class="btn btn-success" style="width:100%; margin-top:10px; padding:12px;">បញ្ជាក់ការទូទាត់</button>
+        
+        <button type="submit" class="btn btn-success btn-disabled-strict" id="depSubmitBtn" disabled style="width:100%; margin-top:10px; padding:12px;">បញ្ជាក់ការទូទាត់</button>
+        
+        <div class="warning-box">
+          <span class="icon">⚠️</span>
+          <strong>ការព្រមានសំខាន់!</strong><br>
+          • ការបំពេញលេខទូរស័ព្ទ និងការបង់ប្រាក់តាម ABA Bank គឺជាកាតព្វកិច្ច<br>
+          • រូបថតវិក្កយបត្រ (Screenshot) ត្រូវតែជា <strong>ព័ត៌មានពិតប្រាកដ</strong><br>
+          • ប្រសិនបើមិនពិត នឹងចាត់ទុកជា <strong>មោឃៈ</strong> និងមិនអាចទទួលបានប្រាក់រង្វាន់ឡើយ
+        </div>
+        
         <div class="info-message">
           ℹ️ អ្នកអាចដកប្រាក់រង្វាន់របស់អ្នកបានក្នុងមុខងារ 🏦 ដកប្រាក់ នៅខាងក្រោមនៃទំព័រ ប្រសិនបើអ្នកចាក់ត្រូវ។
         </div>
@@ -841,7 +906,7 @@
     </div>
   </div>
 
-  <!-- ===== DIRECT BET MODAL ===== -->
+  <!-- DIRECT BET MODAL -->
   <div class="modal" id="directBetModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('directBetModal')">&times;</span>
@@ -864,7 +929,7 @@
     </div>
   </div>
 
-  <!-- ===== WITHDRAW MODAL ===== -->
+  <!-- WITHDRAW MODAL -->
   <div class="modal" id="withdrawModal">
     <div class="modal-content">
       <span class="close" onclick="closeModal('withdrawModal')">&times;</span>
@@ -890,7 +955,7 @@
     </div>
   </div>
 
-  <!-- ===== GROUP MODAL ===== -->
+  <!-- GROUP MODAL -->
   <div class="modal" id="groupModal">
     <div class="modal-content" style="text-align:center;">
       <span class="close" onclick="closeModal('groupModal')">&times;</span>
@@ -901,7 +966,7 @@
     </div>
   </div>
 
-  <!-- ===== ALERT MODAL ===== -->
+  <!-- ALERT MODAL -->
   <div class="modal" id="alertModal">
     <div class="modal-content alert-modal">
       <span class="alert-icon" id="alertIcon">🔔</span>
@@ -911,7 +976,7 @@
     </div>
   </div>
 
-    <script>
+  <script>
     // ================================================================
     // WEB APP URL
     // ================================================================
@@ -1138,10 +1203,8 @@
       document.getElementById('mainApp').style.display = 'block';
       
       document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
-      // ✅ បង្ហាញលេខទូរស័ព្ទពេញ
       document.getElementById('displayCurrentPhone').textContent = currentUser.phone;
       
-      // ✅ បំពេញលេខទូរស័ព្ទក្នុងប្រអប់ (អាចកែបាន)
       document.getElementById('directPhone').value = currentUser.phone;
       document.getElementById('depPhone').value = currentUser.phone;
       document.getElementById('wdPhone').value = currentUser.phone;
@@ -1325,7 +1388,6 @@
       inp.disabled = false;
       inp.placeholder = betType === 'two' ? `បញ្ចូល ២ខ្ទង់សម្រាប់ ${l}` : `បញ្ចូល ៣ខ្ទង់សម្រាប់ ${l}`;
       inp.focus();
-      document.getElementById('btnAdd').disabled = false;
     }
 
     function formatInput() {
@@ -1340,28 +1402,28 @@
       inp.value = parts.join(',');
     }
 
-    document.getElementById('numInput').addEventListener('input', formatInput);
-
-    function addNumber() {
+    // ✅ បន្ថែមលេខស្វ័យប្រវត្តិ
+    function autoAddNumbers() {
       const inp = document.getElementById('numInput');
       let raw = inp.value.trim();
-      if (!selectedLetter) { showAlert('ការព្រមាន', 'សូមជ្រើសរើស A-E ជាមុន!', '⚠️'); return; }
-      if (!raw) { showAlert('ការព្រមាន', 'សូមបញ្ចូលលេខ!', '⚠️'); return; }
-
+      
+      if (!selectedLetter) return;
+      if (!raw) return;
+      
       const len = getReqLen();
       let items = raw.split(',').map(s => s.trim().replace(/[^0-9]/g, ''));
       let valid = items.filter(s => s.length === len);
-
-      if (valid.length === 0) { showAlert('ការព្រមាន', `សូមបញ្ចូលលេខ ${len} ខ្ទង់!`, '⚠️'); return; }
-
+      
       for (let n of valid) {
-        if (numbers.length >= 10) { showAlert('ការព្រមាន', 'ចាក់បានត្រឹមតែ 10 លេខ!', '⚠️'); break; }
+        if (numbers.length >= 10) break;
         const tag = `${selectedLetter}:${n}`;
-        if (!numbers.includes(tag)) { numbers.push(tag); }
+        if (!numbers.includes(tag)) {
+          numbers.push(tag);
+        }
       }
+      
       inp.value = '';
       updateDisplay();
-      inp.focus();
     }
 
     function removeNum(idx) {
@@ -1445,6 +1507,26 @@
         document.getElementById('confirmTotal').textContent = display;
         document.getElementById('depPhone').value = currentUser.phone;
         document.getElementById('depositModal').style.display = 'block';
+        checkOnlineFormValidity();
+      }
+    }
+
+    // ✅ ពិនិត្យ Online Form
+    function checkOnlineFormValidity() {
+      const phone = document.getElementById('depPhone').value.trim();
+      const file = document.getElementById('depScreenshot').files[0];
+      const btn = document.getElementById('depSubmitBtn');
+      
+      if (!btn) return;
+      
+      const isValid = phone.length >= 9 && file;
+      
+      if (isValid) {
+        btn.disabled = false;
+        btn.classList.remove('btn-disabled-strict');
+      } else {
+        btn.disabled = true;
+        btn.classList.add('btn-disabled-strict');
       }
     }
 
@@ -1566,6 +1648,8 @@
             await fetchUserBets();
             document.getElementById('depositForm').reset();
             document.getElementById('depPhone').value = currentUser.phone;
+            document.getElementById('depSubmitBtn').disabled = true;
+            document.getElementById('depSubmitBtn').classList.add('btn-disabled-strict');
           } else {
             showAlert('បរាជ័យ', '❌ ' + (data.error || 'មានបញ្ហា!'), '❌');
           }
@@ -1581,99 +1665,84 @@
     });
 
     // ================================================================
-    // RENDER USER BETS FROM SERVER (មើលឃើញគ្រប់ឧបករណ៍)
+    // RENDER USER BETS FROM SERVER
     // ================================================================
     function renderUserBetsFromServer(serverBets) {
-  const tbody = document.getElementById('userHistoryBody');
+      const tbody = document.getElementById('userHistoryBody');
 
-  if (!serverBets || serverBets.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
-    return;
-  }
+      if (!serverBets || serverBets.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
+        return;
+      }
 
-  tbody.innerHTML = serverBets.map(b => {
-    const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
-    let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
-    let reward = '-';
-    let actionBtn = '-';
-    
-    if (b.status === 'win') {
-      if (b.paid === 'yes') {
-        badge = '<span class="status-badge status-paid">✅ បានសង</span>';
-      } else {
-        badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
-        if (b.payMethod === 'direct') {
-          actionBtn = `<button class="btn btn-ok" onclick="markPaid('${b.id}')">✅ បានសង</button>`;
+      tbody.innerHTML = serverBets.map(b => {
+        const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
+        const numCount = b.numbers.split(',').length;
+        const totalBet = b.amount * numCount;
+        const totalAmt = b.currency === 'USD' ? `${totalBet.toFixed(2)}$` : `${totalBet.toLocaleString()}៛`;
+        
+        let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
+        let reward = '-';
+        let actionBtn = '-';
+        
+        if (b.status === 'win') {
+          if (b.paid === 'yes') {
+            badge = '<span class="status-badge status-paid">✅ បានសង</span>';
+          } else {
+            badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
+            if (b.payMethod === 'direct') {
+              actionBtn = `<button class="btn btn-ok" onclick="markPaid('${b.id}')">✅ បានសង</button>`;
+            }
+          }
+          const rate = b.type === 'two' ? 70 : 500;
+          const payout = b.payout || (b.amount * rate);
+          reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
+        } else if (b.status === 'loss') {
+          badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
         }
-      }
-      const rate = b.type === 'two' ? 70 : 500;
-      const payout = b.payout || (b.amount * rate);
-      reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
-    } else if (b.status === 'loss') {
-      badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
-    }
-    
-    // ✅✅✅ ទាញកាលបរិច្ឆេទពី ID (timestamp) ✅✅✅
-    let dateDisplay = '';
-    let timeDisplay = '';
-    
-    // ទាញ timestamp ពី ID (ឧ. BET-1791055782598)
-    if (b.id && b.id.startsWith('BET-')) {
-      const timestamp = parseInt(b.id.replace('BET-', ''), 10);
-      if (!isNaN(timestamp) && timestamp > 1000000000000) {
-        const d = new Date(timestamp);
-        dateDisplay = String(d.getDate()).padStart(2, '0') + '/' +
-                      String(d.getMonth() + 1).padStart(2, '0') + '/' +
-                      d.getFullYear();
-        timeDisplay = String(d.getHours()).padStart(2, '0') + ':' +
-                      String(d.getMinutes()).padStart(2, '0');
-      }
-    }
-    
-    // ✅✅✅ ប្រសិនបើ drawTime ជា string ត្រឹមត្រូវ (ដូចជា "12:00") → ប្រើវា ✅✅✅
-    if (b.drawTime) {
-      const dt = String(b.drawTime);
-      // ប្រសិនបើជាម៉ោងត្រឹមត្រូវ (HH:mm)
-      if (/^\d{1,2}:\d{2}$/.test(dt.trim())) {
-        timeDisplay = dt.trim();
-      } 
-      // ប្រសិនបើជា Date object ខុស → ប្រើពី ID
-      else if (dt.includes('1899') || dt.includes('1900') || dt.includes('GMT')) {
-        // ទុក timeDisplay ពី ID (ខាងលើ)
-      }
-      // បើមិនដូច្នេះ → ព្យាយាមទាញម៉ោង
-      else {
-        try {
-          const d = new Date(dt);
-          if (!isNaN(d.getTime())) {
+        
+        let dateDisplay = '';
+        let timeDisplay = '';
+        
+        if (b.id && b.id.startsWith('BET-')) {
+          const timestamp = parseInt(b.id.replace('BET-', ''), 10);
+          if (!isNaN(timestamp) && timestamp > 1000000000000) {
+            const d = new Date(timestamp);
+            dateDisplay = String(d.getDate()).padStart(2, '0') + '/' +
+                          String(d.getMonth() + 1).padStart(2, '0') + '/' +
+                          d.getFullYear();
             timeDisplay = String(d.getHours()).padStart(2, '0') + ':' +
                           String(d.getMinutes()).padStart(2, '0');
           }
-        } catch(e) {}
-      }
+        }
+        
+        if (b.drawTime) {
+          const dt = String(b.drawTime);
+          if (/^\d{1,2}:\d{2}$/.test(dt.trim())) {
+            timeDisplay = dt.trim();
+          }
+        }
+        
+        if (!timeDisplay) timeDisplay = '12:00';
+        
+        return `<tr>
+          <td style="text-align:left; font-size:10px;">
+            <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
+            <div style="font-weight:bold;">${dateDisplay}</div>
+            <div style="color:#6c757d;">${timeDisplay}</div>
+          </td>
+          <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
+          <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
+          <td>
+            <div>${amt}</div>
+            <div class="amount-tag">💰 ${totalAmt}</div>
+          </td>
+          <td>${badge}</td>
+          <td>${reward}</td>
+          <td>${actionBtn}</td>
+        </tr>`;
+      }).join('');
     }
-    
-    // ប្រសិនបើគ្មាន timeDisplay → ប្រើ "12:00" ជា default
-    if (!timeDisplay) {
-      timeDisplay = '12:00';
-    }
-    
-    return `<tr>
-      <td style="text-align:left; font-size:10px;">
-        <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
-        <div style="font-weight:bold;">${dateDisplay}</div>
-        <div style="color:#6c757d;">${timeDisplay}</div>
-      </td>
-      <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
-      <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
-      <td>${amt}</td>
-      <td>${badge}</td>
-      <td>${reward}</td>
-      <td>${actionBtn}</td>
-    </tr>`;
-  }).join('');
-}
-
 
     // ================================================================
     // MARK PAID
@@ -1857,158 +1926,168 @@
     // UPDATE UI - RESULTS
     // ================================================================
     function updateResultsUI() {
-  const now = new Date();
-  const h = now.getHours();
-  
-  // ✅ បង្កើតកាលបរិច្ឆេទជាច្រើនទម្រង់ ដើម្បីប្រៀបធៀប
-  const todayFormats = [
-    now.toLocaleDateString('km-KH'),
-    now.toLocaleDateString('en-GB'),
-    String(now.getDate()).padStart(2, '0') + '/' + 
-      String(now.getMonth() + 1).padStart(2, '0') + '/' + 
-      now.getFullYear(),
-    now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear()
-  ];
-  
-  // ✅ ពិនិត្យលទ្ធផលថ្ងៃនេះ
-  const todayResults = cachedResults.filter(r => {
-    if (!r.date) return false;
-    const rDate = String(r.date).trim();
-    return todayFormats.some(f => rDate === f);
-  });
-  
-  const posts = ['A', 'B', 'C', 'D', 'E'];
-  
-  // Debug log
-  console.log('🔍 Today results:', todayResults);
-  console.log('🔍 Types found:', todayResults.map(r => r.type + '|' + r.time));
+      const now = new Date();
+      const h = now.getHours();
+      
+      const todayFormats = [
+        now.toLocaleDateString('km-KH'),
+        now.toLocaleDateString('en-GB'),
+        String(now.getDate()).padStart(2, '0') + '/' + 
+          String(now.getMonth() + 1).padStart(2, '0') + '/' + 
+          now.getFullYear(),
+        now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear()
+      ];
+      
+      const todayResults = cachedResults.filter(r => {
+        if (!r.date) return false;
+        const rDate = String(r.date).trim();
+        return todayFormats.some(f => rDate === f);
+      });
+      
+      const posts = ['A', 'B', 'C', 'D', 'E'];
+      
+      // 12:00 RESULTS
+      const results12 = todayResults.filter(r => 
+        r.time && String(r.time).includes('12:00')
+      );
+      
+      const badge12 = document.getElementById('badge12');
+      
+      if (results12.length > 0) {
+        badge12.textContent = '✅ ចេញហើយ';
+        badge12.className = 'badge badge-completed';
+        
+        const r12two = results12.find(r => 
+          String(r.type).toLowerCase() === 'two' || 
+          String(r.type).toLowerCase() === '2'
+        );
+        
+        posts.forEach(p => {
+          const el = document.getElementById(`r12_${p}`);
+          if (el) {
+            if (r12two && r12two.results && r12two.results[p] !== undefined) {
+              el.textContent = r12two.results[p];
+              el.className = 'number-result';
+            } else {
+              el.textContent = '--';
+              el.className = '';
+            }
+          }
+        });
+        
+        const r12three = results12.find(r => 
+          String(r.type).toLowerCase() === 'three' || 
+          String(r.type).toLowerCase() === '3'
+        );
+        
+        posts.forEach(p => {
+          const el = document.getElementById(`r12_3d_${p}`);
+          if (el) {
+            if (r12three && r12three.results && r12three.results[p] !== undefined) {
+              el.textContent = r12three.results[p];
+              el.className = 'number-result';
+            } else {
+              el.textContent = '--';
+              el.className = '';
+            }
+          }
+        });
+      } else {
+        badge12.textContent = '⏳ រង់ចាំ';
+        badge12.className = 'badge badge-waiting';
+        
+        posts.forEach(p => {
+          const el1 = document.getElementById(`r12_${p}`);
+          const el2 = document.getElementById(`r12_3d_${p}`);
+          if (el1) { el1.textContent = '--'; el1.className = ''; }
+          if (el2) { el2.textContent = '--'; el2.className = ''; }
+        });
+      }
 
-  // ============================================================
-  // 12:00 RESULTS
-  // ============================================================
-  const results12 = todayResults.filter(r => 
-    r.time && String(r.time).includes('12:00')
-  );
-  
-  const badge12 = document.getElementById('badge12');
-  
-  if (results12.length > 0) {
-    badge12.textContent = '✅ ចេញហើយ';
-    badge12.className = 'badge badge-completed';
-    
-    // ✅ បង្ហាញ ២ខ្ទង់
-    const r12two = results12.find(r => 
-      String(r.type).toLowerCase() === 'two' || 
-      String(r.type).toLowerCase() === '2' ||
-      String(r.type).toLowerCase().includes('two')
-    );
-    
-    console.log('🔍 12:00 two:', r12two);
-    
-    posts.forEach(p => {
-      const el = document.getElementById(`r12_${p}`);
-      if (el && r12two && r12two.results && r12two.results[p] !== undefined) {
-        el.textContent = r12two.results[p];
-        el.className = 'number-result';
+      // 16:00 RESULTS
+      const results16 = todayResults.filter(r => 
+        r.time && String(r.time).includes('16:00')
+      );
+      
+      const badge16 = document.getElementById('badge16');
+      
+      if (results16.length > 0) {
+        badge16.textContent = '✅ ចេញហើយ';
+        badge16.className = 'badge badge-completed';
+        
+        const r16two = results16.find(r => 
+          String(r.type).toLowerCase() === 'two' || 
+          String(r.type).toLowerCase() === '2'
+        );
+        
+        posts.forEach(p => {
+          const el = document.getElementById(`r16_${p}`);
+          if (el) {
+            if (r16two && r16two.results && r16two.results[p] !== undefined) {
+              el.textContent = r16two.results[p];
+              el.className = 'number-result';
+            } else {
+              el.textContent = '--';
+              el.className = '';
+            }
+          }
+        });
+        
+        const r16three = results16.find(r => 
+          String(r.type).toLowerCase() === 'three' || 
+          String(r.type).toLowerCase() === '3'
+        );
+        
+        posts.forEach(p => {
+          const el = document.getElementById(`r16_3d_${p}`);
+          if (el) {
+            if (r16three && r16three.results && r16three.results[p] !== undefined) {
+              el.textContent = r16three.results[p];
+              el.className = 'number-result';
+            } else {
+              el.textContent = '--';
+              el.className = '';
+            }
+          }
+        });
+      } else {
+        badge16.textContent = '⏳ រង់ចាំ';
+        badge16.className = 'badge badge-waiting';
+        
+        posts.forEach(p => {
+          const el1 = document.getElementById(`r16_${p}`);
+          const el2 = document.getElementById(`r16_3d_${p}`);
+          if (el1) { el1.textContent = '--'; el1.className = ''; }
+          if (el2) { el2.textContent = '--'; el2.className = ''; }
+        });
       }
-    });
-    
-    // ✅ បង្ហាញ ៣ខ្ទង់
-    const r12three = results12.find(r => 
-      String(r.type).toLowerCase() === 'three' || 
-      String(r.type).toLowerCase() === '3' ||
-      String(r.type).toLowerCase().includes('three')
-    );
-    
-    console.log('🔍 12:00 three:', r12three);
-    
-    posts.forEach(p => {
-      const el = document.getElementById(`r12_3d_${p}`);
-      if (el && r12three && r12three.results && r12three.results[p] !== undefined) {
-        el.textContent = r12three.results[p];
-        el.className = 'number-result';
-      }
-    });
-  } else {
-    badge12.textContent = '⏳ រង់ចាំ';
-    badge12.className = 'badge badge-waiting';
-  }
 
-  // ============================================================
-  // 16:00 RESULTS
-  // ============================================================
-  const results16 = todayResults.filter(r => 
-    r.time && String(r.time).includes('16:00')
-  );
-  
-  const badge16 = document.getElementById('badge16');
-  
-  if (results16.length > 0) {
-    badge16.textContent = '✅ ចេញហើយ';
-    badge16.className = 'badge badge-completed';
-    
-    // ✅ បង្ហាញ ២ខ្ទង់
-    const r16two = results16.find(r => 
-      String(r.type).toLowerCase() === 'two' || 
-      String(r.type).toLowerCase() === '2' ||
-      String(r.type).toLowerCase().includes('two')
-    );
-    
-    posts.forEach(p => {
-      const el = document.getElementById(`r16_${p}`);
-      if (el && r16two && r16two.results && r16two.results[p] !== undefined) {
-        el.textContent = r16two.results[p];
-        el.className = 'number-result';
+      // STATUS BAR
+      const statusEl = document.getElementById('resultStatusText');
+      const has12 = results12.length > 0;
+      const has16 = results16.length > 0;
+      
+      if (h < 12) {
+        statusEl.textContent = '⏳ រង់ចាំ 12:00';
+        statusEl.className = 'value pending';
+      } else if (h >= 12 && h < 16) {
+        if (has12) {
+          statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
+          statusEl.className = 'value';
+        } else {
+          statusEl.textContent = '⏳ កំពុងដំណើរការ 12:00...';
+          statusEl.className = 'value pending';
+        }
+      } else {
+        if (has16) {
+          statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
+          statusEl.className = 'value';
+        } else {
+          statusEl.textContent = '⏳ រង់ចាំ 16:00...';
+          statusEl.className = 'value pending';
+        }
       }
-    });
-    
-    // ✅ បង្ហាញ ៣ខ្ទង់
-    const r16three = results16.find(r => 
-      String(r.type).toLowerCase() === 'three' || 
-      String(r.type).toLowerCase() === '3' ||
-      String(r.type).toLowerCase().includes('three')
-    );
-    
-    posts.forEach(p => {
-      const el = document.getElementById(`r16_3d_${p}`);
-      if (el && r16three && r16three.results && r16three.results[p] !== undefined) {
-        el.textContent = r16three.results[p];
-        el.className = 'number-result';
-      }
-    });
-  } else {
-    badge16.textContent = '⏳ រង់ចាំ';
-    badge16.className = 'badge badge-waiting';
-  }
-
-  // ============================================================
-  // STATUS BAR
-  // ============================================================
-  const statusEl = document.getElementById('resultStatusText');
-  const has12 = results12.length > 0;
-  const has16 = results16.length > 0;
-  
-  if (h < 12) {
-    statusEl.textContent = '⏳ រង់ចាំ 12:00';
-    statusEl.className = 'value pending';
-  } else if (h >= 12 && h < 16) {
-    if (has12) {
-      statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
-      statusEl.className = 'value';
-    } else {
-      statusEl.textContent = '⏳ កំពុងដំណើរការ 12:00...';
-      statusEl.className = 'value pending';
     }
-  } else {
-    if (has16) {
-      statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
-      statusEl.className = 'value';
-    } else {
-      statusEl.textContent = '⏳ រង់ចាំ 16:00...';
-      statusEl.className = 'value pending';
-    }
-  }
-}
 
     function renderHistoryTable() {
       const tbody = document.getElementById('historyBody');
@@ -2099,7 +2178,27 @@
       showRegisterStep();
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', function() {
+      init();
+      
+      // ✅ Event listeners សម្រាប់ Online Form
+      const depPhone = document.getElementById('depPhone');
+      const depScreenshot = document.getElementById('depScreenshot');
+      
+      if (depPhone) {
+        depPhone.addEventListener('input', checkOnlineFormValidity);
+      }
+      if (depScreenshot) {
+        depScreenshot.addEventListener('change', checkOnlineFormValidity);
+      }
+      
+      // ✅ Event listener សម្រាប់ numInput
+      const numInput = document.getElementById('numInput');
+      if (numInput) {
+        numInput.addEventListener('input', formatInput);
+        numInput.addEventListener('input', autoAddNumbers);
+      }
+    });
     
     window.onclick = function(e) {
       if (e.target.classList.contains('modal') && e.target.id !== 'registerModal') {
