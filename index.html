@@ -70,8 +70,8 @@
     .letter-circle.active { background:linear-gradient(135deg,#0078D7,#005fa3); color:white; border-color:#0078D7; }
     
     .input-row { display:flex; gap:6px; align-items:center; margin-bottom:8px; background:#f8f9fa; padding:8px; border-radius:8px; border:1px dashed #0078D7; flex-wrap:wrap; }
-    .input-row input { flex:1 1 120px; padding:6px 10px; border:2px solid #dee2e6; border-radius:6px; font-size:clamp(13px,1.4vw,14px); font-weight:bold; min-width:80px; }
-    .input-row input:focus { border-color:#0078D7; outline:none; }
+    .input-row input { flex:1 1 120px; padding:10px 12px; border:2px solid #dee2e6; border-radius:6px; font-size:clamp(14px,1.4vw,15px); font-weight:bold; min-width:80px; letter-spacing:2px; }
+    .input-row input:focus { border-color:#0078D7; outline:none; box-shadow:0 0 0 3px rgba(0,120,215,0.1); }
     
     .selected-display { display:flex; flex-wrap:wrap; gap:4px; margin:6px 0; min-height:32px; padding:6px; background:#f8f9fa; border-radius:6px; border:2px dashed #dee2e6; align-items:center; }
     .selected-tag { background:linear-gradient(135deg,#0078D7,#005fa3); color:white; padding:3px 10px; border-radius:14px; font-size:clamp(12px,1.3vw,13px); display:inline-flex; align-items:center; gap:4px; font-weight:bold; }
@@ -561,7 +561,7 @@
             💡 <strong>របៀបប្រើ៖</strong><br>
             ១. ជ្រើសរើស <strong>ពេលវេលា</strong> និង <strong>ប្រភេទលេខ</strong><br>
             ២. ចុចអក្សរ <strong>A, B, C, D, E</strong><br>
-            ៣. បញ្ចូលលេខ (ឧ. 01,02,03) ចុច <strong>✓ បន្ថែម</strong><br>
+            ៣. បញ្ចូលលេខ (ឧ. 01,02,03) — <strong>បន្ថែមស្វ័យប្រវត្តិ</strong><br>
             ៤. ជ្រើសរើសចំនួនទឹកប្រាក់ រួចចុច "ដាក់ប្រាក់"
           </div>
 
@@ -607,9 +607,8 @@
             <div class="letter-circle" onclick="selectLetter('E', event)">E</div>
           </div>
 
-          <div class="input-row">
-            <input type="text" id="numInput" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled>
-            <button class="btn btn-primary" id="btnAdd" onclick="addNumber()" disabled style="padding:8px 16px;">✓ បន្ថែម</button>
+          <div class="input-row" style="flex-direction:column; align-items:stretch;">
+            <input type="text" id="numInput" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled oninput="autoAddNumbers()">
           </div>
 
           <div class="selected-display" id="selectedDisplay">
@@ -709,7 +708,7 @@
             <p>១. ជ្រើសរើសពេលវេលា (12:00 ឬ 16:00)</p>
             <p>២. ជ្រើសរើសប្រភេទ (២ ឬ ៣ ខ្ទង់)</p>
             <p>៣. ចុចជ្រើសរើស A, B, C, D, ឬ E</p>
-            <p>៤. បញ្ចូលលេខ (ឧ. 01, 02, 03) រួចចុច "✓ បន្ថែម"</p>
+            <p>៤. បញ្ចូលលេខ (ឧ. 01, 02, 03) — លេខនឹងបន្ថែមស្វ័យប្រវត្តិ</p>
             <p>៥. ជ្រើសរើសចំនួនទឹកប្រាក់ក្នុងមួយលេខ</p>
             <p>៦. ចុច "ដាក់ប្រាក់"</p>
 
@@ -868,7 +867,6 @@
     // ================================================================
     // WEB APP URL
     // ================================================================
-    // ⚠️ សូមជំនួសដោយ Web App URL ពិតរបស់អ្នក
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby5eezen9FHdT2yL_4bvUuzddcXMBIouPWnR-zoavqFx-TdpqOohfcbz7vbT_Bh9xZG/exec';
 
     // ================================================================
@@ -1276,29 +1274,42 @@
       inp.disabled = false;
       inp.placeholder = betType === 'two' ? `បញ្ចូល ២ខ្ទង់សម្រាប់ ${l}` : `បញ្ចូល ៣ខ្ទង់សម្រាប់ ${l}`;
       inp.focus();
-      document.getElementById('btnAdd').disabled = false;
     }
 
-    function addNumber() {
+    // ✅ បន្ថែមលេខស្វ័យប្រវត្តិភ្លាមៗ
+    function autoAddNumbers() {
       const inp = document.getElementById('numInput');
       let raw = inp.value.trim();
-      if (!selectedLetter) { showAlert('ការព្រមាន', 'សូមជ្រើសរើស A-E ជាមុន!', '⚠️'); return; }
-      if (!raw) { showAlert('ការព្រមាន', 'សូមបញ្ចូលលេខ!', '⚠️'); return; }
-
+      
+      if (!selectedLetter) return;
+      if (!raw) return;
+      
       const len = getReqLen();
-      let items = raw.split(',').map(s => s.trim().replace(/[^0-9]/g, ''));
-      let valid = items.filter(s => s.length === len);
-
-      if (valid.length === 0) { showAlert('ការព្រមាន', `សូមបញ្ចូលលេខ ${len} ខ្ទង់!`, '⚠️'); return; }
-
-      for (let n of valid) {
-        if (numbers.length >= 10) { showAlert('ការព្រមាន', 'ចាក់បានត្រឹមតែ 10 លេខ!', '⚠️'); break; }
-        const tag = `${selectedLetter}:${n}`;
-        if (!numbers.includes(tag)) { numbers.push(tag); }
+      const digitsOnly = raw.replace(/[^0-9]/g, '');
+      
+      // ✅ ប្រសិនបើបំពេញលេខគ្រប់ចំនួន → បន្ថែមភ្លាមៗ
+      if (digitsOnly.length >= len && digitsOnly.length % len === 0) {
+        // បែងចែកជា groups
+        let items = [];
+        for (let i = 0; i < digitsOnly.length; i += len) {
+          items.push(digitsOnly.substring(i, i + len));
+        }
+        
+        let addedCount = 0;
+        for (let n of items) {
+          if (n.length !== len) continue;
+          if (numbers.length >= 10) break;
+          const tag = `${selectedLetter}:${n}`;
+          if (!numbers.includes(tag)) {
+            numbers.push(tag);
+            addedCount++;
+          }
+        }
+        
+        // ✅ សម្អាត input បន្ទាប់ពីបន្ថែម
+        inp.value = '';
+        updateDisplay();
       }
-      inp.value = '';
-      updateDisplay();
-      inp.focus();
     }
 
     function removeNum(idx) {
@@ -1382,7 +1393,7 @@
         document.getElementById('confirmTotal').textContent = display;
         document.getElementById('depPhone').value = currentUser.phone;
         
-        // ✅ Reset file input + label
+        // ✅ Reset file input
         const fileInput = document.getElementById('depScreenshot');
         const label = document.getElementById('depScreenshotLabel');
         
@@ -1572,7 +1583,7 @@
         console.error('Error:', err);
         showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការតភ្ជាប់!', '❌');
         btn.disabled = false;
-        btn.textContent = 'បញ្ជាក់ការទូទាត់';
+        btn.textContent = 'បញ្ជាក់ការទុទាត់';
       }
     });
 
@@ -1613,14 +1624,11 @@
           badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
         }
         
-        // ✅ កាលបរិច្ឆេទ + ម៉ោង
         let dateDisplay = '';
         let timeDisplay = '';
         
-        // ទាញកាលបរិច្ឆេទពី b.date ដែល Server ផ្ញើមក
         if (b.date) {
           const dateStr = String(b.date).trim();
-          // ប្រសិនបើជា dd/MM/yyyy HH:mm:ss
           if (dateStr.includes('/')) {
             const parts = dateStr.split(' ');
             dateDisplay = parts[0] || dateStr;
@@ -1630,7 +1638,6 @@
           }
         }
         
-        // ✅ ប្រសិនបើមាន drawTime → ប្រើវា (ត្រឹមត្រូវជាង)
         if (b.drawTime) {
           const dt = String(b.drawTime).trim();
           if (/^\d{1,2}:\d{2}$/.test(dt)) {
@@ -1836,7 +1843,8 @@
     });
 
     // ================================================================
-    // UPDATE UI - RESULTS (✅ បង្ហាញតែលទ្ធផលចុងក្រោយ)
+    // UPDATE UI - RESULTS
+    // ✅ បង្ហាញលទ្ធផលតាមទិន្នន័យពិត (មិនបង្ហាញទាំងពីរព្រមគ្នា)
     // ================================================================
     function updateResultsUI() {
       const now = new Date();
@@ -1885,19 +1893,25 @@
       const has12 = results12.length > 0;
       const has16 = results16.length > 0;
       
-      // ✅ បង្ហាញតែលទ្ធផលចុងក្រោយ
+      // ✅ បង្ហាញលទ្ធផលមួយក្នុងចំណោមពីរ
+      // ប្រសិនបើមានទាំង 12:00 និង 16:00 → បង្ហាញតែចុងក្រោយ (16:00)
+      // ប្រសិនបើមានតែ 12:00 → បង្ហាញ 12:00
+      // ប្រសិនបើមានតែ 16:00 → បង្ហាញ 16:00
       let show12 = false;
       let show16 = false;
       
-      if (h < 12) {
+      if (has12 && has16) {
+        // មានទាំងពីរ → បង្ហាញតែ 16:00
         show12 = false;
+        show16 = true;
+      } else if (has12 && !has16) {
+        // មានតែ 12:00 → បង្ហាញ 12:00
+        show12 = true;
         show16 = false;
-      } else if (h >= 12 && h < 16) {
-        show12 = has12;
-        show16 = false;
-      } else {
+      } else if (!has12 && has16) {
+        // មានតែ 16:00 → បង្ហាញ 16:00
         show12 = false;
-        show16 = has16;
+        show16 = true;
       }
       
       // 12:00
@@ -1913,7 +1927,6 @@
         const r12three = results12.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
         fillSlot('r12_3d_', r12three);
         
-        // ✅ បង្ហាញកាលបរិច្ឆេទចេញលទ្ធផល
         if (r12two && r12two.publishedAt) {
           document.getElementById('date12').innerHTML = 
             `<span class="date-badge">📅 ចេញលទ្ធផលនៅ: ${r12two.publishedAt}</span>`;
@@ -1921,7 +1934,7 @@
           document.getElementById('date12').innerHTML = '';
         }
       } else {
-        badge12.textContent = '⏳ រង់ចាំ';
+        badge12.textContent = has12 ? '⏳ រង់ចាំ' : '⏳ រង់ចាំ';
         badge12.className = 'badge badge-waiting';
         resetSlot('r12_');
         resetSlot('r12_3d_');
@@ -1948,7 +1961,7 @@
           document.getElementById('date16').innerHTML = '';
         }
       } else {
-        badge16.textContent = '⏳ រង់ចាំ';
+        badge16.textContent = has16 ? '⏳ រង់ចាំ' : '⏳ រង់ចាំ';
         badge16.className = 'badge badge-waiting';
         resetSlot('r16_');
         resetSlot('r16_3d_');
@@ -1962,7 +1975,7 @@
         statusEl.textContent = '⏳ រង់ចាំ 12:00';
         statusEl.className = 'value pending';
       } else if (h >= 12 && h < 16) {
-        if (show12) {
+        if (has12) {
           statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
           statusEl.className = 'value';
         } else {
@@ -1970,7 +1983,7 @@
           statusEl.className = 'value pending';
         }
       } else {
-        if (show16) {
+        if (has16) {
           statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
           statusEl.className = 'value';
         } else {
@@ -2074,7 +2087,6 @@
     document.addEventListener('DOMContentLoaded', function() {
       init();
       
-      // ✅ Event listeners សម្រាប់ Online Form
       const depPhone = document.getElementById('depPhone');
       const depScreenshot = document.getElementById('depScreenshot');
       
