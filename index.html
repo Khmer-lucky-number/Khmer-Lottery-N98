@@ -289,6 +289,12 @@
     
     .date-badge { background: #e8f4fd; color: #005fa3; padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; display: inline-block; margin-top: 2px; }
     
+    /* ✅ QR Animation */
+    @keyframes qrFloat {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-8px) scale(1.05); }
+    }
+    
     @media(max-width:768px){
       .numbers div { flex:1 1 calc(33.33% - 5px); min-width:42px; padding:6px 3px; font-size:12px; }
       .clock-box { flex-direction:column; text-align:center; gap:4px; }
@@ -301,30 +307,6 @@
       .numbers div { flex:1 1 calc(50% - 4px); min-width:32px; padding:4px 2px; font-size:11px; }
       .countdown .time-display { font-size:26px; padding:3px 10px; min-width:90px; }
     }
-
-@keyframes qrFloat {
-  0%, 100% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-8px) scale(1.05); }
-}
-
-@keyframes qrPulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.1); }
-}
-
-.qr-animation {
-  position: relative;
-}
-
-.qr-animation::after {
-  content: '';
-  position: absolute;
-  inset: -10px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,120,215,0.4) 0%, transparent 70%);
-  animation: qrPulse 2s ease-in-out infinite;
-  z-index: -1;
-}
   </style>
 </head>
 <body>
@@ -345,7 +327,7 @@
       
       <div class="reg-step active" id="regStep1">
         <div class="reg-header">
-          <div class="icon">🎰</div>
+          <div class="icon">🎲</div>
           <h2>សូមស្វាគមន៍មកកាន់ N98</h2>
           <p>សូមចុះឈ្មោះដើម្បីចូលប្រើប្រាស់</p>
         </div>
@@ -457,7 +439,7 @@
   <div id="mainApp" style="display:none;">
     
     <header>
-      <h1>🎰 ឆ្នោតខ្មែរ N98</h1>
+      <h1>🎲 ឆ្នោតខ្មែរ N98</h1>
       <p>ប្រព័ន្ធទិញលេខឆ្នោត និងទទួលបានរង្វាន់</p>
     </header>
 
@@ -692,7 +674,7 @@
             </table>
           </div>
           <div style="font-size:clamp(10px,1.1vw,11px); color:#dc3545; font-weight:600; margin-top:8px; padding:4px; background:#fff5f5; border:1px dashed #ffb3b3; border-radius:4px;">
-            ⚠️ ប្រវត្តិចាក់នឹងលុបដោយស្វ័យប្រវត្តិបន្ទាប់ពី ២៤ ម៉ោង ហើយអាចមើលឃើញដូចគ្នាគ្រប់ឧបករណ៍
+            ⚠️ ប្រវត្តិចាក់រក្សាទុក ៧ ថ្ងៃ ហើយអាចមើលឃើញដូចគ្នាគ្រប់ឧបករណ៍
           </div>
         </div>
 
@@ -794,20 +776,26 @@
         <label>លេខទូរស័ព្ទ *</label>
         <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" minlength="9" maxlength="10">
         
-<div class="bank-sub-group" style="background:linear-gradient(135deg,#e8f4fd,#d4edda); border:2px dashed #0078D7; padding:14px; border-radius:12px; text-align:center;">
-  <div style="margin-bottom:10px;">
-    <div class="qr-animation" style="font-size:60px; animation:qrFloat 3s ease-in-out infinite; display:inline-block;">📱</div>
-  </div>
-  <div style="font-weight:bold; color:#005fa3; font-size:clamp(12px,1.3vw,14px); margin-bottom:8px;">
-    👇 ចុចខាងក្រោមដើម្បីបង់ប្រាក់
-  </div>
-  <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" class="btn-bank btn-aba" id="abaBankBtn" onclick="handleAbaClick(event)" style="font-size:clamp(14px,1.5vw,16px); padding:14px;">
-    🏦 បង់ប្រាក់តាម ABA Bank
-  </a>
-  <div style="font-size:11px; color:#005fa3; margin-top:8px;">
-    ⚡ បង់ប្រាក់រួច សូមភ្ជាប់រូបភាព (Screenshot)
-  </div>
-</div>
+        <!-- ✅ ប៊ូតុង ABA Bank ថ្មី -->
+        <div class="bank-sub-group" style="background:linear-gradient(135deg,#e8f4fd,#d4edda); border:2px dashed #0078D7; padding:14px; border-radius:12px; text-align:center;">
+          <div style="margin-bottom:12px;">
+            <div style="display:inline-block; position:relative;">
+              <div style="font-size:60px; animation:qrFloat 3s ease-in-out infinite;">📱</div>
+              <div style="position:absolute; top:-5px; right:-5px; background:#ffc107; color:#000; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:bold; animation:blink 1s linear infinite;">QR</div>
+            </div>
+          </div>
+          <div style="font-weight:bold; color:#005fa3; font-size:clamp(13px,1.4vw,15px); margin-bottom:10px;">
+            👇 ចុចខាងក្រោមដើម្បីបង់ប្រាក់
+          </div>
+          <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" class="btn-bank btn-aba" id="abaBankBtn" onclick="handleAbaClick(event)" style="font-size:clamp(14px,1.5vw,16px); padding:14px; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <span style="font-size:20px;">🏦</span>
+            <span>បង់ប្រាក់តាម ABA Bank</span>
+            <span style="background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:8px; font-size:11px;">KHQR</span>
+          </a>
+          <div style="font-size:11px; color:#005fa3; margin-top:10px; font-weight:500;">
+            ⚡ បង់ប្រាក់រួច សូមភ្ជាប់រូបភាព (Screenshot)
+          </div>
+        </div>
         
         <label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none;">
           ភស្តុតាង (Screenshot) *
@@ -952,10 +940,22 @@
       showRegStep('regStep2');
     }
 
+    // ✅ កែបញ្ហាលេខទូរស័ព្ទបាត់ 0
+    function fixPhoneNumber(phone) {
+      let p = String(phone || '').trim();
+      p = p.replace(/[^0-9]/g, '');
+      if (p.length >= 9 && !p.startsWith('0')) {
+        p = '0' + p;
+      }
+      return p;
+    }
+
     async function handleRegister() {
-      const phone = document.getElementById('regPhone').value.trim();
+      let phone = document.getElementById('regPhone').value.trim();
       const pin = document.getElementById('regPin').value.trim();
       const btn = document.getElementById('regNextBtn');
+      
+      phone = fixPhoneNumber(phone);
       
       if (!phone) {
         showAlert('ការព្រមាន', 'សូមបំពេញលេខទូរស័ព្ទ!', '⚠️');
@@ -1031,7 +1031,7 @@
         if (data.ok) {
           currentUser = {
             userId: data.userId,
-            phone: data.phone,
+            phone: fixPhoneNumber(data.phone),
             verified: true
           };
           localStorage.setItem('lottery_user', JSON.stringify(currentUser));
@@ -1077,7 +1077,7 @@
         if (data.ok) {
           currentUser = {
             userId: data.userId,
-            phone: data.phone,
+            phone: fixPhoneNumber(data.phone),
             verified: true
           };
           localStorage.setItem('lottery_user', JSON.stringify(currentUser));
@@ -1113,33 +1113,30 @@
       showRegisterStep();
     }
 
+    // ✅ កែបញ្ហាលេខទូរស័ព្ទបាត់ 0
     function enterApp() {
-  document.getElementById('registerModal').style.display = 'none';
-  document.getElementById('floatingShapes').style.display = 'none';
-  document.getElementById('mainApp').style.display = 'block';
-  
-  document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
-  
-  // ✅ កែបញ្ហាលេខទូរស័ព្ទបាត់ 0
-  let phoneDisplay = String(currentUser.phone).trim();
-  if (phoneDisplay && phoneDisplay.length >= 9 && !phoneDisplay.startsWith('0')) {
-    phoneDisplay = '0' + phoneDisplay;
-  }
-  document.getElementById('displayCurrentPhone').textContent = phoneDisplay;
-  
-  document.getElementById('directPhone').value = phoneDisplay;
-  document.getElementById('depPhone').value = phoneDisplay;
-  document.getElementById('wdPhone').value = phoneDisplay;
-  
-  fetchBalance(currentUser.phone);
-  checkResults();
-  fetchUserBets();
-  updateClock();
-  
-  setInterval(updateClock, 1000);
-  setInterval(checkResults, 60000);
-  setInterval(fetchUserBets, 60000);
-}
+      document.getElementById('registerModal').style.display = 'none';
+      document.getElementById('floatingShapes').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+      
+      document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
+      
+      // ✅ កែបញ្ហាលេខទូរស័ព្ទបាត់ 0
+      let phoneDisplay = fixPhoneNumber(currentUser.phone);
+      document.getElementById('displayCurrentPhone').textContent = phoneDisplay;
+      document.getElementById('directPhone').value = phoneDisplay;
+      document.getElementById('depPhone').value = phoneDisplay;
+      document.getElementById('wdPhone').value = phoneDisplay;
+      
+      fetchBalance(phoneDisplay);
+      checkResults();
+      fetchUserBets();
+      updateClock();
+      
+      setInterval(updateClock, 1000);
+      setInterval(checkResults, 60000);
+      setInterval(fetchUserBets, 60000);
+    }
 
     // ================================================================
     // HELPERS
@@ -1225,7 +1222,8 @@
     async function fetchBalance(phone) {
       if (!phone) return;
       try {
-        const res = await fetch(WEB_APP_URL + '?action=getBalance&phone=' + encodeURIComponent(phone));
+        const cleanPhone = fixPhoneNumber(phone);
+        const res = await fetch(WEB_APP_URL + '?action=getBalance&phone=' + encodeURIComponent(cleanPhone));
         const data = await res.json();
         if (data.ok) {
           currentBalance = data.balance || 0;
@@ -1240,7 +1238,8 @@
     async function fetchUserBets() {
       if (!currentUser || !currentUser.phone) return;
       try {
-        const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(currentUser.phone));
+        const cleanPhone = fixPhoneNumber(currentUser.phone);
+        const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(cleanPhone));
         const data = await res.json();
         
         console.log('📋 User Bets Response:', data);
@@ -1316,6 +1315,7 @@
       inp.focus();
     }
 
+    // ✅ បន្ថែមលេខស្វ័យប្រវត្តិភ្លាមៗ
     function autoAddNumbers() {
       const inp = document.getElementById('numInput');
       let raw = inp.value.trim();
@@ -1416,13 +1416,13 @@
       if (betMode === 'direct') {
         document.getElementById('directConfirmNumbers').textContent = numbers.join(', ');
         document.getElementById('directConfirmTotal').textContent = display;
-        document.getElementById('directPhone').value = currentUser.phone;
+        document.getElementById('directPhone').value = fixPhoneNumber(currentUser.phone);
         document.getElementById('directBalanceAmount').textContent = currentBalance.toFixed(2) + (currentBalanceCurrency === 'USD' ? '$' : '៛');
         document.getElementById('directBetModal').style.display = 'block';
       } else {
         document.getElementById('confirmNumbers').textContent = numbers.join(', ');
         document.getElementById('confirmTotal').textContent = display;
-        document.getElementById('depPhone').value = currentUser.phone;
+        document.getElementById('depPhone').value = fixPhoneNumber(currentUser.phone);
         
         const fileInput = document.getElementById('depScreenshot');
         const label = document.getElementById('depScreenshotLabel');
@@ -1459,7 +1459,7 @@
     }
 
     function checkOnlineFormValidity() {
-      const phone = document.getElementById('depPhone').value.trim();
+      const phone = fixPhoneNumber(document.getElementById('depPhone').value.trim());
       const file = document.getElementById('depScreenshot').files[0];
       const btn = document.getElementById('depSubmitBtn');
       const fileInput = document.getElementById('depScreenshot');
@@ -1486,7 +1486,7 @@
     // ================================================================
     document.getElementById('directBetForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const phone = document.getElementById('directPhone').value.trim();
+      const phone = fixPhoneNumber(document.getElementById('directPhone').value.trim());
       const name = document.getElementById('directName').value.trim();
 
       if (!phone || !name) {
@@ -1535,7 +1535,7 @@
           await fetchBalance(phone);
           await fetchUserBets();
           document.getElementById('directBetForm').reset();
-          document.getElementById('directPhone').value = currentUser.phone;
+          document.getElementById('directPhone').value = fixPhoneNumber(currentUser.phone);
         } else {
           showAlert('បរាជ័យ', '❌ ' + (data.error || 'មានបញ្ហា!'), '❌');
         }
@@ -1552,7 +1552,7 @@
     // ================================================================
     document.getElementById('depositForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const phone = document.getElementById('depPhone').value.trim();
+      const phone = fixPhoneNumber(document.getElementById('depPhone').value.trim());
       const file = document.getElementById('depScreenshot');
 
       if (!phone || !file.files[0]) {
@@ -1598,7 +1598,7 @@
             updateDisplay();
             await fetchUserBets();
             document.getElementById('depositForm').reset();
-            document.getElementById('depPhone').value = currentUser.phone;
+            document.getElementById('depPhone').value = fixPhoneNumber(currentUser.phone);
             document.getElementById('depSubmitBtn').disabled = true;
             document.getElementById('depSubmitBtn').classList.add('btn-disabled-strict');
           } else {
@@ -1734,7 +1734,7 @@
         notice.innerHTML = '✅ ដកបានបន្ទាប់ពី 12:00 និង 16:00 សុពលភាព ២៤ ម៉ោង';
       }
       
-      document.getElementById('wdPhone').value = currentUser.phone;
+      document.getElementById('wdPhone').value = fixPhoneNumber(currentUser.phone);
       populateWinList();
       modal.style.display = 'block';
     }
@@ -1743,7 +1743,8 @@
       const container = document.getElementById('winListContainer');
       
       try {
-        const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(currentUser.phone));
+        const cleanPhone = fixPhoneNumber(currentUser.phone);
+        const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(cleanPhone));
         const data = await res.json();
         
         if (!data.ok || !data.bets) {
@@ -1807,7 +1808,7 @@
 
     document.getElementById('withdrawForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      const phone = document.getElementById('wdPhone').value.trim();
+      const phone = fixPhoneNumber(document.getElementById('wdPhone').value.trim());
       const qr = document.getElementById('wdQrCode');
 
       if (!phone || !qr.files[0]) {
@@ -1854,7 +1855,7 @@
             closeModal('withdrawModal');
             await fetchUserBets();
             document.getElementById('withdrawForm').reset();
-            document.getElementById('wdPhone').value = currentUser.phone;
+            document.getElementById('wdPhone').value = fixPhoneNumber(currentUser.phone);
             selectedWinIds = [];
           } else {
             showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការបញ្ជូន!', '❌');
@@ -2089,6 +2090,7 @@
         try {
           currentUser = JSON.parse(saved);
           if (currentUser && currentUser.verified) {
+            currentUser.phone = fixPhoneNumber(currentUser.phone);
             enterApp();
             return;
           }
