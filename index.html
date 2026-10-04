@@ -884,11 +884,14 @@
         <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ">
         
         <div class="bank-sub-group">
-          <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" class="btn-bank btn-aba">🏦 ABA Bank</a>
-        </div>
-        
-        <label>ភស្តុតាង (Screenshot) *</label>
-        <input type="file" id="depScreenshot" accept="image/*" required>
+  <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" class="btn-bank btn-aba" id="abaBankBtn" onclick="handleAbaClick(event)">🏦 ABA Bank</a>
+</div>
+
+<label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none;">
+  ភស្តុតាង (Screenshot) *
+  <span style="font-size:11px; color:#dc3545; font-weight:normal;"> (ត្រូវចុច ABA Bank ជាមុន)</span>
+</label>
+<input type="file" id="depScreenshot" accept="image/*" required disabled>
         
         <button type="submit" class="btn btn-success btn-disabled-strict" id="depSubmitBtn" disabled style="width:100%; margin-top:10px; padding:12px;">បញ្ជាក់ការទូទាត់</button>
         
@@ -1526,43 +1529,97 @@ function addNumber() {
     // SUBMIT BET
     // ================================================================
     function submitBet() {
-      if (numbers.length === 0) { showAlert('ការព្រមាន', 'សូមជ្រើសរើសយ៉ាងហោចណាស់មួយលេខ!', '⚠️'); return; }
-      const total = numbers.length * amount;
-      const display = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
-      
-      if (betMode === 'direct') {
-        document.getElementById('directConfirmNumbers').textContent = numbers.join(', ');
-        document.getElementById('directConfirmTotal').textContent = display;
-        document.getElementById('directPhone').value = currentUser.phone;
-        document.getElementById('directBalanceAmount').textContent = currentBalance.toFixed(2) + (currentBalanceCurrency === 'USD' ? '$' : '៛');
-        document.getElementById('directBetModal').style.display = 'block';
-      } else {
-        document.getElementById('confirmNumbers').textContent = numbers.join(', ');
-        document.getElementById('confirmTotal').textContent = display;
-        document.getElementById('depPhone').value = currentUser.phone;
-        document.getElementById('depositModal').style.display = 'block';
-        checkOnlineFormValidity();
-      }
+  if (numbers.length === 0) { 
+    showAlert('ការព្រមាន', 'សូមជ្រើសរើសយ៉ាងហោចណាស់មួយលេខ!', '⚠️'); 
+    return; 
+  }
+  
+  const total = numbers.length * amount;
+  const display = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
+  
+  if (betMode === 'direct') {
+    // ===== DIRECT MODE =====
+    document.getElementById('directConfirmNumbers').textContent = numbers.join(', ');
+    document.getElementById('directConfirmTotal').textContent = display;
+    document.getElementById('directPhone').value = currentUser.phone;
+    document.getElementById('directBalanceAmount').textContent = currentBalance.toFixed(2) + (currentBalanceCurrency === 'USD' ? '$' : '៛');
+    document.getElementById('directBetModal').style.display = 'block';
+  } else {
+    // ===== ONLINE MODE =====
+    document.getElementById('confirmNumbers').textContent = numbers.join(', ');
+    document.getElementById('confirmTotal').textContent = display;
+    document.getElementById('depPhone').value = currentUser.phone;
+    
+    // ✅✅✅ RESET FILE INPUT + LABEL (ការកែថ្មី) ✅✅✅
+    const fileInput = document.getElementById('depScreenshot');
+    const label = document.getElementById('depScreenshotLabel');
+    
+    // លុបឯកសារចាស់ (ប្រសិនបើមាន)
+    fileInput.value = '';
+    
+    // បិទ file input (ការពារ)
+    fileInput.disabled = true;
+    
+    // Reset label
+    if (label) {
+      label.style.opacity = '0.5';
+      label.style.pointerEvents = 'none';
+      label.innerHTML = 'ភស្តុតាង (Screenshot) * <span style="font-size:11px; color:#dc3545; font-weight:normal;"> (ត្រូវចុច ABA Bank ជាមុន)</span>';
     }
+    // ✅✅✅ ចប់ការ RESET ✅✅✅
+    
+    document.getElementById('depositModal').style.display = 'block';
+    
+    // ពិនិត្យ form ភ្លាមៗ (ប៊ូតុងនឹង disabled)
+    setTimeout(checkOnlineFormValidity, 100);
+  }
+}
+
+// ✅ ពេលចុច ABA Bank → បើក file input
+function handleAbaClick(event) {
+  // បើកលីងក្នុង tab ថ្មី
+  window.open('https://pay.ababank.com/oRF8/yhtm93ei', '_blank');
+  
+  // បើក file input
+  setTimeout(function() {
+    const fileInput = document.getElementById('depScreenshot');
+    const label = document.getElementById('depScreenshotLabel');
+    
+    if (fileInput) {
+      fileInput.disabled = false;
+    }
+    if (label) {
+      label.style.opacity = '1';
+      label.style.pointerEvents = 'auto';
+      label.innerHTML = 'ភស្តុតាង (Screenshot) * <span style="font-size:11px; color:#28a745; font-weight:normal;"> ✅ អាចភ្ជាប់បាន</span>';
+    }
+  }, 500);
+}
 
     // ✅ ពិនិត្យ Online Form
     function checkOnlineFormValidity() {
-      const phone = document.getElementById('depPhone').value.trim();
-      const file = document.getElementById('depScreenshot').files[0];
-      const btn = document.getElementById('depSubmitBtn');
-      
-      if (!btn) return;
-      
-      const isValid = phone.length >= 9 && file;
-      
-      if (isValid) {
-        btn.disabled = false;
-        btn.classList.remove('btn-disabled-strict');
-      } else {
-        btn.disabled = true;
-        btn.classList.add('btn-disabled-strict');
-      }
-    }
+  const phone = document.getElementById('depPhone').value.trim();
+  const file = document.getElementById('depScreenshot').files[0];
+  const btn = document.getElementById('depSubmitBtn');
+  const fileInput = document.getElementById('depScreenshot');
+  
+  if (!btn) return;
+  
+  // ✅ ត្រូវការទាំង ៣: លេខទូរស័ព្ទ + ឯកសារ + ABA Bank បានចុច
+  const hasPhone = phone && phone.length >= 9;
+  const hasFile = file && file.size > 0;
+  const isAbaEnabled = !fileInput.disabled;  // ✅ ពិនិត្យថាបានចុច ABA ឬទេ
+  
+  const isValid = hasPhone && hasFile && isAbaEnabled;
+  
+  if (isValid) {
+    btn.disabled = false;
+    btn.classList.remove('btn-disabled-strict');
+  } else {
+    btn.disabled = true;
+    btn.classList.add('btn-disabled-strict');
+  }
+}
 
     // ================================================================
     // DIRECT BET SUBMIT
@@ -1702,81 +1759,100 @@ function addNumber() {
     // RENDER USER BETS FROM SERVER
     // ================================================================
     function renderUserBetsFromServer(serverBets) {
-      const tbody = document.getElementById('userHistoryBody');
+  const tbody = document.getElementById('userHistoryBody');
 
-      if (!serverBets || serverBets.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
-        return;
+  if (!serverBets || serverBets.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = serverBets.map(b => {
+    const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
+    const numCount = b.numbers.split(',').length;
+    const totalBet = b.amount * numCount;
+    const totalAmt = b.currency === 'USD' ? `${totalBet.toFixed(2)}$` : `${totalBet.toLocaleString()}៛`;
+    
+    let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
+    let reward = '-';
+    let actionBtn = '-';
+    
+    if (b.status === 'win') {
+      if (b.paid === 'yes') {
+        badge = '<span class="status-badge status-paid">✅ បានសង</span>';
+      } else {
+        badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
+        if (b.payMethod === 'direct') {
+          actionBtn = `<button class="btn btn-ok" onclick="markPaid('${b.id}')">✅ បានសង</button>`;
+        }
       }
-
-      tbody.innerHTML = serverBets.map(b => {
-        const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
-        const numCount = b.numbers.split(',').length;
-        const totalBet = b.amount * numCount;
-        const totalAmt = b.currency === 'USD' ? `${totalBet.toFixed(2)}$` : `${totalBet.toLocaleString()}៛`;
-        
-        let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
-        let reward = '-';
-        let actionBtn = '-';
-        
-        if (b.status === 'win') {
-          if (b.paid === 'yes') {
-            badge = '<span class="status-badge status-paid">✅ បានសង</span>';
-          } else {
-            badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
-            if (b.payMethod === 'direct') {
-              actionBtn = `<button class="btn btn-ok" onclick="markPaid('${b.id}')">✅ បានសង</button>`;
-            }
-          }
-          const rate = b.type === 'two' ? 70 : 500;
-          const payout = b.payout || (b.amount * rate);
-          reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
-        } else if (b.status === 'loss') {
-          badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
-        }
-        
-        let dateDisplay = '';
-        let timeDisplay = '';
-        
-        if (b.id && b.id.startsWith('BET-')) {
-          const timestamp = parseInt(b.id.replace('BET-', ''), 10);
-          if (!isNaN(timestamp) && timestamp > 1000000000000) {
-            const d = new Date(timestamp);
-            dateDisplay = String(d.getDate()).padStart(2, '0') + '/' +
-                          String(d.getMonth() + 1).padStart(2, '0') + '/' +
-                          d.getFullYear();
-            timeDisplay = String(d.getHours()).padStart(2, '0') + ':' +
-                          String(d.getMinutes()).padStart(2, '0');
-          }
-        }
-        
-        if (b.drawTime) {
-          const dt = String(b.drawTime);
-          if (/^\d{1,2}:\d{2}$/.test(dt.trim())) {
-            timeDisplay = dt.trim();
-          }
-        }
-        
-        if (!timeDisplay) timeDisplay = '12:00';
-        
-        return `<tr>
-          <td style="text-align:left; font-size:10px;">
-            <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
-            <div style="font-weight:bold;">${dateDisplay}</div>
-            <div style="color:#6c757d;">${timeDisplay}</div>
-          </td>
-          <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
-          <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
-          <td>
-            <div>${amt}</div>
-            <div class="amount-tag">💰 ${totalAmt}</div>
-          </td>
-          <td>${badge}</td>
-          <td>${reward}</td>
-          <td>${actionBtn}</td>
-        </tr>`;
-      }).join('');
+      const rate = b.type === 'two' ? 70 : 500;
+      const payout = b.payout || (b.amount * rate);
+      reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
+    } else if (b.status === 'loss') {
+      badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
     }
+    
+    // ✅ កាលបរិច្ឆេទ — ទាញពី ID
+    let dateDisplay = '';
+    if (b.id && b.id.startsWith('BET-')) {
+      const timestamp = parseInt(b.id.replace('BET-', ''), 10);
+      if (!isNaN(timestamp) && timestamp > 1000000000000) {
+        const d = new Date(timestamp);
+        dateDisplay = String(d.getDate()).padStart(2, '0') + '/' +
+                      String(d.getMonth() + 1).padStart(2, '0') + '/' +
+                      d.getFullYear();
+      }
+    }
+    
+    // ✅ ម៉ោង — ប្រើ drawTime ជាមុន (ត្រឹមត្រូវជាង)
+    let timeDisplay = '';
+    
+    if (b.drawTime) {
+      const dt = String(b.drawTime).trim();
+      // ប្រសិនបើជា format HH:mm → ប្រើវា
+      if (/^\d{1,2}:\d{2}$/.test(dt)) {
+        timeDisplay = dt;
+        // បន្ថែម :00 ប្រសិនបើត្រូវការ
+        if (dt.length === 4) timeDisplay = '0' + dt;
+      } else if (dt.includes('12:00') || dt.includes('16:00')) {
+        // ប្រសិនបើ drawTime មាន 12:00 ឬ 16:00
+        timeDisplay = dt.includes('12:00') ? '12:00' : '16:00';
+      }
+    }
+    
+    // ✅ ប្រសិនបើគ្មាន drawTime → ទាញពី ID
+    if (!timeDisplay) {
+      if (b.id && b.id.startsWith('BET-')) {
+        const timestamp = parseInt(b.id.replace('BET-', ''), 10);
+        if (!isNaN(timestamp) && timestamp > 1000000000000) {
+          const d = new Date(timestamp);
+          timeDisplay = String(d.getHours()).padStart(2, '0') + ':' +
+                        String(d.getMinutes()).padStart(2, '0');
+        }
+      }
+    }
+    
+    // ✅ Fallback
+    if (!timeDisplay) timeDisplay = '12:00';
+    
+    return `<tr>
+      <td style="text-align:left; font-size:10px;">
+        <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
+        <div style="font-weight:bold;">${dateDisplay}</div>
+        <div style="color:#6c757d;">${timeDisplay}</div>
+      </td>
+      <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
+      <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
+      <td>
+        <div>${amt}</div>
+        <div class="amount-tag">💰 ${totalAmt}</div>
+      </td>
+      <td>${badge}</td>
+      <td>${reward}</td>
+      <td>${actionBtn}</td>
+    </tr>`;
+  }).join('');
+}
 
     // ================================================================
     // MARK PAID
@@ -1972,6 +2048,7 @@ function addNumber() {
     now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear()
   ];
   
+  // ✅ យកលទ្ធផលថ្ងៃនេះ
   const todayResults = cachedResults.filter(r => {
     if (!r.date) return false;
     const rDate = String(r.date).trim();
@@ -1980,20 +2057,18 @@ function addNumber() {
   
   const posts = ['A', 'B', 'C', 'D', 'E'];
   
-  // ✅ ជួយសម្រាប់ការ reset
-  function resetSlot(prefix, suffix) {
+  // ✅ ជួយ reset
+  function resetSlot(prefix) {
     posts.forEach(p => {
-      const el = document.getElementById(`${prefix}${suffix}${p}`);
-      if (el) {
-        el.textContent = '--';
-        el.className = '';
-      }
+      const el = document.getElementById(`${prefix}${p}`);
+      if (el) { el.textContent = '--'; el.className = ''; }
     });
   }
   
-  function fillSlot(prefix, suffix, r) {
+  // ✅ ជួយ fill
+  function fillSlot(prefix, r) {
     posts.forEach(p => {
-      const el = document.getElementById(`${prefix}${suffix}${p}`);
+      const el = document.getElementById(`${prefix}${p}`);
       if (el && r && r.results && r.results[p] !== undefined) {
         el.textContent = r.results[p];
         el.className = 'number-result';
@@ -2005,79 +2080,85 @@ function addNumber() {
   }
   
   // ============================================================
+  // ✅ ពិនិត្យលទ្ធផល 12:00 និង 16:00
+  // ============================================================
+  
+  const results12 = todayResults.filter(r => r.time && String(r.time).includes('12:00'));
+  const results16 = todayResults.filter(r => r.time && String(r.time).includes('16:00'));
+  
+  const has12 = results12.length > 0;
+  const has16 = results16.length > 0;
+  
+  // ✅ កំណត់ថាតើលទ្ធផលណាជា "ចុងក្រោយ"
+  let show12 = false;
+  let show16 = false;
+  
+  if (h < 12) {
+    // មុនម៉ោង 12:00 → មិនបង្ហាញទាំងពីរ
+    show12 = false;
+    show16 = false;
+  } else if (h >= 12 && h < 16) {
+    // ចន្លោះ 12:00 - 16:00 → បង្ហាញតែ 12:00 (បើមាន)
+    show12 = has12;
+    show16 = false;
+  } else {
+    // ក្រោយម៉ោង 16:00 → បង្ហាញតែ 16:00 (បើមាន)
+    show12 = false;
+    show16 = has16;
+  }
+  
+  // ============================================================
   // 12:00 RESULTS
   // ============================================================
-  const results12 = todayResults.filter(r => 
-    r.time && String(r.time).includes('12:00')
-  );
-  
   const badge12 = document.getElementById('badge12');
   
-  if (results12.length > 0) {
+  if (show12) {
     badge12.textContent = '✅ ចេញហើយ';
     badge12.className = 'badge badge-completed';
     
-    const r12two = results12.find(r => 
-      String(r.type).toLowerCase() === 'two' || 
-      String(r.type).toLowerCase() === '2'
-    );
-    fillSlot('r12_', '', r12two);
+    const r12two = results12.find(r => String(r.type).toLowerCase() === 'two' || String(r.type).toLowerCase() === '2');
+    fillSlot('r12_', r12two);
     
-    const r12three = results12.find(r => 
-      String(r.type).toLowerCase() === 'three' || 
-      String(r.type).toLowerCase() === '3'
-    );
-    fillSlot('r12_3d_', '', r12three);
+    const r12three = results12.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
+    fillSlot('r12_3d_', r12three);
   } else {
     badge12.textContent = '⏳ រង់ចាំ';
     badge12.className = 'badge badge-waiting';
-    resetSlot('r12_', '');
-    resetSlot('r12_3d_', '');
+    resetSlot('r12_');
+    resetSlot('r12_3d_');
   }
 
   // ============================================================
   // 16:00 RESULTS
   // ============================================================
-  const results16 = todayResults.filter(r => 
-    r.time && String(r.time).includes('16:00')
-  );
-  
   const badge16 = document.getElementById('badge16');
   
-  if (results16.length > 0) {
+  if (show16) {
     badge16.textContent = '✅ ចេញហើយ';
     badge16.className = 'badge badge-completed';
     
-    const r16two = results16.find(r => 
-      String(r.type).toLowerCase() === 'two' || 
-      String(r.type).toLowerCase() === '2'
-    );
-    fillSlot('r16_', '', r16two);
+    const r16two = results16.find(r => String(r.type).toLowerCase() === 'two' || String(r.type).toLowerCase() === '2');
+    fillSlot('r16_', r16two);
     
-    const r16three = results16.find(r => 
-      String(r.type).toLowerCase() === 'three' || 
-      String(r.type).toLowerCase() === '3'
-    );
-    fillSlot('r16_3d_', '', r16three);
+    const r16three = results16.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
+    fillSlot('r16_3d_', r16three);
   } else {
     badge16.textContent = '⏳ រង់ចាំ';
     badge16.className = 'badge badge-waiting';
-    resetSlot('r16_', '');
-    resetSlot('r16_3d_', '');
+    resetSlot('r16_');
+    resetSlot('r16_3d_');
   }
 
   // ============================================================
   // STATUS BAR
   // ============================================================
   const statusEl = document.getElementById('resultStatusText');
-  const has12 = results12.length > 0;
-  const has16 = results16.length > 0;
   
   if (h < 12) {
     statusEl.textContent = '⏳ រង់ចាំ 12:00';
     statusEl.className = 'value pending';
   } else if (h >= 12 && h < 16) {
-    if (has12) {
+    if (show12) {
       statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
       statusEl.className = 'value';
     } else {
@@ -2085,7 +2166,7 @@ function addNumber() {
       statusEl.className = 'value pending';
     }
   } else {
-    if (has16) {
+    if (show16) {
       statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
       statusEl.className = 'value';
     } else {
