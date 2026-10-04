@@ -301,6 +301,30 @@
       .numbers div { flex:1 1 calc(50% - 4px); min-width:32px; padding:4px 2px; font-size:11px; }
       .countdown .time-display { font-size:26px; padding:3px 10px; min-width:90px; }
     }
+
+@keyframes qrFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.05); }
+}
+
+@keyframes qrPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+.qr-animation {
+  position: relative;
+}
+
+.qr-animation::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,120,215,0.4) 0%, transparent 70%);
+  animation: qrPulse 2s ease-in-out infinite;
+  z-index: -1;
+}
   </style>
 </head>
 <body>
@@ -321,7 +345,7 @@
       
       <div class="reg-step active" id="regStep1">
         <div class="reg-header">
-          <div class="icon">🎲</div>
+          <div class="icon">🎰</div>
           <h2>សូមស្វាគមន៍មកកាន់ N98</h2>
           <p>សូមចុះឈ្មោះដើម្បីចូលប្រើប្រាស់</p>
         </div>
@@ -433,7 +457,7 @@
   <div id="mainApp" style="display:none;">
     
     <header>
-      <h1>🎲 ឆ្នោតខ្មែរ N98</h1>
+      <h1>🎰 ឆ្នោតខ្មែរ N98</h1>
       <p>ប្រព័ន្ធទិញលេខឆ្នោត និងទទួលបានរង្វាន់</p>
     </header>
 
@@ -770,9 +794,20 @@
         <label>លេខទូរស័ព្ទ *</label>
         <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" minlength="9" maxlength="10">
         
-        <div class="bank-sub-group">
-          <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" class="btn-bank btn-aba" id="abaBankBtn" onclick="handleAbaClick(event)">🏦 ABA Bank</a>
-        </div>
+<div class="bank-sub-group" style="background:linear-gradient(135deg,#e8f4fd,#d4edda); border:2px dashed #0078D7; padding:14px; border-radius:12px; text-align:center;">
+  <div style="margin-bottom:10px;">
+    <div class="qr-animation" style="font-size:60px; animation:qrFloat 3s ease-in-out infinite; display:inline-block;">📱</div>
+  </div>
+  <div style="font-weight:bold; color:#005fa3; font-size:clamp(12px,1.3vw,14px); margin-bottom:8px;">
+    👇 ចុចខាងក្រោមដើម្បីបង់ប្រាក់
+  </div>
+  <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" class="btn-bank btn-aba" id="abaBankBtn" onclick="handleAbaClick(event)" style="font-size:clamp(14px,1.5vw,16px); padding:14px;">
+    🏦 បង់ប្រាក់តាម ABA Bank
+  </a>
+  <div style="font-size:11px; color:#005fa3; margin-top:8px;">
+    ⚡ បង់ប្រាក់រួច សូមភ្ជាប់រូបភាព (Screenshot)
+  </div>
+</div>
         
         <label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none;">
           ភស្តុតាង (Screenshot) *
@@ -1079,26 +1114,32 @@
     }
 
     function enterApp() {
-      document.getElementById('registerModal').style.display = 'none';
-      document.getElementById('floatingShapes').style.display = 'none';
-      document.getElementById('mainApp').style.display = 'block';
-      
-      document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
-      document.getElementById('displayCurrentPhone').textContent = currentUser.phone;
-      
-      document.getElementById('directPhone').value = currentUser.phone;
-      document.getElementById('depPhone').value = currentUser.phone;
-      document.getElementById('wdPhone').value = currentUser.phone;
-      
-      fetchBalance(currentUser.phone);
-      checkResults();
-      fetchUserBets();
-      updateClock();
-      
-      setInterval(updateClock, 1000);
-      setInterval(checkResults, 60000);
-      setInterval(fetchUserBets, 60000);
-    }
+  document.getElementById('registerModal').style.display = 'none';
+  document.getElementById('floatingShapes').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+  
+  document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
+  
+  // ✅ កែបញ្ហាលេខទូរស័ព្ទបាត់ 0
+  let phoneDisplay = String(currentUser.phone).trim();
+  if (phoneDisplay && phoneDisplay.length >= 9 && !phoneDisplay.startsWith('0')) {
+    phoneDisplay = '0' + phoneDisplay;
+  }
+  document.getElementById('displayCurrentPhone').textContent = phoneDisplay;
+  
+  document.getElementById('directPhone').value = phoneDisplay;
+  document.getElementById('depPhone').value = phoneDisplay;
+  document.getElementById('wdPhone').value = phoneDisplay;
+  
+  fetchBalance(currentUser.phone);
+  checkResults();
+  fetchUserBets();
+  updateClock();
+  
+  setInterval(updateClock, 1000);
+  setInterval(checkResults, 60000);
+  setInterval(fetchUserBets, 60000);
+}
 
     // ================================================================
     // HELPERS
