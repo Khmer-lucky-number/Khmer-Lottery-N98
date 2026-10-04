@@ -717,9 +717,10 @@
           </div>
 
           <!-- ✅ លុបប៊ូតុង +បន្ថែម ចេញ -->
-          <div class="input-row" style="flex-direction:column; align-items:stretch;">
-            <input type="text" id="numInput" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled oninput="autoAddNumbers()">
-          </div>
+         <div class="input-row">
+  <input type="text" id="numInput" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled oninput="autoAddNumbers()">
+  <button class="btn btn-primary" id="btnAdd" onclick="addNumber()" disabled style="padding:8px 16px;">✓ បន្ថែម</button>
+</div>
 
           <div class="selected-display" id="selectedDisplay">
             <span style="color:#6c757d; font-size:clamp(11px,1.2vw,12px);">មិនទាន់មានលេខ</span>
@@ -1402,19 +1403,28 @@
       inp.value = parts.join(',');
     }
 
-    // ✅ បន្ថែមលេខស្វ័យប្រវត្តិ
-    function autoAddNumbers() {
-      const inp = document.getElementById('numInput');
-      let raw = inp.value.trim();
+    // ✅ បន្ថែមលេខស្វ័យប្រវត្តិ (កែសម្រួល)
+let autoAddTimer = null;
+
+function autoAddNumbers() {
+  const inp = document.getElementById('numInput');
+  let raw = inp.value.trim();
+  
+  if (!selectedLetter) return;
+  if (!raw) return;
+  
+  const len = getReqLen();
+  const digitsOnly = raw.replace(/[^0-9]/g, '');
+  
+  // ✅ ប្រសិនបើបានបំពេញលេខគ្រប់ចំនួន → បន្ថែមស្វ័យប្រវត្តិ
+  if (digitsOnly.length >= len && digitsOnly.length % len === 0) {
+    if (autoAddTimer) clearTimeout(autoAddTimer);
+    
+    autoAddTimer = setTimeout(() => {
+      let items = digitsOnly.match(new RegExp('.{1,' + len + '}', 'g')) || [];
       
-      if (!selectedLetter) return;
-      if (!raw) return;
-      
-      const len = getReqLen();
-      let items = raw.split(',').map(s => s.trim().replace(/[^0-9]/g, ''));
-      let valid = items.filter(s => s.length === len);
-      
-      for (let n of valid) {
+      for (let n of items) {
+        if (n.length !== len) continue;
         if (numbers.length >= 10) break;
         const tag = `${selectedLetter}:${n}`;
         if (!numbers.includes(tag)) {
@@ -1424,7 +1434,31 @@
       
       inp.value = '';
       updateDisplay();
-    }
+    }, 500);
+  }
+}
+
+function addNumber() {
+  const inp = document.getElementById('numInput');
+  let raw = inp.value.trim();
+  if (!selectedLetter) { showAlert('ការព្រមាន', 'សូមជ្រើសរើស A-E ជាមុន!', '⚠️'); return; }
+  if (!raw) { showAlert('ការព្រមាន', 'សូមបញ្ចូលលេខ!', '⚠️'); return; }
+
+  const len = getReqLen();
+  let items = raw.split(',').map(s => s.trim().replace(/[^0-9]/g, ''));
+  let valid = items.filter(s => s.length === len);
+
+  if (valid.length === 0) { showAlert('ការព្រមាន', `សូមបញ្ចូលលេខ ${len} ខ្ទង់!`, '⚠️'); return; }
+
+  for (let n of valid) {
+    if (numbers.length >= 10) { showAlert('ការព្រមាន', 'ចាក់បានត្រឹមតែ 10 លេខ!', '⚠️'); break; }
+    const tag = `${selectedLetter}:${n}`;
+    if (!numbers.includes(tag)) { numbers.push(tag); }
+  }
+  inp.value = '';
+  updateDisplay();
+  inp.focus();
+}
 
     function removeNum(idx) {
       numbers.splice(idx, 1);
@@ -1925,169 +1959,141 @@
     // ================================================================
     // UPDATE UI - RESULTS
     // ================================================================
-    function updateResultsUI() {
-      const now = new Date();
-      const h = now.getHours();
-      
-      const todayFormats = [
-        now.toLocaleDateString('km-KH'),
-        now.toLocaleDateString('en-GB'),
-        String(now.getDate()).padStart(2, '0') + '/' + 
-          String(now.getMonth() + 1).padStart(2, '0') + '/' + 
-          now.getFullYear(),
-        now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear()
-      ];
-      
-      const todayResults = cachedResults.filter(r => {
-        if (!r.date) return false;
-        const rDate = String(r.date).trim();
-        return todayFormats.some(f => rDate === f);
-      });
-      
-      const posts = ['A', 'B', 'C', 'D', 'E'];
-      
-      // 12:00 RESULTS
-      const results12 = todayResults.filter(r => 
-        r.time && String(r.time).includes('12:00')
-      );
-      
-      const badge12 = document.getElementById('badge12');
-      
-      if (results12.length > 0) {
-        badge12.textContent = '✅ ចេញហើយ';
-        badge12.className = 'badge badge-completed';
-        
-        const r12two = results12.find(r => 
-          String(r.type).toLowerCase() === 'two' || 
-          String(r.type).toLowerCase() === '2'
-        );
-        
-        posts.forEach(p => {
-          const el = document.getElementById(`r12_${p}`);
-          if (el) {
-            if (r12two && r12two.results && r12two.results[p] !== undefined) {
-              el.textContent = r12two.results[p];
-              el.className = 'number-result';
-            } else {
-              el.textContent = '--';
-              el.className = '';
-            }
-          }
-        });
-        
-        const r12three = results12.find(r => 
-          String(r.type).toLowerCase() === 'three' || 
-          String(r.type).toLowerCase() === '3'
-        );
-        
-        posts.forEach(p => {
-          const el = document.getElementById(`r12_3d_${p}`);
-          if (el) {
-            if (r12three && r12three.results && r12three.results[p] !== undefined) {
-              el.textContent = r12three.results[p];
-              el.className = 'number-result';
-            } else {
-              el.textContent = '--';
-              el.className = '';
-            }
-          }
-        });
-      } else {
-        badge12.textContent = '⏳ រង់ចាំ';
-        badge12.className = 'badge badge-waiting';
-        
-        posts.forEach(p => {
-          const el1 = document.getElementById(`r12_${p}`);
-          const el2 = document.getElementById(`r12_3d_${p}`);
-          if (el1) { el1.textContent = '--'; el1.className = ''; }
-          if (el2) { el2.textContent = '--'; el2.className = ''; }
-        });
+ function updateResultsUI() {
+  const now = new Date();
+  const h = now.getHours();
+  
+  const todayFormats = [
+    now.toLocaleDateString('km-KH'),
+    now.toLocaleDateString('en-GB'),
+    String(now.getDate()).padStart(2, '0') + '/' + 
+      String(now.getMonth() + 1).padStart(2, '0') + '/' + 
+      now.getFullYear(),
+    now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear()
+  ];
+  
+  const todayResults = cachedResults.filter(r => {
+    if (!r.date) return false;
+    const rDate = String(r.date).trim();
+    return todayFormats.some(f => rDate === f);
+  });
+  
+  const posts = ['A', 'B', 'C', 'D', 'E'];
+  
+  // ✅ ជួយសម្រាប់ការ reset
+  function resetSlot(prefix, suffix) {
+    posts.forEach(p => {
+      const el = document.getElementById(`${prefix}${suffix}${p}`);
+      if (el) {
+        el.textContent = '--';
+        el.className = '';
       }
+    });
+  }
+  
+  function fillSlot(prefix, suffix, r) {
+    posts.forEach(p => {
+      const el = document.getElementById(`${prefix}${suffix}${p}`);
+      if (el && r && r.results && r.results[p] !== undefined) {
+        el.textContent = r.results[p];
+        el.className = 'number-result';
+      } else if (el) {
+        el.textContent = '--';
+        el.className = '';
+      }
+    });
+  }
+  
+  // ============================================================
+  // 12:00 RESULTS
+  // ============================================================
+  const results12 = todayResults.filter(r => 
+    r.time && String(r.time).includes('12:00')
+  );
+  
+  const badge12 = document.getElementById('badge12');
+  
+  if (results12.length > 0) {
+    badge12.textContent = '✅ ចេញហើយ';
+    badge12.className = 'badge badge-completed';
+    
+    const r12two = results12.find(r => 
+      String(r.type).toLowerCase() === 'two' || 
+      String(r.type).toLowerCase() === '2'
+    );
+    fillSlot('r12_', '', r12two);
+    
+    const r12three = results12.find(r => 
+      String(r.type).toLowerCase() === 'three' || 
+      String(r.type).toLowerCase() === '3'
+    );
+    fillSlot('r12_3d_', '', r12three);
+  } else {
+    badge12.textContent = '⏳ រង់ចាំ';
+    badge12.className = 'badge badge-waiting';
+    resetSlot('r12_', '');
+    resetSlot('r12_3d_', '');
+  }
 
-      // 16:00 RESULTS
-      const results16 = todayResults.filter(r => 
-        r.time && String(r.time).includes('16:00')
-      );
-      
-      const badge16 = document.getElementById('badge16');
-      
-      if (results16.length > 0) {
-        badge16.textContent = '✅ ចេញហើយ';
-        badge16.className = 'badge badge-completed';
-        
-        const r16two = results16.find(r => 
-          String(r.type).toLowerCase() === 'two' || 
-          String(r.type).toLowerCase() === '2'
-        );
-        
-        posts.forEach(p => {
-          const el = document.getElementById(`r16_${p}`);
-          if (el) {
-            if (r16two && r16two.results && r16two.results[p] !== undefined) {
-              el.textContent = r16two.results[p];
-              el.className = 'number-result';
-            } else {
-              el.textContent = '--';
-              el.className = '';
-            }
-          }
-        });
-        
-        const r16three = results16.find(r => 
-          String(r.type).toLowerCase() === 'three' || 
-          String(r.type).toLowerCase() === '3'
-        );
-        
-        posts.forEach(p => {
-          const el = document.getElementById(`r16_3d_${p}`);
-          if (el) {
-            if (r16three && r16three.results && r16three.results[p] !== undefined) {
-              el.textContent = r16three.results[p];
-              el.className = 'number-result';
-            } else {
-              el.textContent = '--';
-              el.className = '';
-            }
-          }
-        });
-      } else {
-        badge16.textContent = '⏳ រង់ចាំ';
-        badge16.className = 'badge badge-waiting';
-        
-        posts.forEach(p => {
-          const el1 = document.getElementById(`r16_${p}`);
-          const el2 = document.getElementById(`r16_3d_${p}`);
-          if (el1) { el1.textContent = '--'; el1.className = ''; }
-          if (el2) { el2.textContent = '--'; el2.className = ''; }
-        });
-      }
+  // ============================================================
+  // 16:00 RESULTS
+  // ============================================================
+  const results16 = todayResults.filter(r => 
+    r.time && String(r.time).includes('16:00')
+  );
+  
+  const badge16 = document.getElementById('badge16');
+  
+  if (results16.length > 0) {
+    badge16.textContent = '✅ ចេញហើយ';
+    badge16.className = 'badge badge-completed';
+    
+    const r16two = results16.find(r => 
+      String(r.type).toLowerCase() === 'two' || 
+      String(r.type).toLowerCase() === '2'
+    );
+    fillSlot('r16_', '', r16two);
+    
+    const r16three = results16.find(r => 
+      String(r.type).toLowerCase() === 'three' || 
+      String(r.type).toLowerCase() === '3'
+    );
+    fillSlot('r16_3d_', '', r16three);
+  } else {
+    badge16.textContent = '⏳ រង់ចាំ';
+    badge16.className = 'badge badge-waiting';
+    resetSlot('r16_', '');
+    resetSlot('r16_3d_', '');
+  }
 
-      // STATUS BAR
-      const statusEl = document.getElementById('resultStatusText');
-      const has12 = results12.length > 0;
-      const has16 = results16.length > 0;
-      
-      if (h < 12) {
-        statusEl.textContent = '⏳ រង់ចាំ 12:00';
-        statusEl.className = 'value pending';
-      } else if (h >= 12 && h < 16) {
-        if (has12) {
-          statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
-          statusEl.className = 'value';
-        } else {
-          statusEl.textContent = '⏳ កំពុងដំណើរការ 12:00...';
-          statusEl.className = 'value pending';
-        }
-      } else {
-        if (has16) {
-          statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
-          statusEl.className = 'value';
-        } else {
-          statusEl.textContent = '⏳ រង់ចាំ 16:00...';
-          statusEl.className = 'value pending';
-        }
-      }
+  // ============================================================
+  // STATUS BAR
+  // ============================================================
+  const statusEl = document.getElementById('resultStatusText');
+  const has12 = results12.length > 0;
+  const has16 = results16.length > 0;
+  
+  if (h < 12) {
+    statusEl.textContent = '⏳ រង់ចាំ 12:00';
+    statusEl.className = 'value pending';
+  } else if (h >= 12 && h < 16) {
+    if (has12) {
+      statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
+      statusEl.className = 'value';
+    } else {
+      statusEl.textContent = '⏳ កំពុងដំណើរការ 12:00...';
+      statusEl.className = 'value pending';
     }
+  } else {
+    if (has16) {
+      statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
+      statusEl.className = 'value';
+    } else {
+      statusEl.textContent = '⏳ រង់ចាំ 16:00...';
+      statusEl.className = 'value pending';
+    }
+  }
+}
 
     function renderHistoryTable() {
       const tbody = document.getElementById('historyBody');
