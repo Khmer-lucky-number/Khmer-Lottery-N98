@@ -887,7 +887,7 @@
     let selectedWinIds = [];
 
     // ================================================================
-    // REGISTRATION - STEP MANAGEMENT
+    // REGISTRATION
     // ================================================================
     function showRegStep(stepId) {
       document.querySelectorAll('.reg-step').forEach(s => s.classList.remove('active'));
@@ -917,9 +917,6 @@
       showRegStep('regStep2');
     }
 
-    // ================================================================
-    // REGISTRATION - API CALLS
-    // ================================================================
     async function handleRegister() {
       const phone = document.getElementById('regPhone').value.trim();
       const pin = document.getElementById('regPin').value.trim();
@@ -933,13 +930,11 @@
       const phoneRegex = /^(0[1-9][0-9]{7,8})$/;
       if (!phoneRegex.test(phone)) {
         showAlert('ការព្រមាន', 'លេខទូរស័ព្ទមិនត្រឹមត្រូវ (ឧ. 012345678)', '⚠️');
-        document.getElementById('regPhone').classList.add('error');
         return;
       }
       
       if (!pin || pin.length !== 4 || !/^[0-9]{4}$/.test(pin)) {
         showAlert('ការព្រមាន', 'PIN ត្រូវមាន ៤ ខ្ទង់ (ឧ. 1234)', '⚠️');
-        document.getElementById('regPin').classList.add('error');
         return;
       }
       
@@ -1206,7 +1201,11 @@
       try {
         const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(currentUser.phone));
         const data = await res.json();
+        
+        console.log('📋 User Bets Response:', data);
+        
         if (data.ok && data.bets) {
+          console.log('📋 Total bets:', data.bets.length);
           renderUserBetsFromServer(data.bets);
         }
       } catch (err) {
@@ -1276,7 +1275,6 @@
       inp.focus();
     }
 
-    // ✅ បន្ថែមលេខស្វ័យប្រវត្តិភ្លាមៗ
     function autoAddNumbers() {
       const inp = document.getElementById('numInput');
       let raw = inp.value.trim();
@@ -1287,26 +1285,21 @@
       const len = getReqLen();
       const digitsOnly = raw.replace(/[^0-9]/g, '');
       
-      // ✅ ប្រសិនបើបំពេញលេខគ្រប់ចំនួន → បន្ថែមភ្លាមៗ
       if (digitsOnly.length >= len && digitsOnly.length % len === 0) {
-        // បែងចែកជា groups
         let items = [];
         for (let i = 0; i < digitsOnly.length; i += len) {
           items.push(digitsOnly.substring(i, i + len));
         }
         
-        let addedCount = 0;
         for (let n of items) {
           if (n.length !== len) continue;
           if (numbers.length >= 10) break;
           const tag = `${selectedLetter}:${n}`;
           if (!numbers.includes(tag)) {
             numbers.push(tag);
-            addedCount++;
           }
         }
         
-        // ✅ សម្អាត input បន្ទាប់ពីបន្ថែម
         inp.value = '';
         updateDisplay();
       }
@@ -1374,9 +1367,6 @@
       document.getElementById('btnSubmit').disabled = !(cnt > 0 && valid && amount > 0 && balanceOk);
     }
 
-    // ================================================================
-    // SUBMIT BET
-    // ================================================================
     function submitBet() {
       if (numbers.length === 0) { showAlert('ការព្រមាន', 'សូមជ្រើសរើសយ៉ាងហោចណាស់មួយលេខ!', '⚠️'); return; }
       const total = numbers.length * amount;
@@ -1393,7 +1383,6 @@
         document.getElementById('confirmTotal').textContent = display;
         document.getElementById('depPhone').value = currentUser.phone;
         
-        // ✅ Reset file input
         const fileInput = document.getElementById('depScreenshot');
         const label = document.getElementById('depScreenshotLabel');
         
@@ -1411,7 +1400,6 @@
       }
     }
 
-    // ✅ ពេលចុច ABA Bank
     function handleAbaClick(event) {
       window.open('https://pay.ababank.com/oRF8/yhtm93ei', '_blank');
       
@@ -1429,7 +1417,6 @@
       }, 500);
     }
 
-    // ✅ ពិនិត្យ Online Form
     function checkOnlineFormValidity() {
       const phone = document.getElementById('depPhone').value.trim();
       const file = document.getElementById('depScreenshot').files[0];
@@ -1583,7 +1570,7 @@
         console.error('Error:', err);
         showAlert('បរាជ័យ', '❌ មានបញ្ហាក្នុងការតភ្ជាប់!', '❌');
         btn.disabled = false;
-        btn.textContent = 'បញ្ជាក់ការទុទាត់';
+        btn.textContent = 'បញ្ជាក់ការទូទាត់';
       }
     });
 
@@ -1844,7 +1831,6 @@
 
     // ================================================================
     // UPDATE UI - RESULTS
-    // ✅ បង្ហាញលទ្ធផលតាមទិន្នន័យពិត (មិនបង្ហាញទាំងពីរព្រមគ្នា)
     // ================================================================
     function updateResultsUI() {
       const now = new Date();
@@ -1893,28 +1879,20 @@
       const has12 = results12.length > 0;
       const has16 = results16.length > 0;
       
-      // ✅ បង្ហាញលទ្ធផលមួយក្នុងចំណោមពីរ
-      // ប្រសិនបើមានទាំង 12:00 និង 16:00 → បង្ហាញតែចុងក្រោយ (16:00)
-      // ប្រសិនបើមានតែ 12:00 → បង្ហាញ 12:00
-      // ប្រសិនបើមានតែ 16:00 → បង្ហាញ 16:00
       let show12 = false;
       let show16 = false;
       
       if (has12 && has16) {
-        // មានទាំងពីរ → បង្ហាញតែ 16:00
         show12 = false;
         show16 = true;
       } else if (has12 && !has16) {
-        // មានតែ 12:00 → បង្ហាញ 12:00
         show12 = true;
         show16 = false;
       } else if (!has12 && has16) {
-        // មានតែ 16:00 → បង្ហាញ 16:00
         show12 = false;
         show16 = true;
       }
       
-      // 12:00
       const badge12 = document.getElementById('badge12');
       
       if (show12) {
@@ -1934,14 +1912,13 @@
           document.getElementById('date12').innerHTML = '';
         }
       } else {
-        badge12.textContent = has12 ? '⏳ រង់ចាំ' : '⏳ រង់ចាំ';
+        badge12.textContent = '⏳ រង់ចាំ';
         badge12.className = 'badge badge-waiting';
         resetSlot('r12_');
         resetSlot('r12_3d_');
         document.getElementById('date12').innerHTML = '';
       }
 
-      // 16:00
       const badge16 = document.getElementById('badge16');
       
       if (show16) {
@@ -1961,14 +1938,13 @@
           document.getElementById('date16').innerHTML = '';
         }
       } else {
-        badge16.textContent = has16 ? '⏳ រង់ចាំ' : '⏳ រង់ចាំ';
+        badge16.textContent = '⏳ រង់ចាំ';
         badge16.className = 'badge badge-waiting';
         resetSlot('r16_');
         resetSlot('r16_3d_');
         document.getElementById('date16').innerHTML = '';
       }
 
-      // STATUS BAR
       const statusEl = document.getElementById('resultStatusText');
       
       if (h < 12) {
