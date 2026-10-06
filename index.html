@@ -354,7 +354,7 @@
       .countdown .time-display { font-size:26px; padding:3px 10px; min-width:90px; }
     }
 
-/* ✅ ស្ទីលសម្រាប់ការបិទការចាក់ (បង្រួម + ស្អាត) */
+/* ✅ ស្ទីលសម្រាប់ការបិទការចាក់ (បង្រួម + ស្អាត + Font ខ្មែរ) */
 .betting-closed-box {
   display: none;
   background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
@@ -365,6 +365,7 @@
   position: relative;
   overflow: hidden;
   animation: pulseClosed 2.5s ease-in-out infinite;
+  font-family: 'Kantumruy Pro', system-ui, sans-serif;
 }
 
 .betting-closed-box::before {
@@ -423,19 +424,21 @@
   font-size: clamp(12px, 1.3vw, 13.5px);
   margin-bottom: 2px;
   line-height: 1.3;
+  font-family: 'Kantumruy Pro', system-ui, sans-serif;
 }
 
 .betting-closed-box .open-time {
   color: #DC2626;
   font-size: clamp(10.5px, 1.15vw, 12px);
   line-height: 1.4;
+  font-family: 'Kantumruy Pro', system-ui, sans-serif;
 }
 
 .betting-closed-box .open-time strong {
   background: #FFF;
   padding: 1px 6px;
   border-radius: 6px;
-  font-family: 'Courier New', monospace;
+  font-family: 'Kantumruy Pro', 'Courier New', monospace;
   font-size: clamp(10.5px, 1.15vw, 12px);
 }
 
@@ -449,20 +452,28 @@
   padding: 3px 8px;
   margin-top: 4px;
   font-size: clamp(10.5px, 1.15vw, 12px);
+  font-family: 'Kantumruy Pro', system-ui, sans-serif;
 }
 
 .betting-closed-box .countdown-inline .label {
   color: #991B1B;
   font-weight: bold;
   font-size: clamp(9.5px, 1.05vw, 11px);
+  font-family: 'Kantumruy Pro', system-ui, sans-serif;
 }
 
+/* ✅ ខ្សែបន្ទាត់បៃតងខ្ចីជំនួស --:--:-- */
 .betting-closed-box .countdown-inline .time {
   color: #DC2626;
   font-size: clamp(13px, 1.6vw, 15px);
   font-weight: bold;
   font-family: 'Courier New', monospace;
   letter-spacing: 1px;
+  border-bottom: 2px solid #86EFAC;
+  padding: 0 4px 1px 4px;
+  display: inline-block;
+  min-width: 70px;
+  text-align: center;
 }
 
 /* ✅ ប៊ូតុង time-btn បិទ */
@@ -661,7 +672,7 @@
     <nav class="nav-bar">
       <a href="#" class="active" onclick="showSection('home', event)">🏠 ទំព័រដើម</a>
       <a href="#" onclick="showSection('history', event)">📊 ប្រវត្តិលទ្ធផល</a>
-      <a href="#" onclick="showSection('rules', event)">📋 ច្បាប់</a>
+      <a href="#" onclick="showSection('rules', event)">📋 ច្បាប់ប្រើប្រាស់</a>
       <button class="btn-share" onclick="copyLink()">🔗 ចែករំលែក</button>
       <button class="btn-group" onclick="openGroup()">📢 Channel និង 💬ក្រុម
 </button>
@@ -768,13 +779,13 @@
         <div class="bet-box">
   <h2>🎯 ទិញលេខឆ្នោត (A, B, C, D, E)</h2>
 
-  <!-- ✅ បង្ហាញស្ថានភាពបិទការចាក់ (ខាងលើ) - Compact Design -->
+    <!-- ✅ បង្ហាញស្ថានភាពបិទការចាក់ (ខាងលើ) - Compact Design -->
   <div class="betting-closed-box" id="bettingClosedTop">
     <div class="header-row">
-      <div class="icon">🔴</div>
+      <div class="icon">⏰</div>
       <div class="content">
         <div class="title">🔒 ការចាក់ត្រូវបានបិទបណ្តោះអាសន្ន</div>
-        <div class="open-time">⏰ បើកវិញម៉ោង <strong>00:00 ថ្ងៃស្អែក</strong></div>
+        <div class="open-time">⏰ បើកវិញម៉ោង <strong>00:00 រំលងយប់នេះ</strong></div>
         <div class="countdown-inline">
           <span class="label">⏳ នៅសល់៖</span>
           <span class="time" id="openCountdownTop">--:--:--</span>
@@ -1823,14 +1834,22 @@ function updateTimeButtons() {
 function updateOpenCountdown() {
   const now = new Date();
   
-  // ✅ ពេលបើកវិញ = ម៉ោង 00:00 ថ្ងៃស្អែក
+  // ✅ ពេលបើកវិញ = ម៉ោង 00:00 រំលងយប់នេះ
   const openTime = new Date(now);
   openTime.setDate(openTime.getDate() + 1);
   openTime.setHours(0, 0, 0, 0);
   
   const diff = Math.floor((openTime - now) / 1000);
   
-  if (diff <= 0) return;
+  // ✅ បើផុតកំណត់ ឬគ្មានពេល → បង្ហាញខ្សែបន្ទាត់បៃតងខ្ចី
+  if (diff <= 0) {
+    const el = document.getElementById('openCountdownTop');
+    if (el) {
+      el.textContent = ':  :  ';
+      el.style.color = '#86EFAC';
+    }
+    return;
+  }
   
   const hrs = String(Math.floor(diff / 3600)).padStart(2, '0');
   const mins = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
@@ -1839,7 +1858,10 @@ function updateOpenCountdown() {
   
   // ✅ Update តែកន្លែងខាងលើប៉ុណ្ណោះ
   const el = document.getElementById('openCountdownTop');
-  if (el) el.textContent = timeStr;
+  if (el) {
+    el.textContent = timeStr;
+    el.style.color = '#DC2626';
+  }
 }
 
     // ================================================================
