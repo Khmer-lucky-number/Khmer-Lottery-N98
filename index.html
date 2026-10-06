@@ -1207,28 +1207,28 @@
     }
 
     function enterApp() {
-  document.getElementById('registerModal').style.display = 'none';
-  document.getElementById('floatingShapes').style.display = 'none';
-  document.getElementById('mainApp').style.display = 'block';
-  
-  document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
-  
-  let phoneDisplay = fixPhoneNumber(currentUser.phone);
-  document.getElementById('displayCurrentPhone').textContent = phoneDisplay;
-  document.getElementById('directPhone').value = phoneDisplay;
-  document.getElementById('depPhone').value = phoneDisplay;
-  document.getElementById('wdPhone').value = phoneDisplay;
-  
-  fetchBalance(phoneDisplay);
-  checkResults();
-  fetchUserBets();
-  updateClock();
-  
-  // ✅ Refresh ញឹកញាប់ជាងមុន
-  setInterval(updateClock, 1000);
-  setInterval(checkResults, 30000); // រៀងរាល់ ៣០ វិនាទី
-  setInterval(fetchUserBets, 30000); // រៀងរាល់ ៣០ វិនាទី
-}
+      document.getElementById('registerModal').style.display = 'none';
+      document.getElementById('floatingShapes').style.display = 'none';
+      document.getElementById('mainApp').style.display = 'block';
+      
+      document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
+      
+      let phoneDisplay = fixPhoneNumber(currentUser.phone);
+      document.getElementById('displayCurrentPhone').textContent = phoneDisplay;
+      document.getElementById('directPhone').value = phoneDisplay;
+      document.getElementById('depPhone').value = phoneDisplay;
+      document.getElementById('wdPhone').value = phoneDisplay;
+      
+      fetchBalance(phoneDisplay);
+      checkResults();
+      fetchUserBets();
+      updateClock();
+      
+      // ✅ Refresh ញឹកញាប់ជាងមុន
+      setInterval(updateClock, 1000);
+      setInterval(checkResults, 30000); // រៀងរាល់ ៣០ វិនាទី
+      setInterval(fetchUserBets, 30000); // រៀងរាល់ ៣០ វិនាទី
+    }
 
     // ================================================================
     // HELPERS
@@ -1259,8 +1259,8 @@
     }
 
     function contactAdmin() { 
-  window.open('https://t.me/Khmer_lottery_N98', '_blank'); 
-}
+      window.open('https://t.me/Khmer_lottery_N98', '_blank'); 
+    }
     
     function openGroup() { document.getElementById('groupModal').style.display = 'block'; }
 
@@ -1268,59 +1268,56 @@
     // FETCH FROM WEB APP
     // ================================================================
     async function checkResults() {
-  if (isSyncing) return;
-  isSyncing = true;
-  const syncEl = document.getElementById('syncStatus');
-  syncEl.textContent = '⏳ កំពុងទាញទិន្នន័យ...';
-  syncEl.className = 'sync-pending';
+      if (isSyncing) return;
+      isSyncing = true;
+      const syncEl = document.getElementById('syncStatus');
+      syncEl.textContent = '⏳ កំពុងទាញទិន្នន័យ...';
+      syncEl.className = 'sync-pending';
 
-  try {
-    // ✅ បន្ថែម cache busting
-    const cacheBuster = '&t=' + new Date().getTime();
-    const res = await fetch(WEB_APP_URL + '?action=getResults&limit=30' + cacheBuster, {
-      cache: 'no-store'
-    });
-    const data = await res.json();
-    
-    if (data.ok && data.results) {
-      // ✅ បង្ខំ Update ជានិច្ច
-      cachedResults = data.results;
-      localStorage.setItem('telegram_results_cache', JSON.stringify(cachedResults));
-      
-      console.log('✅ Fetched ' + cachedResults.length + ' results');
-      console.log('📊 Latest:', cachedResults[0]);
-      
-      updateResultsUI();
-      renderHistoryTable();
-      renderUserBets();
-      
-      syncEl.textContent = '✅ រួចរាល់ (' + cachedResults.length + ')';
-      syncEl.className = 'sync-status';
-    } else if (data.ok && data.results && data.results.length === 0) {
-      cachedResults = [];
-      updateResultsUI();
-      renderHistoryTable();
-      syncEl.textContent = '⚠️ មិនមានទិន្នន័យ';
-      syncEl.className = 'sync-pending';
-    } else {
-      syncEl.textContent = '❌ Error';
-      syncEl.className = 'sync-pending';
-    }
-  } catch (err) {
-    console.error('Error fetching results:', err);
-    const cached = localStorage.getItem('telegram_results_cache');
-    if (cached) {
       try {
-        cachedResults = JSON.parse(cached);
-        updateResultsUI();
-        renderHistoryTable();
-      } catch(e) {}
+        // ✅ បន្ថែម cache busting
+        const cacheBuster = '&t=' + new Date().getTime();
+        const res = await fetch(WEB_APP_URL + '?action=getResults&limit=30' + cacheBuster, {
+          cache: 'no-store'
+        });
+        const data = await res.json();
+        
+        if (data.ok && data.results) {
+          cachedResults = data.results;
+          localStorage.setItem('telegram_results_cache', JSON.stringify(cachedResults));
+          
+          console.log('✅ Fetched ' + cachedResults.length + ' results');
+          
+          updateResultsUI();
+          renderHistoryTable();
+          
+          syncEl.textContent = '✅ រួចរាល់ (' + cachedResults.length + ')';
+          syncEl.className = 'sync-status';
+        } else if (data.ok && data.results && data.results.length === 0) {
+          cachedResults = [];
+          updateResultsUI();
+          renderHistoryTable();
+          syncEl.textContent = '⚠️ មិនមានទិន្នន័យ';
+          syncEl.className = 'sync-pending';
+        } else {
+          syncEl.textContent = '❌ Error';
+          syncEl.className = 'sync-pending';
+        }
+      } catch (err) {
+        console.error('Error fetching results:', err);
+        const cached = localStorage.getItem('telegram_results_cache');
+        if (cached) {
+          try {
+            cachedResults = JSON.parse(cached);
+            updateResultsUI();
+            renderHistoryTable();
+          } catch(e) {}
+        }
+        syncEl.textContent = '❌ កំហុស';
+        syncEl.className = 'sync-pending';
+      }
+      isSyncing = false;
     }
-    syncEl.textContent = '❌ កំហុស';
-    syncEl.className = 'sync-pending';
-  }
-  isSyncing = false;
-}
 
     async function fetchBalance(phone) {
       if (!phone) return;
@@ -1342,7 +1339,10 @@
       if (!currentUser || !currentUser.phone) return;
       try {
         const cleanPhone = fixPhoneNumber(currentUser.phone);
-        const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(cleanPhone));
+        const cacheBuster = '&t=' + new Date().getTime();
+        const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(cleanPhone) + cacheBuster, {
+          cache: 'no-store'
+        });
         const data = await res.json();
         
         if (data.ok && data.bets) {
@@ -1718,117 +1718,115 @@
     // RENDER USER BETS
     // ================================================================
     function renderUserBetsFromServer(serverBets) {
-  const tbody = document.getElementById('userHistoryBody');
+      const tbody = document.getElementById('userHistoryBody');
 
-  if (!serverBets || serverBets.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
-    return;
-  }
+      if (!serverBets || serverBets.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
+        return;
+      }
 
-  const now = new Date();
-  const today = new Date(now);
-  const yesterday = new Date(now);
-  yesterday.setDate(yesterday.getDate() - 1);
-  
-  // ✅ ទម្រង់កាលបរិច្ឆេទ
-  const todayFormats = [
-    today.toLocaleDateString('km-KH'),
-    today.toLocaleDateString('en-GB'),
-    String(today.getDate()).padStart(2, '0') + '/' + 
-      String(today.getMonth() + 1).padStart(2, '0') + '/' + 
-      today.getFullYear(),
-    today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
-  ];
-  
-  const yesterdayFormats = [
-    yesterday.toLocaleDateString('km-KH'),
-    yesterday.toLocaleDateString('en-GB'),
-    String(yesterday.getDate()).padStart(2, '0') + '/' + 
-      String(yesterday.getMonth() + 1).padStart(2, '0') + '/' + 
-      yesterday.getFullYear(),
-    yesterday.getDate() + '/' + (yesterday.getMonth() + 1) + '/' + yesterday.getFullYear()
-  ];
+      const now = new Date();
+      const today = new Date(now);
+      const yesterday = new Date(now);
+      yesterday.setDate(yesterday.getDate() - 1);
+      
+      const todayFormats = [
+        today.toLocaleDateString('km-KH'),
+        today.toLocaleDateString('en-GB'),
+        String(today.getDate()).padStart(2, '0') + '/' + 
+          String(today.getMonth() + 1).padStart(2, '0') + '/' + 
+          today.getFullYear(),
+        today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
+      ];
+      
+      const yesterdayFormats = [
+        yesterday.toLocaleDateString('km-KH'),
+        yesterday.toLocaleDateString('en-GB'),
+        String(yesterday.getDate()).padStart(2, '0') + '/' + 
+          String(yesterday.getMonth() + 1).padStart(2, '0') + '/' + 
+          yesterday.getFullYear(),
+        yesterday.getDate() + '/' + (yesterday.getMonth() + 1) + '/' + yesterday.getFullYear()
+      ];
 
-  tbody.innerHTML = serverBets.map(b => {
-    const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
-    const numCount = b.numbers.split(',').length;
-    const totalBet = b.amount * numCount;
-    const totalAmt = b.currency === 'USD' ? `${totalBet.toFixed(2)}$` : `${totalBet.toLocaleString()}៛`;
-    
-    let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
-    let reward = '-';
-    let actionBtn = '-';
-    
-    if (b.status === 'win') {
-      if (b.paid === 'yes') {
-        badge = '<span class="status-badge status-paid">✅ បានសង</span>';
-      } else {
-        badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
-        if (b.payMethod === 'direct') {
-          actionBtn = `<button class="btn btn-ok" onclick="markPaid('${b.id}')">✅ បានសង</button>`;
+      tbody.innerHTML = serverBets.map(b => {
+        const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
+        const numCount = b.numbers.split(',').length;
+        const totalBet = b.amount * numCount;
+        const totalAmt = b.currency === 'USD' ? `${totalBet.toFixed(2)}$` : `${totalBet.toLocaleString()}៛`;
+        
+        let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
+        let reward = '-';
+        let actionBtn = '-';
+        
+        if (b.status === 'win') {
+          if (b.paid === 'yes') {
+            badge = '<span class="status-badge status-paid">✅ បានសង</span>';
+          } else {
+            badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
+            if (b.payMethod === 'direct') {
+              actionBtn = `<button class="btn btn-ok" onclick="markPaid('${b.id}')">✅ បានសង</button>`;
+            }
+          }
+          const rate = b.type === 'two' ? 70 : 500;
+          const payout = b.payout || (b.amount * rate);
+          reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
+        } else if (b.status === 'loss') {
+          badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
         }
-      }
-      const rate = b.type === 'two' ? 70 : 500;
-      const payout = b.payout || (b.amount * rate);
-      reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
-    } else if (b.status === 'loss') {
-      badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
+        
+        let dateDisplay = '';
+        let timeDisplay = '';
+        let betDateStr = '';
+        
+        if (b.date) {
+          const dateStr = String(b.date).trim();
+          if (dateStr.includes('/')) {
+            const parts = dateStr.split(' ');
+            dateDisplay = parts[0] || dateStr;
+            betDateStr = parts[0];
+            timeDisplay = parts[1] ? parts[1].substring(0, 5) : '';
+          } else {
+            dateDisplay = dateStr;
+          }
+        }
+        
+        if (b.drawTime) {
+          const dt = String(b.drawTime).trim();
+          if (/^\d{1,2}:\d{2}$/.test(dt)) {
+            timeDisplay = dt.length === 4 ? '0' + dt : dt;
+          }
+        }
+        
+        // ✅ ពណ៌ ថ្ងៃនេះ / ម្សិលមិញ
+        let rowStyle = '';
+        let dateBadge = '';
+        
+        if (todayFormats.some(f => betDateStr === f)) {
+          rowStyle = 'background: #f0fdf4; border-left: 4px solid #28a745;';
+          dateBadge = ' <span style="background:#28a745; color:#fff; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">✅ ថ្ងៃនេះ</span>';
+        } else if (yesterdayFormats.some(f => betDateStr === f)) {
+          rowStyle = 'background: linear-gradient(90deg, #fff9c4, #fff3cd); border-left: 4px solid #ffc107;';
+          dateBadge = ' <span style="background:#ffc107; color:#000; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">🟡 ម្សិលមិញ</span>';
+        }
+        
+        return `<tr style="${rowStyle}">
+          <td style="text-align:left; font-size:10px;">
+            <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
+            <div style="font-weight:bold;">${dateDisplay}${dateBadge}</div>
+            <div style="color:#6c757d;">${timeDisplay}</div>
+          </td>
+          <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
+          <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
+          <td>
+            <div>${amt}</div>
+            <div class="amount-tag">💰 ${totalAmt}</div>
+          </td>
+          <td>${badge}</td>
+          <td>${reward}</td>
+          <td>${actionBtn}</td>
+        </tr>`;
+      }).join('');
     }
-    
-    // ✅ កាលបរិច្ឆេទ + ម៉ោង
-    let dateDisplay = '';
-    let timeDisplay = '';
-    let betDateStr = '';
-    
-    if (b.date) {
-      const dateStr = String(b.date).trim();
-      if (dateStr.includes('/')) {
-        const parts = dateStr.split(' ');
-        dateDisplay = parts[0] || dateStr;
-        betDateStr = parts[0];
-        timeDisplay = parts[1] ? parts[1].substring(0, 5) : '';
-      } else {
-        dateDisplay = dateStr;
-      }
-    }
-    
-    if (b.drawTime) {
-      const dt = String(b.drawTime).trim();
-      if (/^\d{1,2}:\d{2}$/.test(dt)) {
-        timeDisplay = dt.length === 4 ? '0' + dt : dt;
-      }
-    }
-    
-    // ✅ ពិនិត្យថាតើថ្ងៃនេះ ឬម្សិលមិញ
-    let rowStyle = '';
-    let dateBadge = '';
-    
-    if (todayFormats.some(f => betDateStr === f)) {
-      rowStyle = 'background: #f0fdf4;';
-      dateBadge = ' <span style="background:#28a745; color:#fff; padding:1px 5px; border-radius:6px; font-size:8px; font-weight:bold;">✅ ថ្ងៃនេះ</span>';
-    } else if (yesterdayFormats.some(f => betDateStr === f)) {
-      rowStyle = 'background: linear-gradient(90deg, #fff9c4, #fff3cd);';
-      dateBadge = ' <span style="background:#ffc107; color:#000; padding:1px 5px; border-radius:6px; font-size:8px; font-weight:bold;">🟡 ម្សិលមិញ</span>';
-    }
-    
-    return `<tr style="${rowStyle}">
-      <td style="text-align:left; font-size:10px;">
-        <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
-        <div style="font-weight:bold;">${dateDisplay}${dateBadge}</div>
-        <div style="color:#6c757d;">${timeDisplay}</div>
-      </td>
-      <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
-      <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
-      <td>
-        <div>${amt}</div>
-        <div class="amount-tag">💰 ${totalAmt}</div>
-      </td>
-      <td>${badge}</td>
-      <td>${reward}</td>
-      <td>${actionBtn}</td>
-    </tr>`;
-  }).join('');
-}
 
     // ================================================================
     // MARK PAID
@@ -1882,7 +1880,10 @@
       
       try {
         const cleanPhone = fixPhoneNumber(currentUser.phone);
-        const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(cleanPhone));
+        const cacheBuster = '&t=' + new Date().getTime();
+        const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(cleanPhone) + cacheBuster, {
+          cache: 'no-store'
+        });
         const data = await res.json();
         
         if (!data.ok || !data.bets) {
@@ -2013,336 +2014,279 @@
     // UPDATE UI - RESULTS
     // ================================================================
     function updateResultsUI() {
-  const now = new Date();
-  const h = now.getHours();
-  const m = now.getMinutes();
-  
-  // ✅ ទម្រង់កាលបរិច្ឆេទ
-  const today = new Date(now);
-  const yesterday = new Date(now);
-  yesterday.setDate(yesterday.getDate() - 1);
-  
-  const todayFormats = [
-    today.toLocaleDateString('km-KH'),
-    today.toLocaleDateString('en-GB'),
-    String(today.getDate()).padStart(2, '0') + '/' + 
-      String(today.getMonth() + 1).padStart(2, '0') + '/' + 
-      today.getFullYear(),
-    today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
-  ];
-  
-  const yesterdayFormats = [
-    yesterday.toLocaleDateString('km-KH'),
-    yesterday.toLocaleDateString('en-GB'),
-    String(yesterday.getDate()).padStart(2, '0') + '/' + 
-      String(yesterday.getMonth() + 1).padStart(2, '0') + '/' + 
-      yesterday.getFullYear(),
-    yesterday.getDate() + '/' + (yesterday.getMonth() + 1) + '/' + yesterday.getFullYear()
-  ];
-  
-  // ✅ រកលទ្ធផលថ្ងៃនេះ
-  const todayResults = cachedResults.filter(r => {
-    if (!r.date) return false;
-    const rDate = String(r.date).trim();
-    return todayFormats.some(f => rDate === f);
-  });
-  
-  // ✅ រកលទ្ធផលម្សិលមិញ
-  const yesterdayResults = cachedResults.filter(r => {
-    if (!r.date) return false;
-    const rDate = String(r.date).trim();
-    return yesterdayFormats.some(f => rDate === f);
-  });
-  
-  console.log('🕐 Current time:', h + ':' + String(m).padStart(2, '0'));
-  console.log('📋 Today results:', todayResults);
-  console.log('📋 Yesterday results:', yesterdayResults);
-  
-  const posts = ['A', 'B', 'C', 'D', 'E'];
-  
-  function resetSlot(prefix) {
-    posts.forEach(p => {
-      const el = document.getElementById(`${prefix}${p}`);
-      if (el) { el.textContent = '--'; el.className = ''; }
-    });
-  }
-  
-  function fillSlot(prefix, r) {
-    posts.forEach(p => {
-      const el = document.getElementById(`${prefix}${p}`);
-      if (el && r && r.results && r.results[p] !== undefined) {
-        el.textContent = r.results[p];
-        el.className = 'number-result';
-      } else if (el) {
-        el.textContent = '--';
-        el.className = '';
+      const now = new Date();
+      const h = now.getHours();
+      
+      const today = new Date(now);
+      const yesterday = new Date(now);
+      yesterday.setDate(yesterday.getDate() - 1);
+      
+      const todayFormats = [
+        today.toLocaleDateString('km-KH'),
+        today.toLocaleDateString('en-GB'),
+        String(today.getDate()).padStart(2, '0') + '/' + 
+          String(today.getMonth() + 1).padStart(2, '0') + '/' + 
+          today.getFullYear(),
+        today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
+      ];
+      
+      const yesterdayFormats = [
+        yesterday.toLocaleDateString('km-KH'),
+        yesterday.toLocaleDateString('en-GB'),
+        String(yesterday.getDate()).padStart(2, '0') + '/' + 
+          String(yesterday.getMonth() + 1).padStart(2, '0') + '/' + 
+          yesterday.getFullYear(),
+        yesterday.getDate() + '/' + (yesterday.getMonth() + 1) + '/' + yesterday.getFullYear()
+      ];
+      
+      const todayResults = cachedResults.filter(r => {
+        if (!r.date) return false;
+        const rDate = String(r.date).trim();
+        return todayFormats.some(f => rDate === f);
+      });
+      
+      const yesterdayResults = cachedResults.filter(r => {
+        if (!r.date) return false;
+        const rDate = String(r.date).trim();
+        return yesterdayFormats.some(f => rDate === f);
+      });
+      
+      const posts = ['A', 'B', 'C', 'D', 'E'];
+      
+      function resetSlot(prefix) {
+        posts.forEach(p => {
+          const el = document.getElementById(`${prefix}${p}`);
+          if (el) { el.textContent = '--'; el.className = ''; }
+        });
       }
-    });
-  }
-  
-  // ✅ កំណត់ថាតើបង្ហាញលទ្ធផលណា
-  let show12 = false;
-  let show16 = false;
-  let resultSource = ''; // 'today' ឬ 'yesterday'
-  
-  // រកលទ្ធផលចុងក្រោយ
-  const today12 = todayResults.filter(r => r.time && String(r.time).includes('12:00'));
-  const today16 = todayResults.filter(r => r.time && String(r.time).includes('16:00'));
-  const yesterday12 = yesterdayResults.filter(r => r.time && String(r.time).includes('12:00'));
-  const yesterday16 = yesterdayResults.filter(r => r.time && String(r.time).includes('16:00'));
-  
-  const hasToday12 = today12.length > 0;
-  const hasToday16 = today16.length > 0;
-  const hasYesterday12 = yesterday12.length > 0;
-  const hasYesterday16 = yesterday16.length > 0;
-  
-  // ✅ កំណត់លទ្ធផលដែលត្រូវបង្ហាញ
-  if (h >= 0 && h < 12) {
-    // 00:00 - 11:59 → បង្ហាញ 16:00 ពីម្សិលមិញ
-    if (hasYesterday16) {
-      show16 = true;
-      resultSource = 'yesterday';
-    } else if (hasYesterday12) {
-      show12 = true;
-      resultSource = 'yesterday';
-    } else if (hasToday12) {
-      show12 = true;
-      resultSource = 'today';
-    }
-  } else if (h >= 12 && h < 16) {
-    // 12:00 - 15:59 → បង្ហាញ 12:00 ថ្ងៃនេះ
-    if (hasToday12) {
-      show12 = true;
-      resultSource = 'today';
-    } else if (hasYesterday16) {
-      show16 = true;
-      resultSource = 'yesterday';
-    } else if (hasYesterday12) {
-      show12 = true;
-      resultSource = 'yesterday';
-    }
-  } else {
-    // 16:00 - 23:59 → បង្ហាញ 16:00 ថ្ងៃនេះ
-    if (hasToday16) {
-      show16 = true;
-      resultSource = 'today';
-    } else if (hasToday12) {
-      show12 = true;
-      resultSource = 'today';
-    } else if (hasYesterday16) {
-      show16 = true;
-      resultSource = 'yesterday';
-    } else if (hasYesterday12) {
-      show12 = true;
-      resultSource = 'yesterday';
-    }
-  }
-  
-  console.log('📋 Show 12:', show12, '| Show 16:', show16, '| Source:', resultSource);
-  
-  // ============================================================
-  // ✅ 12:00 RESULTS
-  // ============================================================
-  const badge12 = document.getElementById('badge12');
-  
-  if (show12) {
-    badge12.textContent = '✅ ចេញហើយ';
-    badge12.className = 'badge badge-completed';
-    
-    const results12 = (resultSource === 'today') ? today12 : yesterday12;
-    
-    const r12two = results12.find(r => String(r.type).toLowerCase() === 'two' || String(r.type).toLowerCase() === '2');
-    fillSlot('r12_', r12two);
-    
-    const r12three = results12.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
-    fillSlot('r12_3d_', r12three);
-    
-    if (r12two && r12two.publishedAt) {
-      const dateLabel = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
-      document.getElementById('date12').innerHTML = 
-        `<span class="date-badge">📅 ${dateLabel}: ${r12two.publishedAt}</span>`;
-    } else {
-      document.getElementById('date12').innerHTML = '';
-    }
-  } else {
-    badge12.textContent = '⏳ រង់ចាំ';
-    badge12.className = 'badge badge-waiting';
-    resetSlot('r12_');
-    resetSlot('r12_3d_');
-    document.getElementById('date12').innerHTML = '';
-  }
+      
+      function fillSlot(prefix, r) {
+        posts.forEach(p => {
+          const el = document.getElementById(`${prefix}${p}`);
+          if (el && r && r.results && r.results[p] !== undefined) {
+            el.textContent = r.results[p];
+            el.className = 'number-result';
+          } else if (el) {
+            el.textContent = '--';
+            el.className = '';
+          }
+        });
+      }
+      
+      const today12 = todayResults.filter(r => r.time && String(r.time).includes('12:00'));
+      const today16 = todayResults.filter(r => r.time && String(r.time).includes('16:00'));
+      const yesterday12 = yesterdayResults.filter(r => r.time && String(r.time).includes('12:00'));
+      const yesterday16 = yesterdayResults.filter(r => r.time && String(r.time).includes('16:00'));
+      
+      const hasToday12 = today12.length > 0;
+      const hasToday16 = today16.length > 0;
+      const hasYesterday12 = yesterday12.length > 0;
+      const hasYesterday16 = yesterday16.length > 0;
+      
+      let show12 = false;
+      let show16 = false;
+      let resultSource = '';
+      
+      if (h >= 0 && h < 12) {
+        if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
+        else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
+        else if (hasToday12) { show12 = true; resultSource = 'today'; }
+      } else if (h >= 12 && h < 16) {
+        if (hasToday12) { show12 = true; resultSource = 'today'; }
+        else if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
+        else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
+      } else {
+        if (hasToday16) { show16 = true; resultSource = 'today'; }
+        else if (hasToday12) { show12 = true; resultSource = 'today'; }
+        else if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
+        else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
+      }
+      
+      const badge12 = document.getElementById('badge12');
+      
+      if (show12) {
+        badge12.textContent = '✅ ចេញហើយ';
+        badge12.className = 'badge badge-completed';
+        
+        const results12 = (resultSource === 'today') ? today12 : yesterday12;
+        
+        const r12two = results12.find(r => String(r.type).toLowerCase() === 'two' || String(r.type).toLowerCase() === '2');
+        fillSlot('r12_', r12two);
+        
+        const r12three = results12.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
+        fillSlot('r12_3d_', r12three);
+        
+        if (r12two && r12two.publishedAt) {
+          const dateLabel = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
+          document.getElementById('date12').innerHTML = 
+            `<span class="date-badge">📅 ${dateLabel}: ${r12two.publishedAt}</span>`;
+        } else {
+          document.getElementById('date12').innerHTML = '';
+        }
+      } else {
+        badge12.textContent = '⏳ រង់ចាំ';
+        badge12.className = 'badge badge-waiting';
+        resetSlot('r12_');
+        resetSlot('r12_3d_');
+        document.getElementById('date12').innerHTML = '';
+      }
 
-  // ============================================================
-  // ✅ 16:00 RESULTS
-  // ============================================================
-  const badge16 = document.getElementById('badge16');
-  
-  if (show16) {
-    badge16.textContent = '✅ ចេញហើយ';
-    badge16.className = 'badge badge-completed';
-    
-    const results16 = (resultSource === 'today') ? today16 : yesterday16;
-    
-    const r16two = results16.find(r => String(r.type).toLowerCase() === 'two' || String(r.type).toLowerCase() === '2');
-    fillSlot('r16_', r16two);
-    
-    const r16three = results16.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
-    fillSlot('r16_3d_', r16three);
-    
-    if (r16two && r16two.publishedAt) {
-      const dateLabel = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
-      document.getElementById('date16').innerHTML = 
-        `<span class="date-badge">📅 ${dateLabel}: ${r16two.publishedAt}</span>`;
-    } else {
-      document.getElementById('date16').innerHTML = '';
-    }
-  } else {
-    badge16.textContent = '⏳ រង់ចាំ';
-    badge16.className = 'badge badge-waiting';
-    resetSlot('r16_');
-    resetSlot('r16_3d_');
-    document.getElementById('date16').innerHTML = '';
-  }
+      const badge16 = document.getElementById('badge16');
+      
+      if (show16) {
+        badge16.textContent = '✅ ចេញហើយ';
+        badge16.className = 'badge badge-completed';
+        
+        const results16 = (resultSource === 'today') ? today16 : yesterday16;
+        
+        const r16two = results16.find(r => String(r.type).toLowerCase() === 'two' || String(r.type).toLowerCase() === '2');
+        fillSlot('r16_', r16two);
+        
+        const r16three = results16.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
+        fillSlot('r16_3d_', r16three);
+        
+        if (r16two && r16two.publishedAt) {
+          const dateLabel = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
+          document.getElementById('date16').innerHTML = 
+            `<span class="date-badge">📅 ${dateLabel}: ${r16two.publishedAt}</span>`;
+        } else {
+          document.getElementById('date16').innerHTML = '';
+        }
+      } else {
+        badge16.textContent = '⏳ រង់ចាំ';
+        badge16.className = 'badge badge-waiting';
+        resetSlot('r16_');
+        resetSlot('r16_3d_');
+        document.getElementById('date16').innerHTML = '';
+      }
 
-  // ============================================================
-  // ✅ STATUS BAR
-  // ============================================================
-  const statusEl = document.getElementById('resultStatusText');
-  
-  if (h >= 0 && h < 12) {
-    if (show16) {
-      statusEl.textContent = '✅ លទ្ធផល 16:00 ម្សិលមិញ';
-      statusEl.className = 'value';
-    } else if (show12) {
-      statusEl.textContent = '✅ លទ្ធផល 12:00 ម្សិលមិញ';
-      statusEl.className = 'value';
-    } else {
-      statusEl.textContent = '⏳ រង់ចាំ 12:00 ថ្ងៃនេះ';
-      statusEl.className = 'value pending';
+      const statusEl = document.getElementById('resultStatusText');
+      
+      if (h >= 0 && h < 12) {
+        if (show16) {
+          statusEl.textContent = '✅ លទ្ធផល 16:00 ម្សិលមិញ';
+          statusEl.className = 'value';
+        } else if (show12) {
+          statusEl.textContent = '✅ លទ្ធផល 12:00 ម្សិលមិញ';
+          statusEl.className = 'value';
+        } else {
+          statusEl.textContent = '⏳ រង់ចាំ 12:00 ថ្ងៃនេះ';
+          statusEl.className = 'value pending';
+        }
+      } else if (h >= 12 && h < 16) {
+        if (show12) {
+          statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
+          statusEl.className = 'value';
+        } else {
+          statusEl.textContent = '⏳ កំពុងដំណើរការ 12:00...';
+          statusEl.className = 'value pending';
+        }
+      } else {
+        if (show16) {
+          statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
+          statusEl.className = 'value';
+        } else {
+          statusEl.textContent = '⏳ រង់ចាំ 16:00...';
+          statusEl.className = 'value pending';
+        }
+      }
     }
-  } else if (h >= 12 && h < 16) {
-    if (show12) {
-      statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
-      statusEl.className = 'value';
-    } else {
-      statusEl.textContent = '⏳ កំពុងដំណើរការ 12:00...';
-      statusEl.className = 'value pending';
-    }
-  } else {
-    if (show16) {
-      statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
-      statusEl.className = 'value';
-    } else {
-      statusEl.textContent = '⏳ រង់ចាំ 16:00...';
-      statusEl.className = 'value pending';
-    }
-  }
-}
 
     function renderHistoryTable() {
-  const tbody = document.getElementById('historyBody');
-  
-  if (cachedResults.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
-    return;
-  }
+      const tbody = document.getElementById('historyBody');
+      
+      if (cachedResults.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
+        return;
+      }
 
-  const now = new Date();
-  const today = new Date(now);
-  const yesterday = new Date(now);
-  yesterday.setDate(yesterday.getDate() - 1);
-  
-  // ✅ ទម្រង់កាលបរិច្ឆេទ
-  const todayFormats = [
-    today.toLocaleDateString('km-KH'),
-    today.toLocaleDateString('en-GB'),
-    String(today.getDate()).padStart(2, '0') + '/' + 
-      String(today.getMonth() + 1).padStart(2, '0') + '/' + 
-      today.getFullYear(),
-    today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
-  ];
-  
-  const yesterdayFormats = [
-    yesterday.toLocaleDateString('km-KH'),
-    yesterday.toLocaleDateString('en-GB'),
-    String(yesterday.getDate()).padStart(2, '0') + '/' + 
-      String(yesterday.getMonth() + 1).padStart(2, '0') + '/' + 
-      yesterday.getFullYear(),
-    yesterday.getDate() + '/' + (yesterday.getMonth() + 1) + '/' + yesterday.getFullYear()
-  ];
-  
-  // ✅ ចាត់ថ្នាក់តាមកាលបរិច្ឆេទ
-  const grouped = {};
-  cachedResults.forEach(r => {
-    let d = String(r.date || '').trim();
-    let t = String(r.time || '').trim();
-    const key = d + '|' + t;
-    if (!grouped[key]) {
-      grouped[key] = { 
-        date: d, 
-        time: t, 
-        two: null, 
-        three: null, 
-        publishedAt: '',
-        isToday: false,
-        isYesterday: false
-      };
-    }
-    if (r.type === 'two') grouped[key].two = r;
-    if (r.type === 'three') grouped[key].three = r;
-    if (r.publishedAt) grouped[key].publishedAt = r.publishedAt;
-    
-    // ✅ ពិនិត្យថាតើជាថ្ងៃនេះ ឬម្សិលមិញ
-    if (todayFormats.some(f => d === f)) grouped[key].isToday = true;
-    if (yesterdayFormats.some(f => d === f)) grouped[key].isYesterday = true;
-  });
+      const now = new Date();
+      const today = new Date(now);
+      const yesterday = new Date(now);
+      yesterday.setDate(yesterday.getDate() - 1);
+      
+      const todayFormats = [
+        today.toLocaleDateString('km-KH'),
+        today.toLocaleDateString('en-GB'),
+        String(today.getDate()).padStart(2, '0') + '/' + 
+          String(today.getMonth() + 1).padStart(2, '0') + '/' + 
+          today.getFullYear(),
+        today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
+      ];
+      
+      const yesterdayFormats = [
+        yesterday.toLocaleDateString('km-KH'),
+        yesterday.toLocaleDateString('en-GB'),
+        String(yesterday.getDate()).padStart(2, '0') + '/' + 
+          String(yesterday.getMonth() + 1).padStart(2, '0') + '/' + 
+          yesterday.getFullYear(),
+        yesterday.getDate() + '/' + (yesterday.getMonth() + 1) + '/' + yesterday.getFullYear()
+      ];
+      
+      const grouped = {};
+      cachedResults.forEach(r => {
+        let d = String(r.date || '').trim();
+        let t = String(r.time || '').trim();
+        const key = d + '|' + t;
+        if (!grouped[key]) {
+          grouped[key] = { 
+            date: d, 
+            time: t, 
+            two: null, 
+            three: null, 
+            publishedAt: '',
+            isToday: false,
+            isYesterday: false
+          };
+        }
+        if (r.type === 'two') grouped[key].two = r;
+        if (r.type === 'three') grouped[key].three = r;
+        if (r.publishedAt) grouped[key].publishedAt = r.publishedAt;
+        
+        if (todayFormats.some(f => d === f)) grouped[key].isToday = true;
+        if (yesterdayFormats.some(f => d === f)) grouped[key].isYesterday = true;
+      });
 
-  // ✅ បង្ហាញតែថ្ងៃនេះ និងម្សិលមិញ
-  let html = '';
-  const sortedGroups = Object.values(grouped)
-    .filter(g => g.isToday || g.isYesterday)
-    .sort((a, b) => {
-      // តម្រៀបតាមកាលបរិច្ឆេទ (ថ្មីបំផុតជាមុន)
-      // បើកាលបរិច្ឆេទដូចគ្នា → តម្រៀបតាមម៉ោង (16:00 មុន 12:00)
-      if (b.date !== a.date) return b.date.localeCompare(a.date);
-      return (b.time || '').localeCompare(a.time || '');
-    });
-  
-  sortedGroups.forEach(g => {
-    const fmt = (r) => {
-      if (!r || !r.results) return '<span style="color:#dc3545;">⏳ រង់ចាំ</span>';
-      return `<b style="color:#28a745;">A:${r.results.A} B:${r.results.B} C:${r.results.C} D:${r.results.D} E:${r.results.E}</b>`;
-    };
-    
-    // ✅ ពណ៌
-    let rowStyle = '';
-    let badge = '';
-    
-    if (g.isToday) {
-      // ថ្ងៃនេះ — ពណ៌ស្រាល (បៃតងស្រាល)
-      rowStyle = 'background: #f0fdf4; border-left: 4px solid #28a745;';
-      badge = ' <span style="background:#28a745; color:#fff; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">✅ ថ្ងៃនេះ</span>';
-    } else if (g.isYesterday) {
-      // ម្សិលមិញ — ពណ៌លឿង
-      rowStyle = 'background: linear-gradient(90deg, #fff9c4, #fff3cd); border-left: 4px solid #ffc107;';
-      badge = ' <span style="background:#ffc107; color:#000; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">🟡 ម្សិលមិញ</span>';
+      let html = '';
+      const sortedGroups = Object.values(grouped)
+        .filter(g => g.isToday || g.isYesterday)
+        .sort((a, b) => {
+          if (b.date !== a.date) return b.date.localeCompare(a.date);
+          return (b.time || '').localeCompare(a.time || '');
+        });
+      
+      sortedGroups.forEach(g => {
+        const fmt = (r) => {
+          if (!r || !r.results) return '<span style="color:#dc3545;">⏳ រង់ចាំ</span>';
+          return `<b style="color:#28a745;">A:${r.results.A} B:${r.results.B} C:${r.results.C} D:${r.results.D} E:${r.results.E}</b>`;
+        };
+        
+        let rowStyle = '';
+        let badge = '';
+        
+        if (g.isToday) {
+          rowStyle = 'background: #f0fdf4; border-left: 4px solid #28a745;';
+          badge = ' <span style="background:#28a745; color:#fff; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">✅ ថ្ងៃនេះ</span>';
+        } else if (g.isYesterday) {
+          rowStyle = 'background: linear-gradient(90deg, #fff9c4, #fff3cd); border-left: 4px solid #ffc107;';
+          badge = ' <span style="background:#ffc107; color:#000; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">🟡 ម្សិលមិញ</span>';
+        }
+        
+        html += `<tr style="${rowStyle}">
+          <td><strong>${g.date}</strong>${badge}</td>
+          <td>${g.time}</td>
+          <td>${fmt(g.two)}</td>
+          <td>${fmt(g.three)}</td>
+          <td><span style="font-size:10px; color:#005fa3;">${g.publishedAt || '-'}</span></td>
+        </tr>`;
+      });
+      
+      if (html === '') {
+        tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិថ្ងៃនេះ និងម្សិលមិញ</td></tr>';
+      } else {
+        tbody.innerHTML = html;
+      }
     }
-    
-    html += `<tr style="${rowStyle}">
-      <td><strong>${g.date}</strong>${badge}</td>
-      <td>${g.time}</td>
-      <td>${fmt(g.two)}</td>
-      <td>${fmt(g.three)}</td>
-      <td><span style="font-size:10px; color:#005fa3;">${g.publishedAt || '-'}</span></td>
-    </tr>`;
-  });
-  
-  if (html === '') {
-    tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិថ្ងៃនេះ និងម្សិលមិញ</td></tr>';
-  } else {
-    tbody.innerHTML = html;
-  }
-}
 
     // ================================================================
     // CLOCK & COUNTDOWN
@@ -2395,7 +2339,6 @@
         } catch(e) {}
       }
       
-      // ✅ បង្ហាញផ្ទាំងចូលប្រើមុន (Login Step)
       document.getElementById('registerModal').style.display = 'block';
       document.getElementById('floatingShapes').style.display = 'block';
       document.getElementById('mainApp').style.display = 'none';
