@@ -263,7 +263,7 @@
     .reg-header p { color:#64748b; font-size:clamp(12px,1.3vw,14px); }
     
     .reg-input-group { margin:16px 0; }
-    .reg-input-group label { display:block; font-weight:bold; margin-bottom:6px; color:#2d3748; font-size:clamp(12px,1.3vw,14px); }
+    .reg-input-group label { display:block; font-weight:bold; margin-bottom:6px; color:#2d3748; font-size:clamp(12px,1.3vw,14px); line-height:1.5; }
     .reg-input-group input { width:100%; padding:14px 16px; border:2px solid #dee2e6; border-radius:12px; font-size:clamp(14px,1.5vw,16px); font-weight:bold; text-align:center; letter-spacing:3px; transition:all 0.3s; }
     .reg-input-group input:focus { border-color:#0078D7; outline:none; box-shadow:0 0 0 4px rgba(0,120,215,0.15); transform: translateY(-2px); }
     .reg-input-group input.error { border-color:#dc3545; background:#fff5f5; }
@@ -289,7 +289,53 @@
     
     .date-badge { background: #e8f4fd; color: #005fa3; padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: bold; display: inline-block; margin-top: 2px; }
     
-    /* ✅ QR Animation */
+    .group-buttons-box {
+      margin-top: 16px;
+      padding: 14px;
+      background: linear-gradient(135deg, #e8f4fd, #d4edda);
+      border-radius: 12px;
+      border: 1px solid #b6d4fe;
+    }
+    
+    .group-buttons-box .title {
+      font-weight: bold;
+      color: #005fa3;
+      font-size: 13px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    
+    .group-btn {
+      display: block;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 13px;
+      color: white;
+      margin-bottom: 8px;
+      transition: all 0.3s;
+      line-height: 1.4;
+    }
+    
+    .group-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+    
+    .group-btn:last-child { margin-bottom: 0; }
+    
+    .group-btn.main { background: linear-gradient(135deg, #0088cc, #006699); }
+    .group-btn.channel { background: linear-gradient(135deg, #28a745, #1e7e34); }
+    
+    .group-btn small {
+      display: block;
+      font-size: 11px;
+      opacity: 0.9;
+      font-weight: normal;
+    }
+    
     @keyframes qrFloat {
       0%, 100% { transform: translateY(0px) scale(1); }
       50% { transform: translateY(-8px) scale(1.05); }
@@ -312,20 +358,21 @@
 <body>
 
   <div class="floating-shapes" id="floatingShapes" style="display:none;">
-    <div class="shape">🎰</div>
-    <div class="shape">💰</div>
     <div class="shape">🎲</div>
-    <div class="shape">⭐</div>
+    <div class="shape">💰</div>
     <div class="shape">🎯</div>
-    <div class="shape">💎</div>
+    <div class="shape">⭐</div>
     <div class="shape">🏆</div>
+    <div class="shape">💎</div>
     <div class="shape">🎁</div>
+    <div class="shape">🎰</div>
   </div>
 
   <div class="modal" id="registerModal" style="display:block;">
     <div class="modal-content reg-modal-content" style="max-width:520px;">
       
-      <div class="reg-step active" id="regStep1">
+      <!-- ✅ Step 1: Register -->
+      <div class="reg-step" id="regStep1">
         <div class="reg-header">
           <div class="icon">🎲</div>
           <h2>សូមស្វាគមន៍មកកាន់ N98</h2>
@@ -333,20 +380,38 @@
         </div>
         
         <div class="reg-input-group">
-          <label>📱 លេខទូរស័ព្ទ</label>
+          <label>📱បញ្ចូលលេខទូរស័ព្ទរបស់អ្នក</label>
           <input type="tel" id="regPhone" placeholder="012345678" maxlength="10">
         </div>
         
         <div class="reg-input-group">
-          <label>🔐 PIN ៤ ខ្ទង់ (សម្រាប់ចូលប្រើ)</label>
+          <label>🔐 កូដ PIN 4 ខ្ទង់ (សូមបង្កើតកូដ PIN 4 ខ្ទង់ផ្ទាល់ខ្លួនរបស់អ្នកដើម្បីចូលប្រើ)</label>
           <input type="tel" id="regPin" placeholder="----" maxlength="4">
+        </div>
+        
+        <div style="background:#fff3cd; border:1px solid #ffc107; border-radius:8px; padding:10px 12px; margin-top:8px; font-size:11px; color:#856404; line-height:1.6;">
+          ⚠️ <b>ការព្រមានសំខាន់!</b><br>
+          • អ្នកត្រូវតែចងចាំ <b>កូដ PIN 4 ខ្ទង់</b> ដោយខ្លួនឯង<br>
+          • <b>កុំចែករំលែក</b> វាជាមួយអ្នកដទៃ<br>
+          • ប្រសិនបើភ្លេច → ទាក់ទង Admin
         </div>
         
         <button class="reg-btn" id="regNextBtn" onclick="handleRegister()">
           បន្ត →
         </button>
         
-        <div class="forgot-pin-box" style="background:#e8f4fd; border-color:#b6d4fe;">
+        <div class="group-buttons-box">
+          <div class="title">📢 ចូលក្រុម និង Channel</div>
+          <a href="https://t.me/+ErJaYtpHWwE1YWI1" target="_blank" class="group-btn main">
+            🎯 ចូលក្រុមចាក់/ទិញលេខឆ្នោត
+            <small>និងទទួល Code ចុះឈ្មោះ</small>
+          </a>
+          <a href="https://t.me/lekhchhnaotN98" target="_blank" class="group-btn channel">
+            📢 ចូល Channel ប្រកាសលទ្ធផលឆ្នោត
+          </a>
+        </div>
+        
+        <div class="forgot-pin-box" style="background:#e8f4fd; border-color:#b6d4fe; margin-top:12px;">
           <a href="#" onclick="contactAdmin()" style="color:#0078D7;">✈️ ទាក់ទង Admin</a>
           <div style="color:#005fa3; margin-top:4px;">ប្រសិនបើអ្នកមានបញ្ហា</div>
         </div>
@@ -356,6 +421,7 @@
         </div>
       </div>
       
+      <!-- ✅ Step 2: Show UserID -->
       <div class="reg-step" id="regStep2">
         <div class="reg-header">
           <div class="icon">✅</div>
@@ -373,15 +439,23 @@
           </div>
         </div>
         
-        <a href="https://t.me/+LK-keKzRqPcxYmM1" target="_blank" class="btn-bank btn-telegram" style="text-decoration:none; padding:14px; font-size:15px;">
-          📢 ចុចចូលក្រុម Telegram ដើម្បីយក Code
-        </a>
+        <div class="group-buttons-box">
+          <div class="title">📢 ចូលក្រុម និង Channel</div>
+          <a href="https://t.me/+ErJaYtpHWwE1YWI1" target="_blank" class="group-btn main">
+            🎯 ចូលក្រុមចាក់/ទិញលេខឆ្នោត
+            <small>និងទទួល Code ចុះឈ្មោះ</small>
+          </a>
+          <a href="https://t.me/lekhchhnaotN98" target="_blank" class="group-btn channel">
+            📢 ចូល Channel ប្រកាសលទ្ធផលឆ្នោត
+          </a>
+        </div>
         
         <button class="reg-btn success" onclick="showVerifyStep()" style="margin-top:12px;">
           ខ្ញុំបានយក Code ហើយ →
         </button>
       </div>
       
+      <!-- ✅ Step 3: Verify Code -->
       <div class="reg-step" id="regStep3">
         <div class="reg-header">
           <div class="icon">🔑</div>
@@ -403,6 +477,7 @@
         </div>
       </div>
       
+      <!-- ✅ Login Step (Default) -->
       <div class="reg-step" id="regLoginStep">
         <div class="reg-header">
           <div class="icon">🔐</div>
@@ -423,6 +498,17 @@
         <button class="reg-btn" id="loginBtn" onclick="handleLogin()">
           ចូលប្រើ →
         </button>
+        
+        <div class="group-buttons-box">
+          <div class="title">📢 ចូលក្រុម និង Channel</div>
+          <a href="https://t.me/+ErJaYtpHWwE1YWI1" target="_blank" class="group-btn main">
+            🎯 ចូលក្រុមចាក់/ទិញលេខឆ្នោត
+            <small>និងទទួល Code ចុះឈ្មោះ</small>
+          </a>
+          <a href="https://t.me/lekhchhnaotN98" target="_blank" class="group-btn channel">
+            📢 ចូល Channel ប្រកាសលទ្ធផលឆ្នោត
+          </a>
+        </div>
         
         <div class="forgot-pin-box">
           🔑 ភ្លេច PIN? <a href="#" onclick="contactAdmin()">ទាក់ទង Admin</a>
@@ -674,7 +760,7 @@
             </table>
           </div>
           <div style="font-size:clamp(10px,1.1vw,11px); color:#dc3545; font-weight:600; margin-top:8px; padding:4px; background:#fff5f5; border:1px dashed #ffb3b3; border-radius:4px;">
-            ⚠️ ប្រវត្តិចាក់រក្សាទុក ៧ ថ្ងៃ ហើយអាចមើលឃើញដូចគ្នាគ្រប់ឧបករណ៍
+            ⚠️ ប្រវត្តិចាក់រក្សាទុក ២៤ ម៉ោង ហើយអាចមើលឃើញដូចគ្នាគ្រប់ឧបករណ៍
           </div>
         </div>
 
@@ -776,7 +862,6 @@
         <label>លេខទូរស័ព្ទ *</label>
         <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" minlength="9" maxlength="10">
         
-        <!-- ✅ ប៊ូតុង ABA Bank ថ្មី -->
         <div class="bank-sub-group" style="background:linear-gradient(135deg,#e8f4fd,#d4edda); border:2px dashed #0078D7; padding:14px; border-radius:12px; text-align:center;">
           <div style="margin-bottom:12px;">
             <div style="display:inline-block; position:relative;">
@@ -871,9 +956,17 @@
     <div class="modal-content" style="text-align:center;">
       <span class="close" onclick="closeModal('groupModal')">&times;</span>
       <div style="font-size:50px;">📢</div>
-      <h2>ចូលក្រុម Telegram</h2>
+      <h2>ចូលក្រុម និង Channel</h2>
       <p style="font-size:clamp(12px,1.3vw,14px); color:#4a5568; margin:12px 0;">ទទួលបានព័ត៌មានថ្មីៗ!</p>
-      <a href="https://t.me/+LK-keKzRqPcxYmM1" target="_blank" class="btn btn-telegram" style="width:100%; padding:14px; text-decoration:none; display:block; font-size:15px;">👉 ចុចចូលក្រុម</a>
+      
+      <a href="https://t.me/+ErJaYtpHWwE1YWI1" target="_blank" class="group-btn main" style="text-decoration:none; padding:14px; border-radius:8px; display:block; color:white; font-weight:bold; margin-bottom:8px; background:linear-gradient(135deg,#0088cc,#006699);">
+        🎯 ចូលក្រុមចាក់/ទិញលេខឆ្នោត
+        <small style="display:block; font-size:11px; opacity:0.9; font-weight:normal;">និងទទួល Code ចុះឈ្មោះ</small>
+      </a>
+      
+      <a href="https://t.me/lekhchhnaotN98" target="_blank" class="group-btn channel" style="text-decoration:none; padding:14px; border-radius:8px; display:block; color:white; font-weight:bold; background:linear-gradient(135deg,#28a745,#1e7e34);">
+        📢 ចូល Channel ប្រកាសលទ្ធផលឆ្នោត
+      </a>
     </div>
   </div>
 
@@ -886,7 +979,7 @@
     </div>
   </div>
 
-  <script>
+    <script>
     // ================================================================
     // WEB APP URL
     // ================================================================
@@ -940,7 +1033,6 @@
       showRegStep('regStep2');
     }
 
-    // ✅ កែបញ្ហាលេខទូរស័ព្ទបាត់ 0
     function fixPhoneNumber(phone) {
       let p = String(phone || '').trim();
       p = p.replace(/[^0-9]/g, '');
@@ -1110,10 +1202,9 @@
       document.getElementById('mainApp').style.display = 'none';
       document.getElementById('registerModal').style.display = 'block';
       document.getElementById('floatingShapes').style.display = 'block';
-      showRegisterStep();
+      showLoginStep();
     }
 
-    // ✅ កែបញ្ហាលេខទូរស័ព្ទបាត់ 0
     function enterApp() {
       document.getElementById('registerModal').style.display = 'none';
       document.getElementById('floatingShapes').style.display = 'none';
@@ -1121,7 +1212,6 @@
       
       document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
       
-      // ✅ កែបញ្ហាលេខទូរស័ព្ទបាត់ 0
       let phoneDisplay = fixPhoneNumber(currentUser.phone);
       document.getElementById('displayCurrentPhone').textContent = phoneDisplay;
       document.getElementById('directPhone').value = phoneDisplay;
@@ -1242,10 +1332,7 @@
         const res = await fetch(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(cleanPhone));
         const data = await res.json();
         
-        console.log('📋 User Bets Response:', data);
-        
         if (data.ok && data.bets) {
-          console.log('📋 Total bets:', data.bets.length);
           renderUserBetsFromServer(data.bets);
         }
       } catch (err) {
@@ -1315,7 +1402,6 @@
       inp.focus();
     }
 
-    // ✅ បន្ថែមលេខស្វ័យប្រវត្តិភ្លាមៗ
     function autoAddNumbers() {
       const inp = document.getElementById('numInput');
       let raw = inp.value.trim();
@@ -2082,7 +2168,7 @@
     }
 
     // ================================================================
-    // INIT
+    // INIT - ✅ បង្ហាញ Login Step មុន
     // ================================================================
     function init() {
       const saved = localStorage.getItem('lottery_user');
@@ -2097,10 +2183,11 @@
         } catch(e) {}
       }
       
+      // ✅ បង្ហាញផ្ទាំងចូលប្រើមុន (Login Step)
       document.getElementById('registerModal').style.display = 'block';
       document.getElementById('floatingShapes').style.display = 'block';
       document.getElementById('mainApp').style.display = 'none';
-      showRegisterStep();
+      showLoginStep();
     }
 
     document.addEventListener('DOMContentLoaded', function() {
