@@ -403,14 +403,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  background: #FFF;
-  border-radius: 50%;
-  border: 2px solid #EF4444;
   flex-shrink: 0;
   animation: iconFloat 3s ease-in-out infinite;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
+  line-height: 1;
 }
 
 .betting-closed-box .content {
@@ -783,7 +778,7 @@
         </div>
 
         <div class="bet-box">
-  <h2>🎯 ទិញលេខឆ្នោត (A, B, C, D, E)</h2>
+  <h2>🎯 ទិញលេខឆ្នោត ប៉ុស្តិ៍ (A, B, C, D, E)</h2>
 
     <!-- ✅ បង្ហាញស្ថានភាពបិទការចាក់ (ខាងលើ) - Compact Design -->
   <div class="betting-closed-box" id="bettingClosedTop">
@@ -814,7 +809,7 @@
           <div class="guide-box">
             💡 <strong>របៀបប្រើ៖</strong><br>
             ១. ជ្រើសរើស <strong>ពេលវេលា</strong> និង <strong>ប្រភេទលេខ</strong><br>
-            ២. ចុចអក្សរ <strong>A, B, C, D, E</strong><br>
+            ២. ចុច <strong>ប៉ុស្តិ៍ A, B, C, D, E</strong><br>
             ៣. បញ្ចូលលេខ (ឧ. 01,02,03) — <strong>បន្ថែមស្វ័យប្រវត្តិ</strong><br>
             ៤. ជ្រើសរើសចំនួនទឹកប្រាក់ រួចចុច "ដាក់ប្រាក់"
           </div>
@@ -822,8 +817,8 @@
           <table class="reward-table">
             <thead><tr><th>ប្រភេទ</th><th>ម៉ោង</th><th>អត្រា</th></tr></thead>
             <tbody>
-              <tr><td>២ខ្ទង់ (A-E)</td><td>12:00 & 16:00</td><td>1$ → <span class="text-respond">70$</span></td></tr>
-              <tr><td>៣ខ្ទង់ (A-E)</td><td>12:00 & 16:00</td><td>1$ → <span class="text-respond">500$</span></td></tr>
+              <tr><td>២ខ្ទង់ (ប៉ុស្តិ៍ A-E)</td><td>12:00 & 16:00</td><td>1$ → <span class="text-respond">70$</span></td></tr>
+              <tr><td>៣ខ្ទង់ (ប៉ុស្តិ៍ A-E)</td><td>12:00 & 16:00</td><td>1$ → <span class="text-respond">500$</span></td></tr>
             </tbody>
           </table>
 
@@ -832,7 +827,7 @@
           </div>
 
           <div style="font-weight:bold; color:#0078D7; font-size:clamp(12px,1.3vw,14px); margin-bottom:6px;">
-            ជ្រើសរើស ពេលវេលា ប្រភេទ និង A,B,C,D,E
+            ជ្រើសរើស ពេលវេលា ប្រភេទ និង ប៉ុស្តិ៍ A,B,C,D,E
           </div>
 
           <div class="time-selector">
@@ -851,7 +846,7 @@
           </div>
 
           <div style="font-weight:bold; color:#0078D7; font-size:clamp(12px,1.3vw,14px); text-align:center; margin-bottom:6px;">
-            ចុចជ្រើសរើស A,B,C,D,E
+            ចុចជ្រើសរើស ប៉ុស្តិ៍ A,B,C,D,E
           </div>
           <div class="letter-selector">
             <div class="letter-circle" onclick="selectLetter('A', event)">A</div>
@@ -961,14 +956,14 @@
             <h4 style="color:#005fa3; background:#e8f4fd; padding:6px 10px; border-radius:6px;">១. របៀបចាក់ឆ្នោត</h4>
             <p>១. ជ្រើសរើសពេលវេលា (12:00 ឬ 16:00)</p>
             <p>២. ជ្រើសរើសប្រភេទ (២ ឬ ៣ ខ្ទង់)</p>
-            <p>៣. ចុចជ្រើសរើស A, B, C, D, ឬ E</p>
+            <p>៣. ចុចជ្រើសរើស ប៉ុស្តិ៍ A, B, C, D, ឬ E</p>
             <p>៤. បញ្ចូលលេខ (ឧ. 01, 02, 03) — លេខនឹងបន្ថែមស្វ័យប្រវត្តិ</p>
             <p>៥. ជ្រើសរើសចំនួនទឹកប្រាក់ក្នុងមួយលេខ</p>
             <p>៦. ចុច "ដាក់ប្រាក់"</p>
 
             <h4 style="color:#005fa3; background:#e8f4fd; padding:6px 10px; border-radius:6px; margin-top:12px;">២. អត្រារង្វាន់</h4>
-            <p>• <strong>២ខ្ទង់ (A-E)</strong> ម៉ោង 12:00 & 16:00 ៖ 1$ → 70$</p>
-            <p>• <strong>៣ខ្ទង់ (A-E)</strong> ម៉ោង 12:00 & 16:00 ៖ 1$ → 500$</p>
+            <p>• <strong>២ខ្ទង់ (ប៉ុស្តិ៍ A-E)</strong> ម៉ោង 12:00 & 16:00 ៖ 1$ → 70$</p>
+            <p>• <strong>៣ខ្ទង់ (ប៉ុស្តិ៍ A-E)</strong> ម៉ោង 12:00 & 16:00 ៖ 1$ → 500$</p>
             <p>• ចាក់ពី 500៛/0.25$ ដល់ 40,000៛/10$</p>
             <p>• អតិបរមា 10 លេខក្នុងមួយចាក់</p>
 
