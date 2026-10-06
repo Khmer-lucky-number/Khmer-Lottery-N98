@@ -1207,27 +1207,28 @@
     }
 
     function enterApp() {
-      document.getElementById('registerModal').style.display = 'none';
-      document.getElementById('floatingShapes').style.display = 'none';
-      document.getElementById('mainApp').style.display = 'block';
-      
-      document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
-      
-      let phoneDisplay = fixPhoneNumber(currentUser.phone);
-      document.getElementById('displayCurrentPhone').textContent = phoneDisplay;
-      document.getElementById('directPhone').value = phoneDisplay;
-      document.getElementById('depPhone').value = phoneDisplay;
-      document.getElementById('wdPhone').value = phoneDisplay;
-      
-      fetchBalance(phoneDisplay);
-      checkResults();
-      fetchUserBets();
-      updateClock();
-      
-      setInterval(updateClock, 1000);
-      setInterval(checkResults, 60000);
-      setInterval(fetchUserBets, 60000);
-    }
+  document.getElementById('registerModal').style.display = 'none';
+  document.getElementById('floatingShapes').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+  
+  document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
+  
+  let phoneDisplay = fixPhoneNumber(currentUser.phone);
+  document.getElementById('displayCurrentPhone').textContent = phoneDisplay;
+  document.getElementById('directPhone').value = phoneDisplay;
+  document.getElementById('depPhone').value = phoneDisplay;
+  document.getElementById('wdPhone').value = phoneDisplay;
+  
+  fetchBalance(phoneDisplay);
+  checkResults();
+  fetchUserBets();
+  updateClock();
+  
+  // ✅ Refresh ញឹកញាប់ជាងមុន
+  setInterval(updateClock, 1000);
+  setInterval(checkResults, 30000); // រៀងរាល់ ៣០ វិនាទី
+  setInterval(fetchUserBets, 30000); // រៀងរាល់ ៣០ វិនាទី
+}
 
     // ================================================================
     // HELPERS
@@ -1267,48 +1268,59 @@
     // FETCH FROM WEB APP
     // ================================================================
     async function checkResults() {
-      if (isSyncing) return;
-      isSyncing = true;
-      const syncEl = document.getElementById('syncStatus');
-      syncEl.textContent = '⏳ កំពុងទាញទិន្នន័យ...';
-      syncEl.className = 'sync-pending';
+  if (isSyncing) return;
+  isSyncing = true;
+  const syncEl = document.getElementById('syncStatus');
+  syncEl.textContent = '⏳ កំពុងទាញទិន្នន័យ...';
+  syncEl.className = 'sync-pending';
 
-      try {
-        const res = await fetch(WEB_APP_URL + '?action=getResults&limit=30');
-        const data = await res.json();
-        
-        if (data.ok && data.results && data.results.length > 0) {
-          cachedResults = data.results;
-          localStorage.setItem('telegram_results_cache', JSON.stringify(cachedResults));
-          updateResultsUI();
-          renderHistoryTable();
-          syncEl.textContent = '✅ រួចរាល់ (' + cachedResults.length + ')';
-          syncEl.className = 'sync-status';
-        } else if (data.ok && data.results && data.results.length === 0) {
-          cachedResults = [];
-          updateResultsUI();
-          renderHistoryTable();
-          syncEl.textContent = '⚠️ មិនមានទិន្នន័យ';
-          syncEl.className = 'sync-pending';
-        } else {
-          syncEl.textContent = '❌ Error';
-          syncEl.className = 'sync-pending';
-        }
-      } catch (err) {
-        console.error('Error fetching results:', err);
-        const cached = localStorage.getItem('telegram_results_cache');
-        if (cached) {
-          try {
-            cachedResults = JSON.parse(cached);
-            updateResultsUI();
-            renderHistoryTable();
-          } catch(e) {}
-        }
-        syncEl.textContent = '❌ កំហុស';
-        syncEl.className = 'sync-pending';
-      }
-      isSyncing = false;
+  try {
+    // ✅ បន្ថែម cache busting
+    const cacheBuster = '&t=' + new Date().getTime();
+    const res = await fetch(WEB_APP_URL + '?action=getResults&limit=30' + cacheBuster, {
+      cache: 'no-store'
+    });
+    const data = await res.json();
+    
+    if (data.ok && data.results) {
+      // ✅ បង្ខំ Update ជានិច្ច
+      cachedResults = data.results;
+      localStorage.setItem('telegram_results_cache', JSON.stringify(cachedResults));
+      
+      console.log('✅ Fetched ' + cachedResults.length + ' results');
+      console.log('📊 Latest:', cachedResults[0]);
+      
+      updateResultsUI();
+      renderHistoryTable();
+      renderUserBets();
+      
+      syncEl.textContent = '✅ រួចរាល់ (' + cachedResults.length + ')';
+      syncEl.className = 'sync-status';
+    } else if (data.ok && data.results && data.results.length === 0) {
+      cachedResults = [];
+      updateResultsUI();
+      renderHistoryTable();
+      syncEl.textContent = '⚠️ មិនមានទិន្នន័យ';
+      syncEl.className = 'sync-pending';
+    } else {
+      syncEl.textContent = '❌ Error';
+      syncEl.className = 'sync-pending';
     }
+  } catch (err) {
+    console.error('Error fetching results:', err);
+    const cached = localStorage.getItem('telegram_results_cache');
+    if (cached) {
+      try {
+        cachedResults = JSON.parse(cached);
+        updateResultsUI();
+        renderHistoryTable();
+      } catch(e) {}
+    }
+    syncEl.textContent = '❌ កំហុស';
+    syncEl.className = 'sync-pending';
+  }
+  isSyncing = false;
+}
 
     async function fetchBalance(phone) {
       if (!phone) return;
