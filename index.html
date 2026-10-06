@@ -353,6 +353,97 @@
       .numbers div { flex:1 1 calc(50% - 4px); min-width:32px; padding:4px 2px; font-size:11px; }
       .countdown .time-display { font-size:26px; padding:3px 10px; min-width:90px; }
     }
+
+/* ✅ ស្ទីលសម្រាប់ការបិទការចាក់ */
+.betting-closed-box {
+  display: none;
+  background: linear-gradient(135deg, #FEF2F2, #FEE2E2);
+  border: 2px solid #EF4444;
+  border-radius: 14px;
+  padding: 16px 14px;
+  margin-bottom: 12px;
+  text-align: center;
+  animation: pulseClosed 2s ease-in-out infinite;
+}
+
+@keyframes pulseClosed {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 20px 5px rgba(239, 68, 68, 0.3); }
+}
+
+.betting-closed-box .icon {
+  font-size: 45px;
+  margin-bottom: 8px;
+  display: inline-block;
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+.betting-closed-box .title {
+  color: #991B1B;
+  font-weight: bold;
+  font-size: clamp(14px, 1.6vw, 16px);
+  margin-bottom: 6px;
+}
+
+.betting-closed-box .open-time {
+  color: #DC2626;
+  font-size: clamp(12px, 1.3vw, 14px);
+  margin-bottom: 8px;
+}
+
+.betting-closed-box .open-time strong {
+  background: #FFF;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+}
+
+.betting-closed-box .countdown-box {
+  background: #FFF;
+  border: 2px dashed #EF4444;
+  border-radius: 10px;
+  padding: 8px 12px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.betting-closed-box .countdown-box .label {
+  color: #991B1B;
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.betting-closed-box .countdown-box .time {
+  color: #DC2626;
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+}
+
+.betting-closed-box.below-submit {
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+/* ✅ ប៊ូតុង time-btn បិទ */
+.time-btn.closed {
+  opacity: 0.5;
+  cursor: not-allowed;
+  position: relative;
+  background: #F8F9FA !important;
+  color: #999 !important;
+  border-color: #DDD !important;
+}
+
+.time-btn.closed::after {
+  content: '🔒';
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 10px;
+}
   </style>
 </head>
 <body>
@@ -637,9 +728,20 @@
         </div>
 
         <div class="bet-box">
-          <h2>🎯 ទិញលេខឆ្នោត (A, B, C, D, E)</h2>
+  <h2>🎯 ទិញលេខឆ្នោត (A, B, C, D, E)</h2>
 
-          <div class="mode-selector">
+  <!-- ✅ បង្ហាញស្ថានភាពបិទការចាក់ (ខាងលើ) -->
+  <div class="betting-closed-box" id="bettingClosedTop">
+    <div class="icon">🔴</div>
+    <div class="title">ការចាក់ត្រូវបានបិទបណ្តោះអាសន្ន</div>
+    <div class="open-time">⏰ នឹងបើកវិញនៅម៉ោង <strong>00:00 ថ្ងៃស្អែក</strong></div>
+    <div class="countdown-box">
+      <div class="label">⏳ បើកវិញក្នុងរយៈពេល</div>
+      <div class="time" id="openCountdownTop">--:--:--</div>
+    </div>
+  </div>
+
+  <div class="mode-selector">
             <button class="mode-btn direct active" id="modeDirect" onclick="setMode('direct', event)">💵 ចាក់ដោយផ្ទាល់</button>
             <button class="mode-btn online" id="modeOnline" onclick="setMode('online', event)">🌐 ចាក់តាមអនឡាញ</button>
           </div>
@@ -740,12 +842,23 @@
           </div>
 
           <button class="btn btn-success" id="btnSubmit" onclick="submitBet()" style="width:100%; padding:10px; font-size:clamp(13px,1.4vw,15px);" disabled>
-            💳 ដាក់ប្រាក់
-          </button>
+  💳 ដាក់ប្រាក់
+</button>
 
-          <div class="info-message" id="infoMessage" style="display:none;">
-            ℹ️ អ្នកអាចដកប្រាក់រង្វាន់របស់អ្នកបានក្នុងមុខងារ 🏦 ដកប្រាក់ នៅខាងក្រោមនៃទំព័រ ប្រសិនបើអ្នកចាក់ត្រូវ។
-          </div>
+<!-- ✅ បង្ហាញស្ថានភាពបិទការចាក់ (ក្រោម) -->
+<div class="betting-closed-box below-submit" id="bettingClosedBottom">
+  <div class="icon">🔴</div>
+  <div class="title">ការចាក់ត្រូវបានបិទបណ្តោះអាសន្ន</div>
+  <div class="open-time">⏰ នឹងបើកវិញនៅម៉ោង <strong>00:00 ថ្ងៃស្អែក</strong></div>
+  <div class="countdown-box">
+    <div class="label">⏳ បើកវិញក្នុងរយៈពេល</div>
+    <div class="time" id="openCountdownBottom">--:--:--</div>
+  </div>
+</div>
+
+<div class="info-message" id="infoMessage" style="display:none;">
+  ℹ️ អ្នកអាចដកប្រាក់រង្វាន់របស់អ្នកបានក្នុងមុខងារ 🏦 ដកប្រាក់ នៅខាងក្រោមនៃទំព័រ ប្រសិនបើអ្នកចាក់ត្រូវ។
+</div>
         </div>
 
         <div class="lottery-box">
@@ -1207,28 +1320,33 @@
     }
 
     function enterApp() {
-      document.getElementById('registerModal').style.display = 'none';
-      document.getElementById('floatingShapes').style.display = 'none';
-      document.getElementById('mainApp').style.display = 'block';
-      
-      document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
-      
-      let phoneDisplay = fixPhoneNumber(currentUser.phone);
-      document.getElementById('displayCurrentPhone').textContent = phoneDisplay;
-      document.getElementById('directPhone').value = phoneDisplay;
-      document.getElementById('depPhone').value = phoneDisplay;
-      document.getElementById('wdPhone').value = phoneDisplay;
-      
-      fetchBalance(phoneDisplay);
-      checkResults();
-      fetchUserBets();
-      updateClock();
-      
-      // ✅ Refresh ញឹកញាប់ជាងមុន
-      setInterval(updateClock, 1000);
-      setInterval(checkResults, 30000); // រៀងរាល់ ៣០ វិនាទី
-      setInterval(fetchUserBets, 30000); // រៀងរាល់ ៣០ វិនាទី
-    }
+  document.getElementById('registerModal').style.display = 'none';
+  document.getElementById('floatingShapes').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+  
+  document.getElementById('displayCurrentUserId').textContent = currentUser.userId;
+  
+  let phoneDisplay = fixPhoneNumber(currentUser.phone);
+  document.getElementById('displayCurrentPhone').textContent = phoneDisplay;
+  document.getElementById('directPhone').value = phoneDisplay;
+  document.getElementById('depPhone').value = phoneDisplay;
+  document.getElementById('wdPhone').value = phoneDisplay;
+  
+  fetchBalance(phoneDisplay);
+  checkResults();
+  fetchUserBets();
+  updateClock();
+  
+  // ✅ Update ស្ថានភាពបិទ/បើកការចាក់
+  updateBettingStatus();
+  
+  setInterval(updateClock, 1000);
+  setInterval(checkResults, 30000);
+  setInterval(fetchUserBets, 30000);
+  
+  // ✅ Update ស្ថានភាពបិទ/បើក រៀងរាល់ ១ វិនាទី
+  setInterval(updateBettingStatus, 1000);
+}
 
     // ================================================================
     // HELPERS
@@ -1381,11 +1499,23 @@
     // BET FUNCTIONS
     // ================================================================
     function setTime(t, evt) {
-      selectedTime = t;
-      document.querySelectorAll('.time-selector .time-btn').forEach(b => b.classList.remove('active'));
-      if (evt && evt.target) evt.target.classList.add('active');
-      updateConfig();
-    }
+  // ✅ ពិនិត្យថាតើការចាក់ត្រូវបានបិទឬទេ
+  if (isBettingClosed(t)) {
+    showAlert('ការចាក់ត្រូវបានបិទ', 
+      'ការចាក់សម្រាប់ម៉ោង ' + t + ' ត្រូវបានបិទបណ្តោះអាសន្ន\n\n' +
+      '⏰ នឹងបើកវិញនៅម៉ោង 00:00 ថ្ងៃស្អែក', 
+      '🔴');
+    return;
+  }
+  
+  selectedTime = t;
+  document.querySelectorAll('.time-selector .time-btn').forEach(b => b.classList.remove('active'));
+  if (evt && evt.target) evt.target.classList.add('active');
+  updateConfig();
+  
+  // ✅ Update ស្ថានភាពបិទ/បើក
+  updateBettingStatus();
+}
 
     function setType(t, evt) {
       betType = t;
@@ -1488,57 +1618,81 @@
     }
 
     function updateSummary() {
-      const cnt = numbers.length;
-      document.getElementById('totalCount').textContent = cnt;
-      let valid = false;
-      if (currency === 'USD') valid = (amount >= 0.25 && amount <= 10);
-      else valid = (amount >= 500 && amount <= 40000);
-      const total = cnt * amount;
-      const display = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
-      document.getElementById('totalAmountDisplay').textContent = display;
-      
-      let balanceOk = true;
-      if (betMode === 'direct') {
-        if (currentBalanceCurrency === currency && currentBalance < total) {
-          balanceOk = false;
-        }
-      }
+  const cnt = numbers.length;
+  document.getElementById('totalCount').textContent = cnt;
+  let valid = false;
+  if (currency === 'USD') valid = (amount >= 0.25 && amount <= 10);
+  else valid = (amount >= 500 && amount <= 40000);
+  const total = cnt * amount;
+  const display = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
+  document.getElementById('totalAmountDisplay').textContent = display;
+  
+  let balanceOk = true;
+  if (betMode === 'direct') {
+    if (currentBalanceCurrency === currency && currentBalance < total) {
+      balanceOk = false;
+    }
+  }
+  
+  // ✅ ពិនិត្យថាតើការចាក់ត្រូវបានបិទឬទេ
+  const isClosed = isBettingClosed(selectedTime);
+  
+  // ✅ ប៊ូតុង disabled បើ:
+  // • គ្មានលេខ
+  // • ចំនួនមិនត្រឹមត្រូវ
+  // • សមតុល្យមិនគ្រប់
+  // • ការចាក់ត្រូវបានបិទ
+  document.getElementById('btnSubmit').disabled = !(cnt > 0 && valid && amount > 0 && balanceOk && !isClosed);
+  
+  if (isClosed) {
+    document.getElementById('btnSubmit').classList.add('btn-disabled-strict');
+  }
+}
       
       document.getElementById('btnSubmit').disabled = !(cnt > 0 && valid && amount > 0 && balanceOk);
     }
 
     function submitBet() {
-      if (numbers.length === 0) { showAlert('ការព្រមាន', 'សូមជ្រើសរើសយ៉ាងហោចណាស់មួយលេខ!', '⚠️'); return; }
-      const total = numbers.length * amount;
-      const display = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
-      
-      if (betMode === 'direct') {
-        document.getElementById('directConfirmNumbers').textContent = numbers.join(', ');
-        document.getElementById('directConfirmTotal').textContent = display;
-        document.getElementById('directPhone').value = fixPhoneNumber(currentUser.phone);
-        document.getElementById('directBalanceAmount').textContent = currentBalance.toFixed(2) + (currentBalanceCurrency === 'USD' ? '$' : '៛');
-        document.getElementById('directBetModal').style.display = 'block';
-      } else {
-        document.getElementById('confirmNumbers').textContent = numbers.join(', ');
-        document.getElementById('confirmTotal').textContent = display;
-        document.getElementById('depPhone').value = fixPhoneNumber(currentUser.phone);
-        
-        const fileInput = document.getElementById('depScreenshot');
-        const label = document.getElementById('depScreenshotLabel');
-        
-        fileInput.value = '';
-        fileInput.disabled = true;
-        
-        if (label) {
-          label.style.opacity = '0.5';
-          label.style.pointerEvents = 'none';
-          label.innerHTML = 'ភស្តុតាង (Screenshot) * <span style="font-size:11px; color:#dc3545; font-weight:normal;"> (ត្រូវចុច ABA Bank ជាមុន)</span>';
-        }
-        
-        document.getElementById('depositModal').style.display = 'block';
-        setTimeout(checkOnlineFormValidity, 100);
-      }
+  // ✅ ពិនិត្យថាតើការចាក់ត្រូវបានបិទឬទេ
+  if (isBettingClosed(selectedTime)) {
+    showAlert('ការចាក់ត្រូវបានបិទ', 
+      'ការចាក់សម្រាប់ម៉ោង ' + selectedTime + ' ត្រូវបានបិទបណ្តោះអាសន្ន\n\n' +
+      '⏰ នឹងបើកវិញនៅម៉ោង 00:00 ថ្ងៃស្អែក', 
+      '🔴');
+    return;
+  }
+  
+  if (numbers.length === 0) { showAlert('ការព្រមាន', 'សូមជ្រើសរើសយ៉ាងហោចណាស់មួយលេខ!', '⚠️'); return; }
+  const total = numbers.length * amount;
+  const display = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
+  
+  if (betMode === 'direct') {
+    document.getElementById('directConfirmNumbers').textContent = numbers.join(', ');
+    document.getElementById('directConfirmTotal').textContent = display;
+    document.getElementById('directPhone').value = fixPhoneNumber(currentUser.phone);
+    document.getElementById('directBalanceAmount').textContent = currentBalance.toFixed(2) + (currentBalanceCurrency === 'USD' ? '$' : '៛');
+    document.getElementById('directBetModal').style.display = 'block';
+  } else {
+    document.getElementById('confirmNumbers').textContent = numbers.join(', ');
+    document.getElementById('confirmTotal').textContent = display;
+    document.getElementById('depPhone').value = fixPhoneNumber(currentUser.phone);
+    
+    const fileInput = document.getElementById('depScreenshot');
+    const label = document.getElementById('depScreenshotLabel');
+    
+    fileInput.value = '';
+    fileInput.disabled = true;
+    
+    if (label) {
+      label.style.opacity = '0.5';
+      label.style.pointerEvents = 'none';
+      label.innerHTML = 'ភស្តុតាង (Screenshot) * <span style="font-size:11px; color:#dc3545; font-weight:normal;"> (ត្រូវចុច ABA Bank ជាមុន)</span>';
     }
+    
+    document.getElementById('depositModal').style.display = 'block';
+    setTimeout(checkOnlineFormValidity, 100);
+  }
+}
 
     function handleAbaClick(event) {
       window.open('https://pay.ababank.com/oRF8/yhtm93ei', '_blank');
@@ -1579,6 +1733,110 @@
         btn.classList.add('btn-disabled-strict');
       }
     }
+
+// ================================================================
+// ✅ បិទការចាក់បណ្តោះអាសន្ន
+// ================================================================
+
+// ពិនិត្យថាតើការចាក់សម្រាប់ម៉ោងនេះត្រូវបានបិទឬទេ
+function isBettingClosed(timeSlot) {
+  const now = new Date();
+  const h = now.getHours();
+  
+  // ✅ 12:00 — បិទបន្ទាប់ពីម៉ោង 12:00
+  if (timeSlot === '12:00') {
+    return h >= 12; // បិទពីម៉ោង 12:00 ដល់ 23:59
+  }
+  
+  // ✅ 16:00 — បិទបន្ទាប់ពីម៉ោង 16:00
+  if (timeSlot === '16:00') {
+    return h >= 16; // បិទពីម៉ោង 16:00 ដល់ 23:59
+  }
+  
+  return false;
+}
+
+// ពិនិត្យថាតើការចាក់ទាំងអស់ត្រូវបានបិទឬទេ
+function isAllBettingClosed() {
+  const now = new Date();
+  const h = now.getHours();
+  return h >= 16; // បិទទាំងអស់បន្ទាប់ពីម៉ោង 16:00
+}
+
+// Update ស្ថានភាពបិទ/បើកការចាក់
+function updateBettingStatus() {
+  const now = new Date();
+  const h = now.getHours();
+  
+  // ✅ ពិនិត្យថាតើការចាក់ដែលជ្រើសត្រូវបានបិទឬទេ
+  const isClosed = isBettingClosed(selectedTime);
+  
+  // ✅ បង្ហាញ/លាក់ ប្រអប់បិទការចាក់
+  const topBox = document.getElementById('bettingClosedTop');
+  const bottomBox = document.getElementById('bettingClosedBottom');
+  
+  if (isClosed) {
+    topBox.style.display = 'block';
+    bottomBox.style.display = 'block';
+  } else {
+    topBox.style.display = 'none';
+    bottomBox.style.display = 'none';
+  }
+  
+  // ✅ Update ប៊ូតុង time-btn
+  updateTimeButtons();
+  
+  // ✅ Update countdown
+  updateOpenCountdown();
+}
+
+// Update ប៊ូតុង time-btn (បិទ/បើក)
+function updateTimeButtons() {
+  const timeBtns = document.querySelectorAll('.time-selector .time-btn');
+  
+  timeBtns.forEach(btn => {
+    const timeText = btn.textContent.trim();
+    let timeSlot = '';
+    
+    if (timeText.includes('12:00')) timeSlot = '12:00';
+    else if (timeText.includes('16:00')) timeSlot = '16:00';
+    
+    if (timeSlot && isBettingClosed(timeSlot)) {
+      btn.classList.add('closed');
+    } else {
+      btn.classList.remove('closed');
+    }
+  });
+}
+
+// Update Countdown បើកវិញ
+function updateOpenCountdown() {
+  const now = new Date();
+  
+  // ✅ ពេលបើកវិញ = ម៉ោង 00:00 ថ្ងៃស្អែក
+  const openTime = new Date(now);
+  openTime.setDate(openTime.getDate() + 1);
+  openTime.setHours(0, 0, 0, 0);
+  
+  const diff = Math.floor((openTime - now) / 1000);
+  
+  // ប្រសិនបើ <= 0 មិនត្រូវការ countdown
+  if (diff <= 0) {
+    return;
+  }
+  
+  const hrs = String(Math.floor(diff / 3600)).padStart(2, '0');
+  const mins = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
+  const secs = String(diff % 60).padStart(2, '0');
+  const timeStr = `${hrs}:${mins}:${secs}`;
+  
+  // Update ទាំង ២ កន្លែង
+  const el1 = document.getElementById('openCountdownTop');
+  const el2 = document.getElementById('openCountdownBottom');
+  
+  if (el1) el1.textContent = timeStr;
+  if (el2) el2.textContent = timeStr;
+}
 
     // ================================================================
     // DIRECT BET SUBMIT
@@ -2327,23 +2585,23 @@
     // INIT - ✅ បង្ហាញ Login Step មុន
     // ================================================================
     function init() {
-      const saved = localStorage.getItem('lottery_user');
-      if (saved) {
-        try {
-          currentUser = JSON.parse(saved);
-          if (currentUser && currentUser.verified) {
-            currentUser.phone = fixPhoneNumber(currentUser.phone);
-            enterApp();
-            return;
-          }
-        } catch(e) {}
+  const saved = localStorage.getItem('lottery_user');
+  if (saved) {
+    try {
+      currentUser = JSON.parse(saved);
+      if (currentUser && currentUser.verified) {
+        currentUser.phone = fixPhoneNumber(currentUser.phone);
+        enterApp();
+        return;
       }
-      
-      document.getElementById('registerModal').style.display = 'block';
-      document.getElementById('floatingShapes').style.display = 'block';
-      document.getElementById('mainApp').style.display = 'none';
-      showLoginStep();
-    }
+    } catch(e) {}
+  }
+  
+  document.getElementById('registerModal').style.display = 'block';
+  document.getElementById('floatingShapes').style.display = 'block';
+  document.getElementById('mainApp').style.display = 'none';
+  showLoginStep();
+}
 
     document.addEventListener('DOMContentLoaded', function() {
       init();
