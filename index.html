@@ -1706,78 +1706,117 @@
     // RENDER USER BETS
     // ================================================================
     function renderUserBetsFromServer(serverBets) {
-      const tbody = document.getElementById('userHistoryBody');
+  const tbody = document.getElementById('userHistoryBody');
 
-      if (!serverBets || serverBets.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
-        return;
+  if (!serverBets || serverBets.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
+    return;
+  }
+
+  const now = new Date();
+  const today = new Date(now);
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  
+  // ✅ ទម្រង់កាលបរិច្ឆេទ
+  const todayFormats = [
+    today.toLocaleDateString('km-KH'),
+    today.toLocaleDateString('en-GB'),
+    String(today.getDate()).padStart(2, '0') + '/' + 
+      String(today.getMonth() + 1).padStart(2, '0') + '/' + 
+      today.getFullYear(),
+    today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
+  ];
+  
+  const yesterdayFormats = [
+    yesterday.toLocaleDateString('km-KH'),
+    yesterday.toLocaleDateString('en-GB'),
+    String(yesterday.getDate()).padStart(2, '0') + '/' + 
+      String(yesterday.getMonth() + 1).padStart(2, '0') + '/' + 
+      yesterday.getFullYear(),
+    yesterday.getDate() + '/' + (yesterday.getMonth() + 1) + '/' + yesterday.getFullYear()
+  ];
+
+  tbody.innerHTML = serverBets.map(b => {
+    const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
+    const numCount = b.numbers.split(',').length;
+    const totalBet = b.amount * numCount;
+    const totalAmt = b.currency === 'USD' ? `${totalBet.toFixed(2)}$` : `${totalBet.toLocaleString()}៛`;
+    
+    let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
+    let reward = '-';
+    let actionBtn = '-';
+    
+    if (b.status === 'win') {
+      if (b.paid === 'yes') {
+        badge = '<span class="status-badge status-paid">✅ បានសង</span>';
+      } else {
+        badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
+        if (b.payMethod === 'direct') {
+          actionBtn = `<button class="btn btn-ok" onclick="markPaid('${b.id}')">✅ បានសង</button>`;
+        }
       }
-
-      tbody.innerHTML = serverBets.map(b => {
-        const amt = b.currency === 'USD' ? `${b.amount}$` : `${b.amount}៛`;
-        const numCount = b.numbers.split(',').length;
-        const totalBet = b.amount * numCount;
-        const totalAmt = b.currency === 'USD' ? `${totalBet.toFixed(2)}$` : `${totalBet.toLocaleString()}៛`;
-        
-        let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
-        let reward = '-';
-        let actionBtn = '-';
-        
-        if (b.status === 'win') {
-          if (b.paid === 'yes') {
-            badge = '<span class="status-badge status-paid">✅ បានសង</span>';
-          } else {
-            badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
-            if (b.payMethod === 'direct') {
-              actionBtn = `<button class="btn btn-ok" onclick="markPaid('${b.id}')">✅ បានសង</button>`;
-            }
-          }
-          const rate = b.type === 'two' ? 70 : 500;
-          const payout = b.payout || (b.amount * rate);
-          reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
-        } else if (b.status === 'loss') {
-          badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
-        }
-        
-        let dateDisplay = '';
-        let timeDisplay = '';
-        
-        if (b.date) {
-          const dateStr = String(b.date).trim();
-          if (dateStr.includes('/')) {
-            const parts = dateStr.split(' ');
-            dateDisplay = parts[0] || dateStr;
-            timeDisplay = parts[1] ? parts[1].substring(0, 5) : '';
-          } else {
-            dateDisplay = dateStr;
-          }
-        }
-        
-        if (b.drawTime) {
-          const dt = String(b.drawTime).trim();
-          if (/^\d{1,2}:\d{2}$/.test(dt)) {
-            timeDisplay = dt.length === 4 ? '0' + dt : dt;
-          }
-        }
-        
-        return `<tr>
-          <td style="text-align:left; font-size:10px;">
-            <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
-            <div style="font-weight:bold;">${dateDisplay}</div>
-            <div style="color:#6c757d;">${timeDisplay}</div>
-          </td>
-          <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
-          <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
-          <td>
-            <div>${amt}</div>
-            <div class="amount-tag">💰 ${totalAmt}</div>
-          </td>
-          <td>${badge}</td>
-          <td>${reward}</td>
-          <td>${actionBtn}</td>
-        </tr>`;
-      }).join('');
+      const rate = b.type === 'two' ? 70 : 500;
+      const payout = b.payout || (b.amount * rate);
+      reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
+    } else if (b.status === 'loss') {
+      badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
     }
+    
+    // ✅ កាលបរិច្ឆេទ + ម៉ោង
+    let dateDisplay = '';
+    let timeDisplay = '';
+    let betDateStr = '';
+    
+    if (b.date) {
+      const dateStr = String(b.date).trim();
+      if (dateStr.includes('/')) {
+        const parts = dateStr.split(' ');
+        dateDisplay = parts[0] || dateStr;
+        betDateStr = parts[0];
+        timeDisplay = parts[1] ? parts[1].substring(0, 5) : '';
+      } else {
+        dateDisplay = dateStr;
+      }
+    }
+    
+    if (b.drawTime) {
+      const dt = String(b.drawTime).trim();
+      if (/^\d{1,2}:\d{2}$/.test(dt)) {
+        timeDisplay = dt.length === 4 ? '0' + dt : dt;
+      }
+    }
+    
+    // ✅ ពិនិត្យថាតើថ្ងៃនេះ ឬម្សិលមិញ
+    let rowStyle = '';
+    let dateBadge = '';
+    
+    if (todayFormats.some(f => betDateStr === f)) {
+      rowStyle = 'background: #f0fdf4;';
+      dateBadge = ' <span style="background:#28a745; color:#fff; padding:1px 5px; border-radius:6px; font-size:8px; font-weight:bold;">✅ ថ្ងៃនេះ</span>';
+    } else if (yesterdayFormats.some(f => betDateStr === f)) {
+      rowStyle = 'background: linear-gradient(90deg, #fff9c4, #fff3cd);';
+      dateBadge = ' <span style="background:#ffc107; color:#000; padding:1px 5px; border-radius:6px; font-size:8px; font-weight:bold;">🟡 ម្សិលមិញ</span>';
+    }
+    
+    return `<tr style="${rowStyle}">
+      <td style="text-align:left; font-size:10px;">
+        <div style="font-weight:bold; color:#6f42c1;">🆔 ${b.id}</div>
+        <div style="font-weight:bold;">${dateDisplay}${dateBadge}</div>
+        <div style="color:#6c757d;">${timeDisplay}</div>
+      </td>
+      <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
+      <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
+      <td>
+        <div>${amt}</div>
+        <div class="amount-tag">💰 ${totalAmt}</div>
+      </td>
+      <td>${badge}</td>
+      <td>${reward}</td>
+      <td>${actionBtn}</td>
+    </tr>`;
+  }).join('');
+}
 
     // ================================================================
     // MARK PAID
@@ -2248,33 +2287,37 @@
 
   // ✅ បង្ហាញតែថ្ងៃនេះ និងម្សិលមិញ
   let html = '';
-  const sortedGroups = Object.values(grouped).sort((a, b) => {
-    // តម្រៀបតាមកាលបរិច្ឆេទ (ថ្មីបំផុតជាមុន)
-    return b.date.localeCompare(a.date);
-  });
+  const sortedGroups = Object.values(grouped)
+    .filter(g => g.isToday || g.isYesterday)
+    .sort((a, b) => {
+      // តម្រៀបតាមកាលបរិច្ឆេទ (ថ្មីបំផុតជាមុន)
+      // បើកាលបរិច្ឆេទដូចគ្នា → តម្រៀបតាមម៉ោង (16:00 មុន 12:00)
+      if (b.date !== a.date) return b.date.localeCompare(a.date);
+      return (b.time || '').localeCompare(a.time || '');
+    });
   
   sortedGroups.forEach(g => {
-    // ✅ បង្ហាញតែថ្ងៃនេះ ឬម្សិលមិញ
-    if (!g.isToday && !g.isYesterday) return;
-    
     const fmt = (r) => {
       if (!r || !r.results) return '<span style="color:#dc3545;">⏳ រង់ចាំ</span>';
       return `<b style="color:#28a745;">A:${r.results.A} B:${r.results.B} C:${r.results.C} D:${r.results.D} E:${r.results.E}</b>`;
     };
     
-    // ✅ ពណ៌លឿងសម្រាប់ម្សិលមិញ
+    // ✅ ពណ៌
     let rowStyle = '';
-    let dateLabel = '';
-    if (g.isYesterday) {
-      rowStyle = 'background: linear-gradient(90deg, #fff9c4, #fff3cd); border-left: 4px solid #ffc107;';
-      dateLabel = ' <span style="background:#ffc107; color:#000; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">🟡 ម្សិលមិញ</span>';
-    } else if (g.isToday) {
+    let badge = '';
+    
+    if (g.isToday) {
+      // ថ្ងៃនេះ — ពណ៌ស្រាល (បៃតងស្រាល)
       rowStyle = 'background: #f0fdf4; border-left: 4px solid #28a745;';
-      dateLabel = ' <span style="background:#28a745; color:#fff; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">✅ ថ្ងៃនេះ</span>';
+      badge = ' <span style="background:#28a745; color:#fff; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">✅ ថ្ងៃនេះ</span>';
+    } else if (g.isYesterday) {
+      // ម្សិលមិញ — ពណ៌លឿង
+      rowStyle = 'background: linear-gradient(90deg, #fff9c4, #fff3cd); border-left: 4px solid #ffc107;';
+      badge = ' <span style="background:#ffc107; color:#000; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">🟡 ម្សិលមិញ</span>';
     }
     
     html += `<tr style="${rowStyle}">
-      <td><strong>${g.date}</strong>${dateLabel}</td>
+      <td><strong>${g.date}</strong>${badge}</td>
       <td>${g.time}</td>
       <td>${fmt(g.two)}</td>
       <td>${fmt(g.three)}</td>
