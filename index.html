@@ -1545,7 +1545,7 @@
   if (isBettingClosed(t)) {
     showAlert('ការចាក់ត្រូវបានបិទ', 
       'ការចាក់សម្រាប់ម៉ោង ' + t + ' ត្រូវបានបិទបណ្តោះអាសន្ន\n\n' +
-      '⏰ នឹងបើកវិញនៅម៉ោង 00:00 ថ្ងៃស្អែក', 
+      '⏰ នឹងបើកវិញនៅម៉ោង 00:00 រំលងយប់នេះ', 
       '🔴');
     return;
   }
@@ -1691,7 +1691,7 @@
   if (isBettingClosed(selectedTime)) {
     showAlert('ការចាក់ត្រូវបានបិទ', 
       'ការចាក់សម្រាប់ម៉ោង ' + selectedTime + ' ត្រូវបានបិទបណ្តោះអាសន្ន\n\n' +
-      '⏰ នឹងបើកវិញនៅម៉ោង 00:00 ថ្ងៃស្អែក', 
+      '⏰ នឹងបើកវិញនៅម៉ោង 00:00 រំលងយប់នេះ', 
       '🔴');
     return;
   }
@@ -2576,7 +2576,7 @@ function updateOpenCountdown() {
       const h = now.getHours();
       let target = 12, label = '🕛 12:00';
       if (h >= 12 && h < 16) { target = 16; label = '🕓 16:00'; }
-      else if (h >= 16) { target = 36; label = '🕛 12:00 ថ្ងៃស្អែក'; }
+      else if (h >= 16) { target = 36; label = '🕛 12:00 រំលងយប់នេះ'; }
       const t = new Date(now);
       if (target === 36) { t.setDate(t.getDate() + 1); t.setHours(12, 0, 0, 0); }
       else t.setHours(target, 0, 0, 0);
