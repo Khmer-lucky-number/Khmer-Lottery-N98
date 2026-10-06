@@ -2189,39 +2189,105 @@
 }
 
     function renderHistoryTable() {
-      const tbody = document.getElementById('historyBody');
-      if (cachedResults.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
-        return;
-      }
+  const tbody = document.getElementById('historyBody');
+  
+  if (cachedResults.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិ</td></tr>';
+    return;
+  }
 
-      const grouped = {};
-      cachedResults.forEach(r => {
-        let d = String(r.date || '');
-        let t = String(r.time || '');
-        const key = d + '|' + t;
-        if (!grouped[key]) grouped[key] = { date: d, time: t, two: null, three: null, publishedAt: '' };
-        if (r.type === 'two') grouped[key].two = r;
-        if (r.type === 'three') grouped[key].three = r;
-        if (r.publishedAt) grouped[key].publishedAt = r.publishedAt;
-      });
-
-      let html = '';
-      Object.values(grouped).forEach(g => {
-        const fmt = (r) => {
-          if (!r || !r.results) return '<span style="color:#dc3545;">⏳ រង់ចាំ</span>';
-          return `<b style="color:#28a745;">A:${r.results.A} B:${r.results.B} C:${r.results.C} D:${r.results.D} E:${r.results.E}</b>`;
-        };
-        html += `<tr>
-          <td><strong>${g.date}</strong></td>
-          <td>${g.time}</td>
-          <td>${fmt(g.two)}</td>
-          <td>${fmt(g.three)}</td>
-          <td><span style="font-size:10px; color:#005fa3;">${g.publishedAt || '-'}</span></td>
-        </tr>`;
-      });
-      tbody.innerHTML = html;
+  const now = new Date();
+  const today = new Date(now);
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  
+  // ✅ ទម្រង់កាលបរិច្ឆេទ
+  const todayFormats = [
+    today.toLocaleDateString('km-KH'),
+    today.toLocaleDateString('en-GB'),
+    String(today.getDate()).padStart(2, '0') + '/' + 
+      String(today.getMonth() + 1).padStart(2, '0') + '/' + 
+      today.getFullYear(),
+    today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
+  ];
+  
+  const yesterdayFormats = [
+    yesterday.toLocaleDateString('km-KH'),
+    yesterday.toLocaleDateString('en-GB'),
+    String(yesterday.getDate()).padStart(2, '0') + '/' + 
+      String(yesterday.getMonth() + 1).padStart(2, '0') + '/' + 
+      yesterday.getFullYear(),
+    yesterday.getDate() + '/' + (yesterday.getMonth() + 1) + '/' + yesterday.getFullYear()
+  ];
+  
+  // ✅ ចាត់ថ្នាក់តាមកាលបរិច្ឆេទ
+  const grouped = {};
+  cachedResults.forEach(r => {
+    let d = String(r.date || '').trim();
+    let t = String(r.time || '').trim();
+    const key = d + '|' + t;
+    if (!grouped[key]) {
+      grouped[key] = { 
+        date: d, 
+        time: t, 
+        two: null, 
+        three: null, 
+        publishedAt: '',
+        isToday: false,
+        isYesterday: false
+      };
     }
+    if (r.type === 'two') grouped[key].two = r;
+    if (r.type === 'three') grouped[key].three = r;
+    if (r.publishedAt) grouped[key].publishedAt = r.publishedAt;
+    
+    // ✅ ពិនិត្យថាតើជាថ្ងៃនេះ ឬម្សិលមិញ
+    if (todayFormats.some(f => d === f)) grouped[key].isToday = true;
+    if (yesterdayFormats.some(f => d === f)) grouped[key].isYesterday = true;
+  });
+
+  // ✅ បង្ហាញតែថ្ងៃនេះ និងម្សិលមិញ
+  let html = '';
+  const sortedGroups = Object.values(grouped).sort((a, b) => {
+    // តម្រៀបតាមកាលបរិច្ឆេទ (ថ្មីបំផុតជាមុន)
+    return b.date.localeCompare(a.date);
+  });
+  
+  sortedGroups.forEach(g => {
+    // ✅ បង្ហាញតែថ្ងៃនេះ ឬម្សិលមិញ
+    if (!g.isToday && !g.isYesterday) return;
+    
+    const fmt = (r) => {
+      if (!r || !r.results) return '<span style="color:#dc3545;">⏳ រង់ចាំ</span>';
+      return `<b style="color:#28a745;">A:${r.results.A} B:${r.results.B} C:${r.results.C} D:${r.results.D} E:${r.results.E}</b>`;
+    };
+    
+    // ✅ ពណ៌លឿងសម្រាប់ម្សិលមិញ
+    let rowStyle = '';
+    let dateLabel = '';
+    if (g.isYesterday) {
+      rowStyle = 'background: linear-gradient(90deg, #fff9c4, #fff3cd); border-left: 4px solid #ffc107;';
+      dateLabel = ' <span style="background:#ffc107; color:#000; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">🟡 ម្សិលមិញ</span>';
+    } else if (g.isToday) {
+      rowStyle = 'background: #f0fdf4; border-left: 4px solid #28a745;';
+      dateLabel = ' <span style="background:#28a745; color:#fff; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:bold;">✅ ថ្ងៃនេះ</span>';
+    }
+    
+    html += `<tr style="${rowStyle}">
+      <td><strong>${g.date}</strong>${dateLabel}</td>
+      <td>${g.time}</td>
+      <td>${fmt(g.two)}</td>
+      <td>${fmt(g.three)}</td>
+      <td><span style="font-size:10px; color:#005fa3;">${g.publishedAt || '-'}</span></td>
+    </tr>`;
+  });
+  
+  if (html === '') {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:8px;">មិនទាន់មានប្រវត្តិថ្ងៃនេះ និងម្សិលមិញ</td></tr>';
+  } else {
+    tbody.innerHTML = html;
+  }
+}
 
     // ================================================================
     // CLOCK & COUNTDOWN
