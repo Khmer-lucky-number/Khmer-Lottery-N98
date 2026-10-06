@@ -1962,141 +1962,231 @@
     // UPDATE UI - RESULTS
     // ================================================================
     function updateResultsUI() {
-      const now = new Date();
-      const h = now.getHours();
-      
-      const todayFormats = [
-        now.toLocaleDateString('km-KH'),
-        now.toLocaleDateString('en-GB'),
-        String(now.getDate()).padStart(2, '0') + '/' + 
-          String(now.getMonth() + 1).padStart(2, '0') + '/' + 
-          now.getFullYear(),
-        now.getDate() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear()
-      ];
-      
-      const todayResults = cachedResults.filter(r => {
-        if (!r.date) return false;
-        const rDate = String(r.date).trim();
-        return todayFormats.some(f => rDate === f);
-      });
-      
-      const posts = ['A', 'B', 'C', 'D', 'E'];
-      
-      function resetSlot(prefix) {
-        posts.forEach(p => {
-          const el = document.getElementById(`${prefix}${p}`);
-          if (el) { el.textContent = '--'; el.className = ''; }
-        });
+  const now = new Date();
+  const h = now.getHours();
+  const m = now.getMinutes();
+  
+  // ✅ ទម្រង់កាលបរិច្ឆេទ
+  const today = new Date(now);
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  
+  const todayFormats = [
+    today.toLocaleDateString('km-KH'),
+    today.toLocaleDateString('en-GB'),
+    String(today.getDate()).padStart(2, '0') + '/' + 
+      String(today.getMonth() + 1).padStart(2, '0') + '/' + 
+      today.getFullYear(),
+    today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear()
+  ];
+  
+  const yesterdayFormats = [
+    yesterday.toLocaleDateString('km-KH'),
+    yesterday.toLocaleDateString('en-GB'),
+    String(yesterday.getDate()).padStart(2, '0') + '/' + 
+      String(yesterday.getMonth() + 1).padStart(2, '0') + '/' + 
+      yesterday.getFullYear(),
+    yesterday.getDate() + '/' + (yesterday.getMonth() + 1) + '/' + yesterday.getFullYear()
+  ];
+  
+  // ✅ រកលទ្ធផលថ្ងៃនេះ
+  const todayResults = cachedResults.filter(r => {
+    if (!r.date) return false;
+    const rDate = String(r.date).trim();
+    return todayFormats.some(f => rDate === f);
+  });
+  
+  // ✅ រកលទ្ធផលម្សិលមិញ
+  const yesterdayResults = cachedResults.filter(r => {
+    if (!r.date) return false;
+    const rDate = String(r.date).trim();
+    return yesterdayFormats.some(f => rDate === f);
+  });
+  
+  console.log('🕐 Current time:', h + ':' + String(m).padStart(2, '0'));
+  console.log('📋 Today results:', todayResults);
+  console.log('📋 Yesterday results:', yesterdayResults);
+  
+  const posts = ['A', 'B', 'C', 'D', 'E'];
+  
+  function resetSlot(prefix) {
+    posts.forEach(p => {
+      const el = document.getElementById(`${prefix}${p}`);
+      if (el) { el.textContent = '--'; el.className = ''; }
+    });
+  }
+  
+  function fillSlot(prefix, r) {
+    posts.forEach(p => {
+      const el = document.getElementById(`${prefix}${p}`);
+      if (el && r && r.results && r.results[p] !== undefined) {
+        el.textContent = r.results[p];
+        el.className = 'number-result';
+      } else if (el) {
+        el.textContent = '--';
+        el.className = '';
       }
-      
-      function fillSlot(prefix, r) {
-        posts.forEach(p => {
-          const el = document.getElementById(`${prefix}${p}`);
-          if (el && r && r.results && r.results[p] !== undefined) {
-            el.textContent = r.results[p];
-            el.className = 'number-result';
-          } else if (el) {
-            el.textContent = '--';
-            el.className = '';
-          }
-        });
-      }
-      
-      const results12 = todayResults.filter(r => r.time && String(r.time).includes('12:00'));
-      const results16 = todayResults.filter(r => r.time && String(r.time).includes('16:00'));
-      
-      const has12 = results12.length > 0;
-      const has16 = results16.length > 0;
-      
-      let show12 = false;
-      let show16 = false;
-      
-      if (has12 && has16) {
-        show12 = false;
-        show16 = true;
-      } else if (has12 && !has16) {
-        show12 = true;
-        show16 = false;
-      } else if (!has12 && has16) {
-        show12 = false;
-        show16 = true;
-      }
-      
-      const badge12 = document.getElementById('badge12');
-      
-      if (show12) {
-        badge12.textContent = '✅ ចេញហើយ';
-        badge12.className = 'badge badge-completed';
-        
-        const r12two = results12.find(r => String(r.type).toLowerCase() === 'two' || String(r.type).toLowerCase() === '2');
-        fillSlot('r12_', r12two);
-        
-        const r12three = results12.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
-        fillSlot('r12_3d_', r12three);
-        
-        if (r12two && r12two.publishedAt) {
-          document.getElementById('date12').innerHTML = 
-            `<span class="date-badge">📅 ចេញលទ្ធផលនៅ: ${r12two.publishedAt}</span>`;
-        } else {
-          document.getElementById('date12').innerHTML = '';
-        }
-      } else {
-        badge12.textContent = '⏳ រង់ចាំ';
-        badge12.className = 'badge badge-waiting';
-        resetSlot('r12_');
-        resetSlot('r12_3d_');
-        document.getElementById('date12').innerHTML = '';
-      }
-
-      const badge16 = document.getElementById('badge16');
-      
-      if (show16) {
-        badge16.textContent = '✅ ចេញហើយ';
-        badge16.className = 'badge badge-completed';
-        
-        const r16two = results16.find(r => String(r.type).toLowerCase() === 'two' || String(r.type).toLowerCase() === '2');
-        fillSlot('r16_', r16two);
-        
-        const r16three = results16.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
-        fillSlot('r16_3d_', r16three);
-        
-        if (r16two && r16two.publishedAt) {
-          document.getElementById('date16').innerHTML = 
-            `<span class="date-badge">📅 ចេញលទ្ធផលនៅ: ${r16two.publishedAt}</span>`;
-        } else {
-          document.getElementById('date16').innerHTML = '';
-        }
-      } else {
-        badge16.textContent = '⏳ រង់ចាំ';
-        badge16.className = 'badge badge-waiting';
-        resetSlot('r16_');
-        resetSlot('r16_3d_');
-        document.getElementById('date16').innerHTML = '';
-      }
-
-      const statusEl = document.getElementById('resultStatusText');
-      
-      if (h < 12) {
-        statusEl.textContent = '⏳ រង់ចាំ 12:00';
-        statusEl.className = 'value pending';
-      } else if (h >= 12 && h < 16) {
-        if (has12) {
-          statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
-          statusEl.className = 'value';
-        } else {
-          statusEl.textContent = '⏳ កំពុងដំណើរការ 12:00...';
-          statusEl.className = 'value pending';
-        }
-      } else {
-        if (has16) {
-          statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
-          statusEl.className = 'value';
-        } else {
-          statusEl.textContent = '⏳ រង់ចាំ 16:00...';
-          statusEl.className = 'value pending';
-        }
-      }
+    });
+  }
+  
+  // ✅ កំណត់ថាតើបង្ហាញលទ្ធផលណា
+  let show12 = false;
+  let show16 = false;
+  let resultSource = ''; // 'today' ឬ 'yesterday'
+  
+  // រកលទ្ធផលចុងក្រោយ
+  const today12 = todayResults.filter(r => r.time && String(r.time).includes('12:00'));
+  const today16 = todayResults.filter(r => r.time && String(r.time).includes('16:00'));
+  const yesterday12 = yesterdayResults.filter(r => r.time && String(r.time).includes('12:00'));
+  const yesterday16 = yesterdayResults.filter(r => r.time && String(r.time).includes('16:00'));
+  
+  const hasToday12 = today12.length > 0;
+  const hasToday16 = today16.length > 0;
+  const hasYesterday12 = yesterday12.length > 0;
+  const hasYesterday16 = yesterday16.length > 0;
+  
+  // ✅ កំណត់លទ្ធផលដែលត្រូវបង្ហាញ
+  if (h >= 0 && h < 12) {
+    // 00:00 - 11:59 → បង្ហាញ 16:00 ពីម្សិលមិញ
+    if (hasYesterday16) {
+      show16 = true;
+      resultSource = 'yesterday';
+    } else if (hasYesterday12) {
+      show12 = true;
+      resultSource = 'yesterday';
+    } else if (hasToday12) {
+      show12 = true;
+      resultSource = 'today';
     }
+  } else if (h >= 12 && h < 16) {
+    // 12:00 - 15:59 → បង្ហាញ 12:00 ថ្ងៃនេះ
+    if (hasToday12) {
+      show12 = true;
+      resultSource = 'today';
+    } else if (hasYesterday16) {
+      show16 = true;
+      resultSource = 'yesterday';
+    } else if (hasYesterday12) {
+      show12 = true;
+      resultSource = 'yesterday';
+    }
+  } else {
+    // 16:00 - 23:59 → បង្ហាញ 16:00 ថ្ងៃនេះ
+    if (hasToday16) {
+      show16 = true;
+      resultSource = 'today';
+    } else if (hasToday12) {
+      show12 = true;
+      resultSource = 'today';
+    } else if (hasYesterday16) {
+      show16 = true;
+      resultSource = 'yesterday';
+    } else if (hasYesterday12) {
+      show12 = true;
+      resultSource = 'yesterday';
+    }
+  }
+  
+  console.log('📋 Show 12:', show12, '| Show 16:', show16, '| Source:', resultSource);
+  
+  // ============================================================
+  // ✅ 12:00 RESULTS
+  // ============================================================
+  const badge12 = document.getElementById('badge12');
+  
+  if (show12) {
+    badge12.textContent = '✅ ចេញហើយ';
+    badge12.className = 'badge badge-completed';
+    
+    const results12 = (resultSource === 'today') ? today12 : yesterday12;
+    
+    const r12two = results12.find(r => String(r.type).toLowerCase() === 'two' || String(r.type).toLowerCase() === '2');
+    fillSlot('r12_', r12two);
+    
+    const r12three = results12.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
+    fillSlot('r12_3d_', r12three);
+    
+    if (r12two && r12two.publishedAt) {
+      const dateLabel = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
+      document.getElementById('date12').innerHTML = 
+        `<span class="date-badge">📅 ${dateLabel}: ${r12two.publishedAt}</span>`;
+    } else {
+      document.getElementById('date12').innerHTML = '';
+    }
+  } else {
+    badge12.textContent = '⏳ រង់ចាំ';
+    badge12.className = 'badge badge-waiting';
+    resetSlot('r12_');
+    resetSlot('r12_3d_');
+    document.getElementById('date12').innerHTML = '';
+  }
+
+  // ============================================================
+  // ✅ 16:00 RESULTS
+  // ============================================================
+  const badge16 = document.getElementById('badge16');
+  
+  if (show16) {
+    badge16.textContent = '✅ ចេញហើយ';
+    badge16.className = 'badge badge-completed';
+    
+    const results16 = (resultSource === 'today') ? today16 : yesterday16;
+    
+    const r16two = results16.find(r => String(r.type).toLowerCase() === 'two' || String(r.type).toLowerCase() === '2');
+    fillSlot('r16_', r16two);
+    
+    const r16three = results16.find(r => String(r.type).toLowerCase() === 'three' || String(r.type).toLowerCase() === '3');
+    fillSlot('r16_3d_', r16three);
+    
+    if (r16two && r16two.publishedAt) {
+      const dateLabel = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
+      document.getElementById('date16').innerHTML = 
+        `<span class="date-badge">📅 ${dateLabel}: ${r16two.publishedAt}</span>`;
+    } else {
+      document.getElementById('date16').innerHTML = '';
+    }
+  } else {
+    badge16.textContent = '⏳ រង់ចាំ';
+    badge16.className = 'badge badge-waiting';
+    resetSlot('r16_');
+    resetSlot('r16_3d_');
+    document.getElementById('date16').innerHTML = '';
+  }
+
+  // ============================================================
+  // ✅ STATUS BAR
+  // ============================================================
+  const statusEl = document.getElementById('resultStatusText');
+  
+  if (h >= 0 && h < 12) {
+    if (show16) {
+      statusEl.textContent = '✅ លទ្ធផល 16:00 ម្សិលមិញ';
+      statusEl.className = 'value';
+    } else if (show12) {
+      statusEl.textContent = '✅ លទ្ធផល 12:00 ម្សិលមិញ';
+      statusEl.className = 'value';
+    } else {
+      statusEl.textContent = '⏳ រង់ចាំ 12:00 ថ្ងៃនេះ';
+      statusEl.className = 'value pending';
+    }
+  } else if (h >= 12 && h < 16) {
+    if (show12) {
+      statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! រង់ចាំ 16:00';
+      statusEl.className = 'value';
+    } else {
+      statusEl.textContent = '⏳ កំពុងដំណើរការ 12:00...';
+      statusEl.className = 'value pending';
+    }
+  } else {
+    if (show16) {
+      statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ! រង់ចាំថ្ងៃស្អែក';
+      statusEl.className = 'value';
+    } else {
+      statusEl.textContent = '⏳ រង់ចាំ 16:00...';
+      statusEl.className = 'value pending';
+    }
+  }
+}
 
     function renderHistoryTable() {
       const tbody = document.getElementById('historyBody');
