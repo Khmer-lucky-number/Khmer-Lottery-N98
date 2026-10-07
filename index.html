@@ -781,11 +781,11 @@
   <h2>🎯 ទិញលេខឆ្នោត ប៉ុស្តិ៍ (A, B, C, D, E)</h2>
 
     <!-- ✅ បង្ហាញស្ថានភាពបិទការចាក់ (ខាងលើ) - Compact Design -->
-  <div class="betting-closed-box" id="bettingClosedTop">
+ <div class="betting-closed-box" id="bettingClosedTop">
     <div class="header-row">
       <div class="icon">⏰</div>
       <div class="content">
-        <div class="title">🔒 ការចាក់ត្រូវបានបិទបណ្តោះអាសន្ន</div>
+        <div class="title" id="bettingClosedTitle">🔒 ការចាក់សម្រាប់ម៉ោង 12:00 ត្រូវបានបិទជាបណ្តោះអាសន្ន!</div>
         <div class="open-time">⏰ បើកវិញម៉ោង <strong>00:00 រំលងយប់នេះ</strong></div>
         <div class="countdown-inline">
           <span class="label">⏳ នៅសល់៖</span>
@@ -907,7 +907,7 @@
           </div>
 
           <button class="btn btn-success" id="btnSubmit" onclick="submitBet()" style="width:100%; padding:10px; font-size:clamp(13px,1.4vw,15px);" disabled>
-  💳 ដាក់ប្រាក់
+  💳 យល់ព្រមទស្សន៍ទាយ
 </button>
 
 <div class="info-message" id="infoMessage" style="display:none;">
@@ -1699,7 +1699,7 @@
       updateSummary();
     }
 
-    function updateSummary() {
+        function updateSummary() {
   const cnt = numbers.length;
   document.getElementById('totalCount').textContent = cnt;
   let valid = false;
@@ -1709,7 +1709,6 @@
   const display = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
   document.getElementById('totalAmountDisplay').textContent = display;
   
-  // ✅ ពិនិត្យសមតុល្យតាមរូបិយប័ណ្ណដែលជ្រើស
   let balanceOk = true;
   if (betMode === 'direct') {
     if (currency === 'USD') {
@@ -1721,11 +1720,8 @@
   
   const isClosed = isBettingClosed(selectedTime);
   
-  document.getElementById('btnSubmit').disabled = !(cnt > 0 && valid && amount > 0 && balanceOk && !isClosed);
-  
-  if (isClosed) {
-    document.getElementById('btnSubmit').classList.add('btn-disabled-strict');
-  }
+  // ✅ ហៅ function Update ពណ៌ប៊ូតុង
+  updateSubmitButtonColor();
 }
 
     function submitBet() {
@@ -1842,22 +1838,75 @@ function isBettingClosed(timeSlot) {
 function updateBettingStatus() {
   const isClosed = isBettingClosed(selectedTime);
   
-  // ✅ បង្ហាញ/លាក់ ប្រអប់បិទការចាក់ (តែខាងលើ)
   const topBox = document.getElementById('bettingClosedTop');
+  const titleEl = document.getElementById('bettingClosedTitle');
   
-  if (topBox) {
+  if (topBox && titleEl) {
     if (isClosed) {
       topBox.style.display = 'block';
+      
+      // ✅ កំណត់ចំណងជើងតាមម៉ោង
+      const now = new Date();
+      const h = now.getHours();
+      
+      if (h >= 16) {
+        // បិទទាំង 12:00 និង 16:00
+        titleEl.innerHTML = `🔒 ការចាក់សម្រាប់ម៉ោង <strong style="color:#dc2626;">12:00</strong> និង <strong style="color:#dc2626;">16:00</strong> ថ្ងៃនេះត្រូវបានបិទជាបណ្តោះអាសន្ន!`;
+      } else if (h >= 12) {
+        // បិទតែ 12:00
+        titleEl.innerHTML = `🔒 ការចាក់សម្រាប់ម៉ោង <strong style="color:#dc2626;">12:00</strong> ត្រូវបានបិទជាបណ្តោះអាសន្ន!`;
+      }
     } else {
       topBox.style.display = 'none';
     }
   }
   
-  // ✅ Update ប៊ូតុង time-btn
   updateTimeButtons();
-  
-  // ✅ Update countdown
   updateOpenCountdown();
+  
+  // ✅ Update ស្ថានភាពប៊ូតុង
+  updateSubmitButtonColor();
+}
+
+// ✅ Update ពណ៌ប៊ូតុង "យល់ព្រមទស្សន៍ទាយ"
+function updateSubmitButtonColor() {
+  const btn = document.getElementById('btnSubmit');
+  if (!btn) return;
+  
+  const isClosed = isBettingClosed(selectedTime);
+  const cnt = numbers.length;
+  let valid = false;
+  if (currency === 'USD') valid = (amount >= 0.25 && amount <= 10);
+  else valid = (amount >= 500 && amount <= 40000);
+  
+  let balanceOk = true;
+  if (betMode === 'direct') {
+    if (currency === 'USD') {
+      balanceOk = (currentBalanceUSD >= cnt * amount);
+    } else if (currency === 'KHR') {
+      balanceOk = (currentBalanceKHR >= cnt * amount);
+    }
+  }
+  
+  const canSubmit = (cnt > 0 && valid && amount > 0 && balanceOk && !isClosed);
+  
+  if (canSubmit) {
+    // ✅ បង្ហាញពណ៌បៃតង
+    btn.disabled = false;
+    btn.classList.remove('btn-disabled-strict');
+    btn.style.background = 'linear-gradient(135deg,#28a745,#1e7e34)';
+    btn.style.color = 'white';
+    btn.style.cursor = 'pointer';
+    btn.style.opacity = '1';
+  } else {
+    // ❌ បង្ហាញពណ៌ប្រផេះ
+    btn.disabled = true;
+    btn.classList.add('btn-disabled-strict');
+    btn.style.background = '#ced4da';
+    btn.style.color = '#6c757d';
+    btn.style.cursor = 'not-allowed';
+    btn.style.opacity = '0.7';
+  }
 }
 
 // Update ប៊ូតុង time-btn (បិទ/បើក)
