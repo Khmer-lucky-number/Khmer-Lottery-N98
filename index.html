@@ -3630,10 +3630,10 @@
     });
 
     /* ============================================================
-       EXPOSE TO GLOBAL (for inline onclick)
+       ✅ EXPOSE FUNCTIONS TO GLOBAL SCOPE
+       ដើម្បីឱ្យ HTML inline onclick="xxx()" អាចហៅបាន
        ============================================================ */
     window.N98 = {
-      // Registration
       handleRegister: handleRegister,
       handleVerify: handleVerify,
       handleLogin: handleLogin,
@@ -3642,14 +3642,10 @@
       showRegisterStep: showRegisterStep,
       showVerifyStep: showVerifyStep,
       contactAdmin: contactAdmin,
-
-      // UI
       openGroup: openGroup,
       copyLink: copyLink,
       showSection: showSection,
       closeModal: closeModal,
-
-      // Betting
       setMode: setMode,
       setTime: setTime,
       setType: setType,
@@ -3659,11 +3655,34 @@
       updateAmount: updateAmount,
       submitBet: submitBet,
       handleAbaClick: handleAbaClick,
-
-      // Withdraw & Mark
       openWithdraw: openWithdraw,
       markPaid: markPaid
     };
+
+    // ✅ បន្ថែម global aliases ដើម្បីឱ្យ onclick="handleRegister()" ដំណើរការ
+    window.handleRegister = handleRegister;
+    window.handleVerify = handleVerify;
+    window.handleLogin = handleLogin;
+    window.handleLogout = handleLogout;
+    window.showLoginStep = showLoginStep;
+    window.showRegisterStep = showRegisterStep;
+    window.showVerifyStep = showVerifyStep;
+    window.contactAdmin = contactAdmin;
+    window.openGroup = openGroup;
+    window.copyLink = copyLink;
+    window.showSection = showSection;
+    window.closeModal = closeModal;
+    window.setMode = setMode;
+    window.setTime = setTime;
+    window.setType = setType;
+    window.selectLetter = selectLetter;
+    window.removeNum = removeNum;
+    window.setAmount = setAmount;
+    window.updateAmount = updateAmount;
+    window.submitBet = submitBet;
+    window.handleAbaClick = handleAbaClick;
+    window.openWithdraw = openWithdraw;
+    window.markPaid = markPaid;
 
   })();
   </script>
