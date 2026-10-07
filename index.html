@@ -2107,12 +2107,12 @@ function updateOpenCountdown() {
           badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
         }
         
-        // ✅ Badge ប្រភេទចាក់ (ផ្ទាល់ ឬ អនឡាញ)
+        // ✅ Badge ប្រភេទចាក់ (ផ្ទាល់ ឬ អនឡាញ) — នៅខាងលើលេខចាក់
         let modeBadge = '';
         if (b.payMethod === 'direct') {
-          modeBadge = '<div style="margin-top:4px;"><span style="background:linear-gradient(135deg,#28a745,#1e7e34); color:#fff; padding:2px 8px; border-radius:8px; font-size:9px; font-weight:bold; display:inline-block;">💵 ផ្ទាល់</span></div>';
+          modeBadge = '<span style="background:linear-gradient(135deg,#28a745,#1e7e34); color:#fff; padding:2px 8px; border-radius:8px; font-size:9px; font-weight:bold; display:inline-block; margin-bottom:4px;">💵 ផ្ទាល់</span>';
         } else if (b.payMethod === 'online' || b.bank === 'ABA Bank') {
-          modeBadge = '<div style="margin-top:4px;"><span style="background:linear-gradient(135deg,#0078D7,#005fa3); color:#fff; padding:2px 8px; border-radius:8px; font-size:9px; font-weight:bold; display:inline-block;">🌐 អនឡាញ</span></div>';
+          modeBadge = '<span style="background:linear-gradient(135deg,#0078D7,#005fa3); color:#fff; padding:2px 8px; border-radius:8px; font-size:9px; font-weight:bold; display:inline-block; margin-bottom:4px;">🌐 អនឡាញ</span>';
         }
         
         let dateDisplay = '';
@@ -2155,13 +2155,16 @@ function updateOpenCountdown() {
             <div style="font-weight:bold;">${dateDisplay}${dateBadge}</div>
             <div style="color:#6c757d;">${timeDisplay}</div>
           </td>
-          <td><strong style="color:#0078D7;">${b.numbers}</strong></td>
+          <td>
+            <div style="margin-bottom:2px;">${modeBadge}</div>
+            <strong style="color:#0078D7;">${b.numbers}</strong>
+          </td>
           <td>${b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់'}</td>
           <td>
             <div>${amt}</div>
             <div class="amount-tag">💰 ${totalAmt}</div>
           </td>
-          <td>${badge}${modeBadge}</td>
+          <td>${badge}</td>
           <td>${reward}</td>
           <td>${actionBtn}</td>
         </tr>`;
