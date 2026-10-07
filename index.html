@@ -800,10 +800,21 @@
             <button class="mode-btn online" id="modeOnline" onclick="setMode('online', event)">🌐 ចាក់តាមអនឡាញ</button>
           </div>
 
-          <div class="balance-box" id="balanceBox" style="display:none;">
-            <div class="label">💰 សមតុល្យរបស់អ្នក</div>
-            <div class="amount" id="balanceAmount">0.00</div>
-            <div style="font-size:11px;color:#155724;margin-top:4px;" id="balanceNote"></div>
+          <div class="balance-box" id="balanceBox" style="display:none; background:#f8f9fa; border:2px solid #28a745;">
+            <div class="label" style="margin-bottom:8px;">💰 សមតុល្យរបស់អ្នក</div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <!-- ប្រអប់ USD -->
+              <div style="flex:1; min-width:130px; background:linear-gradient(135deg,#d4edda,#c3e6cb); border:2px solid #28a745; border-radius:10px; padding:10px; text-align:center;">
+                <div style="font-size:11px; color:#155724; font-weight:bold; margin-bottom:4px;">💵 USD</div>
+                <div id="balanceAmountUSD" style="font-size:clamp(20px,3vw,26px); color:#28a745; font-weight:bold; font-family:'Courier New',monospace;">0.00$</div>
+              </div>
+              <!-- ប្រអប់ KHR -->
+              <div style="flex:1; min-width:130px; background:linear-gradient(135deg,#d4edda,#c3e6cb); border:2px solid #28a745; border-radius:10px; padding:10px; text-align:center;">
+                <div style="font-size:11px; color:#155724; font-weight:bold; margin-bottom:4px;">🇰🇭 KHR</div>
+                <div id="balanceAmountKHR" style="font-size:clamp(20px,3vw,26px); color:#28a745; font-weight:bold; font-family:'Courier New',monospace;">0៛</div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:#155724;margin-top:6px;" id="balanceNote"></div>
           </div>
 
           <div class="guide-box">
@@ -1073,13 +1084,25 @@
         </div>
         <label>លេខទូរស័ព្ទ *</label>
         <input type="tel" id="directPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ">
-        <label>ឈ្មោះ *</label>
-        <input type="text" id="directName" required placeholder="បញ្ចូលឈ្មោះ">
-        <div class="balance-box" style="margin-top:10px;">
-          <div class="label">💰 សមតុល្យបច្ចុប្បន្ន</div>
-          <div class="amount" id="directBalanceAmount">0.00</div>
+        
+        <!-- ✅ បង្ហាញសមតុល្យ ២ ប្រអប់ -->
+        <div style="margin-top:12px;">
+          <div class="label" style="font-weight:bold; color:#155724; font-size:13px; margin-bottom:6px;">💰 សមតុល្យរបស់អ្នក</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <!-- ប្រអប់ USD -->
+            <div style="flex:1; min-width:140px; background:linear-gradient(135deg,#d4edda,#c3e6cb); border:2px solid #28a745; border-radius:10px; padding:10px; text-align:center;">
+              <div style="font-size:11px; color:#155724; font-weight:bold; margin-bottom:4px;">💵 USD</div>
+              <div id="directBalanceUSD" style="font-size:clamp(18px,2.5vw,22px); color:#28a745; font-weight:bold; font-family:'Courier New',monospace;">0.00$</div>
+            </div>
+            <!-- ប្រអប់ KHR -->
+            <div style="flex:1; min-width:140px; background:linear-gradient(135deg,#d4edda,#c3e6cb); border:2px solid #28a745; border-radius:10px; padding:10px; text-align:center;">
+              <div style="font-size:11px; color:#155724; font-weight:bold; margin-bottom:4px;">🇰🇭 KHR</div>
+              <div id="directBalanceKHR" style="font-size:clamp(18px,2.5vw,22px); color:#28a745; font-weight:bold; font-family:'Courier New',monospace;">0៛</div>
+            </div>
+          </div>
         </div>
-        <button type="submit" class="btn btn-success" style="width:100%; margin-top:10px; padding:12px;">បញ្ជាក់ការចាក់</button>
+        
+        <button type="submit" class="btn btn-success" style="width:100%; margin-top:12px; padding:12px;">បញ្ជាក់ការចាក់</button>
       </form>
     </div>
   </div>
@@ -1155,8 +1178,10 @@
     let betMode = 'direct';
     let cachedResults = [];
     let isSyncing = false;
-    let currentBalance = 0;
-    let currentBalanceCurrency = 'USD';
+        let currentBalance = 0;              // រក្សាសម្រាប់ compatibility
+    let currentBalanceCurrency = 'USD';  // រក្សាសម្រាប់ compatibility
+    let currentBalanceUSD = 0;           // ✅ សមតុល្យ USD
+    let currentBalanceKHR = 0;           // ✅ សមតុល្យ KHR
     let selectedWinIds = [];
 
     // ================================================================
@@ -1486,8 +1511,12 @@
         const res = await fetch(WEB_APP_URL + '?action=getBalance&phone=' + encodeURIComponent(cleanPhone));
         const data = await res.json();
         if (data.ok) {
-          currentBalance = data.balance || 0;
-          currentBalanceCurrency = data.currency || 'USD';
+          // ✅ ទាញទាំង USD និង KHR
+          currentBalanceUSD = data.balanceUSD || 0;
+          currentBalanceKHR = data.balanceKHR || 0;
+          // រក្សាតម្លៃចាស់សម្រាប់ compatibility
+          currentBalance = currentBalanceUSD;
+          currentBalanceCurrency = 'USD';
           updateBalanceUI();
         }
       } catch (err) {
@@ -1513,11 +1542,22 @@
       }
     }
 
-    function updateBalanceUI() {
-      const symbol = currentBalanceCurrency === 'USD' ? '$' : '៛';
-      document.getElementById('balanceAmount').textContent = currentBalance.toFixed(2) + symbol;
+        function updateBalanceUI() {
+      // ✅ បង្ហាញសមតុល្យ USD និង KHR ដាច់ដោយឡែក
+      const balanceUSD = currentBalanceUSD || 0;
+      const balanceKHR = currentBalanceKHR || 0;
+      
+      const elUSD = document.getElementById('balanceAmountUSD');
+      const elKHR = document.getElementById('balanceAmountKHR');
+      const elDirectUSD = document.getElementById('directBalanceUSD');
+      const elDirectKHR = document.getElementById('directBalanceKHR');
+      
+      if (elUSD) elUSD.textContent = balanceUSD.toFixed(2) + '$';
+      if (elKHR) elKHR.textContent = Math.round(balanceKHR).toLocaleString() + '៛';
+      if (elDirectUSD) elDirectUSD.textContent = balanceUSD.toFixed(2) + '$';
+      if (elDirectKHR) elDirectKHR.textContent = Math.round(balanceKHR).toLocaleString() + '៛';
+      
       document.getElementById('balanceBox').style.display = 'block';
-      document.getElementById('directBalanceAmount').textContent = currentBalance.toFixed(2) + symbol;
       updateSummary();
     }
 
@@ -1669,14 +1709,16 @@
   const display = currency === 'USD' ? `${total.toFixed(2)}$` : `${total.toLocaleString()}៛`;
   document.getElementById('totalAmountDisplay').textContent = display;
   
+  // ✅ ពិនិត្យសមតុល្យតាមរូបិយប័ណ្ណដែលជ្រើស
   let balanceOk = true;
   if (betMode === 'direct') {
-    if (currentBalanceCurrency === currency && currentBalance < total) {
-      balanceOk = false;
+    if (currency === 'USD') {
+      balanceOk = (currentBalanceUSD >= total);
+    } else if (currency === 'KHR') {
+      balanceOk = (currentBalanceKHR >= total);
     }
   }
   
-  // ✅ ពិនិត្យថាតើការចាក់ត្រូវបានបិទឬទេ
   const isClosed = isBettingClosed(selectedTime);
   
   document.getElementById('btnSubmit').disabled = !(cnt > 0 && valid && amount > 0 && balanceOk && !isClosed);
@@ -1704,7 +1746,13 @@
     document.getElementById('directConfirmNumbers').textContent = numbers.join(', ');
     document.getElementById('directConfirmTotal').textContent = display;
     document.getElementById('directPhone').value = fixPhoneNumber(currentUser.phone);
-    document.getElementById('directBalanceAmount').textContent = currentBalance.toFixed(2) + (currentBalanceCurrency === 'USD' ? '$' : '៛');
+    
+    // ✅ បង្ហាញសមតុល្យ ២ ប្រអប់ក្នុង Modal
+    const elDirectUSD = document.getElementById('directBalanceUSD');
+    const elDirectKHR = document.getElementById('directBalanceKHR');
+    if (elDirectUSD) elDirectUSD.textContent = currentBalanceUSD.toFixed(2) + '$';
+    if (elDirectKHR) elDirectKHR.textContent = Math.round(currentBalanceKHR).toLocaleString() + '៛';
+    
     document.getElementById('directBetModal').style.display = 'block';
   } else {
     document.getElementById('confirmNumbers').textContent = numbers.join(', ');
@@ -1864,18 +1912,24 @@ function updateOpenCountdown() {
     document.getElementById('directBetForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const phone = fixPhoneNumber(document.getElementById('directPhone').value.trim());
-      const name = document.getElementById('directName').value.trim();
 
-      if (!phone || !name) {
-        showAlert('ការព្រមាន', 'សូមបំពេញព័ត៌មាន!', '⚠️');
+      if (!phone) {
+        showAlert('ការព្រមាន', 'សូមបំពេញលេខទូរស័ព្ទ!', '⚠️');
         return;
       }
 
       const total = numbers.length * amount;
       
+      // ✅ ទាញសមតុល្យថ្មីបំផុត
       await fetchBalance(phone);
-      if (currentBalanceCurrency === currency && currentBalance < total) {
-        showAlert('បរាជ័យ', '❌ សមតុល្យមិនគ្រប់គ្រាន់!', '❌');
+      
+      // ✅ ពិនិត្យសមតុល្យតាមរូបិយប័ណ្ណដែលជ្រើស
+      if (currency === 'USD' && currentBalanceUSD < total) {
+        showAlert('បរាជ័យ', '❌ សមតុល្យ USD មិនគ្រប់គ្រាន់!', '❌');
+        return;
+      }
+      if (currency === 'KHR' && currentBalanceKHR < total) {
+        showAlert('បរាជ័យ', '❌ សមតុល្យ KHR មិនគ្រប់គ្រាន់!', '❌');
         return;
       }
 
@@ -1893,7 +1947,7 @@ function updateOpenCountdown() {
           amount: amount,
           currency: currency,
           total: total,
-          name: name,
+          name: '',  // ✅ លុបឈ្មោះ
           drawTime: selectedTime
         };
 
