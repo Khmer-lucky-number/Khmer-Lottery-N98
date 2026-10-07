@@ -2107,12 +2107,12 @@ function updateOpenCountdown() {
           badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
         }
         
-        // ✅ Badge ប្រភេទចាក់ (ផ្ទាល់ ឬ អនឡាញ) — នៅខាងលើលេខចាក់
+        // ✅ Badge ប្រភេទចាក់ (ផ្ទាល់ ឬ អនឡាញ) — គ្មាន Background
         let modeBadge = '';
         if (b.payMethod === 'direct') {
-          modeBadge = '<span style="background:linear-gradient(135deg,#28a745,#1e7e34); color:#fff; padding:2px 8px; border-radius:8px; font-size:9px; font-weight:bold; display:inline-block; margin-bottom:4px;">💵 ផ្ទាល់</span>';
+          modeBadge = '<span style="color:#28a745; font-size:10px; font-weight:bold; display:inline-block; margin-bottom:2px;">💵 ផ្ទាល់</span>';
         } else if (b.payMethod === 'online' || b.bank === 'ABA Bank') {
-          modeBadge = '<span style="background:linear-gradient(135deg,#0078D7,#005fa3); color:#fff; padding:2px 8px; border-radius:8px; font-size:9px; font-weight:bold; display:inline-block; margin-bottom:4px;">🌐 អនឡាញ</span>';
+          modeBadge = '<span style="color:#0078D7; font-size:10px; font-weight:bold; display:inline-block; margin-bottom:2px;">🌐 អនឡាញ</span>';
         }
         
         let dateDisplay = '';
