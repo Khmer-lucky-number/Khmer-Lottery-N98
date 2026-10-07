@@ -2086,6 +2086,7 @@ function updateOpenCountdown() {
         const totalBet = b.amount * numCount;
         const totalAmt = b.currency === 'USD' ? `${totalBet.toFixed(2)}$` : `${totalBet.toLocaleString()}៛`;
         
+        // ✅ Badge ស្ថានភាព
         let badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
         let reward = '-';
         let actionBtn = '-';
@@ -2104,6 +2105,14 @@ function updateOpenCountdown() {
           reward = b.currency === 'USD' ? `<strong style="color:#28a745;">${payout.toFixed(2)}$</strong>` : `<strong style="color:#28a745;">${payout.toLocaleString()}៛</strong>`;
         } else if (b.status === 'loss') {
           badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
+        }
+        
+        // ✅ Badge ប្រភេទចាក់ (ផ្ទាល់ ឬ អនឡាញ)
+        let modeBadge = '';
+        if (b.payMethod === 'direct') {
+          modeBadge = '<div style="margin-top:4px;"><span style="background:linear-gradient(135deg,#28a745,#1e7e34); color:#fff; padding:2px 8px; border-radius:8px; font-size:9px; font-weight:bold; display:inline-block;">💵 ផ្ទាល់</span></div>';
+        } else if (b.payMethod === 'online' || b.bank === 'ABA Bank') {
+          modeBadge = '<div style="margin-top:4px;"><span style="background:linear-gradient(135deg,#0078D7,#005fa3); color:#fff; padding:2px 8px; border-radius:8px; font-size:9px; font-weight:bold; display:inline-block;">🌐 អនឡាញ</span></div>';
         }
         
         let dateDisplay = '';
@@ -2152,7 +2161,7 @@ function updateOpenCountdown() {
             <div>${amt}</div>
             <div class="amount-tag">💰 ${totalAmt}</div>
           </td>
-          <td>${badge}</td>
+          <td>${badge}${modeBadge}</td>
           <td>${reward}</td>
           <td>${actionBtn}</td>
         </tr>`;
