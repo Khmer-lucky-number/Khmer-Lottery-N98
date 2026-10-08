@@ -1400,6 +1400,52 @@
       .numbers div { flex: 1 1 calc(50% - 4px); min-width: 32px; padding: 4px 2px; font-size: 11px; }
       .countdown .time-display { font-size: 26px; padding: 3px 10px; min-width: 90px; }
     }
+
+/* ============================================================
+   WIN BADGE (សញ្ញាប្រាប់ថាឈ្នះរង្វាន់)
+   ============================================================ */
+.win-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff1744, #d50000);
+  color: white;
+  font-size: 9px;
+  font-weight: bold;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-left: 6px;
+  letter-spacing: 0.5px;
+  animation: badgePulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(255, 23, 68, 0.6);
+  vertical-align: middle;
+}
+
+.win-badge::before {
+  content: '🎉 ';
+  font-size: 10px;
+}
+
+@keyframes badgePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 8px rgba(255, 23, 68, 0.6);
+  }
+  50% {
+    transform: scale(1.12);
+    box-shadow: 0 0 15px rgba(255, 23, 68, 0.9);
+  }
+}
+
+/* ✅ ប៊ូតុងដែលមាន badge — ពណ៌ភ្លឺ */
+.btn-withdraw.has-win {
+  background: linear-gradient(135deg, #ff1744, #d50000) !important;
+  box-shadow: 0 0 12px rgba(255, 23, 68, 0.5) !important;
+  animation: btnGlow 2s ease-in-out infinite;
+}
+
+@keyframes btnGlow {
+  0%, 100% { box-shadow: 0 0 12px rgba(255, 23, 68, 0.5); }
+  50% { box-shadow: 0 0 22px rgba(255, 23, 68, 0.8); }
+}
   </style>
 </head>
 <body>
@@ -1881,10 +1927,13 @@
           <div class="time-box">🏦 ដកប្រាក់</div>
           <p style="font-size:clamp(11px,1.2vw,13px); color:#4a5568; margin:3px 0;">ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
           <div class="action-group">
-            <button class="btn btn-withdraw" onclick="openWithdraw('normal')">🏦 ដកប្រាក់រង្វាន់</button>
-            <button class="btn btn-withdraw" onclick="openWithdraw('late')">🏦 ដកប្រាក់រង្វាន់ / ⏰ ដកយឺត</button>
-            <button class="btn btn-telegram" onclick="contactAdmin()">✈️ ទាក់ទងAdmin</button>
-          </div>
+  <button class="btn btn-withdraw" onclick="openWithdraw('normal')" id="btnWithdrawNormal">
+    🏦 ដកប្រាក់រង្វាន់
+    <span id="withdrawBadge" class="win-badge" style="display:none;">NEW</span>
+  </button>
+  <button class="btn btn-withdraw" onclick="openWithdraw('late')">🏦 ដកប្រាក់រង្វាន់ / ⏰ ដកយឺត</button>
+  <button class="btn btn-telegram" onclick="contactAdmin()">✈️ ទាក់ទងAdmin</button>
+</div>
         </div>
 
       </div>
@@ -2538,6 +2587,9 @@
         .catch(function(err) { console.error(err); });
     }
 
+    /* ============================================================
+       FETCH USER BETS (កែរួច — ពិនិត្យ Badge ឈ្នះរង្វាន់)
+       ============================================================ */
     function fetchUserBets() {
       if (!currentUser || !currentUser.phone) return;
       var cleanPhone = fixPhoneNumber(currentUser.phone);
@@ -2546,9 +2598,41 @@
         .then(function(data) {
           if (data.ok && Array.isArray(data.bets)) {
             renderUserBetsFromServer(data.bets);
+            checkWinBadge(data.bets);   // ✅ បន្ថែមបន្ទាត់នេះ
           }
         })
         .catch(function(err) { console.error(err); });
+    }
+
+    /* ============================================================
+       CHECK WIN BADGE — ពិនិត្យថាមានរង្វាន់ឈ្នះដែលមិនទាន់សង
+       ============================================================ */
+    function checkWinBadge(bets) {
+      if (!bets || !Array.isArray(bets)) return;
+
+      // ✅ រាប់ចំនួនឈ្នះដែលមិនទាន់សង
+      var winCount = 0;
+      for (var i = 0; i < bets.length; i++) {
+        if (bets[i].status === 'win' && bets[i].paid !== 'yes') {
+          winCount++;
+        }
+      }
+
+      var badge = $('withdrawBadge');
+      var btn = $('btnWithdrawNormal');
+
+      if (winCount > 0) {
+        // ✅ បង្ហាញ badge
+        if (badge) {
+          badge.textContent = winCount > 9 ? '9+' : winCount;
+          badge.style.display = 'inline-block';
+        }
+        if (btn) btn.classList.add('has-win');
+      } else {
+        // ❌ លាក់ badge
+        if (badge) badge.style.display = 'none';
+        if (btn) btn.classList.remove('has-win');
+      }
     }
 
     /* ============================================================
@@ -3029,13 +3113,17 @@
       });
     }
 
-    /* ============================================================
-       WITHDRAW
+       /* ============================================================
+       WITHDRAW (កែរួច — លាក់ Badge ពេលចុច)
        ============================================================ */
     function openWithdraw(mode) {
       var modal = $('withdrawModal');
       var title = $('withdrawTitle');
       var notice = $('withdrawNotice');
+
+      // ✅ បន្ថែមបន្ទាត់នេះ — លាក់ Badge ពេលចុចប៊ូតុង
+      var badge = $('withdrawBadge');
+      if (badge) badge.style.display = 'none';
 
       if (mode === 'late') {
         title.textContent = '🏦 ដកប្រាក់រង្វាន់ / ⏰ ដកយឺត';
