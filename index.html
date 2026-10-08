@@ -1446,6 +1446,46 @@
   0%, 100% { box-shadow: 0 0 12px rgba(255, 23, 68, 0.5); }
   50% { box-shadow: 0 0 22px rgba(255, 23, 68, 0.8); }
 }
+
+    /* ============================================================
+       SUBMIT BUTTON STATES
+       ============================================================ */
+    .btn-submit-disabled {
+      background: #ced4da !important;
+      color: #6c757d !important;
+      cursor: not-allowed !important;
+      opacity: 0.7 !important;
+      box-shadow: none !important;
+    }
+
+    .btn-submit-disabled:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    /* ✅ បង្ហាញសារព្រមាននៅក្រោមប៊ូតុង */
+    .balance-warning {
+      background: #fff5f5;
+      border: 1px solid #ff8b8b;
+      border-radius: 6px;
+      padding: 8px 10px;
+      margin-top: 8px;
+      font-size: 11px;
+      color: #721c24;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .balance-warning.show {
+      display: block;
+      animation: shakeWarning 0.5s ease;
+    }
+
+    @keyframes shakeWarning {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
   </style>
 </head>
 <body>
@@ -1889,9 +1929,12 @@
             <div class="bet-summary-item total"><span>💵 សរុប៖</span><span id="totalAmountDisplay">0</span></div>
           </div>
 
-          <button class="btn btn-success" id="btnSubmit" onclick="submitBet()" style="width:100%; padding:10px; font-size:clamp(13px,1.4vw,15px);" disabled>
-            💳 យល់ព្រមទស្សន៍ទាយ
-          </button>
+<button class="btn btn-success" id="btnSubmit" onclick="submitBet()" style="width:100%; padding:10px; font-size:clamp(13px,1.4vw,15px);" disabled>
+  💳 យល់ព្រមទស្សន៍ទាយ
+</button>
+<div class="balance-warning" id="balanceWarning">
+  ⚠️ <strong>សមតុល្យមិនគ្រប់គ្រាន់!</strong> សូមទាក់ទង Admin ដើម្បីបញ្ចូលប្រាក់។
+</div>
 
           <div class="info-message" id="infoMessage" style="display:none;">
             ℹ️ អ្នកអាចដកប្រាក់រង្វាន់របស់អ្នកបានក្នុងមុខងារ 🏦 ដកប្រាក់ នៅខាងក្រោមនៃទំព័រ ប្រសិនបើអ្នកចាក់ត្រូវ។
@@ -2801,36 +2844,48 @@
       updateSubmitButtonColor();
     }
 
+    /* ============================================================
+       UPDATE SUBMIT BUTTON COLOR (កែរួច — បង្ហាញសារព្រមាន)
+       ============================================================ */
     function updateSubmitButtonColor() {
       var btn = $('btnSubmit');
+      var warnBox = $('balanceWarning');
       if (!btn) return;
 
       var isClosed = isBettingClosed(selectedTime);
       var cnt = numbers.length;
-      var valid;
 
+      var validAmount = false;
       if (currency === 'USD') {
-        valid = (amount >= CFG.MIN_USD && amount <= CFG.MAX_USD);
+        validAmount = (amount >= CFG.MIN_USD && amount <= CFG.MAX_USD);
       } else {
-        valid = (amount >= CFG.MIN_KHR && amount <= CFG.MAX_KHR);
+        validAmount = (amount >= CFG.MIN_KHR && amount <= CFG.MAX_KHR);
       }
 
+      var total = cnt * amount;
       var balanceOk = true;
+
       if (betMode === 'direct') {
-        var total = cnt * amount;
-        if (currency === 'USD') balanceOk = (balanceUSD >= total);
-        else balanceOk = (balanceKHR >= total);
+        if (currency === 'USD') {
+          balanceOk = (balanceUSD >= total);
+        } else {
+          balanceOk = (balanceKHR >= total);
+        }
       }
 
-      var canSubmit = (cnt > 0 && valid && amount > 0 && balanceOk && !isClosed);
+      var canSubmit = (cnt > 0 && validAmount && amount > 0 && balanceOk && !isClosed);
 
+      // ✅ គ្រប់គ្រងប៊ូតុង
       if (canSubmit) {
         btn.disabled = false;
-        btn.classList.remove('btn-disabled-strict');
+        btn.classList.remove('btn-disabled-strict', 'btn-submit-disabled');
         btn.style.background = 'linear-gradient(135deg,#28a745,#1e7e34)';
         btn.style.color = 'white';
         btn.style.cursor = 'pointer';
         btn.style.opacity = '1';
+
+        // ✅ លាក់សារព្រមាន
+        if (warnBox) warnBox.classList.remove('show');
       } else {
         btn.disabled = true;
         btn.classList.add('btn-disabled-strict');
@@ -2838,38 +2893,127 @@
         btn.style.color = '#6c757d';
         btn.style.cursor = 'not-allowed';
         btn.style.opacity = '0.7';
+
+        // ✅ បង្ហាញសារព្រមាន (បើសមតុល្យមិនគ្រប់គ្រាន់)
+        if (warnBox && !balanceOk && cnt > 0 && amount > 0) {
+          var needed = total;
+          var current = currency === 'USD' ? balanceUSD : balanceKHR;
+          var short = needed - current;
+
+          var neededStr = currency === 'USD'
+            ? needed.toFixed(2) + '$'
+            : needed.toLocaleString() + '៛';
+          var currentStr = currency === 'USD'
+            ? current.toFixed(2) + '$'
+            : Math.round(current).toLocaleString() + '៛';
+          var shortStr = currency === 'USD'
+            ? short.toFixed(2) + '$'
+            : Math.round(short).toLocaleString() + '៛';
+
+          warnBox.innerHTML =
+            '⚠️ <strong>សមតុល្យមិនគ្រប់គ្រាន់!</strong><br>' +
+            '💰 សមតុល្យបច្ចុប្បន្ន: <b>' + currentStr + '</b><br>' +
+            '💳 ត្រូវការ: <b>' + neededStr + '</b><br>' +
+            '📉 ខ្វះ: <b style="color:#d63000;">' + shortStr + '</b><br>' +
+            '💡 សូមទាក់ទង Admin ដើម្បីបញ្ចូលប្រាក់';
+
+          warnBox.classList.add('show');
+        } else if (warnBox) {
+          warnBox.classList.remove('show');
+        }
       }
     }
 
+    /* ============================================================
+       SUBMIT BET (កែរួច — ពិនិត្យសមតុល្យ)
+       ============================================================ */
     function submitBet() {
+      // ✅ ពិនិត្យថាការចាក់បិទឬអត់
       if (isBettingClosed(selectedTime)) {
         showAlert('ការចាក់ត្រូវបានបិទ',
           'ការចាក់សម្រាប់ម៉ោង ' + selectedTime + ' ត្រូវបានបិទបណ្តោះអាសន្ន\n\n' +
           '⏰ នឹងបើកវិញម៉ោង 00:00 រំលងយប់នេះ', '🔒');
         return;
       }
+
+      // ✅ ពិនិត្យថាមានលេខឬអត់
       if (numbers.length === 0) {
         showAlert('ការព្រមាន', 'សូមជ្រើសរើសលេខយ៉ាងហោចណាស់មួយ!', '⚠️');
         return;
       }
+
+      // ✅ ពិនិត្យថាមានទឹកប្រាក់ឬអត់
       if (amount <= 0) {
         showAlert('ការព្រមាន', 'សូមបញ្ចូលចំនួនទឹកប្រាក់!', '⚠️');
+        return;
+      }
+
+      // ✅ ពិនិត្យថាទឹកប្រាក់ត្រឹមត្រូវតាមដែនកំណត់
+      var validAmount = false;
+      if (currency === 'USD') {
+        validAmount = (amount >= CFG.MIN_USD && amount <= CFG.MAX_USD);
+      } else {
+        validAmount = (amount >= CFG.MIN_KHR && amount <= CFG.MAX_KHR);
+      }
+      if (!validAmount) {
+        var minStr = currency === 'USD' ? CFG.MIN_USD + '$' : CFG.MIN_KHR + '៛';
+        var maxStr = currency === 'USD' ? CFG.MAX_USD + '$' : CFG.MAX_KHR.toLocaleString() + '៛';
+        showAlert('ការព្រមាន',
+          'ចំនួនទឹកប្រាក់ត្រូវចាប់ពី ' + minStr + ' ដល់ ' + maxStr, '⚠️');
         return;
       }
 
       var total = numbers.length * amount;
       var display = fmtTotal(total, currency);
 
+      // ============================================================
+      // ✅ ចាក់ដោយផ្ទាល់ — ពិនិត្យសមតុល្យ
+      // ============================================================
       if (betMode === 'direct') {
+        // ✅ ពិនិត្យសមតុល្យ USD
+        if (currency === 'USD') {
+          if (balanceUSD < total) {
+            showAlert('សមតុល្យមិនគ្រប់គ្រាន់',
+              '❌ សមតុល្យ USD របស់អ្នកមិនគ្រប់គ្រាន់ទេ!\n\n' +
+              '💵 សមតុល្យបច្ចុប្បន្ន: ' + balanceUSD.toFixed(2) + '$\n' +
+              '💳 ត្រូវការ: ' + total.toFixed(2) + '$\n' +
+              '📉 ខ្វះ: ' + (total - balanceUSD).toFixed(2) + '$\n\n' +
+              '💡 សូមទាក់ទង Admin ដើម្បីបញ្ចូលប្រាក់',
+              '💰');
+            return;
+          }
+        }
+        // ✅ ពិនិត្យសមតុល្យ KHR
+        else if (currency === 'KHR') {
+          if (balanceKHR < total) {
+            showAlert('សមតុល្យមិនគ្រប់គ្រាន់',
+              '❌ សមតុល្យ KHR របស់អ្នកមិនគ្រប់គ្រាន់ទេ!\n\n' +
+              '🇰🇭 សមតុល្យបច្ចុប្បន្ន: ' + Math.round(balanceKHR).toLocaleString() + '៛\n' +
+              '💳 ត្រូវការ: ' + total.toLocaleString() + '៛\n' +
+              '📉 ខ្វះ: ' + (total - balanceKHR).toLocaleString() + '៛\n\n' +
+              '💡 សូមទាក់ទង Admin ដើម្បីបញ្ចូលប្រាក់',
+              '💰');
+            return;
+          }
+        }
+
+        // ✅ សមតុល្យគ្រប់គ្រាន់ — បើក Modal
         $('directConfirmNumbers').textContent = numbers.join(', ');
         $('directConfirmTotal').textContent = display;
         $('directPhone').value = fixPhoneNumber(currentUser.phone);
 
-        var e1 = $('directBalanceUSD'); if (e1) e1.textContent = balanceUSD.toFixed(2) + '$';
-        var e2 = $('directBalanceKHR'); if (e2) e2.textContent = Math.round(balanceKHR).toLocaleString() + '៛';
+        var e1 = $('directBalanceUSD');
+        if (e1) e1.textContent = balanceUSD.toFixed(2) + '$';
+        var e2 = $('directBalanceKHR');
+        if (e2) e2.textContent = Math.round(balanceKHR).toLocaleString() + '៛';
 
         $('directBetModal').style.display = 'block';
-      } else {
+      }
+
+      // ============================================================
+      // 🌐 ចាក់តាមអនឡាញ
+      // ============================================================
+      else {
         $('confirmNumbers').textContent = numbers.join(', ');
         $('confirmTotal').textContent = display;
         $('depPhone').value = fixPhoneNumber(currentUser.phone);
@@ -3468,22 +3612,52 @@
         directForm.addEventListener('submit', function(e) {
           e.preventDefault();
           var phone = fixPhoneNumber($('directPhone').value);
-          if (!phone) { showAlert('ការព្រមាន', 'សូមបំពេញលេខទូរស័ព្ទ!', '⚠️'); return; }
+
+          if (!phone) {
+            showAlert('ការព្រមាន', 'សូមបំពេញលេខទូរស័ព្ទ!', '⚠️');
+            return;
+          }
 
           var total = numbers.length * amount;
           var btn = directForm.querySelector('button[type="submit"]');
+
+          // ✅ ពិនិត្យសមតុល្យម្តងទៀត (សុវត្ថិភាព)
+          if (currency === 'USD' && balanceUSD < total) {
+            showAlert('សមតុល្យមិនគ្រប់គ្រាន់',
+              '❌ សមតុល្យ USD របស់អ្នកមិនគ្រប់គ្រាន់ទេ!\n\n' +
+              '💵 សមតុល្យបច្ចុប្បន្ន: ' + balanceUSD.toFixed(2) + '$\n' +
+              '💳 ត្រូវការ: ' + total.toFixed(2) + '$',
+              '💰');
+            return;
+          }
+          if (currency === 'KHR' && balanceKHR < total) {
+            showAlert('សមតុល្យមិនគ្រប់គ្រាន់',
+              '❌ សមតុល្យ KHR របស់អ្នកមិនគ្រប់គ្រាន់ទេ!\n\n' +
+              '🇰🇭 សមតុល្យបច្ចុប្បន្ន: ' + Math.round(balanceKHR).toLocaleString() + '៛\n' +
+              '💳 ត្រូវការ: ' + total.toLocaleString() + '៛',
+              '💰');
+            return;
+          }
+
           btn.disabled = true;
           btn.textContent = 'កំពុងបញ្ជូន...';
 
-          fetch(WEB_APP_URL + '?action=getBalance&phone=' + encodeURIComponent(phone))
+          fetch(WEB_APP_URL + '?action=getBalance&phone=' + encodeURIComponent(phone) + '&t=' + Date.now())
             .then(function(r) { return r.json(); })
             .then(function(bal) {
               if (bal.ok) {
                 balanceUSD = parseFloat(bal.balanceUSD) || 0;
                 balanceKHR = parseFloat(bal.balanceKHR) || 0;
+                updateBalanceUI();
               }
-              if (currency === 'USD' && balanceUSD < total) throw new Error('សមតុល្យ USD មិនគ្រប់គ្រាន់!');
-              if (currency === 'KHR' && balanceKHR < total) throw new Error('សមតុល្យ KHR មិនគ្រប់គ្រាន់!');
+
+              // ✅ ពិនិត្យសមតុល្យពី Server ម្តងទៀត
+              if (currency === 'USD' && balanceUSD < total) {
+                throw new Error('សមតុល្យ USD មិនគ្រប់គ្រាន់!');
+              }
+              if (currency === 'KHR' && balanceKHR < total) {
+                throw new Error('សមតុល្យ KHR មិនគ្រប់គ្រាន់!');
+              }
 
               return fetch(WEB_APP_URL, {
                 method: 'POST',
