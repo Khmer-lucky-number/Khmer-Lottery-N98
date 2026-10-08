@@ -1486,6 +1486,17 @@
       25% { transform: translateX(-5px); }
       75% { transform: translateX(5px); }
     }
+
+    /* ============================================================
+       GROUP BUTTONS - បន្ថែមប៊ូតុងទី៣ (ដកប្រាក់)
+       ============================================================ */
+    .group-btn.withdraw-group {
+      background: linear-gradient(135deg, #6f42c1, #5a32a3);
+    }
+
+    .group-btn.withdraw-group:hover {
+      filter: brightness(1.1);
+    }
   </style>
 </head>
 <body>
@@ -1548,6 +1559,10 @@
           <a href="https://t.me/lekhchhnaotN98" target="_blank" rel="noopener" class="group-btn channel">
             📢 ចូល Channel ប្រកាសលទ្ធផលឆ្នោត
           </a>
+          <a href="https://t.me/+UwX-YZZieXQ0N2E1" target="_blank" rel="noopener" class="group-btn withdraw-group">
+            💰 ចូលក្រុមទទួលសំណើដកប្រាក់រង្វាន់
+            <small>សម្រាប់ស្នើសុំដកប្រាក់</small>
+          </a>
         </div>
 
         <div class="forgot-pin-box" style="background:#e8f4fd; border-color:#b6d4fe; margin-top:12px;">
@@ -1586,6 +1601,10 @@
           </a>
           <a href="https://t.me/lekhchhnaotN98" target="_blank" rel="noopener" class="group-btn channel">
             📢 ចូល Channel ប្រកាសលទ្ធផលឆ្នោត
+          </a>
+          <a href="https://t.me/+UwX-YZZieXQ0N2E1" target="_blank" rel="noopener" class="group-btn withdraw-group">
+            💰 ចូលក្រុមទទួលសំណើដកប្រាក់រង្វាន់
+            <small>សម្រាប់ស្នើសុំដកប្រាក់</small>
           </a>
         </div>
 
@@ -1646,6 +1665,10 @@
           </a>
           <a href="https://t.me/lekhchhnaotN98" target="_blank" rel="noopener" class="group-btn channel">
             📢 ចូល Channel ប្រកាសលទ្ធផលឆ្នោត
+          </a>
+          <a href="https://t.me/+UwX-YZZieXQ0N2E1" target="_blank" rel="noopener" class="group-btn withdraw-group">
+            💰 ចូលក្រុមទទួលសំណើដកប្រាក់រង្វាន់
+            <small>សម្រាប់ស្នើសុំដកប្រាក់</small>
           </a>
         </div>
 
@@ -1970,16 +1993,20 @@
           <div class="time-box">🏦 ដកប្រាក់</div>
           <p style="font-size:clamp(11px,1.2vw,13px); color:#4a5568; margin:3px 0;">ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
           <div class="action-group">
-  <button class="btn btn-withdraw" onclick="openWithdraw('normal')" id="btnWithdrawNormal">
-    🏦 ដកប្រាក់រង្វាន់
-    <span id="withdrawBadge" class="win-badge" style="display:none;">NEW</span>
-  </button>
-  <button class="btn btn-withdraw" onclick="openWithdraw('late')">🏦 ដកប្រាក់រង្វាន់ / ⏰ ដកយឺត</button>
-  <button class="btn btn-telegram" onclick="contactAdmin()">✈️ ទាក់ទងAdmin</button>
-</div>
+            <button class="btn btn-withdraw" onclick="N98.openWithdraw('normal')" id="btnWithdrawNormal">
+              🏦 ដកប្រាក់រង្វាន់
+              <span id="withdrawBadge" class="win-badge" style="display:none;">NEW</span>
+            </button>
+            <button class="btn btn-withdraw" onclick="N98.openWithdraw('late')">🏦 ដកប្រាក់រង្វាន់ / ⏰ ដកយឺត</button>
+            <button class="btn btn-telegram" onclick="N98.contactAdmin()">✈️ ទាក់ទងAdmin</button>
+          </div>
+          <div style="margin-top:10px;">
+            <a href="https://t.me/+UwX-YZZieXQ0N2E1" target="_blank" rel="noopener"
+               style="display:block; padding:10px; border-radius:8px; text-align:center; color:white; font-weight:bold; font-size:13px; text-decoration:none; background:linear-gradient(135deg,#6f42c1,#5a32a3);">
+              💰 ចូលក្រុមទទួលសំណើដកប្រាក់រង្វាន់
+            </a>
+          </div>
         </div>
-
-      </div>
 
       <!-- ========================================================
            HISTORY SECTION
@@ -2189,7 +2216,7 @@
        ============================================================ -->
   <div class="modal" id="groupModal">
     <div class="modal-content" style="text-align:center;">
-      <span class="close" onclick="closeModal('groupModal')">&times;</span>
+      <span class="close" onclick="N98.closeModal('groupModal')">&times;</span>
       <div style="font-size:50px;">📢</div>
       <h2>ចូលក្រុម និង Channel</h2>
       <p style="font-size:clamp(12px,1.3vw,14px); color:#4a5568; margin:12px 0;">ទទួលបានព័ត៌មានថ្មីៗ!</p>
@@ -2199,8 +2226,13 @@
         <small style="display:block; font-size:11px; opacity:0.9; font-weight:normal;">និងទទួល Code ចុះឈ្មោះ</small>
       </a>
 
-      <a href="https://t.me/lekhchhnaotN98" target="_blank" rel="noopener" class="group-btn channel" style="text-decoration:none; padding:14px; border-radius:8px; display:block; color:white; font-weight:bold; background:linear-gradient(135deg,#28a745,#1e7e34);">
+      <a href="https://t.me/lekhchhnaotN98" target="_blank" rel="noopener" class="group-btn channel" style="text-decoration:none; padding:14px; border-radius:8px; display:block; color:white; font-weight:bold; margin-bottom:8px; background:linear-gradient(135deg,#28a745,#1e7e34);">
         📢 ចូល Channel ប្រកាសលទ្ធផលឆ្នោត
+      </a>
+
+      <a href="https://t.me/+UwX-YZZieXQ0N2E1" target="_blank" rel="noopener" class="group-btn" style="text-decoration:none; padding:14px; border-radius:8px; display:block; color:white; font-weight:bold; background:linear-gradient(135deg,#6f42c1,#5a32a3);">
+        💰 ចូលក្រុមទទួលសំណើដកប្រាក់រង្វាន់
+        <small style="display:block; font-size:11px; opacity:0.9; font-weight:normal;">សម្រាប់ស្នើសុំដកប្រាក់</small>
       </a>
     </div>
   </div>
