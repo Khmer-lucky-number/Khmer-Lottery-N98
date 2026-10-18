@@ -397,6 +397,162 @@
     body.dark-mode .history-table td { color: #e8eaf0; border-color: #3a4255; }
     body.dark-mode .guide-box { background: #1e2a3f; color: #a0c8e8; }
 
+    /* ==========================================
+       🎨 NEW DESIGN: ប្រអប់លទ្ធផល 12:00 / 16:00
+       ========================================== */
+    
+    /* ប្រអប់ធំ (Lottery Box) */
+    .lottery-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      margin: 12px 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s ease;
+    }
+    .lottery-box:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* ក្បាលប្រអប់ (Time Box) */
+    .time-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px dashed #cbd5e1;
+    }
+    .time-box span {
+      font-size: 20px;
+    }
+
+    /* Badge ស្ថានភាព (រង់ចាំ / ចេញហើយ) */
+    .badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-waiting {
+      background: #fff7ed;
+      color: #c2410c;
+      border: 1px solid #fdba74;
+    }
+    .badge-completed {
+      background: #f0fdf4;
+      color: #15803d;
+      border: 1px solid #86efac;
+      box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
+      animation: pulse-green 2s infinite;
+    }
+
+    /* ប្រអប់លេខ (Numbers Grid) */
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    
+    .numbers div {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: #0f172a;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .numbers div:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    /* អក្សរ A, B, C, D, E */
+    .numbers div .letter {
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* លេខដែលចេញហើយ (Number Result) */
+    .numbers div .number-result {
+      color: #2563eb; /* ពណ៌ខៀវស្រស់ */
+      font-size: 20px;
+      font-weight: 800;
+      text-shadow: 0 2px 4px rgba(37, 99, 235, 0.15);
+      font-family: 'Courier New', monospace;
+    }
+    
+    /* លេខពេលរង់ចាំ (--) */
+    .numbers div:has(.number-result:empty) {
+      color: #94a3b8;
+    }
+
+    /* ប្រអប់កាលបរិច្ឆេទ */
+    .date-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* ចំណងជើងប្រភេទលេខ (២ខ្ទង់ / ៣ខ្ទង់) */
+    .numbers + div {
+      font-size: 14px !important;
+      color: #475569 !important;
+      margin-top: 12px !important;
+      margin-bottom: 8px !important;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ចលនាពន្លឺពណ៌បៃតងសម្រាប់ Badge */
+    @keyframes pulse-green {
+      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+      70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+
+    /* កែសម្រួលសម្រាប់ទូរស័ព្ទ */
+    @media (max-width: 600px) {
+      .numbers {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .numbers div {
+        padding: 10px 6px;
+        font-size: 15px;
+      }
+      .numbers div .number-result {
+        font-size: 18px;
+      }
+    }
+
     /* === RESPONSIVE === */
     @media (max-width: 768px) {
       .numbers div { flex: 1 1 calc(33.33% - 5px); min-width: 44px; }
@@ -429,6 +585,7 @@
   </style>
 </head>
 <body>
+
   <!-- PARTICLES -->
   <div class="particles-bg" id="particlesBg"></div>
 
@@ -2619,19 +2776,18 @@
       function updateResultsUI() {
         var now = new Date();
         var h = now.getHours();
-
         var today = new Date(now);
         var yesterday = new Date(now);
         yesterday.setDate(yesterday.getDate() - 1);
-
         var todayFormats = buildDateFormats(today);
         var yesterdayFormats = buildDateFormats(yesterday);
 
-        function isToday(d) { return d && todayFormats.indexOf(String(d).trim()) !== -1; }
-        function isYesterday(d) { return d && yesterdayFormats.indexOf(String(d).trim()) !== -1; }
-
-        var todayResults = cachedResults.filter(function(r) { return isToday(r.date); });
-        var yesterdayResults = cachedResults.filter(function(r) { return isYesterday(r.date); });
+        var todayResults = cachedResults.filter(function(r) {
+          return r.date && todayFormats.indexOf(String(r.date).trim()) !== -1;
+        });
+        var yesterdayResults = cachedResults.filter(function(r) {
+          return r.date && yesterdayFormats.indexOf(String(r.date).trim()) !== -1;
+        });
 
         var posts = ['A', 'B', 'C', 'D', 'E'];
 
@@ -2644,7 +2800,7 @@
         function fillSlot(prefix, r) {
           for (var i = 0; i < posts.length; i++) {
             var el = $(prefix + posts[i]);
-            if (el && r && r.results && r.results[posts[i]] !== undefined && r.results[posts[i]] !== '') {
+            if (el && r && r.results && r.results[posts[i]] !== undefined) {
               el.textContent = r.results[posts[i]];
               el.className = 'number-result';
             } else if (el) {
@@ -2654,85 +2810,91 @@
           }
         }
 
-        function pickResult(list, slot, type) {
-          var filtered = list.filter(function(r) {
-            return String(r.time).indexOf(slot) !== -1 &&
-                   String(r.type).toLowerCase() === type;
-          });
-          return filtered.length > 0 ? filtered[0] : null;
+        var today12 = todayResults.filter(function(r) { return r.time && String(r.time).indexOf('12:00') !== -1; });
+        var today16 = todayResults.filter(function(r) { return r.time && String(r.time).indexOf('16:00') !== -1; });
+        var yesterday12 = yesterdayResults.filter(function(r) { return r.time && String(r.time).indexOf('12:00') !== -1; });
+        var yesterday16 = yesterdayResults.filter(function(r) { return r.time && String(r.time).indexOf('16:00') !== -1; });
+
+        var hasToday12 = today12.length > 0;
+        var hasToday16 = today16.length > 0;
+        var hasYesterday12 = yesterday12.length > 0;
+        var hasYesterday16 = yesterday16.length > 0;
+
+        var show12 = false, show16 = false, resultSource = '';
+
+        // កំណត់ថាតើត្រូវបង្ហាញលទ្ធផលមួយណា (ថ្ងៃនេះ ឬម្សិលមិញ)
+        if (h >= 0 && h < 12) {
+          if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
+          else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
+          else if (hasToday12) { show12 = true; resultSource = 'today'; }
+        } else if (h >= 12 && h < 16) {
+          if (hasToday12) { show12 = true; resultSource = 'today'; }
+          else if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
+          else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
+        } else {
+          if (hasToday16) { show16 = true; resultSource = 'today'; }
+          else if (hasToday12) { show12 = true; resultSource = 'today'; }
+          else if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
+          else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
         }
 
-        // ==========================================
-        // កំណត់ថាតើត្រូវបង្ហាញវេនណា? (តាមម៉ោងបច្ចុប្បន្ន)
-        // ==========================================
-        var show12 = false, show16 = false;
-        var r12two = null, r12three = null, r16two = null, r16three = null;
-
-        if (h < 12) {
-          // មុន 12:00 ថ្ងៃនេះ → បង្ហាញ 16:00 របស់ម្សិលមិញ
-          show16 = true;
-          r16two = pickResult(yesterdayResults, '16:00', 'two') || pickResult(yesterdayResults, '16:00', 'three');
-          r16three = pickResult(yesterdayResults, '16:00', 'three');
-        } 
-        else if (h >= 12 && h < 16) {
-          // ចន្លោះ 12:00 ដល់ 16:00 → បង្ហាញ 12:00 ថ្ងៃនេះ
-          show12 = true;
-          r12two = pickResult(todayResults, '12:00', 'two') || pickResult(yesterdayResults, '12:00', 'two');
-          r12three = pickResult(todayResults, '12:00', 'three') || pickResult(yesterdayResults, '12:00', 'three');
-        } 
-        else {
-          // លើស 16:00 → បង្ហាញ 16:00 ថ្ងៃនេះ
-          show16 = true;
-          r16two = pickResult(todayResults, '16:00', 'two') || pickResult(todayResults, '12:00', 'two');
-          r16three = pickResult(todayResults, '16:00', 'three') || pickResult(todayResults, '12:00', 'three');
-        }
-
-        // ==========================================
-        // បង្ហាញ/លាក់ ប្រអប់ 12:00
-        // ==========================================
-        var box12El = document.getElementById('box12').closest('.lottery-box');
-        if (box12El) box12El.style.display = show12 ? 'block' : 'none';
-
-        if (show12) {
-          if ($('badge12')) { $('badge12').textContent = '✅ ចេញហើយ'; $('badge12').className = 'badge badge-completed'; }
+        // === បង្ហាញ 12:00 ===
+        var badge12 = $('badge12');
+        if (show12 && badge12) {
+          badge12.textContent = '✅ ចេញហើយ';
+          badge12.className = 'badge badge-completed';
+          var results12 = (resultSource === 'today') ? today12 : yesterday12;
+          var r12two = results12.find(function(r) { return String(r.type).toLowerCase() === 'two'; });
           fillSlot('r12_', r12two);
+          var r12three = results12.find(function(r) { return String(r.type).toLowerCase() === 'three'; });
           fillSlot('r12_3d_', r12three);
-          var src12 = r12two || r12three;
-          if (src12 && src12.publishedAt && $('date12')) {
-            $('date12').innerHTML = '<span class="date-badge">📅 ចេញលទ្ធផល: ' + esc(src12.publishedAt) + '</span>';
+          if (r12two && r12two.publishedAt && $('date12')) {
+            var lbl = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
+            $('date12').innerHTML = '<span class="date-badge">📅 ' + lbl + ': ' + esc(r12two.publishedAt) + '</span>';
           } else if ($('date12')) $('date12').innerHTML = '';
+        } else if (badge12) {
+          badge12.textContent = '⏳ រង់ចាំ';
+          badge12.className = 'badge badge-waiting';
+          resetSlot('r12_');
+          resetSlot('r12_3d_');
+          if ($('date12')) $('date12').innerHTML = '';
         }
 
-        // ==========================================
-        // បង្ហាញ/លាក់ ប្រអប់ 16:00
-        // ==========================================
-        var box16El = document.getElementById('box16').closest('.lottery-box');
-        if (box16El) box16El.style.display = show16 ? 'block' : 'none';
-
-        if (show16) {
-          if ($('badge16')) { $('badge16').textContent = '✅ ចេញហើយ'; $('badge16').className = 'badge badge-completed'; }
+        // === បង្ហាញ 16:00 ===
+        var badge16 = $('badge16');
+        if (show16 && badge16) {
+          badge16.textContent = '✅ ចេញហើយ';
+          badge16.className = 'badge badge-completed';
+          var results16 = (resultSource === 'today') ? today16 : yesterday16;
+          var r16two = results16.find(function(r) { return String(r.type).toLowerCase() === 'two'; });
           fillSlot('r16_', r16two);
+          var r16three = results16.find(function(r) { return String(r.type).toLowerCase() === 'three'; });
           fillSlot('r16_3d_', r16three);
-          var src16 = r16two || r16three;
-          if (src16 && src16.publishedAt && $('date16')) {
-            $('date16').innerHTML = '<span class="date-badge">📅 ចេញលទ្ធផល: ' + esc(src16.publishedAt) + '</span>';
+          if (r16two && r16two.publishedAt && $('date16')) {
+            var lbl2 = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
+            $('date16').innerHTML = '<span class="date-badge">📅 ' + lbl2 + ': ' + esc(r16two.publishedAt) + '</span>';
           } else if ($('date16')) $('date16').innerHTML = '';
+        } else if (badge16) {
+          badge16.textContent = '⏳ រង់ចាំ';
+          badge16.className = 'badge badge-waiting';
+          resetSlot('r16_');
+          resetSlot('r16_3d_');
+          if ($('date16')) $('date16').innerHTML = '';
         }
 
-        // ==========================================
-        // Status text ខាងលើ
-        // ==========================================
+        // === Status text ===
         var statusEl = $('resultStatusText');
         if (statusEl) {
-          if (h < 12) {
-            statusEl.textContent = '⏳ រង់ចាំលទ្ធផល 12:00 ថ្ងៃនេះ';
-            statusEl.className = 'value pending';
+          if (h >= 0 && h < 12) {
+            if (show16) { statusEl.textContent = '✅ លទ្ធផល 16:00 ម្សិលមិញ'; statusEl.className = 'value'; }
+            else if (show12) { statusEl.textContent = '✅ លទ្ធផល 12:00 ម្សិលមិញ'; statusEl.className = 'value'; }
+            else { statusEl.textContent = '⏳ រង់ចាំ 12:00 ថ្ងៃនេះ'; statusEl.className = 'value pending'; }
           } else if (h >= 12 && h < 16) {
-            statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! (រង់ចាំ 16:00)';
-            statusEl.className = 'value';
+            if (show12) { statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ!'; statusEl.className = 'value'; }
+            else { statusEl.textContent = '⏳ រង់ចាំ 12:00...'; statusEl.className = 'value pending'; }
           } else {
-            statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ!';
-            statusEl.className = 'value';
+            if (show16) { statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ!'; statusEl.className = 'value'; }
+            else { statusEl.textContent = '⏳ រង់ចាំ 16:00...'; statusEl.className = 'value pending'; }
           }
         }
       }
