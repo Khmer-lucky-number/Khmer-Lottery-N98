@@ -353,6 +353,24 @@
     .loading-overlay.active { display: flex; }
     .loading-spinner { width: 60px; height: 60px; border: 5px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; }
 
+    /* === PATCH: លាក់ផ្នែកដែលមិនពាក់ព័ន្ធពេលមើល History/Rules === */
+    body.view-history #withdrawBox,
+    body.view-history #historyTabsBox,
+    body.view-history #adminPanel,
+    body.view-rules #withdrawBox,
+    body.view-rules #historyTabsBox,
+    body.view-rules #adminPanel {
+      display: none !important;
+    }
+    body.view-history .mode-tabs,
+    body.view-history .clock-box,
+    body.view-history .status-bar,
+    body.view-rules .mode-tabs,
+    body.view-rules .clock-box,
+    body.view-rules .status-bar {
+      display: none !important;
+    }
+
     /* === DARK MODE === */
     body.dark-mode { background: linear-gradient(135deg, #0f1420 0%, #1a1f2e 50%, #0f1420 100%); color: #e8eaf0; }
     body.dark-mode .lottery-box,
@@ -1000,7 +1018,7 @@
       </div>
 
       <!-- HISTORY TABS -->
-      <div class="lottery-box">
+      <div class="lottery-box" id="historyTabsBox">
         <div class="time-box" style="color:#6f42c1; margin-bottom:12px;">
           <span class="anim-pulse">📜</span> ប្រវត្តិរបស់អ្នក
         </div>
@@ -1073,7 +1091,7 @@
       </div>
 
       <!-- WITHDRAW SECTION -->
-      <div class="lottery-box">
+      <div class="lottery-box" id="withdrawBox">
         <div class="time-box"><span class="anim-pulse">🏦</span> ដកប្រាក់</div>
         <p style="font-size:13px; color:#4a5568; margin:6px 0; font-weight:600;">ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
         <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
@@ -1449,33 +1467,40 @@
         fetchWithTimeout(WEB_APP_URL + '?action=getResults&limit=50&t=' + Date.now(), { cache: 'no-store' })
           .then(function(r) { return r.json(); })
           .then(function(data) {
-            if (data.ok) {
-              cachedResults = data.results || [];
+            if (data && data.ok && Array.isArray(data.results)) {
+              cachedResults = data.results;
               updateResultsUI();
               renderHistoryTable();
+            } else {
+              console.warn('fetchResults: invalid data', data);
             }
-          }).catch(function(e) { console.error('fetchResults:', e); });
+          }).catch(function(e) {
+            console.error('fetchResults error:', e);
+          });
       }
 
       function fetchResults10() {
         fetchWithTimeout(WEB_APP_URL + '?action=getResults10&limit=10&t=' + Date.now(), { cache: 'no-store' })
           .then(function(r) { return r.json(); })
           .then(function(data) {
-            if (data.ok) {
-              cachedResults10 = data.results || [];
+            if (data && data.ok && Array.isArray(data.results)) {
+              cachedResults10 = data.results;
               renderResults10Grid();
-              
-              // ⭐ ពិនិត្យមើលថាតើមានលទ្ធផលថ្មីឬអត់ ដើម្បីលេងសំឡេង
+
               if (cachedResults10.length > 0) {
-                var newDrawId = cachedResults10[0].drawId;
+                var newDrawId = String(cachedResults10[0].drawId || '');
                 if (lastDrawId10 && lastDrawId10 !== newDrawId && beepPlayedForDraw !== newDrawId) {
                   beepAudio.play().catch(function(e) { console.log('Audio play blocked', e); });
                   beepPlayedForDraw = newDrawId;
                 }
                 lastDrawId10 = newDrawId;
               }
+            } else {
+              console.warn('fetchResults10: invalid data', data);
             }
-          }).catch(function(e) { console.error('fetchResults10:', e); });
+          }).catch(function(e) {
+            console.error('fetchResults10 error:', e);
+          });
       }
 
       function fetchBalance(phone) {
@@ -1577,25 +1602,41 @@
          ============================================================ */
       function switchMainMode(mode, evt) {
         mainMode = mode;
+
         var tabs = document.querySelectorAll('.mode-tab');
         for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
         if (evt && evt.target) {
           var t = evt.target.closest('.mode-tab');
           if (t) t.classList.add('active');
         }
+
+        // === បង្ហាញ/លាក់ mode ===
         if (mode === 'classic') {
-          $('classicMode').style.display = 'block';
-          $('rapidMode').style.display = 'none';
-          $('mainHeader').classList.remove('mode-10');
-          $('headerSubtitle').innerHTML = '<span class="anim-pulse">✨</span> ប្រព័ន្ធចាក់ឆ្នោត 12:00 / 16:00 <span class="anim-pulse">✨</span>';
+          if ($('classicMode')) $('classicMode').style.display = 'block';
+          if ($('rapidMode')) $('rapidMode').style.display = 'none';
+          if ($('mainHeader')) $('mainHeader').classList.remove('mode-10');
+          if ($('headerSubtitle')) $('headerSubtitle').innerHTML = '<span class="anim-pulse">🎯</span> ប្រព័ន្ធចាក់ឆ្នោត 12:00 / 16:00 <span class="anim-pulse">🎉</span>';
           fetchResults();
         } else {
-          $('classicMode').style.display = 'none';
-          $('rapidMode').style.display = 'block';
-          $('mainHeader').classList.add('mode-10');
-          $('headerSubtitle').innerHTML = '<span class="anim-pulse">⚡</span> ប្រព័ន្ធចាក់ឆ្នោត 10 នាទី <span class="anim-pulse">⚡</span>';
+          if ($('classicMode')) $('classicMode').style.display = 'none';
+          if ($('rapidMode')) $('rapidMode').style.display = 'block';
+          if ($('mainHeader')) $('mainHeader').classList.add('mode-10');
+          if ($('headerSubtitle')) $('headerSubtitle').innerHTML = '<span class="anim-pulse">⚡</span> ប្រព័ន្ធចាក់ឆ្នោត 10 នាទី <span class="anim-pulse">⚡</span>';
           fetchResults10();
         }
+
+        // === C4: ត្រឡប់ទៅ home ===
+        document.body.classList.remove('view-history', 'view-rules');
+        var hs = $('historySection'), rs = $('rulesSection');
+        if (hs) hs.style.display = 'none';
+        if (rs) rs.style.display = 'none';
+
+        var allLinks = document.querySelectorAll('.nav-bar a');
+        for (var k = 0; k < allLinks.length; k++) allLinks[k].classList.remove('active');
+        var navHome = document.querySelector('.nav-bar a');
+        if (navHome) navHome.classList.add('active');
+
+        // === Save & Toast ===
         try { localStorage.setItem(CFG.MAIN_MODE_KEY, mode); } catch (e) {}
         showToast(mode === 'classic' ? 'របៀប 12:00 / 16:00' : 'របៀប 10 នាទី', 'info', mode === 'classic' ? '🕛' : '⚡');
       }
@@ -1604,16 +1645,46 @@
          NAVIGATION
          ============================================================ */
       function showSection(name, evt) {
-        $('historySection').style.display = name === 'history' ? 'block' : 'none';
-        $('rulesSection').style.display = name === 'rules' ? 'block' : 'none';
+        // Reset body classes
+        document.body.classList.remove('view-history', 'view-rules');
+
+        var classicMode = $('classicMode');
+        var rapidMode = $('rapidMode');
+        var historySection = $('historySection');
+        var rulesSection = $('rulesSection');
+
+        // លាក់ទាំងអស់
+        if (classicMode) classicMode.style.display = 'none';
+        if (rapidMode) rapidMode.style.display = 'none';
+        if (historySection) historySection.style.display = 'none';
+        if (rulesSection) rulesSection.style.display = 'none';
+
+        if (name === 'home') {
+          if (mainMode === 'classic' && classicMode) classicMode.style.display = 'block';
+          if (mainMode === 'rapid' && rapidMode) rapidMode.style.display = 'block';
+        } else if (name === 'history') {
+          document.body.classList.add('view-history');
+          if (historySection) historySection.style.display = 'block';
+        } else if (name === 'rules') {
+          document.body.classList.add('view-rules');
+          if (rulesSection) rulesSection.style.display = 'block';
+        }
+
+        // Nav active
         var links = document.querySelectorAll('.nav-bar a');
-        for (var i = 0; i < links.length; i++) links[i].classList.remove('active');
+        for (var j = 0; j < links.length; j++) links[j].classList.remove('active');
         if (evt && evt.target) {
           var t = evt.target;
           if (t.tagName !== 'A') t = t.closest('a');
           if (t) t.classList.add('active');
         }
-        if (name === 'history') renderHistoryTable();
+
+        if (name === 'history') {
+          renderHistoryTable();
+          if (currentHistoryTab === 'bets') fetchUserBets();
+          else if (currentHistoryTab === 'withdrawals') fetchUserWithdrawals();
+          else if (currentHistoryTab === 'deposits') fetchUserDeposits();
+        }
       }
 
       function copyLink() {
@@ -1783,12 +1854,12 @@
         if (!currentUser) return;
         $('registerModal').style.display = 'none';
         $('mainApp').style.display = 'block';
-        
+
         if ($('displayCurrentUserId')) $('displayCurrentUserId').textContent = currentUser.userId;
         if ($('displayCurrentPhone')) $('displayCurrentPhone').textContent = fixPhoneNumber(currentUser.phone);
-        
+
         showAdminPanelIfNeeded();
-        
+
         // ទាញទិន្នន័យចាប់ផ្តើម
         fetchBalance(currentUser.phone);
         fetchResults();
@@ -1796,8 +1867,8 @@
         fetchUserBets();
         updateBettingStatus();
         updateBettingClosed10();
-        
-        // ចាប់ផ្តើម Intervals
+
+        // Intervals
         clearIntervals();
         intervals.clock = setInterval(updateClock, CFG.CLOCK_MS);
         intervals.refresh = setInterval(function() {
@@ -1815,15 +1886,24 @@
           updateBettingStatus();
           updateBettingClosed10();
         }, CFG.STATUS_MS);
-        
+
         updateClock();
         updateCountdown10();
-        
-        // ភ្ជាប់ Event សម្រាប់ input
+
+        // Bind inputs
         var numInput = $('numInput');
-        if (numInput) numInput.addEventListener('input', autoAddNumbers);
+        if (numInput && !numInput._bound) {
+          numInput.addEventListener('input', autoAddNumbers);
+          numInput._bound = true;
+        }
         var numInput10 = $('numInput10');
-        if (numInput10) numInput10.addEventListener('input', autoAddNumbers10);
+        if (numInput10 && !numInput10._bound) {
+          numInput10.addEventListener('input', autoAddNumbers10);
+          numInput10._bound = true;
+        }
+
+        // Nav default to home
+        showSection('home', null);
       }
 
       /* ============================================================
@@ -2490,16 +2570,23 @@
       function renderResults10Grid() {
         var grid = $('resultsGrid');
         if (!grid) return;
-        if (cachedResults10.length === 0) {
+
+        if (!cachedResults10 || cachedResults10.length === 0) {
           grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:#a0a8b8;">មិនទាន់មានលទ្ធផល</div>';
           return;
         }
+
         var html = '';
-        // បង្ហាញតែ ៣ វគ្គចុងក្រោយបង្អស់
         var displayCount = Math.min(3, cachedResults10.length);
+
         for (var i = 0; i < displayCount; i++) {
           var r = cachedResults10[i];
           var isNew = (i === 0);
+
+          function cell(letter, val) {
+            return '<div class="num-cell"><span class="letter">' + letter + '</span><span class="value">' + esc(val || '--') + '</span></div>';
+          }
+
           html += '<div class="result-card' + (isNew ? ' new-result' : '') + '">' +
             '<div class="header">' +
               '<span class="draw-id">#' + esc(r.drawId || '-') + '</span>' +
@@ -2507,19 +2594,19 @@
             '</div>' +
             '<div class="type-label">🔢 ២ខ្ទង់</div>' +
             '<div class="numbers-row">' +
-              '<div class="num-cell"><span class="letter">A</span><span class="value">' + esc(r.results2D ? r.results2D.A : '--') + '</span></div>' +
-              '<div class="num-cell"><span class="letter">B</span><span class="value">' + esc(r.results2D ? r.results2D.B : '--') + '</span></div>' +
-              '<div class="num-cell"><span class="letter">C</span><span class="value">' + esc(r.results2D ? r.results2D.C : '--') + '</span></div>' +
-              '<div class="num-cell"><span class="letter">D</span><span class="value">' + esc(r.results2D ? r.results2D.D : '--') + '</span></div>' +
-              '<div class="num-cell"><span class="letter">E</span><span class="value">' + esc(r.results2D ? r.results2D.E : '--') + '</span></div>' +
+              cell('A', r.results2D ? r.results2D.A : '') +
+              cell('B', r.results2D ? r.results2D.B : '') +
+              cell('C', r.results2D ? r.results2D.C : '') +
+              cell('D', r.results2D ? r.results2D.D : '') +
+              cell('E', r.results2D ? r.results2D.E : '') +
             '</div>' +
             '<div class="type-label" style="color:#ffc107;">🔢 ៣ខ្ទង់</div>' +
             '<div class="numbers-row">' +
-              '<div class="num-cell"><span class="letter">A</span><span class="value">' + esc(r.results3D ? r.results3D.A : '--') + '</span></div>' +
-              '<div class="num-cell"><span class="letter">B</span><span class="value">' + esc(r.results3D ? r.results3D.B : '--') + '</span></div>' +
-              '<div class="num-cell"><span class="letter">C</span><span class="value">' + esc(r.results3D ? r.results3D.C : '--') + '</span></div>' +
-              '<div class="num-cell"><span class="letter">D</span><span class="value">' + esc(r.results3D ? r.results3D.D : '--') + '</span></div>' +
-              '<div class="num-cell"><span class="letter">E</span><span class="value">' + esc(r.results3D ? r.results3D.E : '--') + '</span></div>' +
+              cell('A', r.results3D ? r.results3D.A : '') +
+              cell('B', r.results3D ? r.results3D.B : '') +
+              cell('C', r.results3D ? r.results3D.C : '') +
+              cell('D', r.results3D ? r.results3D.D : '') +
+              cell('E', r.results3D ? r.results3D.E : '') +
             '</div>' +
           '</div>';
         }
@@ -2532,18 +2619,19 @@
       function updateResultsUI() {
         var now = new Date();
         var h = now.getHours();
+
         var today = new Date(now);
         var yesterday = new Date(now);
         yesterday.setDate(yesterday.getDate() - 1);
+
         var todayFormats = buildDateFormats(today);
         var yesterdayFormats = buildDateFormats(yesterday);
 
-        var todayResults = cachedResults.filter(function(r) {
-          return r.date && todayFormats.indexOf(String(r.date).trim()) !== -1;
-        });
-        var yesterdayResults = cachedResults.filter(function(r) {
-          return r.date && yesterdayFormats.indexOf(String(r.date).trim()) !== -1;
-        });
+        function isToday(d) { return d && todayFormats.indexOf(String(d).trim()) !== -1; }
+        function isYesterday(d) { return d && yesterdayFormats.indexOf(String(d).trim()) !== -1; }
+
+        var todayResults = cachedResults.filter(function(r) { return isToday(r.date); });
+        var yesterdayResults = cachedResults.filter(function(r) { return isYesterday(r.date); });
 
         var posts = ['A', 'B', 'C', 'D', 'E'];
 
@@ -2556,7 +2644,7 @@
         function fillSlot(prefix, r) {
           for (var i = 0; i < posts.length; i++) {
             var el = $(prefix + posts[i]);
-            if (el && r && r.results && r.results[posts[i]] !== undefined) {
+            if (el && r && r.results && r.results[posts[i]] !== undefined && r.results[posts[i]] !== '') {
               el.textContent = r.results[posts[i]];
               el.className = 'number-result';
             } else if (el) {
@@ -2566,87 +2654,64 @@
           }
         }
 
-        var today12 = todayResults.filter(function(r) { return r.time && String(r.time).indexOf('12:00') !== -1; });
-        var today16 = todayResults.filter(function(r) { return r.time && String(r.time).indexOf('16:00') !== -1; });
-        var yesterday12 = yesterdayResults.filter(function(r) { return r.time && String(r.time).indexOf('12:00') !== -1; });
-        var yesterday16 = yesterdayResults.filter(function(r) { return r.time && String(r.time).indexOf('16:00') !== -1; });
-
-        var hasToday12 = today12.length > 0;
-        var hasToday16 = today16.length > 0;
-        var hasYesterday12 = yesterday12.length > 0;
-        var hasYesterday16 = yesterday16.length > 0;
-
-        var show12 = false, show16 = false, resultSource = '';
-
-        if (h >= 0 && h < 12) {
-          if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
-          else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
-          else if (hasToday12) { show12 = true; resultSource = 'today'; }
-        } else if (h >= 12 && h < 16) {
-          if (hasToday12) { show12 = true; resultSource = 'today'; }
-          else if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
-          else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
-        } else {
-          if (hasToday16) { show16 = true; resultSource = 'today'; }
-          else if (hasToday12) { show12 = true; resultSource = 'today'; }
-          else if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
-          else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
+        function pickResult(list, slot, type) {
+          var filtered = list.filter(function(r) {
+            return String(r.time).indexOf(slot) !== -1 &&
+                   String(r.type).toLowerCase() === type;
+          });
+          return filtered.length > 0 ? filtered[0] : null;
         }
 
+        // === 12:00 ===
+        var r12two = pickResult(todayResults, '12:00', 'two') || pickResult(yesterdayResults, '12:00', 'two');
+        var r12three = pickResult(todayResults, '12:00', 'three') || pickResult(yesterdayResults, '12:00', 'three');
         var badge12 = $('badge12');
-        if (show12 && badge12) {
-          badge12.textContent = '✅ ចេញហើយ';
-          badge12.className = 'badge badge-completed';
-          var results12 = (resultSource === 'today') ? today12 : yesterday12;
-          var r12two = results12.find(function(r) { return String(r.type).toLowerCase() === 'two'; });
+        if (r12two || r12three) {
+          if (badge12) { badge12.textContent = '✅ ចេញហើយ'; badge12.className = 'badge badge-completed'; }
           fillSlot('r12_', r12two);
-          var r12three = results12.find(function(r) { return String(r.type).toLowerCase() === 'three'; });
           fillSlot('r12_3d_', r12three);
-          if (r12two && r12two.publishedAt && $('date12')) {
-            var lbl = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
-            $('date12').innerHTML = '<span class="date-badge">📅 ' + lbl + ': ' + esc(r12two.publishedAt) + '</span>';
+          var src12 = r12two || r12three;
+          var lbl12 = isToday(src12.date) ? 'ថ្ងៃនេះ' : 'ពីម្សិលមិញ';
+          if (src12.publishedAt && $('date12')) {
+            $('date12').innerHTML = '<span class="date-badge">📅 ' + lbl12 + ': ' + esc(src12.publishedAt) + '</span>';
           } else if ($('date12')) $('date12').innerHTML = '';
-        } else if (badge12) {
-          badge12.textContent = '⏳ រង់ចាំ';
-          badge12.className = 'badge badge-waiting';
-          resetSlot('r12_');
-          resetSlot('r12_3d_');
+        } else {
+          if (badge12) { badge12.textContent = '⏳ រង់ចាំ'; badge12.className = 'badge badge-waiting'; }
+          resetSlot('r12_'); resetSlot('r12_3d_');
           if ($('date12')) $('date12').innerHTML = '';
         }
 
+        // === 16:00 ===
+        var r16two = pickResult(todayResults, '16:00', 'two') || pickResult(yesterdayResults, '16:00', 'two');
+        var r16three = pickResult(todayResults, '16:00', 'three') || pickResult(yesterdayResults, '16:00', 'three');
         var badge16 = $('badge16');
-        if (show16 && badge16) {
-          badge16.textContent = '✅ ចេញហើយ';
-          badge16.className = 'badge badge-completed';
-          var results16 = (resultSource === 'today') ? today16 : yesterday16;
-          var r16two = results16.find(function(r) { return String(r.type).toLowerCase() === 'two'; });
+        if (r16two || r16three) {
+          if (badge16) { badge16.textContent = '✅ ចេញហើយ'; badge16.className = 'badge badge-completed'; }
           fillSlot('r16_', r16two);
-          var r16three = results16.find(function(r) { return String(r.type).toLowerCase() === 'three'; });
           fillSlot('r16_3d_', r16three);
-          if (r16two && r16two.publishedAt && $('date16')) {
-            var lbl2 = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
-            $('date16').innerHTML = '<span class="date-badge">📅 ' + lbl2 + ': ' + esc(r16two.publishedAt) + '</span>';
+          var src16 = r16two || r16three;
+          var lbl16 = isToday(src16.date) ? 'ថ្ងៃនេះ' : 'ពីម្សិលមិញ';
+          if (src16.publishedAt && $('date16')) {
+            $('date16').innerHTML = '<span class="date-badge">📅 ' + lbl16 + ': ' + esc(src16.publishedAt) + '</span>';
           } else if ($('date16')) $('date16').innerHTML = '';
-        } else if (badge16) {
-          badge16.textContent = '⏳ រង់ចាំ';
-          badge16.className = 'badge badge-waiting';
-          resetSlot('r16_');
-          resetSlot('r16_3d_');
+        } else {
+          if (badge16) { badge16.textContent = '⏳ រង់ចាំ'; badge16.className = 'badge badge-waiting'; }
+          resetSlot('r16_'); resetSlot('r16_3d_');
           if ($('date16')) $('date16').innerHTML = '';
         }
 
+        // === Status text ===
         var statusEl = $('resultStatusText');
         if (statusEl) {
-          if (h >= 0 && h < 12) {
-            if (show16) { statusEl.textContent = '✅ លទ្ធផល 16:00 ម្សិលមិញ'; statusEl.className = 'value'; }
-            else if (show12) { statusEl.textContent = '✅ លទ្ធផល 12:00 ម្សិលមិញ'; statusEl.className = 'value'; }
-            else { statusEl.textContent = '⏳ រង់ចាំ 12:00 ថ្ងៃនេះ'; statusEl.className = 'value pending'; }
-          } else if (h >= 12 && h < 16) {
-            if (show12) { statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ!'; statusEl.className = 'value'; }
-            else { statusEl.textContent = '⏳ រង់ចាំ 12:00...'; statusEl.className = 'value pending'; }
+          if (h < 12) {
+            statusEl.textContent = (r16two || r12two) ? '✅ លទ្ធផលចុងក្រោយមាន' : '⏳ រង់ចាំ 12:00 ថ្ងៃនេះ';
+            statusEl.className = 'value' + ((r16two || r12two) ? '' : ' pending');
+          } else if (h < 16) {
+            statusEl.textContent = r12two ? '✅ លទ្ធផល 12:00 ចេញហើយ!' : '⏳ រង់ចាំ 12:00...';
+            statusEl.className = 'value' + (r12two ? '' : ' pending');
           } else {
-            if (show16) { statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ!'; statusEl.className = 'value'; }
-            else { statusEl.textContent = '⏳ រង់ចាំ 16:00...'; statusEl.className = 'value pending'; }
+            statusEl.textContent = r16two ? '✅ លទ្ធផល 16:00 ចេញហើយ!' : '⏳ រង់ចាំ 16:00...';
+            statusEl.className = 'value' + (r16two ? '' : ' pending');
           }
         }
       }
