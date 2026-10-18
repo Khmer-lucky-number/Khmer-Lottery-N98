@@ -98,7 +98,6 @@
     /* === COUNTDOWN RAPID === */
     .countdown-rapid { background: linear-gradient(135deg, #2d1b3d, #1a0f1f); border: 3px solid #e91e63; border-radius: 20px; padding: 20px; margin: 12px 0; text-align: center; box-shadow: 0 8px 32px rgba(233,30,99,0.4); animation: glowPink 2s ease-in-out infinite; }
     .countdown-rapid .label { color: #ff8bb5; font-size: clamp(12px, 1.5vw, 14px); font-weight: 800; margin-bottom: 8px; }
-    .countdown-rapid .time-display { font-size: clamp(44px, 9vw, 72px); color: #ff1744; background: #1a0f1f; padding: 12px 24px; border-radius: 16px; display: inline-block; font-weight: 800; font-family: 'Courier New', monospace; text-shadow: 0 0 25px rgba(255,23,68,0.7); letter-spacing: 2px; animation: pulse 2s ease-in-out infinite; }
     .countdown-rapid .next-draw { color: #e8eaf0; font-size: clamp(12px, 1.4vw, 14px); font-weight: 700; margin-top: 10px; }
     .countdown-rapid .draw-number { color: #ff8bb5; font-weight: 800; }
 
@@ -837,7 +836,7 @@
         </div>
 
         <div class="bet-box rapid">
-          <h2>🎯 លទ្ធផល 10 វគ្គចុងក្រោយ</h2>
+          <h2>🎯 លទ្ធផល 3 វគ្គចុងក្រោយ</h2>
           <div class="results-grid" id="resultsGrid">
             <div style="grid-column: 1/-1; text-align:center; padding:20px; color:#a0a8b8;">
               <span class="anim-spin">⏳</span> កំពុងផ្ទុក...
@@ -1252,23 +1251,24 @@
   </div>
 
   <script>
-    // ⭐ បន្ថែម Audio សម្រាប់សំឡេងរោទិ៍ពេលជិតដល់ពេលប្រកាសលទ្ធផល
+    // ⭐ Audio សម្រាប់សំឡេងរោទិ៍
     const beepAudio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
     
     (function() {
       'use strict';
 
+      // ⚠️ សូមប្រាកដថា URL នេះត្រូវនឹង Web App URL របស់អ្នក
       var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbys_XQgoDo8Sumngp0Oa9STPF7HsNdZM-J0ZDb_8tavT5xdEuqa3UWFoUhu5qK4o16PEw/exec';
 
       var CFG = {
         REFRESH_MS: 30000,
-        REFRESH_10_MS: 5000, // បង្កើនល្បឿនដើម្បីឱ្យលទ្ធផលថ្មីបង្ហាញរហ័ស
+        REFRESH_10_MS: 15000, // បង្កើនពី 5000 ទៅ 15000 ដើម្បីកាត់បន្ថយការគាំង
         CLOCK_MS: 1000,
         STATUS_MS: 1000,
         MIN_USD: 0.25, MAX_USD: 10,
         MIN_KHR: 500, MAX_KHR: 40000,
         MAX_NUMBERS: 10,
-        FETCH_TIMEOUT: 20000,
+        FETCH_TIMEOUT: 30000, // បង្កើនពេលវេលា Timeout
         TOAST_DURATION: 4000,
         THEME_KEY: 'n98_theme',
         MAIN_MODE_KEY: 'n98_main_mode',
@@ -1281,7 +1281,6 @@
       var currentUser = null;
       var mainMode = 'classic';
 
-      // Classic state
       var selectedTime = '12:00';
       var betType = 'two';
       var selectedLetter = '';
@@ -1290,7 +1289,6 @@
       var currency = 'USD';
       var betMode = 'direct';
 
-      // Rapid state
       var betType10 = 'two';
       var selectedLetter10 = '';
       var numbers10 = [];
@@ -1298,17 +1296,17 @@
       var currency10 = 'USD';
       var currentDrawId10 = '';
 
-      // Shared
       var cachedResults = [];
       var cachedResults10 = [];
-      var isSyncing = false;
+      var isSyncing = false; // ការពារការហៅ API ស្ទួន
+      var isSyncing10 = false;
       var balanceUSD = 0;
       var balanceKHR = 0;
       var selectedWinIds = [];
       var intervals = { clock: null, refresh: null, status: null, rapid: null };
       var currentHistoryTab = 'bets';
       var lastSeenResultId10 = '';
-      var lastDrawId10 = ''; // សម្រាប់តាមដានការចេញលទ្ធផលថ្មី
+      var lastDrawId10 = '';
       var beepPlayedForDraw = '';
 
       /* ============================================================
@@ -1349,8 +1347,7 @@
       }
 
       /* ============================================================
-         TOAST & UI
-         ============================================================ */
+         TOAST & UI         ============================================================ */
       function showToast(message, type, icon) {
         type = type || 'info';
         var icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
@@ -1384,7 +1381,7 @@
       }
 
       /* ============================================================
-         THEME
+         THEME & PARTICLES
          ============================================================ */
       function toggleTheme() {
         var isDark = document.body.classList.toggle('dark-mode');
@@ -1432,7 +1429,7 @@
       }
 
       /* ============================================================
-         FETCH
+         FETCH API (ជាមួយប្រព័ន្ធការពារការហៅស្ទួន)
          ============================================================ */
       function fetchWithTimeout(url, options, timeoutMs) {
         timeoutMs = timeoutMs || CFG.FETCH_TIMEOUT;
@@ -1444,7 +1441,6 @@
         });
       }
 
-      // ⭐ បន្ថែម API Fetchers ដែលខ្វះ
       function fetchResults() {
         fetchWithTimeout(WEB_APP_URL + '?action=getResults&limit=50&t=' + Date.now(), { cache: 'no-store' })
           .then(function(r) { return r.json(); })
@@ -1458,14 +1454,17 @@
       }
 
       function fetchResults10() {
+        if (isSyncing10) return;
+        isSyncing10 = true;
+
         fetchWithTimeout(WEB_APP_URL + '?action=getResults10&limit=10&t=' + Date.now(), { cache: 'no-store' })
           .then(function(r) { return r.json(); })
           .then(function(data) {
+            isSyncing10 = false;
             if (data.ok) {
               cachedResults10 = data.results || [];
               renderResults10Grid();
               
-              // ⭐ ពិនិត្យមើលថាតើមានលទ្ធផលថ្មីឬអត់ ដើម្បីលេងសំឡេង
               if (cachedResults10.length > 0) {
                 var newDrawId = cachedResults10[0].drawId;
                 if (lastDrawId10 && lastDrawId10 !== newDrawId && beepPlayedForDraw !== newDrawId) {
@@ -1475,7 +1474,10 @@
                 lastDrawId10 = newDrawId;
               }
             }
-          }).catch(function(e) { console.error('fetchResults10:', e); });
+          }).catch(function(e) { 
+            isSyncing10 = false;
+            console.error('fetchResults10:', e); 
+          });
       }
 
       function fetchBalance(phone) {
@@ -1778,7 +1780,6 @@
         intervals = { clock: null, refresh: null, status: null, rapid: null };
       }
 
-      // ⭐ ENTER APP (ដែលខ្វះខាតពីមុន)
       function enterApp() {
         if (!currentUser) return;
         $('registerModal').style.display = 'none';
@@ -1789,7 +1790,6 @@
         
         showAdminPanelIfNeeded();
         
-        // ទាញទិន្នន័យចាប់ផ្តើម
         fetchBalance(currentUser.phone);
         fetchResults();
         fetchResults10();
@@ -1797,7 +1797,6 @@
         updateBettingStatus();
         updateBettingClosed10();
         
-        // ចាប់ផ្តើម Intervals
         clearIntervals();
         intervals.clock = setInterval(updateClock, CFG.CLOCK_MS);
         intervals.refresh = setInterval(function() {
@@ -1819,7 +1818,6 @@
         updateClock();
         updateCountdown10();
         
-        // ភ្ជាប់ Event សម្រាប់ input
         var numInput = $('numInput');
         if (numInput) numInput.addEventListener('input', autoAddNumbers);
         var numInput10 = $('numInput10');
@@ -2485,7 +2483,7 @@
       }
 
       /* ============================================================
-         RENDER RESULTS GRID (10 Cards)
+         RENDER RESULTS GRID (3 Cards)
          ============================================================ */
       function renderResults10Grid() {
         var grid = $('resultsGrid');
@@ -2495,7 +2493,6 @@
           return;
         }
         var html = '';
-        // បង្ហាញតែ ៣ វគ្គចុងក្រោយបង្អស់
         var displayCount = Math.min(3, cachedResults10.length);
         for (var i = 0; i < displayCount; i++) {
           var r = cachedResults10[i];
