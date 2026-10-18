@@ -553,6 +553,48 @@
       }
     }
 
+    /* ==========================================
+       🎨 បន្ថែមពណ៌ជុំវិញប្រអប់លទ្ធផល 12:00 និង 16:00
+       ========================================== */
+    
+    /* ប្រអប់ទី១ (លទ្ធផល 12:00) - ពណ៌ខៀវ */
+    #classicMode .lottery-box:nth-of-type(2) { /* nth-of-type(2) ព្រោះប្រអប់ទី១ជា Countdown */
+      background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
+      border: 2px solid #bae6fd;
+      box-shadow: 0 8px 20px rgba(14, 165, 233, 0.08);
+    }
+    #classicMode .lottery-box:nth-of-type(2) .time-box {
+      border-bottom: 2px dashed #bae6fd;
+      color: #0369a1;
+    }
+
+    /* ប្រអប់ទី២ (លទ្ធផល 16:00) - ពណ៌ទឹកក្រូច */
+    #classicMode .lottery-box:nth-of-type(3) {
+      background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
+      border: 2px solid #fed7aa;
+      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.08);
+    }
+    #classicMode .lottery-box:nth-of-type(3) .time-box {
+      border-bottom: 2px dashed #fed7aa;
+      color: #c2410c;
+    }
+
+    /* កែពណ៌លេខខាងក្នុងឱ្យត្រូវនឹងស៊ុម (ស្រេចចិត្ត) */
+    #classicMode .lottery-box:nth-of-type(3) .number-result {
+      color: #ea580c;
+      text-shadow: 0 2px 4px rgba(234, 88, 12, 0.15);
+    }
+    
+    /* កែពណ៌ផ្ទៃខាងក្នុងប្រអប់លេខ (A, B, C, D, E) ឱ្យស៊ីគ្នា */
+    #classicMode .lottery-box:nth-of-type(2) .numbers div {
+      border-color: #e0f2fe;
+      background: #f8fafc;
+    }
+    #classicMode .lottery-box:nth-of-type(3) .numbers div {
+      border-color: #ffedd5;
+      background: #f8fafc;
+    }
+
     /* === RESPONSIVE === */
     @media (max-width: 768px) {
       .numbers div { flex: 1 1 calc(33.33% - 5px); min-width: 44px; }
