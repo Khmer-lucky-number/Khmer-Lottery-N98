@@ -2662,56 +2662,77 @@
           return filtered.length > 0 ? filtered[0] : null;
         }
 
-        // === 12:00 ===
-        var r12two = pickResult(todayResults, '12:00', 'two') || pickResult(yesterdayResults, '12:00', 'two');
-        var r12three = pickResult(todayResults, '12:00', 'three') || pickResult(yesterdayResults, '12:00', 'three');
-        var badge12 = $('badge12');
-        if (r12two || r12three) {
-          if (badge12) { badge12.textContent = '✅ ចេញហើយ'; badge12.className = 'badge badge-completed'; }
+        // ==========================================
+        // កំណត់ថាតើត្រូវបង្ហាញវេនណា? (តាមម៉ោងបច្ចុប្បន្ន)
+        // ==========================================
+        var show12 = false, show16 = false;
+        var r12two = null, r12three = null, r16two = null, r16three = null;
+
+        if (h < 12) {
+          // មុន 12:00 ថ្ងៃនេះ → បង្ហាញ 16:00 របស់ម្សិលមិញ
+          show16 = true;
+          r16two = pickResult(yesterdayResults, '16:00', 'two') || pickResult(yesterdayResults, '16:00', 'three');
+          r16three = pickResult(yesterdayResults, '16:00', 'three');
+        } 
+        else if (h >= 12 && h < 16) {
+          // ចន្លោះ 12:00 ដល់ 16:00 → បង្ហាញ 12:00 ថ្ងៃនេះ
+          show12 = true;
+          r12two = pickResult(todayResults, '12:00', 'two') || pickResult(yesterdayResults, '12:00', 'two');
+          r12three = pickResult(todayResults, '12:00', 'three') || pickResult(yesterdayResults, '12:00', 'three');
+        } 
+        else {
+          // លើស 16:00 → បង្ហាញ 16:00 ថ្ងៃនេះ
+          show16 = true;
+          r16two = pickResult(todayResults, '16:00', 'two') || pickResult(todayResults, '12:00', 'two');
+          r16three = pickResult(todayResults, '16:00', 'three') || pickResult(todayResults, '12:00', 'three');
+        }
+
+        // ==========================================
+        // បង្ហាញ/លាក់ ប្រអប់ 12:00
+        // ==========================================
+        var box12El = document.getElementById('box12').closest('.lottery-box');
+        if (box12El) box12El.style.display = show12 ? 'block' : 'none';
+
+        if (show12) {
+          if ($('badge12')) { $('badge12').textContent = '✅ ចេញហើយ'; $('badge12').className = 'badge badge-completed'; }
           fillSlot('r12_', r12two);
           fillSlot('r12_3d_', r12three);
           var src12 = r12two || r12three;
-          var lbl12 = isToday(src12.date) ? 'ថ្ងៃនេះ' : 'ពីម្សិលមិញ';
-          if (src12.publishedAt && $('date12')) {
-            $('date12').innerHTML = '<span class="date-badge">📅 ' + lbl12 + ': ' + esc(src12.publishedAt) + '</span>';
+          if (src12 && src12.publishedAt && $('date12')) {
+            $('date12').innerHTML = '<span class="date-badge">📅 ចេញលទ្ធផល: ' + esc(src12.publishedAt) + '</span>';
           } else if ($('date12')) $('date12').innerHTML = '';
-        } else {
-          if (badge12) { badge12.textContent = '⏳ រង់ចាំ'; badge12.className = 'badge badge-waiting'; }
-          resetSlot('r12_'); resetSlot('r12_3d_');
-          if ($('date12')) $('date12').innerHTML = '';
         }
 
-        // === 16:00 ===
-        var r16two = pickResult(todayResults, '16:00', 'two') || pickResult(yesterdayResults, '16:00', 'two');
-        var r16three = pickResult(todayResults, '16:00', 'three') || pickResult(yesterdayResults, '16:00', 'three');
-        var badge16 = $('badge16');
-        if (r16two || r16three) {
-          if (badge16) { badge16.textContent = '✅ ចេញហើយ'; badge16.className = 'badge badge-completed'; }
+        // ==========================================
+        // បង្ហាញ/លាក់ ប្រអប់ 16:00
+        // ==========================================
+        var box16El = document.getElementById('box16').closest('.lottery-box');
+        if (box16El) box16El.style.display = show16 ? 'block' : 'none';
+
+        if (show16) {
+          if ($('badge16')) { $('badge16').textContent = '✅ ចេញហើយ'; $('badge16').className = 'badge badge-completed'; }
           fillSlot('r16_', r16two);
           fillSlot('r16_3d_', r16three);
           var src16 = r16two || r16three;
-          var lbl16 = isToday(src16.date) ? 'ថ្ងៃនេះ' : 'ពីម្សិលមិញ';
-          if (src16.publishedAt && $('date16')) {
-            $('date16').innerHTML = '<span class="date-badge">📅 ' + lbl16 + ': ' + esc(src16.publishedAt) + '</span>';
+          if (src16 && src16.publishedAt && $('date16')) {
+            $('date16').innerHTML = '<span class="date-badge">📅 ចេញលទ្ធផល: ' + esc(src16.publishedAt) + '</span>';
           } else if ($('date16')) $('date16').innerHTML = '';
-        } else {
-          if (badge16) { badge16.textContent = '⏳ រង់ចាំ'; badge16.className = 'badge badge-waiting'; }
-          resetSlot('r16_'); resetSlot('r16_3d_');
-          if ($('date16')) $('date16').innerHTML = '';
         }
 
-        // === Status text ===
+        // ==========================================
+        // Status text ខាងលើ
+        // ==========================================
         var statusEl = $('resultStatusText');
         if (statusEl) {
           if (h < 12) {
-            statusEl.textContent = (r16two || r12two) ? '✅ លទ្ធផលចុងក្រោយមាន' : '⏳ រង់ចាំ 12:00 ថ្ងៃនេះ';
-            statusEl.className = 'value' + ((r16two || r12two) ? '' : ' pending');
-          } else if (h < 16) {
-            statusEl.textContent = r12two ? '✅ លទ្ធផល 12:00 ចេញហើយ!' : '⏳ រង់ចាំ 12:00...';
-            statusEl.className = 'value' + (r12two ? '' : ' pending');
+            statusEl.textContent = '⏳ រង់ចាំលទ្ធផល 12:00 ថ្ងៃនេះ';
+            statusEl.className = 'value pending';
+          } else if (h >= 12 && h < 16) {
+            statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ! (រង់ចាំ 16:00)';
+            statusEl.className = 'value';
           } else {
-            statusEl.textContent = r16two ? '✅ លទ្ធផល 16:00 ចេញហើយ!' : '⏳ រង់ចាំ 16:00...';
-            statusEl.className = 'value' + (r16two ? '' : ' pending');
+            statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ!';
+            statusEl.className = 'value';
           }
         }
       }
