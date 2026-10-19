@@ -266,12 +266,25 @@
 
     /* === RESULTS GRID === */
     .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin: 14px 0; }
-    .result-card { background: linear-gradient(135deg, #2d1b3d, #1a0f1f); border: 2px solid #e91e63; border-radius: 14px; padding: 16px; box-shadow: 0 6px 20px rgba(233,30,99,0.25); transition: all 0.3s; animation: slideInUp 0.4s ease-out; position: relative; }
-    .result-card.new-result { border-color: #4ade80; box-shadow: 0 0 20px rgba(74,222,128,0.6); animation: newResultPop 0.5s ease-out; background: linear-gradient(135deg, #1a3d2f, #0f1f1a); }
-    .result-card.new-result .draw-id { color: #4ade80; }
-    .result-card.new-result .num-cell { border-color: rgba(74,222,128,0.6); background: linear-gradient(135deg, rgba(74,222,128,0.25), rgba(40,167,69,0.25)); }
-    .result-card.new-result .num-cell .value { color: #4ade80; text-shadow: 0 0 15px rgba(74,222,128,0.7); }
-    .result-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(233,30,99,0.45); border-color: #ff1744; }
+    
+    /* កាតធម្មតា (គ្មានចលនាលោត) */
+    .result-card { 
+      background: linear-gradient(135deg, #2d1b3d, #1a0f1f); 
+      border: 2px solid #e91e63; 
+      border-radius: 14px; 
+      padding: 16px; 
+      box-shadow: 0 6px 20px rgba(233,30,99,0.25); 
+      position: relative; 
+    }
+    
+    /* កាតលទ្ធផលចុងក្រោយ (មានពន្លឺភ្លឺៗ និងចលនាដកដង្ហើមស្រាលៗ) */
+    .result-card.new-result { 
+      border-color: #4ade80; 
+      box-shadow: 0 0 20px rgba(74,222,128,0.6); 
+      animation: glowGreen 3s infinite alternate; /* ចលនាពន្លឺភ្លឺៗ */
+      background: linear-gradient(135deg, #1a3d2f, #0f1f1a); 
+    }
+
     .result-card .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px solid rgba(233,30,99,0.4); }
     .result-card .draw-id { color: #ff8bb5; font-weight: 800; font-size: 15px; letter-spacing: 0.5px; }
     .result-card .time { color: #ffffff; font-size: 14px; font-weight: 800; background: rgba(233,30,99,0.3); padding: 3px 10px; border-radius: 8px; }
