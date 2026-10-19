@@ -1832,13 +1832,14 @@
         var clockBox = document.querySelector('.clock-box');
         var statusBar = document.querySelector('.status-bar');
 
+        // លាក់អ្វីៗទាំងអស់ជាមុន
         if (classicMode) classicMode.style.display = 'none';
         if (rapidMode) rapidMode.style.display = 'none';
         if (historySection) historySection.style.display = 'none';
         if (rulesSection) rulesSection.style.display = 'none';
 
         if (name === 'home') {
-          if (withdrawBox) withdrawBox.style.display = 'block';
+          if (withdrawBox) withdrawBox.style.display = 'block'; // បង្ហាញផ្នែកដកប្រាក់នៅទំព័រដើម
           if (modeTabs) modeTabs.style.display = 'flex';
           if (clockBox) clockBox.style.display = 'flex';
           if (statusBar) statusBar.style.display = 'flex';
@@ -1847,11 +1848,13 @@
           if (mainMode === 'rapid' && rapidMode) rapidMode.style.display = 'block';
         } else if (name === 'history') {
           document.body.classList.add('view-history');
-          if (withdrawBox) withdrawBox.style.display = 'none';
+          if (withdrawBox) withdrawBox.style.display = 'none'; // លាក់ផ្នែកដកប្រាក់
           if (modeTabs) modeTabs.style.display = 'none';
           if (clockBox) clockBox.style.display = 'none';
           if (statusBar) statusBar.style.display = 'none';
-          if (historySection) historySection.style.display = 'block';
+          
+          // បង្ហាញតែផ្នែកប្រវត្តិខាងក្រោម
+          if (historySection) historySection.style.display = 'block'; 
         } else if (name === 'rules') {
           document.body.classList.add('view-rules');
           if (withdrawBox) withdrawBox.style.display = 'none';
@@ -1861,6 +1864,7 @@
           if (rulesSection) rulesSection.style.display = 'block';
         }
 
+        // ប្តូរពណ៌ Nav ខាងលើ
         var links = document.querySelectorAll('.nav-bar a');
         for (var j = 0; j < links.length; j++) links[j].classList.remove('active');
         if (evt && evt.target) {
@@ -1869,6 +1873,7 @@
           if (t) t.classList.add('active');
         }
 
+        // ទាញទិន្នន័យប្រវត្តិនៅពេលចូល
         if (name === 'history') {
           switchHistoryTab(currentHistoryTab, null);
         }
@@ -1891,6 +1896,8 @@
          ============================================================ */
       function switchHistoryTab(tabName, evt) {
         currentHistoryTab = tabName;
+        
+        // ប្តូរពណ៌ប៊ូតុង Tab ខាងក្នុង
         var tabs = document.querySelectorAll('.history-tab');
         for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
         
@@ -1898,20 +1905,22 @@
           var t = evt.target.closest('.history-tab');
           if (t) t.classList.add('active');
         } else {
-          // បើគ្មាន event (ហៅដោយស្វ័យប្រវត្តិ) ស្វែងរកតាម data-tab
           var autoTab = document.querySelector('.history-tab[data-tab="' + tabName + '"]');
           if (autoTab) autoTab.classList.add('active');
         }
 
+        // បង្ហាញតារាងដែលពាក់ព័ន្ធ
         var panels = document.querySelectorAll('.history-panel');
         for (var j = 0; j < panels.length; j++) panels[j].classList.remove('active');
         var panel = $('panel-' + tabName);
         if (panel) panel.classList.add('active');
 
+        // ទាញទិន្នន័យតាម Tab នីមួយៗ
         if (tabName === 'bets') fetchUserBets();
         else if (tabName === 'withdrawals') fetchUserWithdrawals();
         else if (tabName === 'deposits') fetchUserDeposits();
         else if (tabName === 'results') {
+          // បង្ហាញលទ្ធផល 12:00/16:00 ឬ 10 នាទី អាស្រ័យលើ Mode បច្ចុប្បន្ន
           if (mainMode === 'rapid') renderHistoryTable10();
           else renderHistoryTable();
         }
