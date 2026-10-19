@@ -17,11 +17,9 @@
     @keyframes blink { 50% { opacity: 0; } }
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
     @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-    @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes glow { 0%, 100% { box-shadow: 0 0 5px rgba(0,120,215,0.4); } 50% { box-shadow: 0 0 25px rgba(0,120,215,0.9); } }
     @keyframes glowGreen { 0%, 100% { box-shadow: 0 0 5px rgba(40,167,69,0.4); } 50% { box-shadow: 0 0 25px rgba(40,167,69,0.9); } }
-    @keyframes glowRed { 0%, 100% { box-shadow: 0 0 5px rgba(220,53,69,0.4); } 50% { box-shadow: 0 0 25px rgba(220,53,69,0.9); } }
     @keyframes glowPink { 0%, 100% { box-shadow: 0 0 5px rgba(233,30,99,0.4); } 50% { box-shadow: 0 0 25px rgba(233,30,99,0.9); } }
     @keyframes slideInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
@@ -217,7 +215,7 @@
     .guide-box { background: linear-gradient(135deg, #eef7ff, #e8f4fd); border: 1px solid #b6d4fe; padding: 10px 12px; border-radius: 10px; margin-bottom: 10px; font-size: clamp(11px, 1.3vw, 13px); color: #084298; line-height: 1.7; font-weight: 600; }
     .bet-box.rapid .guide-box { background: rgba(233,30,99,0.15); border-color: rgba(233,30,99,0.4); color: #ff8bb5; }
 
-    /* === HISTORY TABS (ថ្មី) === */
+    /* === HISTORY TABS === */
     .history-tabs-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; padding: 8px; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0; }
     .history-tab { padding: 10px 8px; border: 2px solid transparent; background: white; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.3s; color: #475569; display: flex; align-items: center; justify-content: center; gap: 6px; text-align: center; }
     .history-tab.active { color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
@@ -537,19 +535,16 @@
             <div class="header-row"><div class="icon">⏰</div><div><div class="title" id="bettingClosedTitle">🔒 ការចាក់ត្រូវបានបិទ!</div><div class="open-time">⏰ បើកវិញ <strong>00:00 រំលងយប់នេះ</strong></div></div></div>
           </div>
 
-          <!-- ⭐ BALANCE BOX ថ្មី -->
           <div class="balance-box" id="balanceBox">
             <div style="margin-bottom:10px; font-weight:800; color:#155724; font-size:14px;">💰 សមតុល្យរបស់អ្នក</div>
             <div class="balance-row">
               <div class="balance-item"><div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:6px;">💵 USD</div><div id="balanceAmountUSD" style="font-size:24px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0.00$</div></div>
               <div class="balance-item"><div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:6px;">🇰🇭 KHR</div><div id="balanceAmountKHR" style="font-size:24px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0៛</div></div>
             </div>
-            <!-- ⭐ ប្រអប់បង្ហាញការឈ្នះ/ចាញ់សរុប -->
             <div class="balance-history">
               <div>💵 ឈ្នះសរុប: <span id="totalWinUSD" style="color:#28a745;">0.00$</span> / <span id="totalWinKHR">0៛</span></div>
               <div>💸 ចាញ់សរុប: <span id="totalLossUSD" style="color:#dc3545;">0.00$</span> / <span id="totalLossKHR">0៛</span></div>
             </div>
-            <!-- ⭐ ប៊ូតុងដាក់ជាមួយគ្នា -->
             <div class="btn-group-row">
               <button class="btn btn-primary" onclick="N98.openDepositModal()">💰 បញ្ចូលទឹកប្រាក់</button>
               <button class="btn btn-withdraw" onclick="N98.openWithdraw('normal')">🏦 ដកប្រាក់រង្វាន់</button>
@@ -646,14 +641,12 @@
         <div class="bet-box rapid">
           <h2>⚡ ចាក់លេខវគ្គបន្ទាប់</h2>
           
-          <!-- ⭐ BALANCE BOX ថ្មី (RAPID) -->
           <div class="balance-box" id="balanceBoxRapid" style="background:linear-gradient(135deg,#1e3a2f,#163d29); border-color:#4ade80;">
             <div style="margin-bottom:10px; font-weight:800; color:#7dd89a; font-size:14px;">💰 សមតុល្យរបស់អ្នក</div>
             <div class="balance-row">
               <div class="balance-item" style="background:rgba(255,255,255,0.05); border-color:rgba(40,167,69,0.5);"><div style="font-size:11px; color:#7dd89a; font-weight:800; margin-bottom:6px;">💵 USD</div><div id="balanceRapidUSD" style="font-size:24px; color:#4ade80; font-weight:800; font-family:'Courier New',monospace;">0.00$</div></div>
               <div class="balance-item" style="background:rgba(255,255,255,0.05); border-color:rgba(40,167,69,0.5);"><div style="font-size:11px; color:#7dd89a; font-weight:800; margin-bottom:6px;">🇰🇭 KHR</div><div id="balanceRapidKHR" style="font-size:24px; color:#4ade80; font-weight:800; font-family:'Courier New',monospace;">0៛</div></div>
             </div>
-            <!-- ⭐ ប្រអប់បង្ហាញការឈ្នះ/ចាញ់សរុប (RAPID) -->
             <div class="balance-history" style="border-color:#4ade80; color:#7dd89a;">
               <div>💵 ឈ្នះសរុប: <span id="totalWinUSDRapid" style="color:#4ade80;">0.00$</span> / <span id="totalWinKHRRapid">0៛</span></div>
               <div>💸 ចាញ់សរុប: <span id="totalLossUSDRapid" style="color:#ff8b95;">0.00$</span> / <span id="totalLossKHRRapid">0៛</span></div>
@@ -813,17 +806,6 @@
             <p>• ភ្លេច PIN → ទាក់ទង Admin</p>
             <p>• កុំប្រាប់ PIN អ្នកដទៃ</p>
           </div>
-        </div>
-      </div>
-
-      <!-- WITHDRAW SECTION -->
-      <div class="lottery-box" id="withdrawBox" style="display:none;">
-        <div class="time-box"><span class="anim-pulse">🏦</span> ដកប្រាក់</div>
-        <p id="withdrawNoticeText" style="font-size:13px; color:#4a5568; margin:6px 0; font-weight:600;">ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
-        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
-          <button class="btn btn-withdraw" onclick="N98.openWithdraw('normal')" id="btnWithdrawNormal">🏦 ដកប្រាក់រង្វាន់ <span id="withdrawBadge" class="win-badge" style="display:none;">NEW</span></button>
-          <button class="btn btn-withdraw" onclick="N98.openWithdraw('late')" id="btnWithdrawLate">⏰ ដកប្រាក់យឺត</button>
-          <button class="btn btn-telegram" onclick="N98.contactAdmin()">✉️ ទាក់ទង Admin</button>
         </div>
       </div>
 
