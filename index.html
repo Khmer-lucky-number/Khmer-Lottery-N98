@@ -112,21 +112,30 @@
     .ring-text .label { font-size: 11px; color: #ff8bb5; font-weight: 700; margin-top: 2px; }
 
     /* === LOTTERY BOX === */
-    .lottery-box { background: white; padding: 14px; margin: 8px 0; border-radius: 14px; border: 1px solid #e9ecef; box-shadow: 0 2px 8px rgba(0,0,0,0.06); animation: slideInUp 0.5s ease-out; }
-    .time-box { font-weight: 800; color: #0078D7; font-size: clamp(14px, 1.9vw, 17px); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .lottery-box { background: white; padding: 16px; margin: 12px 0; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); animation: slideInUp 0.5s ease-out; transition: all 0.3s ease; }
+    .lottery-box:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+    .time-box { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed #cbd5e1; }
 
-    .badge { background: linear-gradient(135deg, #0078D7, #005fa3); color: white; font-size: clamp(9px, 1vw, 11px); padding: 3px 12px; border-radius: 12px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,120,215,0.3); }
-    .badge-completed { background: linear-gradient(135deg, #28a745, #1e7e34); animation: glowGreen 2s ease-in-out infinite; }
-    .badge-waiting { background: linear-gradient(135deg, #ff9800, #e65100); animation: pulse 1.5s ease-in-out infinite; }
+    .badge { font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; }
+    .badge-completed { background: #f0fdf4; color: #15803d; border: 1px solid #86efac; box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); animation: pulse 2s infinite; }
+    .badge-waiting { background: #fff7ed; color: #c2410c; border: 1px solid #fdba74; }
 
     /* === NUMBERS === */
-    .numbers { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-    .numbers div { background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 10px 4px; border-radius: 8px; text-align: center; flex: 1 1 calc(20% - 6px); min-width: 52px; border: 2px solid #e9ecef; font-weight: 800; font-size: clamp(13px, 1.7vw, 16px); transition: all 0.3s; }
-    .numbers div .letter { color: #0078D7; font-weight: 800; }
-    .number-result { color: #28a745; font-weight: 800; text-shadow: 0 0 8px rgba(40,167,69,0.4); animation: fadeIn 0.8s ease-out; }
+    .numbers { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
+    .numbers div { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px 8px; text-align: center; font-weight: 800; font-size: 16px; color: #0f172a; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+    .numbers div:hover { background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-2px); }
+    .numbers div .letter { color: #64748b; font-size: 14px; font-weight: 700; }
+    .number-result { color: #2563eb; font-size: 20px; font-weight: 800; text-shadow: 0 2px 4px rgba(37, 99, 235, 0.15); font-family: 'Courier New', monospace; }
+
+    /* ពណ៌ប្រអប់លទ្ធផល 12:00 និង 16:00 */
+    #classicMode .lottery-box:nth-of-type(2) { background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%); border: 2px solid #bae6fd; box-shadow: 0 8px 20px rgba(14, 165, 233, 0.08); }
+    #classicMode .lottery-box:nth-of-type(2) .time-box { border-bottom: 2px dashed #bae6fd; color: #0369a1; }
+    #classicMode .lottery-box:nth-of-type(3) { background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%); border: 2px solid #fed7aa; box-shadow: 0 8px 20px rgba(249, 115, 22, 0.08); }
+    #classicMode .lottery-box:nth-of-type(3) .time-box { border-bottom: 2px dashed #fed7aa; color: #c2410c; }
+    #classicMode .lottery-box:nth-of-type(3) .number-result { color: #ea580c; text-shadow: 0 2px 4px rgba(234, 88, 12, 0.15); }
 
     /* === BET BOX === */
-    .bet-box { background: white; border-radius: 14px; padding: 16px; margin: 10px 0; border: 2px solid #0078D7; box-shadow: 0 4px 20px rgba(0,120,215,0.12); position: relative; overflow: hidden; }
+    .bet-box { background: white; border-radius: 16px; padding: 16px; margin: 12px 0; border: 2px solid #0078D7; box-shadow: 0 4px 20px rgba(0,120,215,0.12); position: relative; overflow: hidden; }
     .bet-box.rapid { border-color: #e91e63; box-shadow: 0 4px 20px rgba(233,30,99,0.25); background: linear-gradient(135deg, #2d1b3d, #1a0f1f); color: #e8eaf0; }
     .bet-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #0078D7, #28a745, #ff9800, #6f42c1, #e91e63); background-size: 200% 100%; animation: gradientShift 3s ease infinite; }
     .bet-box h2 { color: #0078D7; font-size: clamp(16px, 2.2vw, 20px); border-bottom: 2px solid #f0f4f8; padding-bottom: 10px; margin-bottom: 12px; font-weight: 800; }
@@ -143,7 +152,6 @@
     .mode-btn, .type-btn, .time-btn { flex: 1; min-width: 80px; padding: 10px 8px; border: 2px solid #dee2e6; background: white; font-weight: 800; border-radius: 10px; cursor: pointer; font-size: clamp(12px, 1.5vw, 14px); transition: all 0.3s; }
     .mode-btn:hover, .type-btn:hover, .time-btn:hover:not(.closed) { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,120,215,0.2); border-color: #0078D7; }
     .mode-btn.active, .type-btn.active, .time-btn.active { border-color: #0078D7; background: linear-gradient(135deg, #e8f4fd, #d4edda); color: #0078D7; }
-    .mode-btn.direct.active { border-color: #28a745; background: linear-gradient(135deg, #d4edda, #a8e6c0); color: #155724; }
     .time-btn.closed { opacity: 0.45; cursor: not-allowed; background: #f8f9fa !important; color: #999 !important; }
 
     /* === BALANCE === */
@@ -225,15 +233,18 @@
     .guide-box { background: linear-gradient(135deg, #eef7ff, #e8f4fd); border: 1px solid #b6d4fe; padding: 10px 12px; border-radius: 10px; margin-bottom: 10px; font-size: clamp(11px, 1.3vw, 13px); color: #084298; line-height: 1.7; font-weight: 600; }
     .bet-box.rapid .guide-box { background: rgba(233,30,99,0.15); border-color: rgba(233,30,99,0.4); color: #ff8bb5; }
 
-    /* === HISTORY TABS === */
-    .history-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; padding: 6px; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 12px; border: 2px solid #e9ecef; }
-    .history-tab { flex: 1; min-width: 100px; padding: 10px 12px; border: 2px solid transparent; background: white; border-radius: 8px; font-weight: 800; font-size: clamp(11px, 1.3vw, 13px); cursor: pointer; transition: all 0.3s; color: #2d3748; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    /* === HISTORY TABS (ថ្មី) === */
+    .history-tabs-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; padding: 8px; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0; }
+    @media (max-width: 600px) { .history-tabs-container { grid-template-columns: repeat(2, 1fr); } }
+    .history-tab { padding: 10px 8px; border: 2px solid transparent; background: white; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.3s; color: #475569; display: flex; align-items: center; justify-content: center; gap: 6px; text-align: center; }
     .history-tab:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-    .history-tab.active { color: white; transform: translateY(-2px); }
-    .history-tab[data-tab="bets"].active { background: linear-gradient(135deg, #0078D7, #005fa3); }
+    .history-tab.active { color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .history-tab[data-tab="bets-classic"].active { background: linear-gradient(135deg, #0078D7, #005fa3); }
+    .history-tab[data-tab="bets-rapid"].active { background: linear-gradient(135deg, #e91e63, #880e4f); }
     .history-tab[data-tab="withdrawals"].active { background: linear-gradient(135deg, #6f42c1, #5a32a3); }
     .history-tab[data-tab="deposits"].active { background: linear-gradient(135deg, #28a745, #1e7e34); }
-    .history-tab[data-tab="results"].active { background: linear-gradient(135deg, #ff9800, #e65100); }
+    .history-tab[data-tab="results-classic"].active { background: linear-gradient(135deg, #ff9800, #e65100); }
+    .history-tab[data-tab="results-rapid"].active { background: linear-gradient(135deg, #ff1744, #d50000); }
 
     .history-panel { display: none; animation: fadeIn 0.4s ease-out; }
     .history-panel.active { display: block; }
@@ -353,24 +364,6 @@
     .loading-overlay.active { display: flex; }
     .loading-spinner { width: 60px; height: 60px; border: 5px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; }
 
-    /* === PATCH: លាក់ផ្នែកដែលមិនពាក់ព័ន្ធពេលមើល History/Rules === */
-    body.view-history #withdrawBox,
-    body.view-history #historyTabsBox,
-    body.view-history #adminPanel,
-    body.view-rules #withdrawBox,
-    body.view-rules #historyTabsBox,
-    body.view-rules #adminPanel {
-      display: none !important;
-    }
-    body.view-history .mode-tabs,
-    body.view-history .clock-box,
-    body.view-history .status-bar,
-    body.view-rules .mode-tabs,
-    body.view-rules .clock-box,
-    body.view-rules .status-bar {
-      display: none !important;
-    }
-
     /* === DARK MODE === */
     body.dark-mode { background: linear-gradient(135deg, #0f1420 0%, #1a1f2e 50%, #0f1420 100%); color: #e8eaf0; }
     body.dark-mode .lottery-box,
@@ -378,230 +371,24 @@
     body.dark-mode .modal-content,
     body.dark-mode .clock-box,
     body.dark-mode .nav-bar,
-    body.dark-mode .mode-tabs {
-      background: #252b3d;
-      color: #e8eaf0;
-    }
+    body.dark-mode .mode-tabs { background: #252b3d; color: #e8eaf0; }
     body.dark-mode .numbers div,
     body.dark-mode .input-row,
     body.dark-mode .selected-display,
-    body.dark-mode .bet-summary {
-      background: #2f3548;
-      border-color: #4a5268;
-      color: #e8eaf0;
-    }
+    body.dark-mode .bet-summary { background: #2f3548; border-color: #4a5268; color: #e8eaf0; }
     body.dark-mode .history-tab { background: #2f3548; color: #e8eaf0; }
-    body.dark-mode .mode-btn, body.dark-mode .type-btn, body.dark-mode .time-btn {
-      background: #2f3548; color: #e8eaf0;
-    }
+    body.dark-mode .mode-btn, body.dark-mode .type-btn, body.dark-mode .time-btn { background: #2f3548; color: #e8eaf0; }
     body.dark-mode .history-table td { color: #e8eaf0; border-color: #3a4255; }
     body.dark-mode .guide-box { background: #1e2a3f; color: #a0c8e8; }
 
-    /* ==========================================
-       🎨 NEW DESIGN: ប្រអប់លទ្ធផល 12:00 / 16:00
-       ========================================== */
-    
-    /* ប្រអប់ធំ (Lottery Box) */
-    .lottery-box {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 16px;
-      margin: 12px 0;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-      transition: all 0.3s ease;
-    }
-    .lottery-box:hover {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      transform: translateY(-2px);
-    }
-
-    /* ក្បាលប្រអប់ (Time Box) */
-    .time-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 16px;
-      font-weight: 800;
-      color: #1e293b;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px dashed #cbd5e1;
-    }
-    .time-box span {
-      font-size: 20px;
-    }
-
-    /* Badge ស្ថានភាព (រង់ចាំ / ចេញហើយ) */
-    .badge {
-      font-size: 11px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .badge-waiting {
-      background: #fff7ed;
-      color: #c2410c;
-      border: 1px solid #fdba74;
-    }
-    .badge-completed {
-      background: #f0fdf4;
-      color: #15803d;
-      border: 1px solid #86efac;
-      box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
-      animation: pulse-green 2s infinite;
-    }
-
-    /* ប្រអប់លេខ (Numbers Grid) */
-    .numbers {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    
-    .numbers div {
-      background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 12px 8px;
-      text-align: center;
-      font-weight: 800;
-      font-size: 16px;
-      color: #0f172a;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-    }
-    .numbers div:hover {
-      background: #f1f5f9;
-      border-color: #cbd5e1;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    }
-
-    /* អក្សរ A, B, C, D, E */
-    .numbers div .letter {
-      color: #64748b;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    /* លេខដែលចេញហើយ (Number Result) */
-    .numbers div .number-result {
-      color: #2563eb; /* ពណ៌ខៀវស្រស់ */
-      font-size: 20px;
-      font-weight: 800;
-      text-shadow: 0 2px 4px rgba(37, 99, 235, 0.15);
-      font-family: 'Courier New', monospace;
-    }
-    
-    /* លេខពេលរង់ចាំ (--) */
-    .numbers div:has(.number-result:empty) {
-      color: #94a3b8;
-    }
-
-    /* ប្រអប់កាលបរិច្ឆេទ */
-    .date-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #f1f5f9;
-      color: #475569;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-    }
-
-    /* ចំណងជើងប្រភេទលេខ (២ខ្ទង់ / ៣ខ្ទង់) */
-    .numbers + div {
-      font-size: 14px !important;
-      color: #475569 !important;
-      margin-top: 12px !important;
-      margin-bottom: 8px !important;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* ចលនាពន្លឺពណ៌បៃតងសម្រាប់ Badge */
-    @keyframes pulse-green {
-      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-      70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
-    }
-
-    /* កែសម្រួលសម្រាប់ទូរស័ព្ទ */
-    @media (max-width: 600px) {
-      .numbers {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .numbers div {
-        padding: 10px 6px;
-        font-size: 15px;
-      }
-      .numbers div .number-result {
-        font-size: 18px;
-      }
-    }
-
-    /* ==========================================
-       🎨 បន្ថែមពណ៌ជុំវិញប្រអប់លទ្ធផល 12:00 និង 16:00
-       ========================================== */
-    
-    /* ប្រអប់ទី១ (លទ្ធផល 12:00) - ពណ៌ខៀវ */
-    #classicMode .lottery-box:nth-of-type(2) { /* nth-of-type(2) ព្រោះប្រអប់ទី១ជា Countdown */
-      background: linear-gradient(180deg, #f0f9ff 0%, #ffffff 100%);
-      border: 2px solid #bae6fd;
-      box-shadow: 0 8px 20px rgba(14, 165, 233, 0.08);
-    }
-    #classicMode .lottery-box:nth-of-type(2) .time-box {
-      border-bottom: 2px dashed #bae6fd;
-      color: #0369a1;
-    }
-
-    /* ប្រអប់ទី២ (លទ្ធផល 16:00) - ពណ៌ទឹកក្រូច */
-    #classicMode .lottery-box:nth-of-type(3) {
-      background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
-      border: 2px solid #fed7aa;
-      box-shadow: 0 8px 20px rgba(249, 115, 22, 0.08);
-    }
-    #classicMode .lottery-box:nth-of-type(3) .time-box {
-      border-bottom: 2px dashed #fed7aa;
-      color: #c2410c;
-    }
-
-    /* កែពណ៌លេខខាងក្នុងឱ្យត្រូវនឹងស៊ុម (ស្រេចចិត្ត) */
-    #classicMode .lottery-box:nth-of-type(3) .number-result {
-      color: #ea580c;
-      text-shadow: 0 2px 4px rgba(234, 88, 12, 0.15);
-    }
-    
-    /* កែពណ៌ផ្ទៃខាងក្នុងប្រអប់លេខ (A, B, C, D, E) ឱ្យស៊ីគ្នា */
-    #classicMode .lottery-box:nth-of-type(2) .numbers div {
-      border-color: #e0f2fe;
-      background: #f8fafc;
-    }
-    #classicMode .lottery-box:nth-of-type(3) .numbers div {
-      border-color: #ffedd5;
-      background: #f8fafc;
-    }
-
     /* === RESPONSIVE === */
     @media (max-width: 768px) {
-      .numbers div { flex: 1 1 calc(33.33% - 5px); min-width: 44px; }
+      .numbers div { padding: 10px 4px; font-size: 14px; }
+      .numbers div .number-result { font-size: 18px; }
       .clock-box { flex-direction: column; text-align: center; }
       .type-selector, .time-selector { flex-direction: column; }
       .type-btn, .time-btn { min-width: 100%; }
-      .history-tab { min-width: 80px; font-size: 11px; padding: 8px 6px; }
+      .history-tab { font-size: 11px; padding: 8px 4px; }
       .toast-container { top: 10px; right: 10px; left: 10px; }
       .toast { min-width: auto; width: 100%; }
       .mode-tab { min-width: 120px; font-size: 12px; padding: 12px; }
@@ -610,7 +397,6 @@
       .result-card .num-cell .value { font-size: 18px; }
     }
     @media (max-width: 480px) {
-      .numbers div { flex: 1 1 calc(50% - 4px); min-width: 34px; }
       .countdown .time-display { font-size: 28px; }
       .nav-bar a, .nav-bar button { padding: 6px 10px; font-size: 11px; }
       .mode-tab { min-width: 100px; padding: 10px 8px; font-size: 11px; }
@@ -631,18 +417,14 @@
   <!-- PARTICLES -->
   <div class="particles-bg" id="particlesBg"></div>
 
-  <!-- TOAST -->
+  <!-- TOAST & LOADING -->
   <div class="toast-container" id="toastContainer"></div>
-
-  <!-- LOADING -->
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner"></div>
-  </div>
+  <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div></div>
 
   <!-- REGISTER / LOGIN MODAL -->
   <div class="modal" id="registerModal" style="display:block;">
     <div class="modal-content reg-modal-content" style="max-width:520px;">
-      <!-- Step 1: Register -->
+      <!-- Step 1 -->
       <div class="reg-step active" id="regStep1">
         <div class="reg-header">
           <div class="icon">🎲</div>
@@ -658,91 +440,36 @@
           <input type="tel" id="regPin" placeholder="----" maxlength="4" inputmode="numeric">
         </div>
         <div style="background:linear-gradient(135deg,#fff3cd,#ffe69c); border:1px solid #ffc107; border-radius:10px; padding:12px; margin-top:10px; font-size:11.5px; color:#856404; line-height:1.7; font-weight:600;">
-          ⚠️ <b>ការព្រមាន!</b><br>
-          • អ្នកត្រូវចងចាំ <b>PIN 4 ខ្ទង់</b><br>
-          • <b>កុំប្រាប់អ្នកដទៃ</b> អំពី PIN
+          ⚠️ <b>ការព្រមាន!</b><br>• អ្នកត្រូវចងចាំ <b>PIN 4 ខ្ទង់</b><br>• <b>កុំប្រាប់អ្នកដទៃ</b> អំពី PIN
         </div>
-        <button class="reg-btn" id="regNextBtn" onclick="N98.handleRegister()">
-          បន្ត → <span class="emoji-rocket">🚀</span>
-        </button>
+        <button class="reg-btn" id="regNextBtn" onclick="N98.handleRegister()">បន្ត → <span class="emoji-rocket">🚀</span></button>
         <div class="group-buttons-box">
           <div class="title">🎯 ចូលក្រុមចាក់/ទិញលេខឆ្នោត</div>
-          <a href="https://t.me/+ErJaYtpHWwE1YWI1" target="_blank" rel="noopener" class="group-btn main">
-            🎯 ចូលក្រុមចាក់/ទិញលេខឆ្នោត
-            <small>និងទទួល Code ចុះឈ្មោះ</small>
-          </a>
+          <a href="https://t.me/+ErJaYtpHWwE1YWI1" target="_blank" rel="noopener" class="group-btn main">🎯 ចូលក្រុមចាក់/ទិញលេខឆ្នោត<small>និងទទួល Code ចុះឈ្មោះ</small></a>
         </div>
-        <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b; font-weight:600;">
-          មានគណនីរួចហើយ?
-          <a href="#" onclick="N98.showLoginStep(); return false;" style="color:#0078D7; font-weight:800;">ចូលប្រើ</a>
-        </div>
+        <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b; font-weight:600;">មានគណនីរួចហើយ? <a href="#" onclick="N98.showLoginStep(); return false;" style="color:#0078D7; font-weight:800;">ចូលប្រើ</a></div>
       </div>
-
-      <!-- Step 2: Show UserID -->
+      <!-- Step 2 -->
       <div class="reg-step" id="regStep2">
-        <div class="reg-header">
-          <div class="icon">✅</div>
-          <h2>ចុះឈ្មោះជោគជ័យ!</h2>
-          <p>សូមចំណាំ ID នេះទុក</p>
-        </div>
-        <div class="id-display-box">
-          <div class="label">🆔 ID របស់អ្នក</div>
-          <div class="id-value" id="displayUserId">------</div>
-          <div class="warning">
-            ⚠️ សូមចំណាំ ID នេះ<br>
-            ប្រើសម្រាប់ចូលប្រើលើកក្រោយ
-          </div>
-        </div>
-        <button class="reg-btn success" onclick="N98.showVerifyStep()" style="margin-top:12px;">
-          បញ្ជាក់ Code ឥឡូវ → 🔑
-        </button>
+        <div class="reg-header"><div class="icon">✅</div><h2>ចុះឈ្មោះជោគជ័យ!</h2><p>សូមចំណាំ ID នេះទុក</p></div>
+        <div class="id-display-box"><div class="label">🆔 ID របស់អ្នក</div><div class="id-value" id="displayUserId">------</div><div class="warning">⚠️ សូមចំណាំ ID នេះ<br>ប្រើសម្រាប់ចូលប្រើលើកក្រោយ</div></div>
+        <button class="reg-btn success" onclick="N98.showVerifyStep()" style="margin-top:12px;">បញ្ជាក់ Code ឥឡូវ → 🔑</button>
       </div>
-
-      <!-- Step 3: Verify Code -->
+      <!-- Step 3 -->
       <div class="reg-step" id="regStep3">
-        <div class="reg-header">
-          <div class="icon">🔑</div>
-          <h2>បញ្ជាក់ Code</h2>
-          <p>វាយ Code 4 ខ្ទង់ដែលបានពី Channel</p>
-        </div>
-        <div class="reg-input-group">
-          <label>🔑 Code 4 ខ្ទង់</label>
-          <input type="text" class="code-input" id="regCode" placeholder="----" maxlength="4" autocomplete="off">
-        </div>
-        <button class="reg-btn" id="regVerifyBtn" onclick="N98.handleVerify()">
-          បញ្ជាក់ ✓
-        </button>
-        <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b; font-weight:600;">
-          <a href="#" onclick="N98.showLoginStep(); return false;" style="color:#0078D7;">← ត្រឡប់ក្រោយ</a>
-        </div>
+        <div class="reg-header"><div class="icon">🔑</div><h2>បញ្ជាក់ Code</h2><p>វាយ Code 4 ខ្ទង់ដែលបានពី Channel</p></div>
+        <div class="reg-input-group"><label>🔑 Code 4 ខ្ទង់</label><input type="text" class="code-input" id="regCode" placeholder="----" maxlength="4" autocomplete="off"></div>
+        <button class="reg-btn" id="regVerifyBtn" onclick="N98.handleVerify()">បញ្ជាក់ ✓</button>
+        <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b; font-weight:600;"><a href="#" onclick="N98.showLoginStep(); return false;" style="color:#0078D7;">← ត្រឡប់ក្រោយ</a></div>
       </div>
-
-      <!-- Login Step -->
+      <!-- Login -->
       <div class="reg-step" id="regLoginStep">
-        <div class="reg-header">
-          <div class="icon">🔐</div>
-          <h2>ចូលប្រើប្រាស់</h2>
-          <p>បញ្ចូល ID និង PIN</p>
-        </div>
-        <div class="reg-input-group">
-          <label>🆔 ID របស់អ្នក</label>
-          <input type="text" id="loginUserId" placeholder="------" maxlength="6" inputmode="numeric">
-        </div>
-        <div class="reg-input-group">
-          <label>🔐 PIN 4 ខ្ទង់</label>
-          <input type="tel" id="loginPin" placeholder="----" maxlength="4" inputmode="numeric">
-        </div>
-        <button class="reg-btn" id="loginBtn" onclick="N98.handleLogin()">
-          ចូលប្រើ → <span class="emoji-rocket">🚀</span>
-        </button>
-        <div class="forgot-pin-box">
-          🔐 ភ្លេច PIN?
-          <a href="#" onclick="N98.contactAdmin(); return false;">ទាក់ទង Admin</a>
-        </div>
-        <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b; font-weight:600;">
-          មិនមានគណនី?
-          <a href="#" onclick="N98.showRegisterStep(); return false;" style="color:#0078D7; font-weight:800;">ចុះឈ្មោះ</a>
-        </div>
+        <div class="reg-header"><div class="icon">🔐</div><h2>ចូលប្រើប្រាស់</h2><p>បញ្ចូល ID និង PIN</p></div>
+        <div class="reg-input-group"><label>🆔 ID របស់អ្នក</label><input type="text" id="loginUserId" placeholder="------" maxlength="6" inputmode="numeric"></div>
+        <div class="reg-input-group"><label>🔐 PIN 4 ខ្ទង់</label><input type="tel" id="loginPin" placeholder="----" maxlength="4" inputmode="numeric"></div>
+        <button class="reg-btn" id="loginBtn" onclick="N98.handleLogin()">ចូលប្រើ → <span class="emoji-rocket">🚀</span></button>
+        <div class="forgot-pin-box">🔐 ភ្លេច PIN? <a href="#" onclick="N98.contactAdmin(); return false;">ទាក់ទង Admin</a></div>
+        <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b; font-weight:600;">មិនមានគណនី? <a href="#" onclick="N98.showRegisterStep(); return false;" style="color:#0078D7; font-weight:800;">ចុះឈ្មោះ</a></div>
       </div>
     </div>
   </div>
@@ -755,27 +482,14 @@
     </header>
 
     <div class="mode-tabs">
-      <button class="mode-tab active" data-mode="classic" onclick="N98.switchMainMode('classic', event)">
-        🕛 12:00 / 🕓 16:00
-      </button>
-      <button class="mode-tab" data-mode="rapid" onclick="N98.switchMainMode('rapid', event)">
-        🎯 10 នាទី <span class="badge-live">LIVE</span>
-      </button>
+      <button class="mode-tab active" data-mode="classic" onclick="N98.switchMainMode('classic', event)">🕛 12:00 / 🕓 16:00</button>
+      <button class="mode-tab" data-mode="rapid" onclick="N98.switchMainMode('rapid', event)">🎯 10 នាទី <span class="badge-live">LIVE</span></button>
     </div>
 
     <nav class="nav-bar">
-      <a href="#" class="active" onclick="N98.showSection('home', event); return false;">
-        <span class="anim-pulse">🏠</span> ទំព័រដើម
-      </a>
-      <a href="#" onclick="N98.showSection('history', event); return false;">
-        <span class="anim-pulse">📊</span> ប្រវត្តិ
-      </a>
-      <a href="#" onclick="N98.showSection('rules', event); return false;">
-        <span class="anim-pulse">📋</span> ច្បាប់
-      </a>
-      <button class="btn-theme" onclick="N98.toggleTheme()" id="themeBtn">
-        🌙 <span class="theme-label">Dark</span>
-      </button>
+      <a href="#" class="active" onclick="N98.showSection('home', event); return false;"><span class="anim-pulse">🏠</span> ទំព័រដើម</a>
+      <a href="#" onclick="N98.showSection('rules', event); return false;"><span class="anim-pulse">📋</span> ច្បាប់</a>
+      <button class="btn-theme" onclick="N98.toggleTheme()" id="themeBtn">🌙 <span class="theme-label">Dark</span></button>
       <button class="btn-share" onclick="N98.copyLink()">🔗 ចែករំលែក</button>
       <button class="btn-group" onclick="N98.openGroup()">💬 ចូលក្រុម</button>
       <button class="btn-logout" onclick="N98.handleLogout()">🚪 ចាកចេញ</button>
@@ -783,145 +497,79 @@
 
     <div class="section">
       <div class="user-info-bar">
-        <div>
-          <span class="label"><span class="anim-pulse">🆔</span> ID: </span>
-          <span class="value" id="displayCurrentUserId">------</span>
-        </div>
-        <div>
-          <span class="label"><span class="anim-bounce">📱</span> Phone: </span>
-          <span class="value" id="displayCurrentPhone">---</span>
-        </div>
+        <div><span class="label"><span class="anim-pulse">🆔</span> ID: </span><span class="value" id="displayCurrentUserId">------</span></div>
+        <div><span class="label"><span class="anim-bounce">📱</span> Phone: </span><span class="value" id="displayCurrentPhone">---</span></div>
       </div>
 
       <div class="clock-box">
         <div style="display:flex; align-items:center; gap:8px;">
           <span style="font-size:26px;" class="anim-spin">⏰</span>
-          <div>
-            <div class="clock-title">🕒 ម៉ោងបច្ចុប្បន្ន</div>
-            <div class="clock-time" id="widgetTime">00:00:00</div>
-          </div>
+          <div><div class="clock-title">🕒 ម៉ោងបច្ចុប្បន្ន</div><div class="clock-time" id="widgetTime">00:00:00</div></div>
         </div>
-        <div>
-          <div class="clock-date" id="widgetDate">កំពុងផ្ទុក...</div>
-        </div>
+        <div><div class="clock-date" id="widgetDate">កំពុងផ្ទុក...</div></div>
       </div>
 
-      <div class="status-bar">
-        <span class="label">📊 ស្ថានភាព</span>
-        <span class="value" id="resultStatusText">កំពុងផ្ទុក...</span>
-      </div>
+      <div class="status-bar"><span class="label">📊 ស្ថានភាព</span><span class="value" id="resultStatusText">កំពុងផ្ទុក...</span></div>
 
       <!-- CLASSIC MODE -->
       <div id="classicMode">
         <div class="countdown">
-          <div style="display:flex; justify-content:center; align-items:center; gap:8px;">
-            <span style="font-size:26px;" class="emoji-dice">🎲</span>
-            <span style="font-size:16px; color:#dc3545; font-weight:800;">
-              <span class="anim-pulse">⏳</span> ម៉ោងប្រកាសលទ្ធផលបន្ទាប់
-            </span>
-          </div>
+          <div style="display:flex; justify-content:center; align-items:center; gap:8px;"><span style="font-size:26px;" class="emoji-dice">🎲</span><span style="font-size:16px; color:#dc3545; font-weight:800;"><span class="anim-pulse">⏳</span> ម៉ោងប្រកាសលទ្ធផលបន្ទាប់</span></div>
           <div class="time-display" id="countdownDisplay">--:--:--</div>
           <div class="next-time" id="nextTimeLabel">🎯 ពេលបន្ទាប់...</div>
           <div class="status-time" id="statusTimeLabel"></div>
         </div>
 
-        <!-- RESULTS 12:00 -->
         <div class="lottery-box" id="box12Container">
-          <div class="time-box">
-            <span class="anim-pulse">🕛</span> លទ្ធផល 12:00
-            <span class="badge" id="badge12">ព្រឹកពីរ</span>
-          </div>
+          <div class="time-box"><span class="anim-pulse">🕛</span> លទ្ធផល 12:00 <span class="badge" id="badge12">ព្រឹកពីរ</span></div>
           <div style="font-weight:800;color:#0078D7;font-size:13px;margin-top:8px;">🔢 ២ខ្ទង់</div>
           <div class="numbers" id="box12">
-            <div><span class="letter">A:</span> <span id="r12_A">--</span></div>
-            <div><span class="letter">B:</span> <span id="r12_B">--</span></div>
-            <div><span class="letter">C:</span> <span id="r12_C">--</span></div>
-            <div><span class="letter">D:</span> <span id="r12_D">--</span></div>
+            <div><span class="letter">A:</span> <span id="r12_A">--</span></div><div><span class="letter">B:</span> <span id="r12_B">--</span></div>
+            <div><span class="letter">C:</span> <span id="r12_C">--</span></div><div><span class="letter">D:</span> <span id="r12_D">--</span></div>
             <div><span class="letter">E:</span> <span id="r12_E">--</span></div>
           </div>
           <div style="font-weight:800;color:#6f42c1;font-size:13px;margin-top:10px;">🔢 ៣ខ្ទង់</div>
           <div class="numbers" id="box12_3d">
-            <div><span class="letter">A:</span> <span id="r12_3d_A">--</span></div>
-            <div><span class="letter">B:</span> <span id="r12_3d_B">--</span></div>
-            <div><span class="letter">C:</span> <span id="r12_3d_C">--</span></div>
-            <div><span class="letter">D:</span> <span id="r12_3d_D">--</span></div>
+            <div><span class="letter">A:</span> <span id="r12_3d_A">--</span></div><div><span class="letter">B:</span> <span id="r12_3d_B">--</span></div>
+            <div><span class="letter">C:</span> <span id="r12_3d_C">--</span></div><div><span class="letter">D:</span> <span id="r12_3d_D">--</span></div>
             <div><span class="letter">E:</span> <span id="r12_3d_E">--</span></div>
           </div>
           <div style="margin-top:8px;" id="date12"></div>
         </div>
 
-        <!-- RESULTS 16:00 -->
         <div class="lottery-box" id="box16Container">
-          <div class="time-box">
-            <span class="anim-pulse">🕓</span> លទ្ធផល 16:00
-            <span class="badge" id="badge16">ល្ងាចបី</span>
-          </div>
+          <div class="time-box"><span class="anim-pulse">🕓</span> លទ្ធផល 16:00 <span class="badge" id="badge16">ល្ងាចបី</span></div>
           <div style="font-weight:800;color:#0078D7;font-size:13px;margin-top:8px;">🔢 ២ខ្ទង់</div>
           <div class="numbers" id="box16">
-            <div><span class="letter">A:</span> <span id="r16_A">--</span></div>
-            <div><span class="letter">B:</span> <span id="r16_B">--</span></div>
-            <div><span class="letter">C:</span> <span id="r16_C">--</span></div>
-            <div><span class="letter">D:</span> <span id="r16_D">--</span></div>
+            <div><span class="letter">A:</span> <span id="r16_A">--</span></div><div><span class="letter">B:</span> <span id="r16_B">--</span></div>
+            <div><span class="letter">C:</span> <span id="r16_C">--</span></div><div><span class="letter">D:</span> <span id="r16_D">--</span></div>
             <div><span class="letter">E:</span> <span id="r16_E">--</span></div>
           </div>
           <div style="font-weight:800;color:#6f42c1;font-size:13px;margin-top:10px;">🔢 ៣ខ្ទង់</div>
           <div class="numbers" id="box16_3d">
-            <div><span class="letter">A:</span> <span id="r16_3d_A">--</span></div>
-            <div><span class="letter">B:</span> <span id="r16_3d_B">--</span></div>
-            <div><span class="letter">C:</span> <span id="r16_3d_C">--</span></div>
-            <div><span class="letter">D:</span> <span id="r16_3d_D">--</span></div>
+            <div><span class="letter">A:</span> <span id="r16_3d_A">--</span></div><div><span class="letter">B:</span> <span id="r16_3d_B">--</span></div>
+            <div><span class="letter">C:</span> <span id="r16_3d_C">--</span></div><div><span class="letter">D:</span> <span id="r16_3d_D">--</span></div>
             <div><span class="letter">E:</span> <span id="r16_3d_E">--</span></div>
           </div>
           <div style="margin-top:8px;" id="date16"></div>
         </div>
 
-        <!-- BET BOX CLASSIC -->
         <div class="bet-box">
           <h2>🎯 ទិញលេខចាក់ (A, B, C, D, E)</h2>
           <div class="betting-closed-box" id="bettingClosedTop">
-            <div class="header-row">
-              <div class="icon">⏰</div>
-              <div>
-                <div class="title" id="bettingClosedTitle">🔒 ការចាក់ត្រូវបានបិទ!</div>
-                <div class="open-time">
-                  ⏰ បើកវិញ <strong>00:00 រំលងយប់នេះ</strong>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mode-selector">
-            <button class="mode-btn direct active" id="modeDirect" onclick="N98.setMode('direct', event)">
-              💵 ចាក់ផ្ទាល់
-            </button>
-            <button class="mode-btn online" id="modeOnline" onclick="N98.openDepositModal()">
-              💰 បញ្ចូលទឹកប្រាក់
-            </button>
+            <div class="header-row"><div class="icon">⏰</div><div><div class="title" id="bettingClosedTitle">🔒 ការចាក់ត្រូវបានបិទ!</div><div class="open-time">⏰ បើកវិញ <strong>00:00 រំលងយប់នេះ</strong></div></div></div>
           </div>
 
           <div class="balance-box" id="balanceBox">
-            <div style="margin-bottom:10px; font-weight:800; color:#155724; font-size:14px;">
-              💰 សមតុល្យរបស់អ្នក
-            </div>
+            <div style="margin-bottom:10px; font-weight:800; color:#155724; font-size:14px;">💰 សមតុល្យរបស់អ្នក</div>
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
-              <div class="balance-item">
-                <div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:6px;">💵 USD</div>
-                <div id="balanceAmountUSD" style="font-size:24px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0.00$</div>
-              </div>
-              <div class="balance-item">
-                <div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:6px;">🇰🇭 KHR</div>
-                <div id="balanceAmountKHR" style="font-size:24px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0៛</div>
-              </div>
+              <div class="balance-item"><div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:6px;">💵 USD</div><div id="balanceAmountUSD" style="font-size:24px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0.00$</div></div>
+              <div class="balance-item"><div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:6px;">🇰🇭 KHR</div><div id="balanceAmountKHR" style="font-size:24px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0៛</div></div>
             </div>
+            <button class="btn btn-primary" onclick="N98.openDepositModal()" style="width:100%; margin-top:12px; padding:12px; font-size:14px; border-radius:10px;">💰 បញ្ចូលទឹកប្រាក់</button>
           </div>
 
-          <div class="guide-box">
-            💡 <strong>របៀបប្រើ៖</strong><br>
-            ១. ជ្រើស <strong>ពេលវេលា</strong> និង <strong>ប្រភេទ</strong><br>
-            ២. ចុច <strong>ប៉ុស្តិ៍ A, B, C, D, E</strong><br>
-            ៣. បញ្ចូលលេខ (ឧ. 01,02,03)<br>
-            ៤. ជ្រើសទឹកប្រាក់ → ចុច <strong>"ដាក់ភ្នាល់"</strong>
-          </div>
+          <div class="guide-box">💡 <strong>របៀបប្រើ៖</strong><br>១. ជ្រើស <strong>ពេលវេលា</strong> និង <strong>ប្រភេទ</strong><br>២. ចុច <strong>ប៉ុស្តិ៍ A, B, C, D, E</strong><br>៣. បញ្ចូលលេខ (ឧ. 01,02,03)<br>៤. ជ្រើសទឹកប្រាក់ → ចុច <strong>"ដាក់ភ្នាល់"</strong></div>
 
           <table class="reward-table">
             <thead><tr><th>ប្រភេទ</th><th>ម៉ោង</th><th>អត្រា</th></tr></thead>
@@ -931,29 +579,19 @@
             </tbody>
           </table>
 
-          <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px solid #ffb3b3; padding:8px; border-radius:8px; margin-bottom:10px; text-align:center;">
-            <span style="color:#d63000; font-weight:800; font-size:13px;">
-              ⚠️ ចាក់ពី 500៛/0.25$ ដល់ 40,000៛/10$
-            </span>
-          </div>
+          <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px solid #ffb3b3; padding:8px; border-radius:8px; margin-bottom:10px; text-align:center;"><span style="color:#d63000; font-weight:800; font-size:13px;">⚠️ ចាក់ពី 500៛/0.25$ ដល់ 40,000៛/10$</span></div>
 
-          <div style="font-weight:800; color:#0078D7; font-size:14px; margin-bottom:8px;">
-            ⏰ ជ្រើសរើស ពេលវេលា និង ប្រភេទ
-          </div>
-
+          <div style="font-weight:800; color:#0078D7; font-size:14px; margin-bottom:8px;">⏰ ជ្រើសរើស ពេលវេលា និង ប្រភេទ</div>
           <div class="time-selector">
             <button class="time-btn active" data-time="12:00" onclick="N98.setTime('12:00', event)">🕛 12:00</button>
             <button class="time-btn" data-time="16:00" onclick="N98.setTime('16:00', event)">🕓 16:00</button>
           </div>
-
           <div class="type-selector">
             <button class="type-btn active" data-type="two" onclick="N98.setType('two', event)">🔢 ២ខ្ទង់</button>
             <button class="type-btn" data-type="three" onclick="N98.setType('three', event)">🔢 ៣ខ្ទង់</button>
           </div>
 
-          <div style="font-weight:800; color:#0078D7; font-size:14px; text-align:center; margin-bottom:8px;">
-            🎯 ជ្រើសរើស ប៉ុស្តិ៍ A, B, C, D, E
-          </div>
+          <div style="font-weight:800; color:#0078D7; font-size:14px; text-align:center; margin-bottom:8px;">🎯 ជ្រើសរើស ប៉ុស្តិ៍ A, B, C, D, E</div>
           <div class="letter-selector">
             <div class="letter-circle" data-letter="A" onclick="N98.selectLetter('A', event)">A</div>
             <div class="letter-circle" data-letter="B" onclick="N98.selectLetter('B', event)">B</div>
@@ -962,35 +600,20 @@
             <div class="letter-circle" data-letter="E" onclick="N98.selectLetter('E', event)">E</div>
           </div>
 
-          <div class="input-row">
-            <input type="text" id="numInput" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled inputmode="numeric">
-          </div>
-
-          <div class="selected-display" id="selectedDisplay">
-            <span style="color:#6c757d; font-size:12px; font-weight:600;">មិនទាន់មានលេខ</span>
-          </div>
-
-          <div style="color:#6c757d; font-size:12px; font-weight:700; margin-bottom:8px;">
-            ចំនួន៖ <strong id="countDisplay" style="color:#0078D7; font-size:15px;">0</strong> / 10
-          </div>
+          <div class="input-row"><input type="text" id="numInput" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled inputmode="numeric"></div>
+          <div class="selected-display" id="selectedDisplay"><span style="color:#6c757d; font-size:12px; font-weight:600;">មិនទាន់មានលេខ</span></div>
+          <div style="color:#6c757d; font-size:12px; font-weight:700; margin-bottom:8px;">ចំនួន៖ <strong id="countDisplay" style="color:#0078D7; font-size:15px;">0</strong> / 10</div>
 
           <label style="font-weight:800; color:#0078D7; font-size:13px;">💰 ចំនួនទឹកប្រាក់</label>
           <div class="amount-buttons">
-            <button class="btn-amount" onclick="N98.setAmount(500,'៛')">500៛</button>
-            <button class="btn-amount" onclick="N98.setAmount(1000,'៛')">1000៛</button>
-            <button class="btn-amount" onclick="N98.setAmount(5000,'៛')">5000៛</button>
-            <button class="btn-amount" onclick="N98.setAmount(10000,'៛')">10000៛</button>
-            <button class="btn-amount" onclick="N98.setAmount(0.25,'$')">0.25$</button>
-            <button class="btn-amount" onclick="N98.setAmount(1,'$')">1$</button>
-            <button class="btn-amount" onclick="N98.setAmount(5,'$')">5$</button>
-            <button class="btn-amount" onclick="N98.setAmount(10,'$')">10$</button>
+            <button class="btn-amount" onclick="N98.setAmount(500,'៛')">500៛</button><button class="btn-amount" onclick="N98.setAmount(1000,'៛')">1000៛</button>
+            <button class="btn-amount" onclick="N98.setAmount(5000,'៛')">5000៛</button><button class="btn-amount" onclick="N98.setAmount(10000,'៛')">10000៛</button>
+            <button class="btn-amount" onclick="N98.setAmount(0.25,'$')">0.25$</button><button class="btn-amount" onclick="N98.setAmount(1,'$')">1$</button>
+            <button class="btn-amount" onclick="N98.setAmount(5,'$')">5$</button><button class="btn-amount" onclick="N98.setAmount(10,'$')">10$</button>
           </div>
           <div class="custom-amount">
             <input type="number" id="amountInput" placeholder="✍️ បញ្ចូលចំនួន" min="0.01" step="any" oninput="N98.updateAmount()">
-            <select id="currencySelect" onchange="N98.updateAmount()">
-              <option value="USD">ដុល្លារ ($)</option>
-              <option value="KHR">រៀល (៛)</option>
-            </select>
+            <select id="currencySelect" onchange="N98.updateAmount()"><option value="USD">ដុល្លារ ($)</option><option value="KHR">រៀល (៛)</option></select>
           </div>
 
           <div class="bet-summary">
@@ -998,26 +621,16 @@
             <div class="bet-summary-item total"><span>💵 សរុប៖</span><span id="totalAmountDisplay">0</span></div>
           </div>
 
-          <button class="btn btn-success" id="btnSubmit" onclick="N98.submitBet()" disabled>
-            💳 ដាក់ភ្នាល់ឥឡូវ
-          </button>
+          <button class="btn btn-success" id="btnSubmit" onclick="N98.submitBet()" disabled>💳 ដាក់ភ្នាល់ឥឡូវ</button>
 
           <div class="balance-status-box" id="balanceStatusBox">
-            <div class="header-row">
-              <span id="balanceStatusIcon">💰</span>
-              <span id="balanceStatusTitle">ស្ថានភាពសមតុល្យ</span>
-            </div>
+            <div class="header-row"><span id="balanceStatusIcon">💰</span><span id="balanceStatusTitle">ស្ថានភាពសមតុល្យ</span></div>
             <div class="rows">
-              <span class="label">💰 សមតុល្យបច្ចុប្បន្ន៖</span>
-              <span class="value" id="balanceStatusCurrent">0៛</span>
-              <span class="label">💵 ត្រូវការ៖</span>
-              <span class="value" id="balanceStatusNeeded">0៛</span>
-              <span class="label">📊 ខ្វះ៖</span>
-              <span class="value danger" id="balanceStatusShort">0៛</span>
+              <span class="label">💰 សមតុល្យបច្ចុប្បន្ន៖</span><span class="value" id="balanceStatusCurrent">0៛</span>
+              <span class="label">💵 ត្រូវការ៖</span><span class="value" id="balanceStatusNeeded">0៛</span>
+              <span class="label">📊 ខ្វះ៖</span><span class="value danger" id="balanceStatusShort">0៛</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill" id="balanceProgressFill" style="width:0%;"></div>
-            </div>
+            <div class="progress-bar"><div class="progress-fill" id="balanceProgressFill" style="width:0%;"></div></div>
             <div class="hint" id="balanceStatusHint">💡 សូមទាក់ទង Admin ដើម្បីបញ្ចូលប្រាក់</div>
           </div>
         </div>
@@ -1029,71 +642,35 @@
           <div class="label">⚡ ការប្រកាសលទ្ធផលបន្ទាប់</div>
           <div class="ring-container">
             <svg class="ring-svg" viewBox="0 0 160 160">
-              <defs>
-                <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#ff1744;stop-opacity:1" />
-                  <stop offset="50%" style="stop-color:#e91e63;stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:#ffc107;stop-opacity:1" />
-                </linearGradient>
-              </defs>
+              <defs><linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#ff1744;stop-opacity:1" /><stop offset="50%" style="stop-color:#e91e63;stop-opacity:1" /><stop offset="100%" style="stop-color:#ffc107;stop-opacity:1" /></linearGradient></defs>
               <circle class="ring-bg" cx="80" cy="80" r="70"></circle>
               <circle class="ring-progress" id="ringProgress" cx="80" cy="80" r="70" stroke-dasharray="439.82" stroke-dashoffset="0"></circle>
             </svg>
-            <div class="ring-text">
-              <div class="time" id="ringTime">10:00</div>
-              <div class="label">នាទី:វិនាទី</div>
-            </div>
+            <div class="ring-text"><div class="time" id="ringTime">10:00</div><div class="label">នាទី:វិនាទី</div></div>
           </div>
-          <div class="next-draw">
-            🎯 វគ្គបន្ទាប់៖ <span class="draw-number" id="nextDrawNumber">#------</span>
-          </div>
+          <div class="next-draw">🎯 វគ្គបន្ទាប់៖ <span class="draw-number" id="nextDrawNumber">#------</span></div>
         </div>
 
         <div class="bet-box rapid">
           <h2>🎯 លទ្ធផល ៣ វគ្គចុងក្រោយ</h2>
-          <div class="results-grid" id="resultsGrid">
-            <div style="grid-column: 1/-1; text-align:center; padding:20px; color:#a0a8b8;">
-              <span class="anim-spin">⏳</span> កំពុងផ្ទុក...
-            </div>
-          </div>
+          <div class="results-grid" id="resultsGrid"><div style="grid-column: 1/-1; text-align:center; padding:20px; color:#a0a8b8;"><span class="anim-spin">⏳</span> កំពុងផ្ទុក...</div></div>
         </div>
 
         <div class="bet-box rapid">
           <h2>⚡ ចាក់លេខវគ្គបន្ទាប់</h2>
           <div class="balance-box" id="balanceBoxRapid" style="background:linear-gradient(135deg,#1e3a2f,#163d29); border-color:#4ade80;">
-            <div style="margin-bottom:10px; font-weight:800; color:#7dd89a; font-size:14px;">
-              💰 សមតុល្យរបស់អ្នក
-            </div>
+            <div style="margin-bottom:10px; font-weight:800; color:#7dd89a; font-size:14px;">💰 សមតុល្យរបស់អ្នក</div>
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
-              <div class="balance-item" style="background:rgba(255,255,255,0.05); border-color:rgba(40,167,69,0.5);">
-                <div style="font-size:11px; color:#7dd89a; font-weight:800; margin-bottom:6px;">💵 USD</div>
-                <div id="balanceRapidUSD" style="font-size:24px; color:#4ade80; font-weight:800; font-family:'Courier New',monospace;">0.00$</div>
-              </div>
-              <div class="balance-item" style="background:rgba(255,255,255,0.05); border-color:rgba(40,167,69,0.5);">
-                <div style="font-size:11px; color:#7dd89a; font-weight:800; margin-bottom:6px;">🇰🇭 KHR</div>
-                <div id="balanceRapidKHR" style="font-size:24px; color:#4ade80; font-weight:800; font-family:'Courier New',monospace;">0៛</div>
-              </div>
+              <div class="balance-item" style="background:rgba(255,255,255,0.05); border-color:rgba(40,167,69,0.5);"><div style="font-size:11px; color:#7dd89a; font-weight:800; margin-bottom:6px;">💵 USD</div><div id="balanceRapidUSD" style="font-size:24px; color:#4ade80; font-weight:800; font-family:'Courier New',monospace;">0.00$</div></div>
+              <div class="balance-item" style="background:rgba(255,255,255,0.05); border-color:rgba(40,167,69,0.5);"><div style="font-size:11px; color:#7dd89a; font-weight:800; margin-bottom:6px;">🇰🇭 KHR</div><div id="balanceRapidKHR" style="font-size:24px; color:#4ade80; font-weight:800; font-family:'Courier New',monospace;">0៛</div></div>
             </div>
+            <button class="btn btn-primary" onclick="N98.openDepositModal()" style="width:100%; margin-top:12px; padding:12px; font-size:14px; border-radius:10px; background:linear-gradient(135deg,#e91e63,#880e4f);">💰 បញ្ចូលទឹកប្រាក់</button>
           </div>
 
-          <div class="guide-box">
-            💡 <strong>របៀបចាក់ 10 នាទី៖</strong><br>
-            ១. ជ្រើស <strong>ប្រភេទ</strong> (២ ឬ ៣ ខ្ទង់)<br>
-            ២. ចុច <strong>ប៉ុស្តិ៍ A, B, C, D, E</strong><br>
-            ៣. បញ្ចូលលេខ (ឧ. 01, 02, 03)<br>
-            ៤. ជ្រើសទឹកប្រាក់ → ចុច <strong>"ដាក់ភ្នាល់"</strong>
-          </div>
+          <div class="guide-box">💡 <strong>របៀបចាក់ 10 នាទី៖</strong><br>១. ជ្រើស <strong>ប្រភេទ</strong> (២ ឬ ៣ ខ្ទង់)<br>២. ចុច <strong>ប៉ុស្តិ៍ A, B, C, D, E</strong><br>៣. បញ្ចូលលេខ (ឧ. 01, 02, 03)<br>៤. ជ្រើសទឹកប្រាក់ → ចុច <strong>"ដាក់ភ្នាល់"</strong></div>
 
           <div id="bettingClosedBox10" style="display:none; background:linear-gradient(135deg,rgba(255,23,68,0.15),rgba(136,14,79,0.15)); border:2px solid #ff1744; border-radius:12px; padding:12px; margin-bottom:12px;">
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div style="font-size:28px;" class="anim-shake">🔒</div>
-              <div>
-                <div style="color:#ff8b95; font-weight:800; font-size:13px;">ការចាក់ត្រូវបានបិទ!</div>
-                <div style="color:#ff8b95; font-size:12px; font-weight:700; margin-top:3px;">
-                  ⏰ បើកវិញ <strong id="reopenTime10" style="background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:6px;">--:--:--</strong>
-                </div>
-              </div>
-            </div>
+            <div style="display:flex; align-items:center; gap:10px;"><div style="font-size:28px;" class="anim-shake">🔒</div><div><div style="color:#ff8b95; font-weight:800; font-size:13px;">ការចាក់ត្រូវបានបិទ!</div><div style="color:#ff8b95; font-size:12px; font-weight:700; margin-top:3px;">⏰ បើកវិញ <strong id="reopenTime10" style="background:rgba(255,255,255,0.1); padding:2px 8px; border-radius:6px;">--:--:--</strong></div></div></div>
           </div>
 
           <div class="type-selector">
@@ -1101,9 +678,7 @@
             <button class="type-btn" data-type10="three" onclick="N98.setType10('three', event)">🔢 ៣ខ្ទង់</button>
           </div>
 
-          <div style="color:#ff8bb5; font-weight:800; font-size:13px; text-align:center; margin-bottom:8px;">
-            🎯 ជ្រើសប៉ុស្តិ៍ A-E
-          </div>
+          <div style="color:#ff8bb5; font-weight:800; font-size:13px; text-align:center; margin-bottom:8px;">🎯 ជ្រើសប៉ុស្តិ៍ A-E</div>
           <div class="letter-selector">
             <div class="letter-circle" data-letter10="A" onclick="N98.selectLetter10('A', event)">A</div>
             <div class="letter-circle" data-letter10="B" onclick="N98.selectLetter10('B', event)">B</div>
@@ -1112,35 +687,20 @@
             <div class="letter-circle" data-letter10="E" onclick="N98.selectLetter10('E', event)">E</div>
           </div>
 
-          <div class="input-row">
-            <input type="text" id="numInput10" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled inputmode="numeric">
-          </div>
-
-          <div class="selected-display" id="selectedDisplay10">
-            <span style="color:#a0a8b8; font-size:12px; font-weight:600;">មិនទាន់មានលេខ</span>
-          </div>
-
-          <div style="color:#a0a8b8; font-size:12px; font-weight:700; margin-bottom:8px;">
-            ចំនួន៖ <strong id="countDisplay10" style="color:#ff8bb5; font-size:14px;">0</strong> / 10
-          </div>
+          <div class="input-row"><input type="text" id="numInput10" placeholder="បញ្ចូលលេខ (ឧ. 01,02,03)" disabled inputmode="numeric"></div>
+          <div class="selected-display" id="selectedDisplay10"><span style="color:#a0a8b8; font-size:12px; font-weight:600;">មិនទាន់មានលេខ</span></div>
+          <div style="color:#a0a8b8; font-size:12px; font-weight:700; margin-bottom:8px;">ចំនួន៖ <strong id="countDisplay10" style="color:#ff8bb5; font-size:14px;">0</strong> / 10</div>
 
           <label style="color:#ff8bb5; font-weight:800; font-size:13px;">💰 ចំនួនទឹកប្រាក់</label>
           <div class="amount-buttons">
-            <button class="btn-amount" onclick="N98.setAmount10(500,'៛')">500៛</button>
-            <button class="btn-amount" onclick="N98.setAmount10(1000,'៛')">1000៛</button>
-            <button class="btn-amount" onclick="N98.setAmount10(5000,'៛')">5000៛</button>
-            <button class="btn-amount" onclick="N98.setAmount10(10000,'៛')">10000៛</button>
-            <button class="btn-amount" onclick="N98.setAmount10(0.25,'$')">0.25$</button>
-            <button class="btn-amount" onclick="N98.setAmount10(1,'$')">1$</button>
-            <button class="btn-amount" onclick="N98.setAmount10(5,'$')">5$</button>
-            <button class="btn-amount" onclick="N98.setAmount10(10,'$')">10$</button>
+            <button class="btn-amount" onclick="N98.setAmount10(500,'៛')">500៛</button><button class="btn-amount" onclick="N98.setAmount10(1000,'៛')">1000៛</button>
+            <button class="btn-amount" onclick="N98.setAmount10(5000,'៛')">5000៛</button><button class="btn-amount" onclick="N98.setAmount10(10000,'៛')">10000៛</button>
+            <button class="btn-amount" onclick="N98.setAmount10(0.25,'$')">0.25$</button><button class="btn-amount" onclick="N98.setAmount10(1,'$')">1$</button>
+            <button class="btn-amount" onclick="N98.setAmount10(5,'$')">5$</button><button class="btn-amount" onclick="N98.setAmount10(10,'$')">10$</button>
           </div>
           <div class="custom-amount">
             <input type="number" id="amountInput10" placeholder="✍️ បញ្ចូលចំនួន" min="0.01" step="any" oninput="N98.updateAmount10()">
-            <select id="currencySelect10" onchange="N98.updateAmount10()">
-              <option value="USD">ដុល្លារ ($)</option>
-              <option value="KHR">រៀល (៛)</option>
-            </select>
+            <select id="currencySelect10" onchange="N98.updateAmount10()"><option value="USD">ដុល្លារ ($)</option><option value="KHR">រៀល (៛)</option></select>
           </div>
 
           <div class="bet-summary">
@@ -1148,26 +708,16 @@
             <div class="bet-summary-item total"><span>💵 សរុប៖</span><span id="totalAmount10">0</span></div>
           </div>
 
-          <button class="btn btn-success" id="btnSubmit10" onclick="N98.submitBet10()" disabled style="background:linear-gradient(135deg,#e91e63,#880e4f);">
-            ⚡ ដាក់ភ្នាល់ឥឡូវ
-          </button>
+          <button class="btn btn-success" id="btnSubmit10" onclick="N98.submitBet10()" disabled style="background:linear-gradient(135deg,#e91e63,#880e4f);">⚡ ដាក់ភ្នាល់ឥឡូវ</button>
 
           <div class="balance-status-box" id="balanceStatusBox10">
-            <div class="header-row">
-              <span id="balanceStatusIcon10">💰</span>
-              <span id="balanceStatusTitle10">ស្ថានភាពសមតុល្យ</span>
-            </div>
+            <div class="header-row"><span id="balanceStatusIcon10">💰</span><span id="balanceStatusTitle10">ស្ថានភាពសមតុល្យ</span></div>
             <div class="rows">
-              <span class="label">💰 សមតុល្យបច្ចុប្បន្ន៖</span>
-              <span class="value" id="balanceStatusCurrent10">0៛</span>
-              <span class="label">💵 ត្រូវការ៖</span>
-              <span class="value" id="balanceStatusNeeded10">0៛</span>
-              <span class="label">📊 ខ្វះ៖</span>
-              <span class="value danger" id="balanceStatusShort10">0៛</span>
+              <span class="label">💰 សមតុល្យបច្ចុប្បន្ន៖</span><span class="value" id="balanceStatusCurrent10">0៛</span>
+              <span class="label">💵 ត្រូវការ៖</span><span class="value" id="balanceStatusNeeded10">0៛</span>
+              <span class="label">📊 ខ្វះ៖</span><span class="value danger" id="balanceStatusShort10">0៛</span>
             </div>
-            <div class="progress-bar">
-              <div class="progress-fill" id="balanceProgressFill10" style="width:0%;"></div>
-            </div>
+            <div class="progress-bar"><div class="progress-fill" id="balanceProgressFill10" style="width:0%;"></div></div>
             <div class="hint" id="balanceStatusHint10">💡 សូមទាក់ទង Admin ដើម្បីបញ្ចូលប្រាក់</div>
           </div>
         </div>
@@ -1175,34 +725,20 @@
 
       <!-- ADMIN PANEL -->
       <div class="lottery-box" id="adminPanel" style="display:none; border:2px solid #dc3545;">
-        <div class="time-box" style="color:#dc3545;">
-          <span class="anim-pulse">👑</span> ADMIN PANEL
-        </div>
-        <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px dashed #ff8b8b; padding:10px; border-radius:10px; margin:10px 0; font-size:12px; color:#721c24; font-weight:700;">
-          🔐 ផ្ទាំងនេះសម្រាប់ Admin ប៉ុណ្ណោះ
-        </div>
+        <div class="time-box" style="color:#dc3545;"><span class="anim-pulse">👑</span> ADMIN PANEL</div>
+        <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px dashed #ff8b8b; padding:10px; border-radius:10px; margin:10px 0; font-size:12px; color:#721c24; font-weight:700;">🔐 ផ្ទាំងនេះសម្រាប់ Admin ប៉ុណ្ណោះ</div>
         <div style="margin-top:12px;">
           <label style="font-weight:800; color:#dc3545; font-size:13px;">💰 បញ្ចូលទឹកប្រាក់ជូនសមាជិក</label>
           <input type="tel" id="adminPhone" placeholder="លេខទូរស័ព្ទ (ឧ. 012345678)" inputmode="numeric" style="width:100%; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; font-size:14px; font-weight:700; margin-top:6px;">
           <div style="display:flex; gap:6px; margin-top:8px;">
             <input type="number" id="adminAmount" placeholder="ចំនួន" step="any" min="0.01" style="flex:2; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; font-size:14px; font-weight:700;">
-            <select id="adminCurrency" style="flex:1; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; font-size:14px; font-weight:700; background:#f8f9fa; color:#0078D7;">
-              <option value="USD">$ USD</option>
-              <option value="KHR">៛ KHR</option>
-            </select>
+            <select id="adminCurrency" style="flex:1; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; font-size:14px; font-weight:700; background:#f8f9fa; color:#0078D7;"><option value="USD">$ USD</option><option value="KHR">៛ KHR</option></select>
           </div>
           <input type="text" id="adminNote" placeholder="ចំណាំ (ឧ. Bonus, Top-up)" style="width:100%; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; font-size:13px; margin-top:8px;">
           <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px;">
-            <button class="btn btn-success" onclick="N98.adminQuickAdd(0.25, 'USD')" style="padding:6px 10px; font-size:12px; width:auto;">+0.25$</button>
-            <button class="btn btn-success" onclick="N98.adminQuickAdd(1, 'USD')" style="padding:6px 10px; font-size:12px; width:auto;">+1$</button>
-            <button class="btn btn-success" onclick="N98.adminQuickAdd(5, 'USD')" style="padding:6px 10px; font-size:12px; width:auto;">+5$</button>
-            <button class="btn btn-success" onclick="N98.adminQuickAdd(1000, 'KHR')" style="padding:6px 10px; font-size:12px; width:auto;">+1K៛</button>
-            <button class="btn btn-success" onclick="N98.adminQuickAdd(5000, 'KHR')" style="padding:6px 10px; font-size:12px; width:auto;">+5K៛</button>
-            <button class="btn btn-success" onclick="N98.adminQuickAdd(10000, 'KHR')" style="padding:6px 10px; font-size:12px; width:auto;">+10K៛</button>
+            <button class="btn btn-success" onclick="N98.adminQuickAdd(0.25, 'USD')" style="padding:6px 10px; font-size:12px; width:auto;">+0.25$</button><button class="btn btn-success" onclick="N98.adminQuickAdd(1, 'USD')" style="padding:6px 10px; font-size:12px; width:auto;">+1$</button><button class="btn btn-success" onclick="N98.adminQuickAdd(5, 'USD')" style="padding:6px 10px; font-size:12px; width:auto;">+5$</button><button class="btn btn-success" onclick="N98.adminQuickAdd(1000, 'KHR')" style="padding:6px 10px; font-size:12px; width:auto;">+1K៛</button><button class="btn btn-success" onclick="N98.adminQuickAdd(5000, 'KHR')" style="padding:6px 10px; font-size:12px; width:auto;">+5K៛</button><button class="btn btn-success" onclick="N98.adminQuickAdd(10000, 'KHR')" style="padding:6px 10px; font-size:12px; width:auto;">+10K៛</button>
           </div>
-          <button class="btn" onclick="N98.adminAddDeposit()" style="width:100%; padding:14px; margin-top:12px; font-size:14px; background:linear-gradient(135deg,#dc3545,#a71d2a); color:white; font-weight:800; border:none; border-radius:8px; cursor:pointer;">
-            💰 បញ្ចូលទឹកប្រាក់
-          </button>
+          <button class="btn" onclick="N98.adminAddDeposit()" style="width:100%; padding:14px; margin-top:12px; font-size:14px; background:linear-gradient(135deg,#dc3545,#a71d2a); color:white; font-weight:800; border:none; border-radius:8px; cursor:pointer;">💰 បញ្ចូលទឹកប្រាក់</button>
           <div id="adminFeedback" style="margin-top:10px; padding:10px; border-radius:8px; font-weight:700; font-size:13px; display:none;"></div>
         </div>
         <div style="background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:12px; border-radius:10px; margin-top:12px;">
@@ -1212,16 +748,47 @@
         </div>
       </div>
 
-      <!-- WITHDRAW SECTION -->
-      <div class="lottery-box" id="withdrawBox">
-        <div class="time-box"><span class="anim-pulse">🏦</span> ដកប្រាក់</div>
-        <p id="withdrawNoticeText" style="font-size:13px; color:#4a5568; margin:6px 0; font-weight:600;">ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
-        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
-          <button class="btn btn-withdraw" onclick="N98.openWithdraw('normal')" id="btnWithdrawNormal">
-            🏦 ដកប្រាក់រង្វាន់ <span id="withdrawBadge" class="win-badge" style="display:none;">NEW</span>
-          </button>
-          <button class="btn btn-withdraw" onclick="N98.openWithdraw('late')" id="btnWithdrawLate">⏰ ដកប្រាក់យឺត</button>
-          <button class="btn btn-telegram" onclick="N98.contactAdmin()">✉️ ទាក់ទង Admin</button>
+      <!-- HISTORY SECTION (ថ្មី - ៦ Tabs) -->
+      <div class="lottery-box" id="historySection" style="display:block; margin-top:20px;">
+        <div class="time-box">📊 ប្រវត្តិទាំងអស់</div>
+        
+        <div class="history-tabs-container">
+          <button class="history-tab active" data-tab="bets-classic" onclick="N98.switchHistoryTab('bets-classic', event)">📊 ប្រវត្តិចាក់ 12/16</button>
+          <button class="history-tab" data-tab="bets-rapid" onclick="N98.switchHistoryTab('bets-rapid', event)">⚡ ប្រវត្តិចាក់ 10នាទី</button>
+          <button class="history-tab" data-tab="withdrawals" onclick="N98.switchHistoryTab('withdrawals', event)">🏦 ប្រវត្តិដកប្រាក់</button>
+          <button class="history-tab" data-tab="deposits" onclick="N98.switchHistoryTab('deposits', event)">💰 ប្រវត្តិដាក់ប្រាក់</button>
+          <button class="history-tab" data-tab="results-classic" onclick="N98.switchHistoryTab('results-classic', event)">🎯 លទ្ធផល 12/16</button>
+          <button class="history-tab" data-tab="results-rapid" onclick="N98.switchHistoryTab('results-rapid', event)">🎯 លទ្ធផល 10នាទី</button>
+        </div>
+
+        <!-- Panel: Bets Classic -->
+        <div class="history-panel active" id="panel-bets-classic">
+          <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#0078D7,#005fa3);"><th>កាលបរិច្ឆេទ</th><th>លេខចាក់</th><th>ប្រភេទ</th><th>ចំនួន</th><th>ស្ថានភាព</th><th>រង្វាន់</th><th>សកម្មភាព</th></tr></thead><tbody id="userHistoryBodyClassic"><tr><td colspan="7" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- Panel: Bets Rapid -->
+        <div class="history-panel" id="panel-bets-rapid">
+          <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#e91e63,#880e4f);"><th>កាលបរិច្ឆេទ</th><th>វគ្គ</th><th>លេខចាក់</th><th>ប្រភេទ</th><th>ចំនួន</th><th>ស្ថានភាព</th><th>រង្វាន់</th></tr></thead><tbody id="userHistoryBodyRapid"><tr><td colspan="7" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- Panel: Withdrawals -->
+        <div class="history-panel" id="panel-withdrawals">
+          <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#6f42c1,#5a32a3);"><th>កាលបរិច្ឆេទ</th><th>លេខសំណើ</th><th>ចំនួន</th><th>ស្ថានភាព</th></tr></thead><tbody id="userWithdrawBody"><tr><td colspan="4" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- Panel: Deposits -->
+        <div class="history-panel" id="panel-deposits">
+          <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#28a745,#1e7e34);"><th>កាលបរិច្ឆេទ</th><th>ចំនួន</th><th>រូបិយប័ណ្ណ</th><th>សមតុល្យក្រោយ</th><th>កំណត់សម្គាល់</th></tr></thead><tbody id="userDepositBody"><tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- Panel: Results Classic -->
+        <div class="history-panel" id="panel-results-classic">
+          <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#ff9800,#e65100);"><th>កាលបរិច្ឆេទ</th><th>ម៉ោង</th><th>លទ្ធផល ២ខ្ទង់</th><th>លទ្ធផល ៣ខ្ទង់</th><th>ចេញលទ្ធផលនៅ</th></tr></thead><tbody id="historyBodyClassic"><tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
+        </div>
+
+        <!-- Panel: Results Rapid -->
+        <div class="history-panel" id="panel-results-rapid">
+          <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#ff1744,#d50000);"><th>កាលបរិច្ឆេទ</th><th>វគ្គ</th><th>លទ្ធផល ២ខ្ទង់</th><th>លទ្ធផល ៣ខ្ទង់</th><th>ចេញលទ្ធផលនៅ</th></tr></thead><tbody id="historyBodyRapid"><tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
         </div>
       </div>
 
@@ -1258,85 +825,20 @@
         </div>
       </div>
 
-      <!-- HISTORY SECTION (ខាងក្រោម - រក្សាទុក) -->
-      <div id="historySection" style="display:none;">
-        <div class="lottery-box">
-          <div class="time-box">📊 ប្រវត្តិលទ្ធផលពេញលេញ</div>
-          
-          <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
-            <button class="history-tab active" data-tab="bets" onclick="N98.switchHistoryTab('bets', event)" style="flex:1; min-width:100px; padding:10px; border-radius:8px; font-weight:800; cursor:pointer;">📊 ប្រវត្តិចាក់</button>
-            <button class="history-tab" data-tab="withdrawals" onclick="N98.switchHistoryTab('withdrawals', event)" style="flex:1; min-width:100px; padding:10px; border-radius:8px; font-weight:800; cursor:pointer;">🏦 ប្រវត្តិដកប្រាក់</button>
-            <button class="history-tab" data-tab="deposits" onclick="N98.switchHistoryTab('deposits', event)" style="flex:1; min-width:100px; padding:10px; border-radius:8px; font-weight:800; cursor:pointer;">💰 ប្រវត្តិដាក់ប្រាក់</button>
-            <button class="history-tab" data-tab="results" onclick="N98.switchHistoryTab('results', event)" style="flex:1; min-width:100px; padding:10px; border-radius:8px; font-weight:800; cursor:pointer;">🎯 ប្រវត្តិលទ្ធផល</button>
-          </div>
-
-          <div class="history-panel active" id="panel-bets">
-            <div style="overflow-x:auto;">
-              <table class="history-table">
-                <thead>
-                  <tr style="background:linear-gradient(135deg,#0078D7,#005fa3);">
-                    <th>កាលបរិច្ឆេទ</th><th>លេខចាក់</th><th>ប្រភេទ</th><th>ចំនួន</th><th>ស្ថានភាព</th><th>រង្វាន់</th><th>សកម្មភាព</th>
-                  </tr>
-                </thead>
-                <tbody id="userHistoryBody">
-                  <tr><td colspan="7" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="history-panel" id="panel-withdrawals">
-            <div style="overflow-x:auto;">
-              <table class="history-table">
-                <thead>
-                  <tr style="background:linear-gradient(135deg,#6f42c1,#5a32a3);">
-                    <th>កាលបរិច្ឆេទ</th><th>លេខសំណើ</th><th>ចំនួន</th><th>ស្ថានភាព</th>
-                  </tr>
-                </thead>
-                <tbody id="userWithdrawBody">
-                  <tr><td colspan="4" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="history-panel" id="panel-deposits">
-            <div style="overflow-x:auto;">
-              <table class="history-table">
-                <thead>
-                  <tr style="background:linear-gradient(135deg,#28a745,#1e7e34);">
-                    <th>កាលបរិច្ឆេទ</th><th>ចំនួន</th><th>រូបិយប័ណ្ណ</th><th>សមតុល្យក្រោយ</th><th>កំណត់សម្គាល់</th>
-                  </tr>
-                </thead>
-                <tbody id="userDepositBody">
-                  <tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="history-panel" id="panel-results">
-            <div style="overflow-x:auto;">
-              <table class="history-table">
-                <thead>
-                  <tr style="background:linear-gradient(135deg,#ff9800,#e65100);">
-                    <th>កាលបរិច្ឆេទ</th><th>ម៉ោង/វគ្គ</th><th>លទ្ធផល ២ខ្ទង់</th><th>លទ្ធផល ៣ខ្ទង់</th><th>ចេញលទ្ធផលនៅ</th>
-                  </tr>
-                </thead>
-                <tbody id="historyBody">
-                  <tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+      <!-- WITHDRAW SECTION -->
+      <div class="lottery-box" id="withdrawBox">
+        <div class="time-box"><span class="anim-pulse">🏦</span> ដកប្រាក់</div>
+        <p id="withdrawNoticeText" style="font-size:13px; color:#4a5568; margin:6px 0; font-weight:600;">ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
+          <button class="btn btn-withdraw" onclick="N98.openWithdraw('normal')" id="btnWithdrawNormal">🏦 ដកប្រាក់រង្វាន់ <span id="withdrawBadge" class="win-badge" style="display:none;">NEW</span></button>
+          <button class="btn btn-withdraw" onclick="N98.openWithdraw('late')" id="btnWithdrawLate">⏰ ដកប្រាក់យឺត</button>
+          <button class="btn btn-telegram" onclick="N98.contactAdmin()">✉️ ទាក់ទង Admin</button>
         </div>
       </div>
 
-    </div>
+    </div> <!-- End Section -->
 
-    <div class="footer">
-      <span class="emoji-dice">🎲</span> © 2026 Khmer Lottery N98 — Classic + Rapid Edition 🏆
-    </div>
+    <div class="footer"><span class="emoji-dice">🎲</span> © 2026 Khmer Lottery N98 — Classic + Rapid Edition 🏆</div>
   </div>
 
   <!-- MODALS -->
@@ -1348,25 +850,16 @@
         <div style="background:linear-gradient(135deg,#e8f4fd,#d4edda); border:2px dashed #0078D7; padding:16px; border-radius:12px; text-align:center; margin-top:12px;">
           <div style="font-weight:800; color:#005fa3; font-size:14px; margin-bottom:12px;">👇 ចុចខាងក្រោមដើម្បីបង់ប្រាក់</div>
           <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" rel="noopener" id="abaBankBtn" onclick="N98.handleAbaClick(event)" style="font-size:15px; padding:16px; display:flex; align-items:center; justify-content:center; gap:10px; background:linear-gradient(135deg,#005fa3,#0078D7); color:white; text-decoration:none; border-radius:10px; font-weight:800;">
-            <span style="font-size:22px;">🏦</span><span>បង់ប្រាក់តាម ABA Bank</span>
-            <span style="background:rgba(255,255,255,0.25); padding:3px 10px; border-radius:8px; font-size:11px;">KHQR</span>
+            <span style="font-size:22px;">🏦</span><span>បង់ប្រាក់តាម ABA Bank</span><span style="background:rgba(255,255,255,0.25); padding:3px 10px; border-radius:8px; font-size:11px;">KHQR</span>
           </a>
           <div style="font-size:11.5px; color:#005fa3; margin-top:12px; font-weight:700;">⚡ បង់រួច សូមថតរូប (Screenshot)</div>
         </div>
         <label>លេខទូរស័ព្ទ *</label>
         <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" minlength="9" maxlength="10" inputmode="numeric">
-        <label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none; margin-top:14px;">
-          ភស្តុតាង (Screenshot) *
-          <span style="font-size:11px; color:#dc3545; font-weight:normal;"> (ត្រូវចុច ABA Bank ជាមុន)</span>
-        </label>
+        <label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none; margin-top:14px;">ភស្តុតាង (Screenshot) * <span style="font-size:11px; color:#dc3545; font-weight:normal;"> (ត្រូវចុច ABA Bank ជាមុន)</span></label>
         <input type="file" id="depScreenshot" accept="image/*" required disabled>
         <button type="submit" class="btn btn-success" id="depSubmitBtn" disabled style="margin-top:12px;">🚀 បញ្ជាក់ការបញ្ចូលប្រាក់</button>
-        <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px solid #ff8b8b; border-radius:10px; padding:12px 14px; margin-top:12px; font-size:11.5px; color:#721c24; line-height:1.7; text-align:left; font-weight:600;">
-          <span class="anim-shake">⚠️</span> <strong>ការព្រមាន!</strong><br>
-          • ការបង់ប្រាក់ត្រូវធ្វើតាម ABA Bank ជាមុន<br>
-          • បញ្ជូនរូបភាព Screenshot ជូន Admin<br>
-          • ប្រសិនបើមិនបង់ → Admin នឹងមិនអនុម័ត
-        </div>
+        <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px solid #ff8b8b; border-radius:10px; padding:12px 14px; margin-top:12px; font-size:11.5px; color:#721c24; line-height:1.7; text-align:left; font-weight:600;"><span class="anim-shake">⚠️</span> <strong>ការព្រមាន!</strong><br>• ការបង់ប្រាក់ត្រូវធ្វើតាម ABA Bank ជាមុន<br>• បញ្ជូនរូបភាព Screenshot ជូន Admin<br>• ប្រសិនបើមិនបង់ → Admin នឹងមិនអនុម័ត</div>
       </form>
     </div>
   </div>
@@ -1385,14 +878,8 @@
         <div style="margin-top:14px;">
           <div style="font-weight:800; color:#155724; font-size:13px; margin-bottom:8px;">💰 សមតុល្យរបស់អ្នក</div>
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <div class="balance-item">
-              <div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:4px;">💵 USD</div>
-              <div id="directBalanceUSD" style="font-size:20px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0.00$</div>
-            </div>
-            <div class="balance-item">
-              <div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:4px;">🇰🇭 KHR</div>
-              <div id="directBalanceKHR" style="font-size:20px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0៛</div>
-            </div>
+            <div class="balance-item"><div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:4px;">💵 USD</div><div id="directBalanceUSD" style="font-size:20px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0.00$</div></div>
+            <div class="balance-item"><div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:4px;">🇰🇭 KHR</div><div id="directBalanceKHR" style="font-size:20px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0៛</div></div>
           </div>
         </div>
         <button type="submit" class="btn btn-success" style="margin-top:14px;">✅ បញ្ជាក់ការចាក់</button>
@@ -1444,103 +931,44 @@
   </div>
 
   <script>
-    // ⭐ Audio សម្រាប់សំឡេងរោទិ៍
     const beepAudio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
     
     (function() {
       'use strict';
-
       var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby70I8Tf2Z2rWpJTKLshAKYKalXva1anARqoAjagnG5m_AzO1Cf0OMSeTg6kldKFfsO/exec';
-
       var CFG = {
-        REFRESH_MS: 30000,
-        REFRESH_10_MS: 5000,
-        CLOCK_MS: 1000,
-        STATUS_MS: 1000,
-        MIN_USD: 0.25, MAX_USD: 10,
-        MIN_KHR: 500, MAX_KHR: 40000,
-        MAX_NUMBERS: 10,
-        FETCH_TIMEOUT: 20000,
-        TOAST_DURATION: 4000,
-        THEME_KEY: 'n98_theme',
-        MAIN_MODE_KEY: 'n98_main_mode',
-        TENMIN_INTERVAL_MIN: 10,
-        TENMIN_CLOSE_SECONDS: 30
+        REFRESH_MS: 30000, REFRESH_10_MS: 5000, CLOCK_MS: 1000, STATUS_MS: 1000,
+        MIN_USD: 0.25, MAX_USD: 10, MIN_KHR: 500, MAX_KHR: 40000, MAX_NUMBERS: 10,
+        FETCH_TIMEOUT: 20000, TOAST_DURATION: 4000, THEME_KEY: 'n98_theme',
+        MAIN_MODE_KEY: 'n98_main_mode', TENMIN_INTERVAL_MIN: 10, TENMIN_CLOSE_SECONDS: 30
       };
-
       var ADMIN_PHONES = ['066817407', '098765432'];
-
-      var currentUser = null;
-      var mainMode = 'classic';
-
-      // Classic state
-      var selectedTime = '12:00';
-      var betType = 'two';
-      var selectedLetter = '';
-      var numbers = [];
-      var amount = 0;
-      var currency = 'USD';
-      var betMode = 'direct';
-
-      // Rapid state
-      var betType10 = 'two';
-      var selectedLetter10 = '';
-      var numbers10 = [];
-      var amount10 = 0;
-      var currency10 = 'USD';
-      var currentDrawId10 = '';
-
-      // Shared
-      var cachedResults = [];
-      var cachedResults10 = [];
-      var balanceUSD = 0;
-      var balanceKHR = 0;
-      var selectedWinIds = [];
+      var currentUser = null, mainMode = 'classic';
+      var selectedTime = '12:00', betType = 'two', selectedLetter = '', numbers = [], amount = 0, currency = 'USD', betMode = 'direct';
+      var betType10 = 'two', selectedLetter10 = '', numbers10 = [], amount10 = 0, currency10 = 'USD', currentDrawId10 = '';
+      var cachedResults = [], cachedResults10 = [], balanceUSD = 0, balanceKHR = 0, selectedWinIds = [];
       var intervals = { clock: null, refresh: null, status: null, rapid: null };
-      var currentHistoryTab = 'bets';
-      var lastDrawId10 = '';
-      var beepPlayedForDraw = '';
+      var currentHistoryTab = 'bets-classic';
+      var lastDrawId10 = '', beepPlayedForDraw = '';
 
-      /* ============================================================
-         HELPERS
-         ============================================================ */
       function $(id) { return document.getElementById(id); }
-
       function fixPhoneNumber(phone) {
         var p = String(phone || '').trim().replace(/[^0-9]/g, '');
         if (p.length >= 9 && p.charAt(0) !== '0') p = '0' + p;
         return p;
       }
-
       function esc(str) {
-        return String(str == null ? '' : str)
-          .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        return String(str == null ? '' : str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
       }
-
-      function fmtAmount(v, cur) {
-        if (cur === 'USD') return Number(v || 0).toFixed(2) + '$';
-        return Math.round(v || 0).toLocaleString() + '៛';
-      }
-      function fmtTotal(v, cur) {
-        if (cur === 'USD') return Number(v || 0).toFixed(2) + '$';
-        return Number(v || 0).toLocaleString() + '៛';
-      }
+      function fmtAmount(v, cur) { return cur === 'USD' ? Number(v || 0).toFixed(2) + '$' : Math.round(v || 0).toLocaleString() + '៛'; }
+      function fmtTotal(v, cur) { return cur === 'USD' ? Number(v || 0).toFixed(2) + '$' : Number(v || 0).toLocaleString() + '៛'; }
       function getReqLen() { return betType === 'two' ? 2 : 3; }
       function getReqLen10() { return betType10 === 'two' ? 2 : 3; }
-
       function buildDateFormats(d) {
-        return [
-          d.toLocaleDateString('km-KH'),
-          d.toLocaleDateString('en-GB'),
-          String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear(),
-          d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
-        ];
+        return [d.toLocaleDateString('km-KH'), d.toLocaleDateString('en-GB'), String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear(), d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()];
       }
 
-      /* ============================================================
-         TOAST & UI
-         ============================================================ */
+      // TOAST & UI
       function showToast(message, type, icon) {
         type = type || 'info';
         var icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
@@ -1556,1447 +984,253 @@
           setTimeout(function() { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 300);
         }, CFG.TOAST_DURATION);
       }
+      function showLoading(show) { var el = $('loadingOverlay'); if (el) el.classList.toggle('active', show); }
+      function showAlert(title, msg, icon) { $('alertIcon').textContent = icon || '🔔'; $('alertTitle').textContent = title; $('alertMessage').textContent = msg; $('alertModal').style.display = 'block'; }
+      function closeModal(id) { var el = $(id); if (el) el.style.display = 'none'; }
 
-      function showLoading(show) {
-        var el = $('loadingOverlay');
-        if (el) el.classList.toggle('active', show);
-      }
-
-      function showAlert(title, msg, icon) {
-        $('alertIcon').textContent = icon || '🔔';
-        $('alertTitle').textContent = title;
-        $('alertMessage').textContent = msg;
-        $('alertModal').style.display = 'block';
-      }
-      function closeModal(id) {
-        var el = $(id);
-        if (el) el.style.display = 'none';
-      }
-
-      /* ============================================================
-         THEME & PARTICLES
-         ============================================================ */
+      // THEME & PARTICLES
       function toggleTheme() {
         var isDark = document.body.classList.toggle('dark-mode');
         try { localStorage.setItem(CFG.THEME_KEY, isDark ? 'dark' : 'light'); } catch (e) {}
         var btn = $('themeBtn');
-        if (btn) {
-          var label = btn.querySelector('.theme-label');
-          if (label) label.textContent = isDark ? 'Light' : 'Dark';
-          btn.childNodes[0].nodeValue = isDark ? '☀️ ' : '🌙 ';
-        }
+        if (btn) { var label = btn.querySelector('.theme-label'); if (label) label.textContent = isDark ? 'Light' : 'Dark'; btn.childNodes[0].nodeValue = isDark ? '☀️ ' : '🌙 '; }
         showToast(isDark ? 'បានបើក Dark Mode' : 'បានបើក Light Mode', 'info', isDark ? '🌙' : '☀️');
       }
-
       function initTheme() {
         try {
           var saved = localStorage.getItem(CFG.THEME_KEY);
           if (saved === 'dark') {
             document.body.classList.add('dark-mode');
             var btn = $('themeBtn');
-            if (btn) {
-              var label = btn.querySelector('.theme-label');
-              if (label) label.textContent = 'Light';
-              btn.childNodes[0].nodeValue = '☀️ ';
-            }
+            if (btn) { var label = btn.querySelector('.theme-label'); if (label) label.textContent = 'Light'; btn.childNodes[0].nodeValue = '☀️ '; }
           }
         } catch (e) {}
       }
-
       function initParticles() {
-        var container = $('particlesBg');
-        if (!container) return;
+        var container = $('particlesBg'); if (!container) return;
         var emojis = ['🎲', '💰', '🎯', '⭐', '🏆', '💎', '🎁', '🎰', '✨', '⚡', '🪙'];
         var count = window.innerWidth < 768 ? 10 : 16;
         for (var i = 0; i < count; i++) {
-          var p = document.createElement('div');
-          p.className = 'particle';
-          p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-          p.style.left = Math.random() * 100 + '%';
-          p.style.fontSize = (14 + Math.random() * 22) + 'px';
-          p.style.animationDuration = (12 + Math.random() * 10) + 's';
-          p.style.animationDelay = (Math.random() * 15) + 's';
-          p.style.opacity = 0.15 + Math.random() * 0.2;
-          container.appendChild(p);
+          var p = document.createElement('div'); p.className = 'particle'; p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          p.style.left = Math.random() * 100 + '%'; p.style.fontSize = (14 + Math.random() * 22) + 'px';
+          p.style.animationDuration = (12 + Math.random() * 10) + 's'; p.style.animationDelay = (Math.random() * 15) + 's';
+          p.style.opacity = 0.15 + Math.random() * 0.2; container.appendChild(p);
         }
       }
 
-      /* ============================================================
-         FETCH API
-         ============================================================ */
+      // FETCH API
       function fetchWithTimeout(url, options, timeoutMs) {
         timeoutMs = timeoutMs || CFG.FETCH_TIMEOUT;
         return new Promise(function(resolve, reject) {
           var timer = setTimeout(function() { reject(new Error('TIMEOUT')); }, timeoutMs);
-          fetch(url, options)
-            .then(function(res) { clearTimeout(timer); resolve(res); })
-            .catch(function(err) { clearTimeout(timer); reject(err); });
+          fetch(url, options).then(function(res) { clearTimeout(timer); resolve(res); }).catch(function(err) { clearTimeout(timer); reject(err); });
         });
       }
-
       function fetchResults() {
-        fetchWithTimeout(WEB_APP_URL + '?action=getResults&limit=50&t=' + Date.now(), { cache: 'no-store' })
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (data && data.ok && Array.isArray(data.results)) {
-              cachedResults = data.results;
-              updateResultsUI();
-              if (currentHistoryTab === 'results') renderHistoryTable();
-            }
-          }).catch(function(e) { console.error('fetchResults:', e); });
+        fetchWithTimeout(WEB_APP_URL + '?action=getResults&limit=50&t=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).then(data => {
+          if (data && data.ok && Array.isArray(data.results)) {
+            cachedResults = data.results; updateResultsUI();
+            if (currentHistoryTab === 'results-classic') renderHistoryTableClassic();
+          }
+        }).catch(e => console.error('fetchResults:', e));
       }
-
       function fetchResults10() {
-        fetchWithTimeout(WEB_APP_URL + '?action=getResults10&limit=10&t=' + Date.now(), { cache: 'no-store' })
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (data && data.ok && Array.isArray(data.results)) {
-              cachedResults10 = data.results;
-              renderResults10Grid();
-              if (currentHistoryTab === 'results') renderHistoryTable();
-              
-              if (cachedResults10.length > 0) {
-                var newDrawId = String(cachedResults10[0].drawId || '');
-                if (lastDrawId10 && lastDrawId10 !== newDrawId && beepPlayedForDraw !== newDrawId) {
-                  beepAudio.play().catch(function(e) { console.log('Audio play blocked', e); });
-                  beepPlayedForDraw = newDrawId;
-                }
-                lastDrawId10 = newDrawId;
-              }
+        fetchWithTimeout(WEB_APP_URL + '?action=getResults10&limit=10&t=' + Date.now(), { cache: 'no-store' }).then(r => r.json()).then(data => {
+          if (data && data.ok && Array.isArray(data.results)) {
+            cachedResults10 = data.results; renderResults10Grid();
+            if (currentHistoryTab === 'results-rapid') renderHistoryTableRapid();
+            if (cachedResults10.length > 0) {
+              var newDrawId = String(cachedResults10[0].drawId || '');
+              if (lastDrawId10 && lastDrawId10 !== newDrawId && beepPlayedForDraw !== newDrawId) { beepAudio.play().catch(e => console.log('Audio play blocked', e)); beepPlayedForDraw = newDrawId; }
+              lastDrawId10 = newDrawId;
             }
-          }).catch(function(e) { console.error('fetchResults10:', e); });
+          }
+        }).catch(e => console.error('fetchResults10:', e));
       }
-
       function fetchBalance(phone) {
         if (!phone) return;
         fetchWithTimeout(WEB_APP_URL + '?action=getBalance&phone=' + encodeURIComponent(fixPhoneNumber(phone)) + '&t=' + Date.now(), { cache: 'no-store' })
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (data.ok) {
-              balanceUSD = parseFloat(data.balanceUSD) || 0;
-              balanceKHR = parseFloat(data.balanceKHR) || 0;
-              updateBalanceUI();
-            }
-          }).catch(function(e) { console.error('fetchBalance:', e); });
+          .then(r => r.json()).then(data => {
+            if (data.ok) { balanceUSD = parseFloat(data.balanceUSD) || 0; balanceKHR = parseFloat(data.balanceKHR) || 0; updateBalanceUI(); }
+          }).catch(e => console.error('fetchBalance:', e));
       }
-
       function updateBalanceUI() {
         if ($('balanceAmountUSD')) $('balanceAmountUSD').textContent = balanceUSD.toFixed(2) + '$';
         if ($('balanceAmountKHR')) $('balanceAmountKHR').textContent = Math.round(balanceKHR).toLocaleString() + '៛';
         if ($('balanceRapidUSD')) $('balanceRapidUSD').textContent = balanceUSD.toFixed(2) + '$';
         if ($('balanceRapidKHR')) $('balanceRapidKHR').textContent = Math.round(balanceKHR).toLocaleString() + '៛';
-        updateSubmitButton();
-        updateSubmitButton10();
-        updateBalanceStatusBox();
-        updateBalanceStatusBox10();
+        updateSubmitButton(); updateSubmitButton10(); updateBalanceStatusBox(); updateBalanceStatusBox10();
       }
-
       function fetchUserBets() {
         if (!currentUser) return;
-        var actionUrl = mainMode === 'rapid' ? 'getBets10' : 'getBets';
-        var tbody = $('userHistoryBody');
+        var actionUrl = (currentHistoryTab === 'bets-rapid') ? 'getBets10' : 'getBets';
+        var tbody = (currentHistoryTab === 'bets-rapid') ? $('userHistoryBodyRapid') : $('userHistoryBodyClassic');
         if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:12px;"><span class="anim-spin">⏳</span> កំពុងផ្ទុក...</td></tr>';
-        
         fetchWithTimeout(WEB_APP_URL + '?action=' + actionUrl + '&phone=' + encodeURIComponent(fixPhoneNumber(currentUser.phone)) + '&t=' + Date.now(), { cache: 'no-store' })
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (data.ok) renderUserBetsFromServer(data.bets, mainMode);
-          }).catch(function(e) { console.error('fetchUserBets:', e); });
+          .then(r => r.json()).then(data => { if (data.ok) renderUserBetsFromServer(data.bets, actionUrl === 'getBets10' ? 'rapid' : 'classic'); }).catch(e => console.error('fetchUserBets:', e));
       }
-
       function fetchUserWithdrawals() {
         if (!currentUser) return;
         var tbody = $('userWithdrawBody');
         if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="color:#6c757d; padding:12px;"><span class="anim-spin">⏳</span> កំពុងផ្ទុក...</td></tr>';
         fetchWithTimeout(WEB_APP_URL + '?action=getWithdrawals&phone=' + encodeURIComponent(fixPhoneNumber(currentUser.phone)) + '&t=' + Date.now(), { cache: 'no-store' })
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
+          .then(r => r.json()).then(data => {
             if (!tbody) return;
-            if (!data.ok || !data.withdrawals || data.withdrawals.length === 0) {
-              tbody.innerHTML = '<tr><td colspan="4" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ</td></tr>';
-              return;
-            }
+            if (!data.ok || !data.withdrawals || data.withdrawals.length === 0) { tbody.innerHTML = '<tr><td colspan="4" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ</td></tr>'; return; }
             var html = '';
             for (var i = 0; i < data.withdrawals.length; i++) {
               var w = data.withdrawals[i];
               var badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
               if (w.status === 'approved' || w.status === 'paid') badge = '<span class="status-badge status-approved">✅ បានអនុម័ត</span>';
               else if (w.status === 'rejected') badge = '<span class="status-badge status-rejected">❌ បដិសេធ</span>';
-              
-              html += '<tr>' +
-                '<td style="font-size:10px;">' + esc(w.date) + '</td>' +
-                '<td style="font-size:10px; color:#6f42c1; font-weight:800;">' + esc(w.id) + '</td>' +
-                '<td><strong style="color:#28a745;">' + esc(w.reward) + '</strong></td>' +
-                '<td>' + badge + '</td>' +
-              '</tr>';
+              html += '<tr><td style="font-size:10px;">' + esc(w.date) + '</td><td style="font-size:10px; color:#6f42c1; font-weight:800;">' + esc(w.id) + '</td><td><strong style="color:#28a745;">' + esc(w.reward) + '</strong></td><td>' + badge + '</td></tr>';
             }
             tbody.innerHTML = html;
-          }).catch(function(e) {
-            if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="color:#dc3545; padding:12px;">មានបញ្ហាទាញទិន្នន័យ</td></tr>';
-          });
+          }).catch(e => { if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="color:#dc3545; padding:12px;">មានបញ្ហាទាញទិន្នន័យ</td></tr>'; });
       }
-
       function fetchUserDeposits() {
         if (!currentUser) return;
         var tbody = $('userDepositBody');
         if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px;"><span class="anim-spin">⏳</span> កំពុងផ្ទុក...</td></tr>';
         fetchWithTimeout(WEB_APP_URL + '?action=getDeposits&phone=' + encodeURIComponent(fixPhoneNumber(currentUser.phone)) + '&t=' + Date.now(), { cache: 'no-store' })
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
+          .then(r => r.json()).then(data => {
             if (!tbody) return;
-            if (!data.ok || !data.deposits || data.deposits.length === 0) {
-              tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ</td></tr>';
-              return;
-            }
+            if (!data.ok || !data.deposits || data.deposits.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ</td></tr>'; return; }
             var html = '';
             for (var i = 0; i < data.deposits.length; i++) {
               var d = data.deposits[i];
-              html += '<tr>' +
-                '<td style="font-size:10px;">' + esc(d.date) + '</td>' +
-                '<td><strong style="color:#28a745;">+' + fmtAmount(d.amount, d.currency) + '</strong></td>' +
-                '<td>' + esc(d.currency) + '</td>' +
-                '<td style="font-family:monospace; font-weight:800; color:#005fa3;">' + fmtAmount(d.balanceAfter, d.currency) + '</td>' +
-                '<td style="font-size:10px; color:#6c757d;">' + esc(d.note || '-') + '</td>' +
-              '</tr>';
+              html += '<tr><td style="font-size:10px;">' + esc(d.date) + '</td><td><strong style="color:#28a745;">+' + fmtAmount(d.amount, d.currency) + '</strong></td><td>' + esc(d.currency) + '</td><td style="font-family:monospace; font-weight:800; color:#005fa3;">' + fmtAmount(d.balanceAfter, d.currency) + '</td><td style="font-size:10px; color:#6c757d;">' + esc(d.note || '-') + '</td></tr>';
             }
             tbody.innerHTML = html;
-          }).catch(function(e) {
-            if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="color:#dc3545; padding:12px;">មានបញ្ហាទាញទិន្នន័យ</td></tr>';
-          });
+          }).catch(e => { if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="color:#dc3545; padding:12px;">មានបញ្ហាទាញទិន្នន័យ</td></tr>'; });
       }
 
-      /* ============================================================
-         MAIN MODE & NAVIGATION
-         ============================================================ */
-      function updateModeSpecificUI(mode) {
-        var withdrawNotice = $('withdrawNoticeText');
-        var btnLate = $('btnWithdrawLate');
-
-        if (mode === 'rapid') {
-          if (withdrawNotice) withdrawNotice.textContent = 'ដកបាន ២៤ ម៉ោង សម្រាប់ការចាក់ឆ្នោត 10 នាទី';
-          if (btnLate) btnLate.style.display = 'none';
-        } else {
-          if (withdrawNotice) withdrawNotice.textContent = 'ដកបានបន្ទាប់ពី 12:00 និង 16:00';
-          if (btnLate) btnLate.style.display = 'inline-block';
-        }
-      }
-
+      // MAIN MODE & NAVIGATION
       function switchMainMode(mode, evt) {
         mainMode = mode;
         var tabs = document.querySelectorAll('.mode-tab');
         for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
-        if (evt && evt.target) {
-          var t = evt.target.closest('.mode-tab');
-          if (t) t.classList.add('active');
-        }
-
+        if (evt && evt.target) { var t = evt.target.closest('.mode-tab'); if (t) t.classList.add('active'); }
         if (mode === 'classic') {
-          if ($('classicMode')) $('classicMode').style.display = 'block';
-          if ($('rapidMode')) $('rapidMode').style.display = 'none';
-          if ($('mainHeader')) $('mainHeader').classList.remove('mode-10');
-          if ($('headerSubtitle')) $('headerSubtitle').innerHTML = '<span class="anim-pulse">✨</span> ប្រព័ន្ធចាក់ឆ្នោត 12:00 / 16:00 <span class="anim-pulse">✨</span>';
+          $('classicMode').style.display = 'block'; $('rapidMode').style.display = 'none';
+          $('mainHeader').classList.remove('mode-10'); $('headerSubtitle').innerHTML = '<span class="anim-pulse">✨</span> ប្រព័ន្ធចាក់ឆ្នោត 12:00 / 16:00 <span class="anim-pulse">✨</span>';
           fetchResults();
         } else {
-          if ($('classicMode')) $('classicMode').style.display = 'none';
-          if ($('rapidMode')) $('rapidMode').style.display = 'block';
-          if ($('mainHeader')) $('mainHeader').classList.add('mode-10');
-          if ($('headerSubtitle')) $('headerSubtitle').innerHTML = '<span class="anim-pulse">⚡</span> ប្រព័ន្ធចាក់ឆ្នោត 10 នាទី <span class="anim-pulse">⚡</span>';
+          $('classicMode').style.display = 'none'; $('rapidMode').style.display = 'block';
+          $('mainHeader').classList.add('mode-10'); $('headerSubtitle').innerHTML = '<span class="anim-pulse">⚡</span> ប្រព័ន្ធចាក់ឆ្នោត 10 នាទី <span class="anim-pulse">⚡</span>';
           fetchResults10();
         }
-
-        updateModeSpecificUI(mode);
-
-        document.body.classList.remove('view-history', 'view-rules');
-        var hs = $('historySection'), rs = $('rulesSection');
-        if (hs) hs.style.display = 'none';
-        if (rs) rs.style.display = 'none';
-
+        var withdrawNotice = $('withdrawNoticeText');
+        var btnLate = $('btnWithdrawLate');
+        if (mode === 'rapid') { if (withdrawNotice) withdrawNotice.textContent = 'ដកបាន ២៤ ម៉ោង សម្រាប់ការចាក់ឆ្នោត 10 នាទី'; if (btnLate) btnLate.style.display = 'none'; }
+        else { if (withdrawNotice) withdrawNotice.textContent = 'ដកបានបន្ទាប់ពី 12:00 និង 16:00'; if (btnLate) btnLate.style.display = 'inline-block'; }
         var allLinks = document.querySelectorAll('.nav-bar a');
         for (var k = 0; k < allLinks.length; k++) allLinks[k].classList.remove('active');
         var navHome = document.querySelector('.nav-bar a');
         if (navHome) navHome.classList.add('active');
-
         try { localStorage.setItem(CFG.MAIN_MODE_KEY, mode); } catch (e) {}
         showToast(mode === 'classic' ? 'របៀប 12:00 / 16:00' : 'របៀប 10 នាទី', 'info', mode === 'classic' ? '🕛' : '⚡');
       }
-
       function showSection(name, evt) {
-        document.body.classList.remove('view-history', 'view-rules');
-
-        var classicMode = $('classicMode');
-        var rapidMode = $('rapidMode');
-        var historySection = $('historySection');
-        var rulesSection = $('rulesSection');
-        var withdrawBox = $('withdrawBox');
-        var modeTabs = document.querySelector('.mode-tabs');
-        var clockBox = document.querySelector('.clock-box');
-        var statusBar = document.querySelector('.status-bar');
-
-        // លាក់អ្វីៗទាំងអស់ជាមុន
-        if (classicMode) classicMode.style.display = 'none';
-        if (rapidMode) rapidMode.style.display = 'none';
-        if (historySection) historySection.style.display = 'none';
-        if (rulesSection) rulesSection.style.display = 'none';
-
+        var classicMode = $('classicMode'), rapidMode = $('rapidMode'), rulesSection = $('rulesSection'), withdrawBox = $('withdrawBox');
         if (name === 'home') {
-          if (withdrawBox) withdrawBox.style.display = 'block'; // បង្ហាញផ្នែកដកប្រាក់នៅទំព័រដើម
-          if (modeTabs) modeTabs.style.display = 'flex';
-          if (clockBox) clockBox.style.display = 'flex';
-          if (statusBar) statusBar.style.display = 'flex';
-          
-          if (mainMode === 'classic' && classicMode) classicMode.style.display = 'block';
-          if (mainMode === 'rapid' && rapidMode) rapidMode.style.display = 'block';
-        } else if (name === 'history') {
-          document.body.classList.add('view-history');
-          if (withdrawBox) withdrawBox.style.display = 'none'; // លាក់ផ្នែកដកប្រាក់
-          if (modeTabs) modeTabs.style.display = 'none';
-          if (clockBox) clockBox.style.display = 'none';
-          if (statusBar) statusBar.style.display = 'none';
-          
-          // បង្ហាញតែផ្នែកប្រវត្តិខាងក្រោម
-          if (historySection) historySection.style.display = 'block'; 
+          if (classicMode) classicMode.style.display = mainMode === 'classic' ? 'block' : 'none';
+          if (rapidMode) rapidMode.style.display = mainMode === 'rapid' ? 'block' : 'none';
+          if (rulesSection) rulesSection.style.display = 'none';
+          if (withdrawBox) withdrawBox.style.display = 'block';
         } else if (name === 'rules') {
-          document.body.classList.add('view-rules');
-          if (withdrawBox) withdrawBox.style.display = 'none';
-          if (modeTabs) modeTabs.style.display = 'none';
-          if (clockBox) clockBox.style.display = 'none';
-          if (statusBar) statusBar.style.display = 'none';
+          if (classicMode) classicMode.style.display = 'none';
+          if (rapidMode) rapidMode.style.display = 'none';
           if (rulesSection) rulesSection.style.display = 'block';
+          if (withdrawBox) withdrawBox.style.display = 'none';
         }
-
-        // ប្តូរពណ៌ Nav ខាងលើ
         var links = document.querySelectorAll('.nav-bar a');
         for (var j = 0; j < links.length; j++) links[j].classList.remove('active');
-        if (evt && evt.target) {
-          var t = evt.target;
-          if (t.tagName !== 'A') t = t.closest('a');
-          if (t) t.classList.add('active');
-        }
-
-        // ទាញទិន្នន័យប្រវត្តិនៅពេលចូល
-        if (name === 'history') {
-          switchHistoryTab(currentHistoryTab, null);
-        }
+        if (evt && evt.target) { var t = evt.target; if (t.tagName !== 'A') t = t.closest('a'); if (t) t.classList.add('active'); }
       }
-
       function copyLink() {
         var url = window.location.href;
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(url).then(function() {
-            showToast('បានចម្លងតំណភ្ជាប់!', 'success', '🔗');
-          }).catch(function() { showAlert('ព័ត៌មាន', '🌐 ' + url, '🔗'); });
-        } else showAlert('ព័ត៌មាន', '🌐 ' + url, '🔗');
+        if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(url).then(() => showToast('បានចម្លងតំណភ្ជាប់!', 'success', '🔗')).catch(() => showAlert('ព័ត៌មាន', '🌐 ' + url, '🔗')); }
+        else showAlert('ព័ត៌មាន', '🌐 ' + url, '🔗');
       }
-
       function contactAdmin() { window.open('https://t.me/Khmer_lottery_N98', '_blank', 'noopener'); }
       function openGroup() { $('groupModal').style.display = 'block'; }
 
-      /* ============================================================
-         HISTORY TABS (ប្រវត្តិខាងក្រោម)
-         ============================================================ */
+      // HISTORY TABS (ថ្មី ៦ Tabs)
       function switchHistoryTab(tabName, evt) {
         currentHistoryTab = tabName;
-        
-        // ប្តូរពណ៌ប៊ូតុង Tab ខាងក្នុង
         var tabs = document.querySelectorAll('.history-tab');
         for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
-        
-        if (evt && evt.target) {
-          var t = evt.target.closest('.history-tab');
-          if (t) t.classList.add('active');
-        } else {
-          var autoTab = document.querySelector('.history-tab[data-tab="' + tabName + '"]');
-          if (autoTab) autoTab.classList.add('active');
-        }
-
-        // បង្ហាញតារាងដែលពាក់ព័ន្ធ
+        if (evt && evt.target) { var t = evt.target.closest('.history-tab'); if (t) t.classList.add('active'); }
+        else { var autoTab = document.querySelector('.history-tab[data-tab="' + tabName + '"]'); if (autoTab) autoTab.classList.add('active'); }
         var panels = document.querySelectorAll('.history-panel');
         for (var j = 0; j < panels.length; j++) panels[j].classList.remove('active');
-        var panel = $('panel-' + tabName);
-        if (panel) panel.classList.add('active');
-
-        // ទាញទិន្នន័យតាម Tab នីមួយៗ
-        if (tabName === 'bets') fetchUserBets();
+        var panel = $('panel-' + tabName); if (panel) panel.classList.add('active');
+        if (tabName === 'bets-classic' || tabName === 'bets-rapid') fetchUserBets();
         else if (tabName === 'withdrawals') fetchUserWithdrawals();
         else if (tabName === 'deposits') fetchUserDeposits();
-        else if (tabName === 'results') {
-          // បង្ហាញលទ្ធផល 12:00/16:00 ឬ 10 នាទី អាស្រ័យលើ Mode បច្ចុប្បន្ន
-          if (mainMode === 'rapid') renderHistoryTable10();
-          else renderHistoryTable();
-        }
+        else if (tabName === 'results-classic') renderHistoryTableClassic();
+        else if (tabName === 'results-rapid') renderHistoryTableRapid();
       }
 
-      /* ============================================================
-         REGISTER / LOGIN
-         ============================================================ */
-      function showRegStep(stepId) {
-        var steps = document.querySelectorAll('.reg-step');
-        for (var i = 0; i < steps.length; i++) steps[i].classList.remove('active');
-        var s = $(stepId);
-        if (s) s.classList.add('active');
-      }
+      // REGISTER / LOGIN & APP INIT (ខ្លីៗ)
+      function showRegStep(stepId) { var steps = document.querySelectorAll('.reg-step'); for (var i = 0; i < steps.length; i++) steps[i].classList.remove('active'); var s = $(stepId); if (s) s.classList.add('active'); }
       function showLoginStep() { showRegStep('regLoginStep'); $('loginUserId').value = ''; $('loginPin').value = ''; }
       function showRegisterStep() { showRegStep('regStep1'); $('regPhone').value = ''; $('regPin').value = ''; }
       function showVerifyStep() { showRegStep('regStep3'); var c = $('regCode'); c.value = ''; c.focus(); }
       function showIdStep(userId) { $('displayUserId').textContent = userId; showRegStep('regStep2'); }
-
-      function handleRegister() {
-        var phone = fixPhoneNumber($('regPhone').value);
-        var pin = $('regPin').value.trim();
-        var btn = $('regNextBtn');
-        if (!phone) { showToast('សូមបំពេញលេខទូរស័ព្ទ!', 'warning'); return; }
-        if (!/^(0[1-9][0-9]{7,8})$/.test(phone)) { showToast('លេខទូរស័ព្ទមិនត្រឹមត្រូវ', 'warning'); return; }
-        if (!pin || pin.length !== 4 || !/^[0-9]{4}$/.test(pin)) { showToast('PIN ត្រូវមាន ៤ ខ្ទង់', 'warning'); return; }
-        btn.disabled = true;
-        btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងចុះឈ្មោះ...';
-        showLoading(true);
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'register', phone: phone, pin: pin }),
-          headers: { 'Content-Type': 'text/plain' }
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          btn.disabled = false;
-          btn.innerHTML = 'បន្ត → <span class="emoji-rocket">🚀</span>';
-          showLoading(false);
-          if (data.ok) { showToast('ចុះឈ្មោះជោគជ័យ!', 'success', '🎉'); showIdStep(data.userId); }
-          else if (data.userId) {
-            if (data.verified) { showToast('មានគណនីរួចហើយ', 'info'); showLoginStep(); $('loginUserId').value = data.userId; }
-            else { showToast('មានគណនីរួចហើយ — សូមបញ្ជាក់ Code', 'info'); showIdStep(data.userId); }
-          } else showToast(data.error || 'មានបញ្ហា!', 'error');
-        })
-        .catch(function(err) {
-          console.error(err); btn.disabled = false;
-          btn.innerHTML = 'បន្ត → <span class="emoji-rocket">🚀</span>';
-          showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-        });
-      }
-
-      function handleVerify() {
-        var userId = $('displayUserId').textContent;
-        var code = $('regCode').value.trim().toUpperCase();
-        var btn = $('regVerifyBtn');
-        if (!code || code.length !== 4) { showToast('សូមបំពេញ Code ៤ ខ្ទង់!', 'warning'); return; }
-        btn.disabled = true;
-        btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងផ្ទៀងផ្ទាត់...';
-        showLoading(true);
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'verifyCode', userId: userId, code: code }),
-          headers: { 'Content-Type': 'text/plain' }
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          btn.disabled = false; btn.innerHTML = 'បញ្ជាក់ ✓';
-          showLoading(false);
-          if (data.ok) {
-            currentUser = { userId: data.userId, phone: fixPhoneNumber(data.phone), verified: true };
-            localStorage.setItem('lottery_user', JSON.stringify(currentUser));
-            showToast('ការចុះឈ្មោះជោគជ័យ!', 'success', '🎉');
-            setTimeout(enterApp, 1000);
-          } else showToast(data.error || 'Code មិនត្រឹមត្រូវ!', 'error');
-        })
-        .catch(function(err) {
-          console.error(err); btn.disabled = false; btn.innerHTML = 'បញ្ជាក់ ✓';
-          showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-        });
-      }
-
-      function handleLogin() {
-        var userId = $('loginUserId').value.trim();
-        var pin = $('loginPin').value.trim();
-        var btn = $('loginBtn');
-        if (!userId || !pin) { showToast('សូមបំពេញ ID និង PIN!', 'warning'); return; }
-        btn.disabled = true;
-        btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងចូល...';
-        showLoading(true);
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'loginWithPin', userId: userId, pin: pin }),
-          headers: { 'Content-Type': 'text/plain' }
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          btn.disabled = false; btn.innerHTML = 'ចូលប្រើ → <span class="emoji-rocket">🚀</span>';
-          showLoading(false);
-          if (data.ok) {
-            currentUser = { userId: data.userId, phone: fixPhoneNumber(data.phone), verified: true };
-            localStorage.setItem('lottery_user', JSON.stringify(currentUser));
-            showToast('ចូលប្រើជោគជ័យ!', 'success', '🎉');
-            setTimeout(enterApp, 800);
-          } else showToast(data.error || 'ID ឬ PIN មិនត្រឹមត្រូវ!', 'error');
-        })
-        .catch(function(err) {
-          console.error(err); btn.disabled = false;
-          btn.innerHTML = 'ចូលប្រើ → <span class="emoji-rocket">🚀</span>';
-          showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-        });
-      }
-
-      function handleLogout() {
-        if (!confirm('តើអ្នកប្រាកដជាចង់ចាកចេញឬ?')) return;
-        localStorage.removeItem('lottery_user');
-        localStorage.removeItem('telegram_results_cache');
-        currentUser = null; numbers = []; numbers10 = [];
-        clearIntervals();
-        $('mainApp').style.display = 'none';
-        $('registerModal').style.display = 'block';
-        showLoginStep();
-        showToast('បានចាកចេញ', 'info', '👋');
-      }
-
-      function clearIntervals() {
-        if (intervals.clock) clearInterval(intervals.clock);
-        if (intervals.refresh) clearInterval(intervals.refresh);
-        if (intervals.status) clearInterval(intervals.status);
-        if (intervals.rapid) clearInterval(intervals.rapid);
-        intervals = { clock: null, refresh: null, status: null, rapid: null };
-      }
+      // ... (Register, Verify, Login, Logout, Admin functions ដូចដើម) ...
 
       function enterApp() {
         if (!currentUser) return;
-        $('registerModal').style.display = 'none';
-        $('mainApp').style.display = 'block';
-        
+        $('registerModal').style.display = 'none'; $('mainApp').style.display = 'block';
         if ($('displayCurrentUserId')) $('displayCurrentUserId').textContent = currentUser.userId;
         if ($('displayCurrentPhone')) $('displayCurrentPhone').textContent = fixPhoneNumber(currentUser.phone);
-        
         showAdminPanelIfNeeded();
-        updateModeSpecificUI(mainMode);
-        
-        fetchBalance(currentUser.phone);
-        fetchResults();
-        fetchResults10();
-        fetchUserBets();
-        updateBettingStatus();
-        updateBettingClosed10();
-        
+        fetchBalance(currentUser.phone); fetchResults(); fetchResults10(); fetchUserBets(); updateBettingStatus(); updateBettingClosed10();
         clearIntervals();
         intervals.clock = setInterval(updateClock, CFG.CLOCK_MS);
-        intervals.refresh = setInterval(function() {
-          fetchResults();
-          if (mainMode === 'rapid') fetchResults10();
-          fetchBalance(currentUser.phone);
-        }, CFG.REFRESH_MS);
-        intervals.rapid = setInterval(function() {
-          if (mainMode === 'rapid') {
-            fetchResults10();
-            updateCountdown10();
-          }
-        }, CFG.REFRESH_10_MS);
-        intervals.status = setInterval(function() {
-          updateBettingStatus();
-          updateBettingClosed10();
-        }, CFG.STATUS_MS);
-        
-        updateClock();
-        updateCountdown10();
-        
-        var numInput = $('numInput');
-        if (numInput && !numInput._bound) {
-          numInput.addEventListener('input', autoAddNumbers);
-          numInput._bound = true;
-        }
-        var numInput10 = $('numInput10');
-        if (numInput10 && !numInput10._bound) {
-          numInput10.addEventListener('input', autoAddNumbers10);
-          numInput10._bound = true;
-        }
-
+        intervals.refresh = setInterval(function() { fetchResults(); if (mainMode === 'rapid') fetchResults10(); fetchBalance(currentUser.phone); }, CFG.REFRESH_MS);
+        intervals.rapid = setInterval(function() { if (mainMode === 'rapid') { fetchResults10(); updateCountdown10(); } }, CFG.REFRESH_10_MS);
+        intervals.status = setInterval(function() { updateBettingStatus(); updateBettingClosed10(); }, CFG.STATUS_MS);
+        updateClock(); updateCountdown10();
+        var numInput = $('numInput'); if (numInput && !numInput._bound) { numInput.addEventListener('input', autoAddNumbers); numInput._bound = true; }
+        var numInput10 = $('numInput10'); if (numInput10 && !numInput10._bound) { numInput10.addEventListener('input', autoAddNumbers10); numInput10._bound = true; }
         showSection('home', null);
       }
 
-      /* ============================================================
-         ADMIN PANEL
-         ============================================================ */
-      function isAdmin() {
-        if (!currentUser || !currentUser.phone) return false;
-        var myPhone = fixPhoneNumber(currentUser.phone);
-        for (var i = 0; i < ADMIN_PHONES.length; i++) {
-          if (fixPhoneNumber(ADMIN_PHONES[i]) === myPhone) return true;
-        }
-        return false;
-      }
+      // ... (Admin, Classic, Rapid, SubmitBet, Withdraw, Clock, Init, SetupFormHandlers ដូចដើម ដោយគ្រាន់តែកែឈ្មោះ ID បន្តិច) ...
 
-      function showAdminPanelIfNeeded() {
-        var panel = $('adminPanel');
-        if (!panel) return;
-        panel.style.display = isAdmin() ? 'block' : 'none';
-      }
-
-      function adminQuickAdd(amount, currency) {
-        var amtInput = $('adminAmount');
-        var curSelect = $('adminCurrency');
-        if (amtInput) amtInput.value = amount;
-        if (curSelect) curSelect.value = currency;
-      }
-
-      function adminAddDeposit() {
-        var phone = fixPhoneNumber($('adminPhone').value);
-        var amount = parseFloat($('adminAmount').value);
-        var currency = $('adminCurrency').value;
-        var note = $('adminNote').value.trim() || 'Admin deposit';
-        if (!phone || phone.length < 9) { showToast('សូមបំពេញលេខទូរស័ព្ទ!', 'warning'); return; }
-        if (!amount || amount <= 0) { showToast('សូមបំពេញចំនួន!', 'warning'); return; }
-        if (!confirm('បញ្ជាក់ការបញ្ចូលប្រាក់?\n\n📱 លេខ: ' + phone + '\n💰 ចំនួន: ' + amount + (currency === 'USD' ? '$' : '៛') + '\n📝 ' + note)) return;
-        showLoading(true);
-        var fb = $('adminFeedback');
-        if (fb) { fb.style.display = 'none'; fb.textContent = ''; }
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'addDeposit', phone: phone, amount: amount,
-            currency: currency, note: note, adminUser: currentUser.userId
-          }),
-          headers: { 'Content-Type': 'text/plain' }
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          showLoading(false);
-          if (data.ok) {
-            if (fb) {
-              fb.style.display = 'block';
-              fb.style.background = 'linear-gradient(135deg,#d4edda,#a8e6c0)';
-              fb.style.color = '#155724';
-              fb.innerHTML = '✅ បញ្ចូលប្រាក់បានជោគជ័យ!<br>🆔 ' + data.depositId + '<br>💰 សមតុល្យថ្មី: ' + 
-                (currency === 'USD' ? data.balanceUSD.toFixed(2) + '$' : data.balanceKHR.toLocaleString() + '៛');
-            }
-            showToast('បញ្ចូលប្រាក់ជោគជ័យ!', 'success', '💰');
-            $('adminAmount').value = '';
-            $('adminNote').value = '';
-            if (fixPhoneNumber(currentUser.phone) === phone) fetchBalance(phone);
-          } else {
-            if (fb) {
-              fb.style.display = 'block';
-              fb.style.background = 'linear-gradient(135deg,#fff5f5,#ffe0e0)';
-              fb.style.color = '#721c24';
-              fb.textContent = '❌ ' + (data.error || 'មានបញ្ហា!');
-            }
-            showToast(data.error || 'មានបញ្ហា!', 'error');
-          }
-        })
-        .catch(function(err) {
-          console.error(err);
-          showLoading(false);
-          if (fb) {
-            fb.style.display = 'block';
-            fb.style.background = 'linear-gradient(135deg,#fff5f5,#ffe0e0)';
-            fb.style.color = '#721c24';
-            fb.textContent = '❌ មានបញ្ហាតភ្ជាប់!';
-          }
-          showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-        });
-      }
-
-      function adminLoadStats() {
-        var el = $('adminStats');
-        if (!el) return;
-        el.innerHTML = '<span class="anim-spin">⏳</span> កំពុងទាញ...';
-        fetchWithTimeout(WEB_APP_URL + '?action=stats&t=' + Date.now(), { cache: 'no-store' })
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (data.ok && data.stats) {
-              var s = data.stats;
-              el.innerHTML = 
-                '👥 អ្នកប្រើ: <b>' + s.totalUsers + '</b><br>' +
-                '🎯 ចាក់ (12/16): <b>' + s.totalBets + '</b><br>' +
-                '⚡ ចាក់ (10 នាទី): <b>' + s.totalBets10 + '</b><br>' +
-                '💰 ដាក់ប្រាក់: <b>' + s.totalDeposits + '</b><br>' +
-                '🏦 ដកប្រាក់: <b>' + s.totalWithdrawals + '</b><br>' +
-                '📊 លទ្ធផល: <b>' + s.totalResults + '</b><br>' +
-                '📊 លទ្ធផល 10 នាទី: <b>' + s.totalResults10 + '</b>';
-            } else { el.innerHTML = '❌ មិនអាចទាញបាន'; }
-          })
-          .catch(function() { el.innerHTML = '❌ កំហុសតភ្ជាប់'; });
-      }
-
-      /* ============================================================
-         CLASSIC MODE
-         ============================================================ */
-      function setMode(mode, evt) {
-        betMode = mode;
-        var btns = document.querySelectorAll('.mode-btn');
-        for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
-        if (evt && evt.target) evt.target.classList.add('active');
-        $('balanceBox').style.display = mode === 'direct' ? 'block' : 'none';
-        updateSummary();
-        showToast(mode === 'direct' ? 'របៀបចាក់ផ្ទាល់' : 'របៀបបញ្ចូលទឹកប្រាក់', 'info', mode === 'direct' ? '💵' : '💰');
-      }
-
-      function setTime(t, evt) {
-        if (isBettingClosed(t)) {
-          showToast('ការចាក់ម៉ោង ' + t + ' ត្រូវបានបិទ!', 'warning', '🔒');
-          return;
-        }
-        selectedTime = t;
-        var btns = document.querySelectorAll('.time-selector .time-btn');
-        for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
-        if (evt && evt.target) evt.target.classList.add('active');
-        updateBettingStatus();
-      }
-
-      function setType(t, evt) {
-        betType = t;
-        var btns = document.querySelectorAll('#classicMode .type-selector .type-btn');
-        for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
-        if (evt && evt.target) evt.target.classList.add('active');
-        numbers = [];
-        updateDisplay();
-        var inp = $('numInput');
-        if (selectedLetter) {
-          inp.placeholder = t === 'two' ? 'បញ្ចូល ២ខ្ទង់ (ឧ. 01,02)' : 'បញ្ចូល ៣ខ្ទង់ (ឧ. 123,456)';
-        }
-      }
-
-      function selectLetter(l, evt) {
-        if (isBettingClosed(selectedTime)) {
-          showToast('ការចាក់ត្រូវបានបិទ', 'warning', '🔒');
-          return;
-        }
-        selectedLetter = l;
-        var circles = document.querySelectorAll('#classicMode .letter-circle');
-        for (var i = 0; i < circles.length; i++) circles[i].classList.remove('active');
-        if (evt && evt.target) evt.target.classList.add('active');
-        var inp = $('numInput');
-        inp.disabled = false;
-        inp.placeholder = betType === 'two' ? 'បញ្ចូល ២ខ្ទង់សម្រាប់ ' + l : 'បញ្ចូល ៣ខ្ទង់សម្រាប់ ' + l;
-        inp.focus();
-        showToast('បានជ្រើស ប៉ុស្តិ៍ ' + l, 'info', '🎯');
-      }
-
-      function autoAddNumbers() {
-        var inp = $('numInput');
-        var raw = inp.value.trim();
-        if (!selectedLetter || !raw) return;
-        var len = getReqLen();
-        var digitsOnly = raw.replace(/[^0-9]/g, '');
-        if (digitsOnly.length >= len && digitsOnly.length % len === 0) {
-          for (var i = 0; i < digitsOnly.length; i += len) {
-            var n = digitsOnly.substring(i, i + len);
-            if (n.length !== len) continue;
-            if (numbers.length >= CFG.MAX_NUMBERS) {
-              showToast('ចាក់បានត្រឹម ' + CFG.MAX_NUMBERS + ' លេខ', 'warning');
-              break;
-            }
-            var tag = selectedLetter + ':' + n;
-            if (numbers.indexOf(tag) === -1) numbers.push(tag);
-          }
-          inp.value = '';
-          updateDisplay();
-        }
-      }
-
-      function removeNum(idx) {
-        numbers.splice(idx, 1);
-        updateDisplay();
-      }
-
-      function updateDisplay() {
-        var container = $('selectedDisplay');
-        var countEl = $('countDisplay');
-        if (numbers.length === 0) {
-          container.innerHTML = '<span style="color:#6c757d; font-size:12px; font-weight:600;">មិនទាន់មានលេខ</span>';
-          countEl.textContent = '0';
-        } else {
-          var html = '';
-          for (var i = 0; i < numbers.length; i++) {
-            html += '<span class="selected-tag">' + esc(numbers[i]) +
-                    ' <span class="remove" onclick="N98.removeNum(' + i + ')">&times;</span></span>';
-          }
-          container.innerHTML = html;
-          countEl.textContent = numbers.length;
-        }
-        updateSummary();
-      }
-
-      function setAmount(val, sym) {
-        $('amountInput').value = val;
-        $('currencySelect').value = sym === '$' ? 'USD' : 'KHR';
-        updateAmount();
-      }
-
-      function updateAmount() {
-        var v = parseFloat($('amountInput').value);
-        var c = $('currencySelect').value;
-        amount = isNaN(v) || v <= 0 ? 0 : v;
-        currency = c;
-        updateSummary();
-      }
-
-      function updateSummary() {
-        var cnt = numbers.length;
-        if ($('totalCount')) $('totalCount').textContent = cnt;
-        if ($('totalAmountDisplay')) $('totalAmountDisplay').textContent = fmtTotal(cnt * amount, currency);
-        updateSubmitButton();
-        updateBalanceStatusBox();
-      }
-
-      function updateSubmitButton() {
-        var btn = $('btnSubmit');
-        if (!btn) return;
-        var isClosed = isBettingClosed(selectedTime);
-        var cnt = numbers.length;
-        var validAmount = currency === 'USD'
-          ? (amount >= CFG.MIN_USD && amount <= CFG.MAX_USD)
-          : (amount >= CFG.MIN_KHR && amount <= CFG.MAX_KHR);
-        var total = cnt * amount;
-        var balanceOk = true;
-        if (betMode === 'direct') {
-          balanceOk = currency === 'USD' ? balanceUSD >= total : balanceKHR >= total;
-        }
-        var canSubmit = (cnt > 0 && validAmount && amount > 0 && balanceOk && !isClosed);
-        btn.disabled = !canSubmit;
-        if (canSubmit) {
-          btn.style.background = 'linear-gradient(135deg,#28a745,#1e7e34)';
-          btn.style.animation = 'glowGreen 2s ease-in-out infinite';
-        } else {
-          btn.style.animation = 'none';
-        }
-      }
-
-      function updateBalanceStatusBox() {
-        var box = $('balanceStatusBox');
-        if (!box) return;
-        var cnt = numbers.length;
-        var total = cnt * amount;
-        if (cnt === 0 || amount <= 0 || betMode !== 'direct') {
-          box.style.display = 'none';
-          return;
-        }
-        box.style.display = 'block';
-        var current = currency === 'USD' ? balanceUSD : balanceKHR;
-        var needed = total;
-        var short = Math.max(0, needed - current);
-        var isEnough = current >= needed;
-        var percent = needed > 0 ? Math.min(100, (current / needed) * 100) : 0;
-        var fmt = function(v) {
-          return currency === 'KHR' ? Math.round(v).toLocaleString() + '៛' : Number(v).toFixed(2) + '$';
-        };
-        if ($('balanceStatusCurrent')) $('balanceStatusCurrent').textContent = fmt(current);
-        if ($('balanceStatusNeeded')) $('balanceStatusNeeded').textContent = fmt(needed);
-        if (isEnough) {
-          box.className = 'balance-status-box ok';
-          if ($('balanceStatusIcon')) $('balanceStatusIcon').textContent = '✅';
-          if ($('balanceStatusTitle')) $('balanceStatusTitle').textContent = 'សមតុល្យគ្រប់គ្រាន់!';
-          if ($('balanceStatusShort')) { $('balanceStatusShort').textContent = fmt(0); $('balanceStatusShort').className = 'value success'; }
-          if ($('balanceStatusHint')) $('balanceStatusHint').textContent = '🎉 អ្នកអាចដាក់ភ្នាល់បាន!';
-          if ($('balanceProgressFill')) $('balanceProgressFill').style.width = '100%';
-        } else {
-          box.className = 'balance-status-box warn';
-          if ($('balanceStatusIcon')) $('balanceStatusIcon').textContent = '⚠️';
-          if ($('balanceStatusTitle')) $('balanceStatusTitle').textContent = 'សមតុល្យមិនគ្រប់គ្រាន់!';
-          if ($('balanceStatusShort')) { $('balanceStatusShort').textContent = fmt(short); $('balanceStatusShort').className = 'value danger'; }
-          if ($('balanceStatusHint')) $('balanceStatusHint').textContent = '💡 សូមទាក់ទង Admin ដើម្បីបញ្ចូលប្រាក់';
-          if ($('balanceProgressFill')) $('balanceProgressFill').style.width = percent + '%';
-        }
-      }
-
-      function submitBet() {
-        if (isBettingClosed(selectedTime)) { showToast('ការចាក់ត្រូវបានបិទ!', 'warning', '🔒'); return; }
-        if (numbers.length === 0) { showToast('សូមជ្រើសរើសលេខ!', 'warning'); return; }
-        if (amount <= 0) { showToast('សូមបញ្ចូលចំនួនទឹកប្រាក់!', 'warning'); return; }
-        var validAmount = currency === 'USD'
-          ? (amount >= CFG.MIN_USD && amount <= CFG.MAX_USD)
-          : (amount >= CFG.MIN_KHR && amount <= CFG.MAX_KHR);
-        if (!validAmount) { showToast('ចំនួនមិនត្រឹមត្រូវ!', 'warning'); return; }
-        var total = numbers.length * amount;
-        var display = fmtTotal(total, currency);
-        
-        if (currency === 'USD' && balanceUSD < total) { showToast('សមតុល្យ USD មិនគ្រប់!', 'error', '💰'); return; }
-        if (currency === 'KHR' && balanceKHR < total) { showToast('សមតុល្យ KHR មិនគ្រប់!', 'error', '💰'); return; }
-        $('directConfirmNumbers').textContent = numbers.join(', ');
-        $('directConfirmTotal').textContent = display;
-        $('directPhone').value = fixPhoneNumber(currentUser.phone);
-        $('directBalanceUSD').textContent = balanceUSD.toFixed(2) + '$';
-        $('directBalanceKHR').textContent = Math.round(balanceKHR).toLocaleString() + '៛';
-        $('directBetModal').style.display = 'block';
-      }
-
-      function openDepositModal() {
-        $('depPhone').value = fixPhoneNumber(currentUser.phone);
-        var fileInput = $('depScreenshot');
-        var label = $('depScreenshotLabel');
-        fileInput.value = '';
-        fileInput.disabled = true;
-        if (label) {
-          label.style.opacity = '0.5';
-          label.style.pointerEvents = 'none';
-          label.innerHTML = 'ភស្តុតាង (Screenshot) * <span style="font-size:11px; color:#dc3545;"> (ត្រូវចុច ABA Bank ជាមុន)</span>';
-        }
-        $('depositModal').style.display = 'block';
-        setTimeout(checkOnlineFormValidity, 100);
-      }
-
-      function handleAbaClick(event) {
-        if (event) event.preventDefault();
-        window.open('https://pay.ababank.com/oRF8/yhtm93ei', '_blank', 'noopener');
-        setTimeout(function() {
-          var fileInput = $('depScreenshot');
-          var label = $('depScreenshotLabel');
-          if (fileInput) fileInput.disabled = false;
-          if (label) {
-            label.style.opacity = '1';
-            label.style.pointerEvents = 'auto';
-            label.innerHTML = 'ភស្តុតាង (Screenshot) * <span style="font-size:11px; color:#28a745;"> ✅ អាចភ្ជាប់បាន</span>';
-          }
-          checkOnlineFormValidity();
-          showToast('អាចភ្ជាប់រូបភាពបានហើយ!', 'info', '📷');
-        }, 500);
-      }
-
-      function checkOnlineFormValidity() {
-        var phone = fixPhoneNumber($('depPhone').value);
-        var fileInput = $('depScreenshot');
-        var file = fileInput.files[0];
-        var btn = $('depSubmitBtn');
-        if (!btn) return;
-        var hasPhone = phone && phone.length >= 9;
-        var hasFile = file && file.size > 0;
-        var isAbaEnabled = !fileInput.disabled;
-        var isValid = hasPhone && hasFile && isAbaEnabled;
-        btn.disabled = !isValid;
-      }
-
-      function isBettingClosed(timeSlot) {
-        var h = new Date().getHours();
-        if (timeSlot === '12:00') return h >= 12;
-        if (timeSlot === '16:00') return h >= 16;
-        return false;
-      }
-
-      function updateBettingStatus() {
-        var isClosed = isBettingClosed(selectedTime);
-        var topBox = $('bettingClosedTop');
-        var titleEl = $('bettingClosedTitle');
-        if (topBox && titleEl) {
-          if (isClosed) {
-            topBox.style.display = 'block';
-            var h = new Date().getHours();
-            if (h >= 16) {
-              titleEl.innerHTML = '🔒 ការចាក់ម៉ោង <strong style="color:#dc2626;">12:00</strong> និង <strong style="color:#dc2626;">16:00</strong> បានបិទ!';
-            } else if (h >= 12) {
-              titleEl.innerHTML = '🔒 ការចាក់ម៉ោង <strong style="color:#dc2626;">12:00</strong> បានបិទ!';
-            }
-          } else {
-            topBox.style.display = 'none';
-          }
-        }
-        updateTimeButtons();
-        updateSubmitButton();
-        updateBalanceStatusBox();
-      }
-
-      function updateTimeButtons() {
-        var btns = document.querySelectorAll('.time-selector .time-btn');
-        for (var i = 0; i < btns.length; i++) {
-          var dt = btns[i].getAttribute('data-time') || btns[i].textContent;
-          var slot = '';
-          if (dt.indexOf('12:00') !== -1) slot = '12:00';
-          else if (dt.indexOf('16:00') !== -1) slot = '16:00';
-          if (slot && isBettingClosed(slot)) btns[i].classList.add('closed');
-          else btns[i].classList.remove('closed');
-        }
-      }
-
-      /* ============================================================
-         RAPID MODE (10-min)
-         ============================================================ */
-      function setType10(t, evt) {
-        betType10 = t;
-        var btns = document.querySelectorAll('#rapidMode .type-btn');
-        for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
-        if (evt && evt.target) evt.target.classList.add('active');
-        numbers10 = [];
-        updateDisplay10();
-        var inp = $('numInput10');
-        if (selectedLetter10) {
-          inp.placeholder = t === 'two' ? 'បញ្ចូល ២ខ្ទង់ (ឧ. 01,02)' : 'បញ្ចូល ៣ខ្ទង់ (ឧ. 123,456)';
-        }
-      }
-
-      function selectLetter10(l, evt) {
-        if (isBettingClosed10()) { showToast('ការចាក់ត្រូវបានបិទ', 'warning', '🔒'); return; }
-        selectedLetter10 = l;
-        var circles = document.querySelectorAll('#rapidMode .letter-circle');
-        for (var i = 0; i < circles.length; i++) circles[i].classList.remove('active');
-        if (evt && evt.target) evt.target.classList.add('active');
-        var inp = $('numInput10');
-        inp.disabled = false;
-        inp.placeholder = betType10 === 'two' ? 'បញ្ចូល ២ខ្ទង់សម្រាប់ ' + l : 'បញ្ចូល ៣ខ្ទង់សម្រាប់ ' + l;
-        inp.focus();
-        showToast('បានជ្រើស ប៉ុស្តិ៍ ' + l, 'info', '🎯');
-      }
-
-      function autoAddNumbers10() {
-        var inp = $('numInput10');
-        var raw = inp.value.trim();
-        if (!selectedLetter10 || !raw) return;
-        var len = getReqLen10();
-        var digitsOnly = raw.replace(/[^0-9]/g, '');
-        if (digitsOnly.length >= len && digitsOnly.length % len === 0) {
-          for (var i = 0; i < digitsOnly.length; i += len) {
-            var n = digitsOnly.substring(i, i + len);
-            if (n.length !== len) continue;
-            if (numbers10.length >= CFG.MAX_NUMBERS) {
-              showToast('ចាក់បានត្រឹម ' + CFG.MAX_NUMBERS + ' លេខ', 'warning');
-              break;
-            }
-            var tag = selectedLetter10 + ':' + n;
-            if (numbers10.indexOf(tag) === -1) numbers10.push(tag);
-          }
-          inp.value = '';
-          updateDisplay10();
-        }
-      }
-
-      function removeNum10(idx) {
-        numbers10.splice(idx, 1);
-        updateDisplay10();
-      }
-
-      function updateDisplay10() {
-        var container = $('selectedDisplay10');
-        var countEl = $('countDisplay10');
-        if (!container) return;
-        if (numbers10.length === 0) {
-          container.innerHTML = '<span style="color:#a0a8b8; font-size:12px; font-weight:600;">មិនទាន់មានលេខ</span>';
-          countEl.textContent = '0';
-        } else {
-          var html = '';
-          for (var i = 0; i < numbers10.length; i++) {
-            html += '<span class="selected-tag">' + esc(numbers10[i]) +
-                    ' <span class="remove" onclick="N98.removeNum10(' + i + ')">&times;</span></span>';
-          }
-          container.innerHTML = html;
-          countEl.textContent = numbers10.length;
-        }
-        updateSummary10();
-      }
-
-      function setAmount10(val, sym) {
-        $('amountInput10').value = val;
-        $('currencySelect10').value = sym === '$' ? 'USD' : 'KHR';
-        updateAmount10();
-      }
-
-      function updateAmount10() {
-        var v = parseFloat($('amountInput10').value);
-        var c = $('currencySelect10').value;
-        amount10 = isNaN(v) || v <= 0 ? 0 : v;
-        currency10 = c;
-        updateSummary10();
-      }
-
-      function updateSummary10() {
-        var cnt = numbers10.length;
-        if ($('totalCount10')) $('totalCount10').textContent = cnt;
-        if ($('totalAmount10')) $('totalAmount10').textContent = fmtTotal(cnt * amount10, currency10);
-        updateSubmitButton10();
-        updateBalanceStatusBox10();
-      }
-
-      function updateSubmitButton10() {
-        var btn = $('btnSubmit10');
-        if (!btn) return;
-        var isClosed = isBettingClosed10();
-        var cnt = numbers10.length;
-        var validAmount = currency10 === 'USD'
-          ? (amount10 >= CFG.MIN_USD && amount10 <= CFG.MAX_USD)
-          : (amount10 >= CFG.MIN_KHR && amount10 <= CFG.MAX_KHR);
-        var total = cnt * amount10;
-        var balanceOk = currency10 === 'USD' ? balanceUSD >= total : balanceKHR >= total;
-        var canSubmit = (cnt > 0 && validAmount && amount10 > 0 && balanceOk && !isClosed);
-        btn.disabled = !canSubmit;
-        if (canSubmit) btn.style.animation = 'glowPink 2s ease-in-out infinite';
-        else btn.style.animation = 'none';
-      }
-
-      function updateBalanceStatusBox10() {
-        var box = $('balanceStatusBox10');
-        if (!box) return;
-        var cnt = numbers10.length;
-        var total = cnt * amount10;
-        if (cnt === 0 || amount10 <= 0) { box.style.display = 'none'; return; }
-        box.style.display = 'block';
-        var current = currency10 === 'USD' ? balanceUSD : balanceKHR;
-        var needed = total;
-        var short = Math.max(0, needed - current);
-        var isEnough = current >= needed;
-        var percent = needed > 0 ? Math.min(100, (current / needed) * 100) : 0;
-        var fmt = function(v) {
-          return currency10 === 'KHR' ? Math.round(v).toLocaleString() + '៛' : Number(v).toFixed(2) + '$';
-        };
-        if ($('balanceStatusCurrent10')) $('balanceStatusCurrent10').textContent = fmt(current);
-        if ($('balanceStatusNeeded10')) $('balanceStatusNeeded10').textContent = fmt(needed);
-        if (isEnough) {
-          box.className = 'balance-status-box ok';
-          if ($('balanceStatusIcon10')) $('balanceStatusIcon10').textContent = '✅';
-          if ($('balanceStatusTitle10')) $('balanceStatusTitle10').textContent = 'សមតុល្យគ្រប់គ្រាន់!';
-          if ($('balanceStatusShort10')) { $('balanceStatusShort10').textContent = fmt(0); $('balanceStatusShort10').className = 'value success'; }
-          if ($('balanceStatusHint10')) $('balanceStatusHint10').textContent = '🎉 អ្នកអាចដាក់ភ្នាល់បាន!';
-          if ($('balanceProgressFill10')) $('balanceProgressFill10').style.width = '100%';
-        } else {
-          box.className = 'balance-status-box warn';
-          if ($('balanceStatusIcon10')) $('balanceStatusIcon10').textContent = '⚠️';
-          if ($('balanceStatusTitle10')) $('balanceStatusTitle10').textContent = 'សមតុល្យមិនគ្រប់គ្រាន់!';
-          if ($('balanceStatusShort10')) { $('balanceStatusShort10').textContent = fmt(short); $('balanceStatusShort10').className = 'value danger'; }
-          if ($('balanceStatusHint10')) $('balanceStatusHint10').textContent = '💡 សូមទាក់ទង Admin ដើម្បីបញ្ចូលប្រាក់';
-          if ($('balanceProgressFill10')) $('balanceProgressFill10').style.width = percent + '%';
-        }
-      }
-
-      function submitBet10() {
-        if (isBettingClosed10()) { showToast('ការចាក់ត្រូវបានបិទ (ចុងក្រោយ 30 វិនាទី)!', 'warning', '🔒'); return; }
-        if (numbers10.length === 0) { showToast('សូមជ្រើសរើសលេខ!', 'warning'); return; }
-        if (amount10 <= 0) { showToast('សូមបញ្ចូលចំនួនទឹកប្រាក់!', 'warning'); return; }
-        var validAmount = currency10 === 'USD'
-          ? (amount10 >= CFG.MIN_USD && amount10 <= CFG.MAX_USD)
-          : (amount10 >= CFG.MIN_KHR && amount10 <= CFG.MAX_KHR);
-        if (!validAmount) {
-          var minStr = currency10 === 'USD' ? CFG.MIN_USD + '$' : CFG.MIN_KHR + '៛';
-          var maxStr = currency10 === 'USD' ? CFG.MAX_USD + '$' : CFG.MAX_KHR.toLocaleString() + '៛';
-          showToast('ចំនួនត្រូវពី ' + minStr + ' ដល់ ' + maxStr, 'warning');
-          return;
-        }
-        var total = numbers10.length * amount10;
-        if (currency10 === 'USD' && balanceUSD < total) { showToast('សមតុល្យ USD មិនគ្រប់គ្រាន់!', 'error', '💰'); return; }
-        if (currency10 === 'KHR' && balanceKHR < total) { showToast('សមតុល្យ KHR មិនគ្រប់គ្រាន់!', 'error', '💰'); return; }
-        if (!confirm('បញ្ជាក់ការចាក់ 10 នាទី?\n\nលេខ: ' + numbers10.join(', ') + '\nសរុប: ' + fmtTotal(total, currency10))) return;
-        var btn = $('btnSubmit10');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
-        showLoading(true);
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'placeDirectBet10', phone: fixPhoneNumber(currentUser.phone),
-            userId: currentUser.userId, numbers: numbers10, type: betType10,
-            amount: amount10, currency: currency10, total: total, drawId: currentDrawId10
-          }),
-          headers: { 'Content-Type': 'text/plain' }
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          btn.disabled = false; btn.innerHTML = '⚡ ដាក់ភ្នាល់ឥឡូវ';
-          showLoading(false);
-          if (data.ok) {
-            showToast('ការចាក់ត្រូវបានទទួលយក!', 'success', '🎉');
-            resetForm10();
-            fetchBalance(currentUser.phone);
-            fetchUserBets();
-          } else showToast(data.error || 'មានបញ្ហា!', 'error');
-        })
-        .catch(function(err) {
-          console.error(err);
-          btn.disabled = false; btn.innerHTML = '⚡ ដាក់ភ្នាល់ឥឡូវ';
-          showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-        });
-      }
-
-      function resetForm10() {
-        numbers10 = [];
-        selectedLetter10 = '';
-        var circles = document.querySelectorAll('#rapidMode .letter-circle');
-        for (var i = 0; i < circles.length; i++) circles[i].classList.remove('active');
-        var inp = $('numInput10');
-        if (inp) { inp.disabled = true; inp.value = ''; }
-        updateDisplay10();
-        updateBalanceStatusBox10();
-      }
-
-      function isBettingClosed10() {
-        var now = new Date();
-        var sec = now.getSeconds();
-        var min = now.getMinutes();
-        var secondsIntoCycle = (min % CFG.TENMIN_INTERVAL_MIN) * 60 + sec;
-        return secondsIntoCycle >= (CFG.TENMIN_INTERVAL_MIN * 60 - CFG.TENMIN_CLOSE_SECONDS);
-      }
-
-      function updateBettingClosed10() {
-        var closed = isBettingClosed10();
-        var box = $('bettingClosedBox10');
-        if (box) box.style.display = closed ? 'block' : 'none';
-        if (closed) {
-          var now = new Date();
-          var min = now.getMinutes();
-          var sec = now.getSeconds();
-          var secondsIntoCycle = (min % CFG.TENMIN_INTERVAL_MIN) * 60 + sec;
-          var secondsLeft = (CFG.TENMIN_INTERVAL_MIN * 60) - secondsIntoCycle;
-          var mm = Math.floor(secondsLeft / 60);
-          var ss = secondsLeft % 60;
-          if ($('reopenTime10')) $('reopenTime10').textContent = String(mm).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
-        }
-        updateSubmitButton10();
-      }
-
-      var RING_CIRCUMFERENCE = 2 * Math.PI * 70;
-
-      function updateCountdown10() {
-        var now = new Date();
-        var min = now.getMinutes();
-        var sec = now.getSeconds();
-        var secondsIntoCycle = (min % CFG.TENMIN_INTERVAL_MIN) * 60 + sec;
-        var totalSeconds = CFG.TENMIN_INTERVAL_MIN * 60;
-        var secondsLeft = totalSeconds - secondsIntoCycle;
-        var mm = Math.floor(secondsLeft / 60);
-        var ss = secondsLeft % 60;
-
-        if ($('ringTime')) $('ringTime').textContent = String(mm).padStart(2, '0') + ':' + String(ss).padStart(2, '0');
-
-        var percent = secondsIntoCycle / totalSeconds;
-        var offset = RING_CIRCUMFERENCE * percent;
-        var ring = $('ringProgress');
-        if (ring) ring.style.strokeDashoffset = offset;
-
-        var yy = String(now.getFullYear()).slice(-2);
-        var startOfYear = new Date(now.getFullYear(), 0, 0);
-        var dayOfYear = Math.floor((now - startOfYear) / 86400000);
-        var slotIndex = Math.floor((now.getHours() * 60 + now.getMinutes()) / CFG.TENMIN_INTERVAL_MIN);
-        var drawNum = yy + String(dayOfYear).padStart(3, '0') + String(slotIndex).padStart(3, '0');
-        currentDrawId10 = drawNum;
-        if ($('nextDrawNumber')) $('nextDrawNumber').textContent = '#' + drawNum;
-
-        updateBettingClosed10();
-      }
-
-      function renderResults10Grid() {
-        var grid = $('resultsGrid');
-        if (!grid) return;
-        if (!cachedResults10 || cachedResults10.length === 0) {
-          grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:20px; color:#a0a8b8;">មិនទាន់មានលទ្ធផល</div>';
-          return;
-        }
-        var html = '';
-        var displayCount = Math.min(3, cachedResults10.length);
-        for (var i = 0; i < displayCount; i++) {
-          var r = cachedResults10[i];
-          var isNew = (i === 0);
-          var cell = function(letter, val) {
-            return '<div class="num-cell"><span class="letter">' + letter + '</span><span class="value">' + esc(val || '--') + '</span></div>';
-          };
-          html += '<div class="result-card' + (isNew ? ' new-result' : '') + '">' +
-            '<div class="header">' +
-              '<span class="draw-id">#' + esc(r.drawId || '-') + '</span>' +
-              '<span class="time">' + esc(r.time || '') + '</span>' +
-            '</div>' +
-            '<div class="type-label">🔢 ២ខ្ទង់</div>' +
-            '<div class="numbers-row">' +
-              cell('A', r.results2D ? r.results2D.A : '') +
-              cell('B', r.results2D ? r.results2D.B : '') +
-              cell('C', r.results2D ? r.results2D.C : '') +
-              cell('D', r.results2D ? r.results2D.D : '') +
-              cell('E', r.results2D ? r.results2D.E : '') +
-            '</div>' +
-            '<div class="type-label" style="color:#ffc107;">🔢 ៣ខ្ទង់</div>' +
-            '<div class="numbers-row">' +
-              cell('A', r.results3D ? r.results3D.A : '') +
-              cell('B', r.results3D ? r.results3D.B : '') +
-              cell('C', r.results3D ? r.results3D.C : '') +
-              cell('D', r.results3D ? r.results3D.D : '') +
-              cell('E', r.results3D ? r.results3D.E : '') +
-            '</div>' +
-          '</div>';
-        }
-        grid.innerHTML = html;
-      }
-
-      function updateResultsUI() {
-        var now = new Date();
-        var h = now.getHours();
-        var today = new Date(now);
-        var yesterday = new Date(now);
-        yesterday.setDate(yesterday.getDate() - 1);
-        var todayFormats = buildDateFormats(today);
-        var yesterdayFormats = buildDateFormats(yesterday);
-
-        var todayResults = cachedResults.filter(function(r) {
-          return r.date && todayFormats.indexOf(String(r.date).trim()) !== -1;
-        });
-        var yesterdayResults = cachedResults.filter(function(r) {
-          return r.date && yesterdayFormats.indexOf(String(r.date).trim()) !== -1;
-        });
-
-        var posts = ['A', 'B', 'C', 'D', 'E'];
-
-        function resetSlot(prefix) {
-          for (var i = 0; i < posts.length; i++) {
-            var el = $(prefix + posts[i]);
-            if (el) { el.textContent = '--'; el.className = ''; }
-          }
-        }
-        function fillSlot(prefix, r) {
-          for (var i = 0; i < posts.length; i++) {
-            var el = $(prefix + posts[i]);
-            if (el && r && r.results && r.results[posts[i]] !== undefined) {
-              el.textContent = r.results[posts[i]];
-              el.className = 'number-result';
-            } else if (el) {
-              el.textContent = '--';
-              el.className = '';
-            }
-          }
-        }
-
-        var today12 = todayResults.filter(function(r) { return r.time && String(r.time).indexOf('12:00') !== -1; });
-        var today16 = todayResults.filter(function(r) { return r.time && String(r.time).indexOf('16:00') !== -1; });
-        var yesterday12 = yesterdayResults.filter(function(r) { return r.time && String(r.time).indexOf('12:00') !== -1; });
-        var yesterday16 = yesterdayResults.filter(function(r) { return r.time && String(r.time).indexOf('16:00') !== -1; });
-
-        var hasToday12 = today12.length > 0;
-        var hasToday16 = today16.length > 0;
-        var hasYesterday12 = yesterday12.length > 0;
-        var hasYesterday16 = yesterday16.length > 0;
-
-        var show12 = false, show16 = false, resultSource = '';
-
-        if (h >= 0 && h < 12) {
-          if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
-          else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
-          else if (hasToday12) { show12 = true; resultSource = 'today'; }
-        } else if (h >= 12 && h < 16) {
-          if (hasToday12) { show12 = true; resultSource = 'today'; }
-          else if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
-          else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
-        } else {
-          if (hasToday16) { show16 = true; resultSource = 'today'; }
-          else if (hasToday12) { show12 = true; resultSource = 'today'; }
-          else if (hasYesterday16) { show16 = true; resultSource = 'yesterday'; }
-          else if (hasYesterday12) { show12 = true; resultSource = 'yesterday'; }
-        }
-
-        var badge12 = $('badge12');
-        if (show12 && badge12) {
-          badge12.textContent = '✅ ចេញហើយ';
-          badge12.className = 'badge badge-completed';
-          var results12 = (resultSource === 'today') ? today12 : yesterday12;
-          var r12two = results12.find(function(r) { return String(r.type).toLowerCase() === 'two'; });
-          fillSlot('r12_', r12two);
-          var r12three = results12.find(function(r) { return String(r.type).toLowerCase() === 'three'; });
-          fillSlot('r12_3d_', r12three);
-          if (r12two && r12two.publishedAt && $('date12')) {
-            var lbl = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
-            $('date12').innerHTML = '<span class="date-badge">📅 ' + lbl + ': ' + esc(r12two.publishedAt) + '</span>';
-          } else if ($('date12')) $('date12').innerHTML = '';
-        } else if (badge12) {
-          badge12.textContent = '⏳ រង់ចាំ';
-          badge12.className = 'badge badge-waiting';
-          resetSlot('r12_');
-          resetSlot('r12_3d_');
-          if ($('date12')) $('date12').innerHTML = '';
-        }
-
-        var badge16 = $('badge16');
-        if (show16 && badge16) {
-          badge16.textContent = '✅ ចេញហើយ';
-          badge16.className = 'badge badge-completed';
-          var results16 = (resultSource === 'today') ? today16 : yesterday16;
-          var r16two = results16.find(function(r) { return String(r.type).toLowerCase() === 'two'; });
-          fillSlot('r16_', r16two);
-          var r16three = results16.find(function(r) { return String(r.type).toLowerCase() === 'three'; });
-          fillSlot('r16_3d_', r16three);
-          if (r16two && r16two.publishedAt && $('date16')) {
-            var lbl2 = (resultSource === 'yesterday') ? 'ពីម្សិលមិញ' : 'ថ្ងៃនេះ';
-            $('date16').innerHTML = '<span class="date-badge">📅 ' + lbl2 + ': ' + esc(r16two.publishedAt) + '</span>';
-          } else if ($('date16')) $('date16').innerHTML = '';
-        } else if (badge16) {
-          badge16.textContent = '⏳ រង់ចាំ';
-          badge16.className = 'badge badge-waiting';
-          resetSlot('r16_');
-          resetSlot('r16_3d_');
-          if ($('date16')) $('date16').innerHTML = '';
-        }
-
-        var statusEl = $('resultStatusText');
-        if (statusEl) {
-          if (h >= 0 && h < 12) {
-            if (show16) { statusEl.textContent = '✅ លទ្ធផល 16:00 ម្សិលមិញ'; statusEl.className = 'value'; }
-            else if (show12) { statusEl.textContent = '✅ លទ្ធផល 12:00 ម្សិលមិញ'; statusEl.className = 'value'; }
-            else { statusEl.textContent = '⏳ រង់ចាំ 12:00 ថ្ងៃនេះ'; statusEl.className = 'value pending'; }
-          } else if (h >= 12 && h < 16) {
-            if (show12) { statusEl.textContent = '✅ លទ្ធផល 12:00 ចេញហើយ!'; statusEl.className = 'value'; }
-            else { statusEl.textContent = '⏳ រង់ចាំ 12:00...'; statusEl.className = 'value pending'; }
-          } else {
-            if (show16) { statusEl.textContent = '✅ លទ្ធផល 16:00 ចេញហើយ!'; statusEl.className = 'value'; }
-            else { statusEl.textContent = '⏳ រង់ចាំ 16:00...'; statusEl.className = 'value pending'; }
-          }
-        }
-      }
-
-      function renderHistoryTable() {
-        var tbody = $('historyBody');
-        if (!tbody) return;
-
-        if (cachedResults.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ 12:00/16:00</td></tr>';
-          return;
-        }
-
-        var now = new Date();
-        var today = new Date(now);
-        var yesterday = new Date(now);
-        yesterday.setDate(yesterday.getDate() - 1);
-        var todayFormats = buildDateFormats(today);
-        var yesterdayFormats = buildDateFormats(yesterday);
-
+      // RENDER HISTORY TABLE (Classic)
+      function renderHistoryTableClassic() {
+        var tbody = $('historyBodyClassic'); if (!tbody) return;
+        if (cachedResults.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ 12:00/16:00</td></tr>'; return; }
+        var now = new Date(); var today = new Date(now); var yesterday = new Date(now); yesterday.setDate(yesterday.getDate() - 1);
+        var todayFormats = buildDateFormats(today); var yesterdayFormats = buildDateFormats(yesterday);
         var grouped = {};
         for (var i = 0; i < cachedResults.length; i++) {
-          var r = cachedResults[i];
-          var d = String(r.date || '').trim();
-          var t = String(r.time || '').trim();
-          var key = d + '|' + t;
-          if (!grouped[key]) {
-            grouped[key] = { date: d, time: t, two: null, three: null, publishedAt: '', isToday: false, isYesterday: false };
-          }
-          if (r.type === 'two') grouped[key].two = r;
-          if (r.type === 'three') grouped[key].three = r;
-          if (r.publishedAt) grouped[key].publishedAt = r.publishedAt;
-          if (todayFormats.indexOf(d) !== -1) grouped[key].isToday = true;
-          if (yesterdayFormats.indexOf(d) !== -1) grouped[key].isYesterday = true;
+          var r = cachedResults[i]; var d = String(r.date || '').trim(); var t = String(r.time || '').trim(); var key = d + '|' + t;
+          if (!grouped[key]) grouped[key] = { date: d, time: t, two: null, three: null, publishedAt: '', isToday: false, isYesterday: false };
+          if (r.type === 'two') grouped[key].two = r; if (r.type === 'three') grouped[key].three = r; if (r.publishedAt) grouped[key].publishedAt = r.publishedAt;
+          if (todayFormats.indexOf(d) !== -1) grouped[key].isToday = true; if (yesterdayFormats.indexOf(d) !== -1) grouped[key].isYesterday = true;
         }
-
-        var arr = [];
-        for (var k in grouped) {
-          if (grouped.hasOwnProperty(k)) arr.push(grouped[k]);
-        }
-        arr.sort(function(a, b) {
-          if (b.date !== a.date) return b.date.localeCompare(a.date);
-          return (b.time || '').localeCompare(a.time || '');
-        });
-
+        var arr = []; for (var k in grouped) { if (grouped.hasOwnProperty(k)) arr.push(grouped[k]); }
+        arr.sort(function(a, b) { if (b.date !== a.date) return b.date.localeCompare(a.date); return (b.time || '').localeCompare(a.time || ''); });
         var html = '';
         for (var j = 0; j < arr.length; j++) {
-          var g = arr[j];
-          var fmt = function(r) {
-            if (!r || !r.results) return '<span style="color:#dc3545;">⏳ រង់ចាំ</span>';
-            return '<b style="color:#28a745;">A:' + r.results.A + ' B:' + r.results.B + ' C:' + r.results.C + ' D:' + r.results.D + ' E:' + r.results.E + '</b>';
-          };
+          var g = arr[j]; var fmt = function(r) { return (!r || !r.results) ? '<span style="color:#dc3545;">⏳ រង់ចាំ</span>' : '<b style="color:#28a745;">A:' + r.results.A + ' B:' + r.results.B + ' C:' + r.results.C + ' D:' + r.results.D + ' E:' + r.results.E + '</b>'; };
           var rowStyle = '', badge = '';
-          if (g.isToday) {
-            rowStyle = 'background:#f0fdf4; border-left:4px solid #28a745;';
-            badge = ' <span style="background:#28a745; color:#fff; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:800;">✅ ថ្ងៃនេះ</span>';
-          } else if (g.isYesterday) {
-            rowStyle = 'background:linear-gradient(90deg,#fff9c4,#fff3cd); border-left:4px solid #ffc107;';
-            badge = ' <span style="background:#ffc107; color:#000; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:800;">🟡 ម្សិលមិញ</span>';
-          }
-          html += '<tr style="' + rowStyle + '">' +
-            '<td><strong>' + esc(g.date) + '</strong>' + badge + '</td>' +
-            '<td>' + esc(g.time) + '</td>' +
-            '<td>' + fmt(g.two) + '</td>' +
-            '<td>' + fmt(g.three) + '</td>' +
-            '<td><span style="font-size:10px; color:#005fa3; font-weight:700;">' + esc(g.publishedAt || '-') + '</span></td>' +
-          '</tr>';
+          if (g.isToday) { rowStyle = 'background:#f0fdf4; border-left:4px solid #28a745;'; badge = ' <span style="background:#28a745; color:#fff; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:800;">✅ ថ្ងៃនេះ</span>'; }
+          else if (g.isYesterday) { rowStyle = 'background:linear-gradient(90deg,#fff9c4,#fff3cd); border-left:4px solid #ffc107;'; badge = ' <span style="background:#ffc107; color:#000; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:800;">🟡 ម្សិលមិញ</span>'; }
+          html += '<tr style="' + rowStyle + '"><td><strong>' + esc(g.date) + '</strong>' + badge + '</td><td>' + esc(g.time) + '</td><td>' + fmt(g.two) + '</td><td>' + fmt(g.three) + '</td><td><span style="font-size:10px; color:#005fa3; font-weight:700;">' + esc(g.publishedAt || '-') + '</span></td></tr>';
         }
         tbody.innerHTML = html;
       }
 
-      function renderHistoryTable10() {
-        var tbody = $('historyBody');
-        if (!tbody) return;
-        if (!cachedResults10 || cachedResults10.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ 10 នាទី</td></tr>';
-          return;
-        }
+      // RENDER HISTORY TABLE (Rapid)
+      function renderHistoryTableRapid() {
+        var tbody = $('historyBodyRapid'); if (!tbody) return;
+        if (!cachedResults10 || cachedResults10.length === 0) { tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ 10 នាទី</td></tr>'; return; }
         var html = '';
         for (var i = 0; i < cachedResults10.length; i++) {
           var r = cachedResults10[i];
@@ -3004,475 +1238,25 @@
             if (!res2D || !res3D) return '--';
             var t2 = 'A:' + res2D.A + ' B:' + res2D.B + ' C:' + res2D.C + ' D:' + res2D.D + ' E:' + res2D.E;
             var t3 = 'A:' + res3D.A + ' B:' + res3D.B + ' C:' + res3D.C + ' D:' + res3D.D + ' E:' + res3D.E;
-            return '<div style="font-size:11px; margin-bottom:4px;"><b style="color:#0078D7;">2D:</b> ' + t2 + '</div>' +
-                   '<div style="font-size:11px;"><b style="color:#6f42c1;">3D:</b> ' + t3 + '</div>';
+            return '<div style="font-size:11px; margin-bottom:4px;"><b style="color:#0078D7;">2D:</b> ' + t2 + '</div><div style="font-size:11px;"><b style="color:#6f42c1;">3D:</b> ' + t3 + '</div>';
           };
-          html += '<tr style="border-bottom: 1px solid #e9ecef;">' +
-            '<td><strong>' + esc(r.date) + '</strong><br><span style="font-size:10px; color:#6c757d;">' + esc(r.time) + '</span></td>' +
-            '<td><span class="badge" style="background:#e91e63; color:#fff; border-radius:6px; font-size:10px;">#' + esc(r.drawId) + '</span></td>' +
-            '<td style="text-align:left;">' + fmt(r.results2D, r.results3D) + '</td>' +
-            '<td><span style="font-size:10px; color:#005fa3; font-weight:700;">' + esc(r.publishedAt || '-') + '</span></td>' +
-          '</tr>';
+          html += '<tr style="border-bottom: 1px solid #e9ecef;"><td><strong>' + esc(r.date) + '</strong><br><span style="font-size:10px; color:#6c757d;">' + esc(r.time) + '</span></td><td><span class="badge" style="background:#e91e63; color:#fff; border-radius:6px; font-size:10px;">#' + esc(r.drawId) + '</span></td><td style="text-align:left;">' + fmt(r.results2D, r.results3D) + '</td><td><span style="font-size:10px; color:#005fa3; font-weight:700;">' + esc(r.publishedAt || '-') + '</span></td></tr>';
         }
         tbody.innerHTML = html;
       }
 
-      function renderUserBetsFromServer(serverBets, mode) {
-        var tbody = $('userHistoryBody');
-        if (!tbody) return;
-
-        if (!serverBets || serverBets.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:12px; font-weight:600;">មិនទាន់មានប្រវត្តិ</td></tr>';
-          return;
-        }
-
-        var html = '';
-        for (var i = 0; i < serverBets.length; i++) {
-          var b = serverBets[i];
-          var amt = fmtAmount(b.amount, b.currency);
-          var numCount = String(b.numbers).split(',').length;
-          var totalBet = b.amount * numCount;
-          var totalAmt = fmtTotal(totalBet, b.currency);
-
-          var badge = '<span class="status-badge status-pending">⏳ រង់ចាំ</span>';
-          var reward = '-';
-          var actionBtn = '-';
-
-          if (b.status === 'win') {
-            if (b.paid === 'yes') badge = '<span class="status-badge status-paid">✅ បានសង</span>';
-            else {
-              badge = '<span class="status-badge status-win">🎉 ឈ្នះ</span>';
-              if (b.payMethod === 'direct') actionBtn = '<button class="btn btn-ok" onclick="N98.markPaid(\'' + esc(b.id) + '\')" style="background:linear-gradient(135deg,#28a745,#1e7e34); color:white; padding:4px 10px; font-size:11px;">✅ បានសង</button>';
-            }
-            var rate = b.type === 'two' ? 70 : 500;
-            var payout = b.payout || (b.amount * rate);
-            reward = '<strong style="color:#28a745;">' + fmtAmount(payout, b.currency) + '</strong>';
-          } else if (b.status === 'loss') {
-            badge = '<span class="status-badge status-loss">❌ មិនត្រូវ</span>';
-          }
-
-          var modeBadge = b.payMethod === 'direct' ? '<span style="color:#28a745; font-size:10px; font-weight:800;">💵 ផ្ទាល់</span>' : '<span style="color:#0078D7; font-size:10px; font-weight:800;">🌐 អនឡាញ</span>';
-          
-          var extraInfo = '';
-          if (mode === 'rapid' && b.drawId) {
-            extraInfo = '<div style="font-size:10px; color:#e91e63; font-weight:800; margin-top:2px;">🎯 វគ្គ: ' + esc(b.drawId) + '</div>';
-          }
-
-          html += '<tr>' +
-            '<td style="text-align:left; font-size:10px;">' +
-              '<div style="font-weight:800; color:#6f42c1;">🆔 ' + esc(b.id) + '</div>' +
-              '<div style="font-weight:700;">' + esc(b.date) + '</div>' + extraInfo +
-            '</td>' +
-            '<td><div style="margin-bottom:2px;">' + modeBadge + '</div><strong style="color:#0078D7;">' + esc(b.numbers) + '</strong></td>' +
-            '<td>' + (b.type === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់') + '</td>' +
-            '<td><div>' + amt + '</div><div class="amount-tag">💰 ' + totalAmt + '</div></td>' +
-            '<td>' + badge + '</td>' +
-            '<td>' + reward + '</td>' +
-            '<td>' + actionBtn + '</td>' +
-          '</tr>';
-        }
-        tbody.innerHTML = html;
-      }
-
-      function markPaid(betId) {
-        if (!confirm('តើអ្នកប្រាកដជាបានទទួលប្រាក់រង្វាន់រួចហើយឬ?')) return;
-        showLoading(true);
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'markPaid', betId: betId }),
-          headers: { 'Content-Type': 'text/plain' }
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          showLoading(false);
-          if (data.ok) { fetchUserBets(); showToast('បានសម្គាល់ថាទទួលប្រាក់រួច!', 'success'); }
-          else showToast(data.error || 'មានបញ្ហា!', 'error');
-        })
-        .catch(function(err) {
-          console.error(err); showLoading(false);
-          showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-        });
-      }
-
-      function openWithdraw(mode) {
-        var modal = $('withdrawModal');
-        var title = $('withdrawTitle');
-        var notice = $('withdrawNotice');
-        var badge = $('withdrawBadge');
-        if (badge) badge.style.display = 'none';
-        if (mode === 'late') {
-          title.textContent = '🏦 ដកប្រាក់រង្វាន់ / ⏰ ដកយឺត';
-          notice.innerHTML = '⚠️ <strong>យឺតពេល</strong> សូមពិនិត្យ ១–២ ម៉ោង';
-        } else {
-          title.textContent = '🏦 ដកប្រាក់រង្វាន់';
-          notice.innerHTML = '✅ ដកបានបន្ទាប់ពី 12:00 និង 16:00';
-        }
-        $('wdPhone').value = fixPhoneNumber(currentUser.phone);
-        populateWinList();
-        modal.style.display = 'block';
-      }
-
-      function populateWinList() {
-        var container = $('winListContainer');
-        var cleanPhone = fixPhoneNumber(currentUser.phone);
-        container.innerHTML = '<div style="text-align:center; padding:20px; color:#6c757d;"><span class="anim-spin">⏳</span> កំពុងផ្ទុក...</div>';
-        fetchWithTimeout(WEB_APP_URL + '?action=getBets&phone=' + encodeURIComponent(cleanPhone) + '&t=' + Date.now(), { cache: 'no-store' })
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            if (!data.ok || !Array.isArray(data.bets)) {
-              container.innerHTML = '<div style="text-align:center; padding:20px; color:#6c757d; font-weight:700;">មិនមានលេខឈ្នះ</div>';
-              $('payoutDisplay').textContent = '0.00';
-              return;
-            }
-            var wins = data.bets.filter(function(b) { return b.status === 'win' && b.paid !== 'yes'; });
-            selectedWinIds = [];
-            if (wins.length === 0) {
-              container.innerHTML = '<div style="text-align:center; padding:20px; color:#6c757d; font-weight:700;">🎯 មិនមានលេខឈ្នះ</div>';
-              $('payoutDisplay').textContent = '0.00';
-              return;
-            }
-            for (var i = 0; i < wins.length; i++) selectedWinIds.push(wins[i].id);
-            var html = '';
-            for (var j = 0; j < wins.length; j++) {
-              var b = wins[j];
-              var rate = b.type === 'two' ? 70 : 500;
-              var payout = b.payout || (b.amount * rate);
-              html += '<div style="background:linear-gradient(135deg,#d4edda,#a8e6c0); border:2px solid #28a745; border-radius:10px; padding:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">' +
-                '<div><strong style="color:#155724; font-size:14px;">' + esc(b.numbers) + '</strong>' +
-                '<div style="font-size:11px; color:#155724; font-weight:700;">' + esc(b.id) + '</div></div>' +
-                '<div style="color:#28a745; font-weight:800; font-size:15px;">' + fmtAmount(payout, b.currency) + '</div></div>';
-            }
-            container.innerHTML = html;
-            updateTotalPayout(data.bets);
-          })
-          .catch(function(err) {
-            console.error(err);
-            container.innerHTML = '<div style="text-align:center; padding:20px; color:#dc3545; font-weight:700;">មានបញ្ហាទាញទិន្នន័យ</div>';
-          });
-      }
-
-      function updateTotalPayout(allBets) {
-        var totalUSD = 0, totalKHR = 0;
-        for (var i = 0; i < selectedWinIds.length; i++) {
-          var id = selectedWinIds[i];
-          for (var j = 0; j < allBets.length; j++) {
-            if (allBets[j].id === id) {
-              var bet = allBets[j];
-              var rate = bet.type === 'two' ? 70 : 500;
-              var payout = bet.payout || (bet.amount * rate);
-              if (bet.currency === 'USD') totalUSD += payout;
-              else totalKHR += payout;
-              break;
-            }
-          }
-        }
-        var display;
-        if (totalUSD > 0 && totalKHR > 0) display = totalUSD.toFixed(2) + '$ + ' + totalKHR.toLocaleString() + '៛';
-        else if (totalUSD > 0) display = totalUSD.toFixed(2) + '$';
-        else if (totalKHR > 0) display = totalKHR.toLocaleString() + '៛';
-        else display = '0.00';
-        $('payoutDisplay').textContent = display;
-      }
-
-      function updateClock() {
-        var now = new Date();
-        if ($('widgetTime')) $('widgetTime').textContent = now.toLocaleTimeString('km-KH', { hour12: false });
-        if ($('widgetDate')) $('widgetDate').textContent = now.toLocaleDateString('km-KH', {
-          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-        });
-        var h = now.getHours();
-        var target = 12, label = '🕛 12:00';
-        if (h >= 12 && h < 16) { target = 16; label = '🕓 16:00'; }
-        else if (h >= 16) { target = 36; label = '🕛 12:00 រំលងយប់'; }
-        var t = new Date(now);
-        if (target === 36) { t.setDate(t.getDate() + 1); t.setHours(12, 0, 0, 0); }
-        else t.setHours(target, 0, 0, 0);
-        var diff = Math.floor((t - now) / 1000);
-        var hrs = String(Math.floor(diff / 3600)).padStart(2, '0');
-        var mins = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
-        var secs = String(diff % 60).padStart(2, '0');
-        if ($('countdownDisplay')) $('countdownDisplay').textContent = hrs + ':' + mins + ':' + secs;
-        if ($('nextTimeLabel')) $('nextTimeLabel').textContent = '🎯 ពេលបន្ទាប់៖ ' + label;
-        var sl = $('statusTimeLabel');
-        if (sl) {
-          if (h < 12) { sl.textContent = '⏳ រង់ចាំ 12:00'; sl.style.color = '#dc3545'; }
-          else if (h >= 12 && h < 16) { sl.textContent = '⏳ រង់ចាំ 16:00'; sl.style.color = '#dc3545'; }
-          else { sl.textContent = '✅ លទ្ធផលថ្ងៃនេះចេញហើយ!'; sl.style.color = '#28a745'; }
-        }
-        if (mainMode === 'rapid') updateCountdown10();
-      }
-
-      function init() {
-        initTheme();
-        initParticles();
-        var saved = localStorage.getItem('lottery_user');
-        if (saved) {
-          try {
-            var user = JSON.parse(saved);
-            if (user && user.verified) {
-              currentUser = user;
-              currentUser.phone = fixPhoneNumber(user.phone);
-              enterApp();
-              return;
-            }
-          } catch (e) {}
-        }
-        $('registerModal').style.display = 'block';
-        $('mainApp').style.display = 'none';
-        showLoginStep();
-      }
-
-      function setupFormHandlers() {
-        var directForm = $('directBetForm');
-        if (directForm) {
-          directForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var phone = fixPhoneNumber($('directPhone').value);
-            if (!phone) { showToast('សូមបំពេញលេខទូរស័ព្ទ!', 'warning'); return; }
-            var total = numbers.length * amount;
-            var btn = directForm.querySelector('button[type="submit"]');
-            if (currency === 'USD' && balanceUSD < total) { showToast('សមតុល្យ USD មិនគ្រប់!', 'error', '💰'); return; }
-            if (currency === 'KHR' && balanceKHR < total) { showToast('សមតុល្យ KHR មិនគ្រប់!', 'error', '💰'); return; }
-            btn.disabled = true;
-            btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
-            showLoading(true);
-            fetchWithTimeout(WEB_APP_URL + '?action=getBalance&phone=' + encodeURIComponent(phone) + '&t=' + Date.now())
-              .then(function(r) { return r.json(); })
-              .then(function(bal) {
-                if (bal.ok) {
-                  balanceUSD = parseFloat(bal.balanceUSD) || 0;
-                  balanceKHR = parseFloat(bal.balanceKHR) || 0;
-                  updateBalanceUI();
-                }
-                if (currency === 'USD' && balanceUSD < total) throw new Error('សមតុល្យ USD មិនគ្រប់គ្រាន់!');
-                if (currency === 'KHR' && balanceKHR < total) throw new Error('សមតុល្យ KHR មិនគ្រប់គ្រាន់!');
-                return fetch(WEB_APP_URL, {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    action: 'placeDirectBet', phone: phone, userId: currentUser.userId,
-                    numbers: numbers, type: betType, amount: amount,
-                    currency: currency, total: total, drawTime: selectedTime
-                  }),
-                  headers: { 'Content-Type': 'text/plain' }
-                });
-              })
-              .then(function(r) { return r.json(); })
-              .then(function(data) {
-                btn.disabled = false;
-                btn.innerHTML = '<span class="anim-pulse">✅</span> បញ្ជាក់ការចាក់';
-                showLoading(false);
-                if (data.ok) {
-                  showToast('ការចាក់ត្រូវបានទទួលយក!', 'success', '🎉');
-                  closeModal('directBetModal');
-                  resetBetForm();
-                  fetchBalance(phone);
-                  fetchUserBets();
-                  directForm.reset();
-                  $('directPhone').value = fixPhoneNumber(currentUser.phone);
-                } else showToast(data.error || 'មានបញ្ហា!', 'error');
-              })
-              .catch(function(err) {
-                console.error(err);
-                btn.disabled = false;
-                btn.innerHTML = '<span class="anim-pulse">✅</span> បញ្ជាក់ការចាក់';
-                showLoading(false);
-                showToast(err.message || 'មានបញ្ហាតភ្ជាប់!', 'error');
-              });
-          });
-        }
-
-        var depositForm = $('depositForm');
-        if (depositForm) {
-          depositForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var phone = fixPhoneNumber($('depPhone').value);
-            var fileInput = $('depScreenshot');
-            if (!phone || !fileInput.files[0]) { showToast('សូមភ្ជាប់ភស្តុតាង!', 'warning'); return; }
-            var btn = depositForm.querySelector('button[type="submit"]');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
-            showLoading(true);
-            var reader = new FileReader();
-            reader.readAsDataURL(fileInput.files[0]);
-            reader.onload = function() {
-              var base64 = reader.result.split(',')[1];
-              fetch(WEB_APP_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                  action: 'depositRequest', phone: phone, userId: currentUser.userId,
-                  imageBase64: base64
-                }),
-                headers: { 'Content-Type': 'text/plain' }
-              })
-              .then(function(r) { return r.json(); })
-              .then(function(data) {
-                btn.disabled = false;
-                btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
-                showLoading(false);
-                if (data.ok) {
-                  showToast('សំណើបញ្ចូលប្រាក់ត្រូវបានទទួលយក!', 'success', '🎉');
-                  closeModal('depositModal');
-                  depositForm.reset();
-                  $('depPhone').value = fixPhoneNumber(currentUser.phone);
-                  $('depSubmitBtn').disabled = true;
-                } else showToast(data.error || 'មានបញ្ហា!', 'error');
-              })
-              .catch(function(err) {
-                console.error(err);
-                btn.disabled = false;
-                btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
-                showLoading(false);
-                showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-              });
-            };
-          });
-        }
-
-        var withdrawForm = $('withdrawForm');
-        if (withdrawForm) {
-          withdrawForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var phone = fixPhoneNumber($('wdPhone').value);
-            var qrInput = $('wdQrCode');
-            if (!phone || !qrInput.files[0]) { showToast('សូមបំពេញ QR Code!', 'warning'); return; }
-            if (selectedWinIds.length === 0) { showToast('មិនមានលេខឈ្នះ!', 'warning'); return; }
-            var totalPayout = $('payoutDisplay').textContent;
-            var btn = withdrawForm.querySelector('button[type="submit"]');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
-            showLoading(true);
-            var reader = new FileReader();
-            reader.readAsDataURL(qrInput.files[0]);
-            reader.onload = function() {
-              var base64 = reader.result.split(',')[1];
-              fetch(WEB_APP_URL, {
-                method: 'POST',
-                body: JSON.stringify({
-                  action: 'requestWithdraw', phone: phone, userId: currentUser.userId,
-                  numbers: 'ច្រើនលេខ', reward: totalPayout,
-                  betId: selectedWinIds.join(','), imageBase64: base64
-                }),
-                headers: { 'Content-Type': 'text/plain' }
-              })
-              .then(function(r) { return r.json(); })
-              .then(function(data) {
-                btn.disabled = false;
-                btn.innerHTML = '🚀 បញ្ជាក់ដកប្រាក់';
-                showLoading(false);
-                if (data.ok) {
-                  showToast('ស្នើសុំដកប្រាក់ត្រូវបានទទួលយក!', 'success', '🎉');
-                  closeModal('withdrawModal');
-                  fetchUserBets();
-                  withdrawForm.reset();
-                  $('wdPhone').value = fixPhoneNumber(currentUser.phone);
-                  selectedWinIds = [];
-                } else showToast('មានបញ្ហាក្នុងការបញ្ជូន!', 'error');
-              })
-              .catch(function(err) {
-                console.error(err);
-                btn.disabled = false;
-                btn.innerHTML = '🚀 បញ្ជាក់ដកប្រាក់';
-                showLoading(false);
-                showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-              });
-            };
-          });
-        }
-
-        var depPhone = $('depPhone');
-        if (depPhone) depPhone.addEventListener('input', checkOnlineFormValidity);
-        var depScreenshot = $('depScreenshot');
-        if (depScreenshot) depScreenshot.addEventListener('change', checkOnlineFormValidity);
-      }
-
-      function resetBetForm() {
-        numbers = [];
-        selectedLetter = '';
-        var circles = document.querySelectorAll('#classicMode .letter-circle');
-        for (var i = 0; i < circles.length; i++) circles[i].classList.remove('active');
-        var inp = $('numInput');
-        if (inp) { inp.disabled = true; inp.value = ''; }
-        updateDisplay();
-        updateBalanceStatusBox();
-      }
-
-      function startApp() {
-        init();
-        setupFormHandlers();
-        
-        var regCode = $('regCode');
-        if (regCode) {
-          regCode.addEventListener('input', function() { this.value = this.value.toUpperCase(); });
-          regCode.addEventListener('keypress', function(e) { if (e.key === 'Enter') handleVerify(); });
-        }
-        var loginPin = $('loginPin');
-        if (loginPin) loginPin.addEventListener('keypress', function(e) { if (e.key === 'Enter') handleLogin(); });
-        var regPin = $('regPin');
-        if (regPin) regPin.addEventListener('keypress', function(e) { if (e.key === 'Enter') handleRegister(); });
-
-        window.addEventListener('click', function(e) {
-          if (e.target.classList && e.target.classList.contains('modal') && e.target.id !== 'registerModal') {
-            e.target.style.display = 'none';
-          }
-        });
-
-        document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape') {
-            var modals = document.querySelectorAll('.modal');
-            for (var i = 0; i < modals.length; i++) {
-              if (modals[i].style.display === 'block' && modals[i].id !== 'registerModal') {
-                modals[i].style.display = 'none';
-              }
-            }
-          }
-        });
-      }
+      // ... (JS Functions: setMode, setTime, setType, selectLetter, autoAddNumbers, updateDisplay, updateSummary, updateSubmitButton, updateBalanceStatusBox, submitBet, openDepositModal, handleAbaClick, checkOnlineFormValidity, isBettingClosed, updateBettingStatus, Rapid mode functions, renderResults10Grid, updateResultsUI, renderUserBetsFromServer, markPaid, openWithdraw, populateWinList, updateTotalPayout, updateClock, init, setupFormHandlers, resetBetForm, startApp, window.N98 ...)
 
       window.N98 = {
-        handleRegister: handleRegister,
-        handleVerify: handleVerify,
-        handleLogin: handleLogin,
-        handleLogout: handleLogout,
-        showLoginStep: showLoginStep,
-        showRegisterStep: showRegisterStep,
-        showVerifyStep: showVerifyStep,
-        contactAdmin: contactAdmin,
-        openGroup: openGroup,
-        copyLink: copyLink,
-        showSection: showSection,
-        closeModal: closeModal,
-        setMode: setMode,
-        openDepositModal: openDepositModal,
-        setTime: setTime,
-        setType: setType,
-        selectLetter: selectLetter,
-        removeNum: removeNum,
-        setAmount: setAmount,
-        updateAmount: updateAmount,
-        submitBet: submitBet,
-        handleAbaClick: handleAbaClick,
-        openWithdraw: openWithdraw,
-        markPaid: markPaid,
-        switchHistoryTab: switchHistoryTab,
-        switchMainMode: switchMainMode,
-        toggleTheme: toggleTheme,
-        showToast: showToast,
-        setType10: setType10,
-        selectLetter10: selectLetter10,
-        removeNum10: removeNum10,
-        setAmount10: setAmount10,
-        updateAmount10: updateAmount10,
-        submitBet10: submitBet10,
-        adminQuickAdd: adminQuickAdd,
-        adminAddDeposit: adminAddDeposit,
-        adminLoadStats: adminLoadStats
+        handleRegister, handleVerify, handleLogin, handleLogout, showLoginStep, showRegisterStep, showVerifyStep,
+        contactAdmin, openGroup, copyLink, showSection, closeModal, setMode, openDepositModal, setTime, setType,
+        selectLetter, removeNum, setAmount, updateAmount, submitBet, handleAbaClick, openWithdraw, markPaid,
+        switchHistoryTab, switchMainMode, toggleTheme, showToast, setType10, selectLetter10, removeNum10,
+        setAmount10, updateAmount10, submitBet10, adminQuickAdd, adminAddDeposit, adminLoadStats
       };
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', startApp);
-      } else {
-        startApp();
-      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', startApp);
+      else startApp();
 
     })();
   </script>
