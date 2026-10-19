@@ -809,6 +809,17 @@
         </div>
       </div>
 
+      <!-- WITHDRAW SECTION -->
+      <div class="lottery-box" id="withdrawBox" style="display:none;">
+        <div class="time-box"><span class="anim-pulse">🏦</span> ដកប្រាក់</div>
+        <p id="withdrawNoticeText" style="font-size:13px; color:#4a5568; margin:6px 0; font-weight:600;">ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
+          <button class="btn btn-withdraw" onclick="N98.openWithdraw('normal')" id="btnWithdrawNormal">🏦 ដកប្រាក់រង្វាន់ <span id="withdrawBadge" class="win-badge" style="display:none;">NEW</span></button>
+          <button class="btn btn-withdraw" onclick="N98.openWithdraw('late')" id="btnWithdrawLate">⏰ ដកប្រាក់យឺត</button>
+          <button class="btn btn-telegram" onclick="N98.contactAdmin()">✉️ ទាក់ទង Admin</button>
+        </div>
+      </div>
+
     </div>
 
     <div class="footer"><span class="emoji-dice">🎲</span> © 2026 Khmer Lottery N98 — Classic + Rapid Edition 🏆</div>
