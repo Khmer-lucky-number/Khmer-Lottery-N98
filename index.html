@@ -2186,9 +2186,11 @@
           var cell = function(letter, val) {
             return '<div class="num-cell"><span class="letter">' + letter + '</span><span class="value">' + esc(val || '--') + '</span></div>';
           };
+          var latestBadge = isNew ? ' <span style="font-size:10px; color:#15803d; background:#dcfce7; padding:2px 6px; border-radius:4px; margin-left:6px; border:1px solid #86efac; vertical-align:middle;">លទ្ធផលចុងក្រោយ</span>' : '';
+
           html += '<div class="result-card' + (isNew ? ' new-result' : '') + '">' +
             '<div class="header">' +
-              '<span class="draw-id">#' + esc(r.drawId || '-') + '</span>' +
+              '<span class="draw-id">#' + esc(r.drawId || '-') + latestBadge + '</span>' +
               '<span class="time">' + esc(r.time || '') + '</span>' +
             '</div>' +
             '<div class="type-label">🔢 ២ខ្ទង់</div>' +
