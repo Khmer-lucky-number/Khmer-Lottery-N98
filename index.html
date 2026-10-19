@@ -894,8 +894,8 @@
             <button class="mode-btn direct active" id="modeDirect" onclick="N98.setMode('direct', event)">
               💵 ចាក់ផ្ទាល់
             </button>
-            <button class="mode-btn online" id="modeOnline" onclick="N98.setMode('online', event)">
-              🌐 ចាក់អនឡាញ
+            <button class="mode-btn online" id="modeOnline" onclick="N98.openDepositModal()">
+              💰 បញ្ចូលទឹកប្រាក់
             </button>
           </div>
 
@@ -1212,79 +1212,6 @@
         </div>
       </div>
 
-      <!-- HISTORY TABS -->
-      <div class="lottery-box" id="historyTabsBox">
-        <div class="time-box" style="color:#6f42c1; margin-bottom:12px;">
-          <span class="anim-pulse">📜</span> ប្រវត្តិរបស់អ្នក
-        </div>
-        <div class="history-tabs">
-          <button class="history-tab active" data-tab="bets" onclick="N98.switchHistoryTab('bets', event)">📊 ប្រវត្តិចាក់</button>
-          <button class="history-tab" data-tab="withdrawals" onclick="N98.switchHistoryTab('withdrawals', event)">🏦 ប្រវត្តិដកប្រាក់</button>
-          <button class="history-tab" data-tab="deposits" onclick="N98.switchHistoryTab('deposits', event)">💰 ប្រវត្តិដាក់ប្រាក់</button>
-          <button class="history-tab" data-tab="results" onclick="N98.switchHistoryTab('results', event)">🎯 ប្រវត្តិលទ្ធផល</button>
-        </div>
-
-        <div class="history-panel active" id="panel-bets">
-          <div style="overflow-x:auto;">
-            <table class="history-table">
-              <thead>
-                <tr style="background:linear-gradient(135deg,#0078D7,#005fa3);">
-                  <th>កាលបរិច្ឆេទ</th><th>លេខចាក់</th><th>ប្រភេទ</th><th>ចំនួន</th><th>ស្ថានភាព</th><th>រង្វាន់</th><th>សកម្មភាព</th>
-                </tr>
-              </thead>
-              <tbody id="userHistoryBody">
-                <tr><td colspan="7" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="history-panel" id="panel-withdrawals">
-          <div style="overflow-x:auto;">
-            <table class="history-table">
-              <thead>
-                <tr style="background:linear-gradient(135deg,#6f42c1,#5a32a3);">
-                  <th>កាលបរិច្ឆេទ</th><th>លេខសំណើ</th><th>ចំនួន</th><th>ស្ថានភាព</th>
-                </tr>
-              </thead>
-              <tbody id="userWithdrawBody">
-                <tr><td colspan="4" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="history-panel" id="panel-deposits">
-          <div style="overflow-x:auto;">
-            <table class="history-table">
-              <thead>
-                <tr style="background:linear-gradient(135deg,#28a745,#1e7e34);">
-                  <th>កាលបរិច្ឆេទ</th><th>ចំនួន</th><th>រូបិយប័ណ្ណ</th><th>សមតុល្យក្រោយ</th><th>កំណត់សម្គាល់</th>
-                </tr>
-              </thead>
-              <tbody id="userDepositBody">
-                <tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="history-panel" id="panel-results">
-          <div style="overflow-x:auto;">
-            <table class="history-table">
-              <thead>
-                <tr style="background:linear-gradient(135deg,#ff9800,#e65100);">
-                  <th>កាលបរិច្ឆេទ</th><th>ម៉ោង/វគ្គ</th><th>លទ្ធផល</th><th>ចេញលទ្ធផលនៅ</th>
-                </tr>
-              </thead>
-              <tbody id="historyBody">
-                <tr><td colspan="4" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
       <!-- WITHDRAW SECTION -->
       <div class="lottery-box" id="withdrawBox">
         <div class="time-box"><span class="anim-pulse">🏦</span> ដកប្រាក់</div>
@@ -1330,6 +1257,81 @@
           </div>
         </div>
       </div>
+
+      <!-- HISTORY SECTION (ខាងក្រោម - រក្សាទុក) -->
+      <div id="historySection" style="display:none;">
+        <div class="lottery-box">
+          <div class="time-box">📊 ប្រវត្តិលទ្ធផលពេញលេញ</div>
+          
+          <div style="display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap;">
+            <button class="history-tab active" data-tab="bets" onclick="N98.switchHistoryTab('bets', event)" style="flex:1; min-width:100px; padding:10px; border-radius:8px; font-weight:800; cursor:pointer;">📊 ប្រវត្តិចាក់</button>
+            <button class="history-tab" data-tab="withdrawals" onclick="N98.switchHistoryTab('withdrawals', event)" style="flex:1; min-width:100px; padding:10px; border-radius:8px; font-weight:800; cursor:pointer;">🏦 ប្រវត្តិដកប្រាក់</button>
+            <button class="history-tab" data-tab="deposits" onclick="N98.switchHistoryTab('deposits', event)" style="flex:1; min-width:100px; padding:10px; border-radius:8px; font-weight:800; cursor:pointer;">💰 ប្រវត្តិដាក់ប្រាក់</button>
+            <button class="history-tab" data-tab="results" onclick="N98.switchHistoryTab('results', event)" style="flex:1; min-width:100px; padding:10px; border-radius:8px; font-weight:800; cursor:pointer;">🎯 ប្រវត្តិលទ្ធផល</button>
+          </div>
+
+          <div class="history-panel active" id="panel-bets">
+            <div style="overflow-x:auto;">
+              <table class="history-table">
+                <thead>
+                  <tr style="background:linear-gradient(135deg,#0078D7,#005fa3);">
+                    <th>កាលបរិច្ឆេទ</th><th>លេខចាក់</th><th>ប្រភេទ</th><th>ចំនួន</th><th>ស្ថានភាព</th><th>រង្វាន់</th><th>សកម្មភាព</th>
+                  </tr>
+                </thead>
+                <tbody id="userHistoryBody">
+                  <tr><td colspan="7" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="history-panel" id="panel-withdrawals">
+            <div style="overflow-x:auto;">
+              <table class="history-table">
+                <thead>
+                  <tr style="background:linear-gradient(135deg,#6f42c1,#5a32a3);">
+                    <th>កាលបរិច្ឆេទ</th><th>លេខសំណើ</th><th>ចំនួន</th><th>ស្ថានភាព</th>
+                  </tr>
+                </thead>
+                <tbody id="userWithdrawBody">
+                  <tr><td colspan="4" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="history-panel" id="panel-deposits">
+            <div style="overflow-x:auto;">
+              <table class="history-table">
+                <thead>
+                  <tr style="background:linear-gradient(135deg,#28a745,#1e7e34);">
+                    <th>កាលបរិច្ឆេទ</th><th>ចំនួន</th><th>រូបិយប័ណ្ណ</th><th>សមតុល្យក្រោយ</th><th>កំណត់សម្គាល់</th>
+                  </tr>
+                </thead>
+                <tbody id="userDepositBody">
+                  <tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="history-panel" id="panel-results">
+            <div style="overflow-x:auto;">
+              <table class="history-table">
+                <thead>
+                  <tr style="background:linear-gradient(135deg,#ff9800,#e65100);">
+                    <th>កាលបរិច្ឆេទ</th><th>ម៉ោង/វគ្គ</th><th>លទ្ធផល ២ខ្ទង់</th><th>លទ្ធផល ៣ខ្ទង់</th><th>ចេញលទ្ធផលនៅ</th>
+                  </tr>
+                </thead>
+                <tbody id="historyBody">
+                  <tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div class="footer">
@@ -1341,14 +1343,8 @@
   <div class="modal" id="depositModal">
     <div class="modal-content">
       <span class="close" onclick="N98.closeModal('depositModal')">&times;</span>
-      <h2>💳 បញ្ជាក់ការទូទាត់</h2>
+      <h2>💰 បញ្ចូលទឹកប្រាក់ (ABA Bank)</h2>
       <form id="depositForm">
-        <div class="bet-summary">
-          <div class="bet-summary-item"><span>🔢 លេខ៖</span><span id="confirmNumbers">-</span></div>
-          <div class="bet-summary-item total"><span>💰 សរុប៖</span><span id="confirmTotal">-</span></div>
-        </div>
-        <label>លេខទូរស័ព្ទ *</label>
-        <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" minlength="9" maxlength="10" inputmode="numeric">
         <div style="background:linear-gradient(135deg,#e8f4fd,#d4edda); border:2px dashed #0078D7; padding:16px; border-radius:12px; text-align:center; margin-top:12px;">
           <div style="font-weight:800; color:#005fa3; font-size:14px; margin-bottom:12px;">👇 ចុចខាងក្រោមដើម្បីបង់ប្រាក់</div>
           <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" rel="noopener" id="abaBankBtn" onclick="N98.handleAbaClick(event)" style="font-size:15px; padding:16px; display:flex; align-items:center; justify-content:center; gap:10px; background:linear-gradient(135deg,#005fa3,#0078D7); color:white; text-decoration:none; border-radius:10px; font-weight:800;">
@@ -1357,12 +1353,14 @@
           </a>
           <div style="font-size:11.5px; color:#005fa3; margin-top:12px; font-weight:700;">⚡ បង់រួច សូមថតរូប (Screenshot)</div>
         </div>
+        <label>លេខទូរស័ព្ទ *</label>
+        <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" minlength="9" maxlength="10" inputmode="numeric">
         <label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none; margin-top:14px;">
           ភស្តុតាង (Screenshot) *
           <span style="font-size:11px; color:#dc3545; font-weight:normal;"> (ត្រូវចុច ABA Bank ជាមុន)</span>
         </label>
         <input type="file" id="depScreenshot" accept="image/*" required disabled>
-        <button type="submit" class="btn btn-success" id="depSubmitBtn" disabled style="margin-top:12px;">🚀 បញ្ជាក់ការទូទាត់</button>
+        <button type="submit" class="btn btn-success" id="depSubmitBtn" disabled style="margin-top:12px;">🚀 បញ្ជាក់ការបញ្ចូលប្រាក់</button>
         <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px solid #ff8b8b; border-radius:10px; padding:12px 14px; margin-top:12px; font-size:11.5px; color:#721c24; line-height:1.7; text-align:left; font-weight:600;">
           <span class="anim-shake">⚠️</span> <strong>ការព្រមាន!</strong><br>
           • ការបង់ប្រាក់ត្រូវធ្វើតាម ABA Bank ជាមុន<br>
@@ -1445,9 +1443,8 @@
     </div>
   </div>
 
-  <!-- ចាប់ផ្តើម SCRIPT -->
   <script>
-    // ⭐ បន្ថែម Audio សម្រាប់សំឡេងរោទិ៍ពេលជិតដល់ពេលប្រកាសលទ្ធផល
+    // ⭐ Audio សម្រាប់សំឡេងរោទិ៍
     const beepAudio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
     
     (function() {
@@ -1496,7 +1493,6 @@
       // Shared
       var cachedResults = [];
       var cachedResults10 = [];
-      var isSyncing = false;
       var balanceUSD = 0;
       var balanceKHR = 0;
       var selectedWinIds = [];
@@ -1578,7 +1574,7 @@
       }
 
       /* ============================================================
-         THEME
+         THEME & PARTICLES
          ============================================================ */
       function toggleTheme() {
         var isDark = document.body.classList.toggle('dark-mode');
@@ -1626,7 +1622,7 @@
       }
 
       /* ============================================================
-         FETCH
+         FETCH API
          ============================================================ */
       function fetchWithTimeout(url, options, timeoutMs) {
         timeoutMs = timeoutMs || CFG.FETCH_TIMEOUT;
@@ -1645,7 +1641,7 @@
             if (data && data.ok && Array.isArray(data.results)) {
               cachedResults = data.results;
               updateResultsUI();
-              renderHistoryTable();
+              if (currentHistoryTab === 'results') renderHistoryTable();
             }
           }).catch(function(e) { console.error('fetchResults:', e); });
       }
@@ -1657,6 +1653,8 @@
             if (data && data.ok && Array.isArray(data.results)) {
               cachedResults10 = data.results;
               renderResults10Grid();
+              if (currentHistoryTab === 'results') renderHistoryTable();
+              
               if (cachedResults10.length > 0) {
                 var newDrawId = String(cachedResults10[0].drawId || '');
                 if (lastDrawId10 && lastDrawId10 !== newDrawId && beepPlayedForDraw !== newDrawId) {
@@ -1768,21 +1766,18 @@
       }
 
       /* ============================================================
-         MAIN MODE SWITCHER
+         MAIN MODE & NAVIGATION
          ============================================================ */
       function updateModeSpecificUI(mode) {
         var withdrawNotice = $('withdrawNoticeText');
         var btnLate = $('btnWithdrawLate');
-        var historyResultsTitle = document.querySelector('#panel-results .time-box');
 
         if (mode === 'rapid') {
           if (withdrawNotice) withdrawNotice.textContent = 'ដកបាន ២៤ ម៉ោង សម្រាប់ការចាក់ឆ្នោត 10 នាទី';
           if (btnLate) btnLate.style.display = 'none';
-          if (historyResultsTitle) historyResultsTitle.innerHTML = '<span class="anim-pulse">🎯</span> ប្រវត្តិលទ្ធផល 10 នាទី';
         } else {
           if (withdrawNotice) withdrawNotice.textContent = 'ដកបានបន្ទាប់ពី 12:00 និង 16:00';
           if (btnLate) btnLate.style.display = 'inline-block';
-          if (historyResultsTitle) historyResultsTitle.innerHTML = '<span class="anim-pulse">🎯</span> ប្រវត្តិលទ្ធផល 12:00/16:00';
         }
       }
 
@@ -1825,9 +1820,6 @@
         showToast(mode === 'classic' ? 'របៀប 12:00 / 16:00' : 'របៀប 10 នាទី', 'info', mode === 'classic' ? '🕛' : '⚡');
       }
 
-      /* ============================================================
-         NAVIGATION
-         ============================================================ */
       function showSection(name, evt) {
         document.body.classList.remove('view-history', 'view-rules');
 
@@ -1836,7 +1828,6 @@
         var historySection = $('historySection');
         var rulesSection = $('rulesSection');
         var withdrawBox = $('withdrawBox');
-        var historyTabsBox = $('historyTabsBox');
         var modeTabs = document.querySelector('.mode-tabs');
         var clockBox = document.querySelector('.clock-box');
         var statusBar = document.querySelector('.status-bar');
@@ -1848,7 +1839,6 @@
 
         if (name === 'home') {
           if (withdrawBox) withdrawBox.style.display = 'block';
-          if (historyTabsBox) historyTabsBox.style.display = 'block';
           if (modeTabs) modeTabs.style.display = 'flex';
           if (clockBox) clockBox.style.display = 'flex';
           if (statusBar) statusBar.style.display = 'flex';
@@ -1858,7 +1848,6 @@
         } else if (name === 'history') {
           document.body.classList.add('view-history');
           if (withdrawBox) withdrawBox.style.display = 'none';
-          if (historyTabsBox) historyTabsBox.style.display = 'block';
           if (modeTabs) modeTabs.style.display = 'none';
           if (clockBox) clockBox.style.display = 'none';
           if (statusBar) statusBar.style.display = 'none';
@@ -1866,7 +1855,6 @@
         } else if (name === 'rules') {
           document.body.classList.add('view-rules');
           if (withdrawBox) withdrawBox.style.display = 'none';
-          if (historyTabsBox) historyTabsBox.style.display = 'none';
           if (modeTabs) modeTabs.style.display = 'none';
           if (clockBox) clockBox.style.display = 'none';
           if (statusBar) statusBar.style.display = 'none';
@@ -1882,12 +1870,7 @@
         }
 
         if (name === 'history') {
-          if (mainMode === 'rapid') renderHistoryTable10();
-          else renderHistoryTable();
-          
-          if (currentHistoryTab === 'bets') fetchUserBets();
-          else if (currentHistoryTab === 'withdrawals') fetchUserWithdrawals();
-          else if (currentHistoryTab === 'deposits') fetchUserDeposits();
+          switchHistoryTab(currentHistoryTab, null);
         }
       }
 
@@ -1904,16 +1887,22 @@
       function openGroup() { $('groupModal').style.display = 'block'; }
 
       /* ============================================================
-         HISTORY TABS
+         HISTORY TABS (ប្រវត្តិខាងក្រោម)
          ============================================================ */
       function switchHistoryTab(tabName, evt) {
         currentHistoryTab = tabName;
         var tabs = document.querySelectorAll('.history-tab');
         for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+        
         if (evt && evt.target) {
           var t = evt.target.closest('.history-tab');
           if (t) t.classList.add('active');
+        } else {
+          // បើគ្មាន event (ហៅដោយស្វ័យប្រវត្តិ) ស្វែងរកតាម data-tab
+          var autoTab = document.querySelector('.history-tab[data-tab="' + tabName + '"]');
+          if (autoTab) autoTab.classList.add('active');
         }
+
         var panels = document.querySelectorAll('.history-panel');
         for (var j = 0; j < panels.length; j++) panels[j].classList.remove('active');
         var panel = $('panel-' + tabName);
@@ -2223,7 +2212,7 @@
         if (evt && evt.target) evt.target.classList.add('active');
         $('balanceBox').style.display = mode === 'direct' ? 'block' : 'none';
         updateSummary();
-        showToast(mode === 'direct' ? 'របៀបចាក់ផ្ទាល់' : 'របៀបចាក់អនឡាញ', 'info', mode === 'direct' ? '💵' : '🌐');
+        showToast(mode === 'direct' ? 'របៀបចាក់ផ្ទាល់' : 'របៀបបញ្ចូលទឹកប្រាក់', 'info', mode === 'direct' ? '💵' : '💰');
       }
 
       function setTime(t, evt) {
@@ -2404,31 +2393,30 @@
         if (!validAmount) { showToast('ចំនួនមិនត្រឹមត្រូវ!', 'warning'); return; }
         var total = numbers.length * amount;
         var display = fmtTotal(total, currency);
-        if (betMode === 'direct') {
-          if (currency === 'USD' && balanceUSD < total) { showToast('សមតុល្យ USD មិនគ្រប់!', 'error', '💰'); return; }
-          if (currency === 'KHR' && balanceKHR < total) { showToast('សមតុល្យ KHR មិនគ្រប់!', 'error', '💰'); return; }
-          $('directConfirmNumbers').textContent = numbers.join(', ');
-          $('directConfirmTotal').textContent = display;
-          $('directPhone').value = fixPhoneNumber(currentUser.phone);
-          $('directBalanceUSD').textContent = balanceUSD.toFixed(2) + '$';
-          $('directBalanceKHR').textContent = Math.round(balanceKHR).toLocaleString() + '៛';
-          $('directBetModal').style.display = 'block';
-        } else {
-          $('confirmNumbers').textContent = numbers.join(', ');
-          $('confirmTotal').textContent = display;
-          $('depPhone').value = fixPhoneNumber(currentUser.phone);
-          var fileInput = $('depScreenshot');
-          var label = $('depScreenshotLabel');
-          fileInput.value = '';
-          fileInput.disabled = true;
-          if (label) {
-            label.style.opacity = '0.5';
-            label.style.pointerEvents = 'none';
-            label.innerHTML = 'ភស្តុតាង (Screenshot) * <span style="font-size:11px; color:#dc3545;"> (ត្រូវចុច ABA Bank ជាមុន)</span>';
-          }
-          $('depositModal').style.display = 'block';
-          setTimeout(checkOnlineFormValidity, 100);
+        
+        if (currency === 'USD' && balanceUSD < total) { showToast('សមតុល្យ USD មិនគ្រប់!', 'error', '💰'); return; }
+        if (currency === 'KHR' && balanceKHR < total) { showToast('សមតុល្យ KHR មិនគ្រប់!', 'error', '💰'); return; }
+        $('directConfirmNumbers').textContent = numbers.join(', ');
+        $('directConfirmTotal').textContent = display;
+        $('directPhone').value = fixPhoneNumber(currentUser.phone);
+        $('directBalanceUSD').textContent = balanceUSD.toFixed(2) + '$';
+        $('directBalanceKHR').textContent = Math.round(balanceKHR).toLocaleString() + '៛';
+        $('directBetModal').style.display = 'block';
+      }
+
+      function openDepositModal() {
+        $('depPhone').value = fixPhoneNumber(currentUser.phone);
+        var fileInput = $('depScreenshot');
+        var label = $('depScreenshotLabel');
+        fileInput.value = '';
+        fileInput.disabled = true;
+        if (label) {
+          label.style.opacity = '0.5';
+          label.style.pointerEvents = 'none';
+          label.innerHTML = 'ភស្តុតាង (Screenshot) * <span style="font-size:11px; color:#dc3545;"> (ត្រូវចុច ABA Bank ជាមុន)</span>';
         }
+        $('depositModal').style.display = 'block';
+        setTimeout(checkOnlineFormValidity, 100);
       }
 
       function handleAbaClick(event) {
@@ -2752,7 +2740,6 @@
         var ring = $('ringProgress');
         if (ring) ring.style.strokeDashoffset = offset;
 
-        var drawIdx = Math.floor(now.getTime() / (CFG.TENMIN_INTERVAL_MIN * 60 * 1000));
         var yy = String(now.getFullYear()).slice(-2);
         var startOfYear = new Date(now.getFullYear(), 0, 0);
         var dayOfYear = Math.floor((now - startOfYear) / 86400000);
@@ -2932,41 +2919,63 @@
         if (!tbody) return;
 
         if (cachedResults.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="4" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ 12:00/16:00</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ 12:00/16:00</td></tr>';
           return;
         }
 
-        var html = '';
+        var now = new Date();
+        var today = new Date(now);
+        var yesterday = new Date(now);
+        yesterday.setDate(yesterday.getDate() - 1);
+        var todayFormats = buildDateFormats(today);
+        var yesterdayFormats = buildDateFormats(yesterday);
+
         var grouped = {};
         for (var i = 0; i < cachedResults.length; i++) {
           var r = cachedResults[i];
           var d = String(r.date || '').trim();
           var t = String(r.time || '').trim();
           var key = d + '|' + t;
-          if (!grouped[key]) grouped[key] = { date: d, time: t, two: null, three: null, publishedAt: '' };
+          if (!grouped[key]) {
+            grouped[key] = { date: d, time: t, two: null, three: null, publishedAt: '', isToday: false, isYesterday: false };
+          }
           if (r.type === 'two') grouped[key].two = r;
           if (r.type === 'three') grouped[key].three = r;
           if (r.publishedAt) grouped[key].publishedAt = r.publishedAt;
+          if (todayFormats.indexOf(d) !== -1) grouped[key].isToday = true;
+          if (yesterdayFormats.indexOf(d) !== -1) grouped[key].isYesterday = true;
         }
 
         var arr = [];
-        for (var k in grouped) if (grouped.hasOwnProperty(k)) arr.push(grouped[k]);
+        for (var k in grouped) {
+          if (grouped.hasOwnProperty(k)) arr.push(grouped[k]);
+        }
         arr.sort(function(a, b) {
           if (b.date !== a.date) return b.date.localeCompare(a.date);
           return (b.time || '').localeCompare(a.time || '');
         });
 
+        var html = '';
         for (var j = 0; j < arr.length; j++) {
           var g = arr[j];
           var fmt = function(r) {
             if (!r || !r.results) return '<span style="color:#dc3545;">⏳ រង់ចាំ</span>';
             return '<b style="color:#28a745;">A:' + r.results.A + ' B:' + r.results.B + ' C:' + r.results.C + ' D:' + r.results.D + ' E:' + r.results.E + '</b>';
           };
-          html += '<tr>' +
-            '<td><strong>' + esc(g.date) + '</strong></td>' +
+          var rowStyle = '', badge = '';
+          if (g.isToday) {
+            rowStyle = 'background:#f0fdf4; border-left:4px solid #28a745;';
+            badge = ' <span style="background:#28a745; color:#fff; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:800;">✅ ថ្ងៃនេះ</span>';
+          } else if (g.isYesterday) {
+            rowStyle = 'background:linear-gradient(90deg,#fff9c4,#fff3cd); border-left:4px solid #ffc107;';
+            badge = ' <span style="background:#ffc107; color:#000; padding:2px 6px; border-radius:8px; font-size:9px; font-weight:800;">🟡 ម្សិលមិញ</span>';
+          }
+          html += '<tr style="' + rowStyle + '">' +
+            '<td><strong>' + esc(g.date) + '</strong>' + badge + '</td>' +
             '<td>' + esc(g.time) + '</td>' +
             '<td>' + fmt(g.two) + '</td>' +
             '<td>' + fmt(g.three) + '</td>' +
+            '<td><span style="font-size:10px; color:#005fa3; font-weight:700;">' + esc(g.publishedAt || '-') + '</span></td>' +
           '</tr>';
         }
         tbody.innerHTML = html;
@@ -2976,7 +2985,7 @@
         var tbody = $('historyBody');
         if (!tbody) return;
         if (!cachedResults10 || cachedResults10.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="4" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ 10 នាទី</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ 10 នាទី</td></tr>';
           return;
         }
         var html = '';
@@ -3270,7 +3279,6 @@
             var phone = fixPhoneNumber($('depPhone').value);
             var fileInput = $('depScreenshot');
             if (!phone || !fileInput.files[0]) { showToast('សូមភ្ជាប់ភស្តុតាង!', 'warning'); return; }
-            var total = numbers.length * amount;
             var btn = depositForm.querySelector('button[type="submit"]');
             btn.disabled = true;
             btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
@@ -3282,9 +3290,7 @@
               fetch(WEB_APP_URL, {
                 method: 'POST',
                 body: JSON.stringify({
-                  action: 'placeBet', phone: phone, userId: currentUser.userId,
-                  numbers: numbers, type: betType, amount: amount,
-                  currency: currency, total: total, drawTime: selectedTime,
+                  action: 'depositRequest', phone: phone, userId: currentUser.userId,
                   imageBase64: base64
                 }),
                 headers: { 'Content-Type': 'text/plain' }
@@ -3292,13 +3298,11 @@
               .then(function(r) { return r.json(); })
               .then(function(data) {
                 btn.disabled = false;
-                btn.innerHTML = '🚀 បញ្ជាក់ការទូទាត់';
+                btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
                 showLoading(false);
                 if (data.ok) {
-                  showToast('ការចាក់ត្រូវបានទទួលយក!', 'success', '🎉');
+                  showToast('សំណើបញ្ចូលប្រាក់ត្រូវបានទទួលយក!', 'success', '🎉');
                   closeModal('depositModal');
-                  resetBetForm();
-                  fetchUserBets();
                   depositForm.reset();
                   $('depPhone').value = fixPhoneNumber(currentUser.phone);
                   $('depSubmitBtn').disabled = true;
@@ -3307,7 +3311,7 @@
               .catch(function(err) {
                 console.error(err);
                 btn.disabled = false;
-                btn.innerHTML = '🚀 បញ្ជាក់ការទូទាត់';
+                btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
                 showLoading(false);
                 showToast('មានបញ្ហាតភ្ជាប់!', 'error');
               });
@@ -3429,6 +3433,7 @@
         showSection: showSection,
         closeModal: closeModal,
         setMode: setMode,
+        openDepositModal: openDepositModal,
         setTime: setTime,
         setType: setType,
         selectLetter: selectLetter,
