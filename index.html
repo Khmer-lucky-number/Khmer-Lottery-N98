@@ -308,6 +308,22 @@
     .alert-title { font-size: clamp(18px, 2.3vw, 22px); font-weight: 800; margin-bottom: 10px; color: #2d3748; }
     .alert-message { font-size: clamp(13px, 1.5vw, 15px); color: #4a5568; margin-bottom: 20px; line-height: 1.6; font-weight: 600; white-space: pre-line; }
 
+    /* ⭐ CONFIRM MODAL (ថ្មី) */
+    .confirm-modal-content { max-width: 440px; border-radius: 24px; padding: 28px 24px; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); }
+    .confirm-icon { font-size: 64px; margin-bottom: 16px; display: inline-block; }
+    .confirm-title { font-size: clamp(18px, 2.2vw, 22px); font-weight: 800; margin-bottom: 14px; color: #1e293b; }
+    .confirm-info-box { background: linear-gradient(135deg, #e8f4fd, #d4edda); border: 2px dashed #0078D7; border-radius: 14px; padding: 16px; margin-bottom: 18px; text-align: left; }
+    .confirm-info-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(0,120,215,0.15); font-size: clamp(12px, 1.4vw, 14px); font-weight: 700; }
+    .confirm-info-row:last-child { border-bottom: none; }
+    .confirm-info-row .label { color: #475569; }
+    .confirm-info-row .value { color: #0078D7; font-weight: 800; font-family: 'Courier New', monospace; }
+    .confirm-info-row.total .value { color: #d63000; font-size: clamp(15px, 1.7vw, 17px); }
+    .confirm-message { font-size: clamp(13px, 1.5vw, 15px); color: #4a5568; margin-bottom: 20px; line-height: 1.6; font-weight: 600; white-space: pre-line; }
+    .confirm-buttons { display: flex; gap: 10px; }
+    .confirm-buttons .btn { flex: 1; padding: 14px; font-size: clamp(13px, 1.5vw, 15px); border-radius: 12px; font-weight: 800; }
+    .btn-confirm-ok { background: linear-gradient(135deg, #28a745, #1e7e34); }
+    .btn-confirm-cancel { background: linear-gradient(135deg, #dc3545, #a71d2a); }
+
     /* === REG MODAL === */
     .reg-modal-content { background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-radius: 24px; box-shadow: 0 25px 70px rgba(0,0,0,0.35); }
     .reg-step { display: none; animation: fadeIn 0.4s ease-out; }
@@ -398,6 +414,9 @@
     body.dark-mode .mode-btn, body.dark-mode .type-btn, body.dark-mode .time-btn { background: #2f3548; color: #e8eaf0; }
     body.dark-mode .history-table td { color: #e8eaf0; border-color: #3a4255; }
     body.dark-mode .guide-box { background: #1e2a3f; color: #a0c8e8; }
+    body.dark-mode .confirm-modal-content { background: linear-gradient(135deg, #252b3d 0%, #1a1f2e 100%); }
+    body.dark-mode .confirm-title { color: #e8eaf0; }
+    body.dark-mode .confirm-info-box { background: linear-gradient(135deg, #1e2a3f, #163d29); border-color: #4a8bc7; }
 
     /* === RESPONSIVE === */
     @media (max-width: 768px) {
@@ -430,9 +449,9 @@
     ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #0078D7, #6f42c1); border-radius: 4px; }
   </style>
 </head>
-
 <body>
-  <!-- PARTICLES -->
+
+    <!-- PARTICLES -->
   <div class="particles-bg" id="particlesBg"></div>
 
   <!-- TOAST & LOADING -->
@@ -461,11 +480,13 @@
           ⚠️ <b>ការព្រមាន!</b><br>• អ្នកត្រូវចងចាំ <b>PIN 4 ខ្ទង់</b><br>• <b>កុំប្រាប់អ្នកដទៃ</b> អំពី PIN
         </div>
         <button class="reg-btn" id="regNextBtn" onclick="N98.handleRegister()">បន្ត → <span class="emoji-rocket">🚀</span></button>
+        
+        <!-- ⭐ ក្រុមដើម្បីទទួល Code -->
         <div class="group-buttons-box">
-          <div class="title">🎯 ចូលក្រុមចាក់/ទិញលេខឆ្នោត</div>
-          <a href="https://t.me/+ErJaYtpHWwE1YWI1" target="_blank" rel="noopener" class="group-btn main">🎯 ចូលក្រុមចាក់សម្រាប់ឆ្នោត 12:00 / 16:00 / ឆ្នោត 10 នាទី<small>ពិភាក្សា និងចាក់លេខឆ្នោត</small></a>
-          <a href="https://t.me/GetCodetouseN98" target="_blank" rel="noopener" class="group-btn get-code">🔑 ទទួលលេខ Code ចុះឈ្មោះ N98<small>ចុចទីនេះដើម្បីទទួល Code</small></a>
+          <div class="title">🎯 ចូលក្រុមដើម្បីទទួលលេខ Code ចុះឈ្មោះ N98</div>
+          <a href="https://t.me/GetCodetouseN98" target="_blank" rel="noopener" class="group-btn get-code">🎯 ចូលក្រុមដើម្បីទទួលលេខ Code ចុះឈ្មោះ N98<small>ចុចទីនេះដើម្បីទទួល Code</small></a>
         </div>
+        
         <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b; font-weight:600;">មានគណនីរួចហើយ? <a href="#" onclick="N98.showLoginStep(); return false;" style="color:#0078D7; font-weight:800;">ចូលប្រើ</a></div>
       </div>
       <!-- Step 2 -->
@@ -473,6 +494,7 @@
         <div class="reg-header"><div class="icon">✅</div><h2>ចុះឈ្មោះជោគជ័យ!</h2><p>សូមចំណាំ ID នេះទុក</p></div>
         <div class="id-display-box"><div class="label">🆔 ID របស់អ្នក</div><div class="id-value" id="displayUserId">------</div><div class="warning">⚠️ សូមចំណាំ ID នេះ<br>ប្រើសម្រាប់ចូលប្រើលើកក្រោយ</div></div>
         <button class="reg-btn success" onclick="N98.showVerifyStep()" style="margin-top:12px;">បញ្ជាក់ Code ឥឡូវ → 🔑</button>
+        
         <div class="group-buttons-box" style="margin-top:16px;">
           <div class="title">🔑 ទទួល Code ចុះឈ្មោះ</div>
           <a href="https://t.me/GetCodetouseN98" target="_blank" rel="noopener" class="group-btn get-code">🔑 ចុចទីនេះដើម្បីទទួល Code<small>Channel ផ្តល់ Code ចុះឈ្មោះ N98</small></a>
@@ -483,6 +505,7 @@
         <div class="reg-header"><div class="icon">🔑</div><h2>បញ្ជាក់ Code</h2><p>វាយ Code 4 ខ្ទង់ដែលបានពី Channel</p></div>
         <div class="reg-input-group"><label>🔑 Code 4 ខ្ទង់</label><input type="text" class="code-input" id="regCode" placeholder="----" maxlength="4" autocomplete="off"></div>
         <button class="reg-btn" id="regVerifyBtn" onclick="N98.handleVerify()">បញ្ជាក់ ✓</button>
+        
         <div class="group-buttons-box" style="margin-top:16px;">
           <a href="https://t.me/GetCodetouseN98" target="_blank" rel="noopener" class="group-btn get-code">🔑 មិនទាន់មាន Code? ចុចទីនេះ<small>Channel ផ្តល់ Code ចុះឈ្មោះ N98</small></a>
         </div>
@@ -588,6 +611,7 @@
             <div class="header-row"><div class="icon">⏰</div><div><div class="title" id="bettingClosedTitle">🔒 ការចាក់ត្រូវបានបិទ!</div><div class="open-time">⏰ បើកវិញ <strong>00:00 រំលងយប់នេះ</strong></div></div></div>
           </div>
 
+          <!-- ⭐ BALANCE BOX (បន្ថែមប៊ូតុងដកប្រាក់) -->
           <div class="balance-box" id="balanceBox">
             <div style="margin-bottom:10px; font-weight:800; color:#155724; font-size:14px;">💰 សមតុល្យរបស់អ្នក</div>
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
@@ -761,8 +785,10 @@
       <div class="lottery-box" id="adminPanel" style="display:none; border:2px solid #dc3545;">
         <div class="time-box" style="color:#dc3545;"><span class="anim-pulse">👑</span> ADMIN PANEL</div>
         <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px dashed #ff8b8b; padding:10px; border-radius:10px; margin:10px 0; font-size:12px; color:#721c24; font-weight:700;">🔐 ផ្ទាំងនេះសម្រាប់ Admin ប៉ុណ្ណោះ</div>
+        
+        <!-- Admin Add Deposit -->
         <div style="margin-top:12px;">
-          <label style="font-weight:800; color:#dc3545; font-size:13px;">💰 បញ្ចូលទឹកប្រាក់ជូនសមាជិក</label>
+          <label style="font-weight:800; color:#dc3545; font-size:13px;">💰 បញ្ចូលទឹកប្រាក់ជូនសមាជិក (ផ្ទាល់)</label>
           <input type="tel" id="adminPhone" placeholder="លេខទូរស័ព្ទ (ឧ. 012345678)" inputmode="numeric" style="width:100%; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; font-size:14px; font-weight:700; margin-top:6px;">
           <div style="display:flex; gap:6px; margin-top:8px;">
             <input type="number" id="adminAmount" placeholder="ចំនួន" step="any" min="0.01" style="flex:2; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; font-size:14px; font-weight:700;">
@@ -775,11 +801,22 @@
           <button class="btn" onclick="N98.adminAddDeposit()" style="width:100%; padding:14px; margin-top:12px; font-size:14px; background:linear-gradient(135deg,#dc3545,#a71d2a); color:white; font-weight:800; border:none; border-radius:8px; cursor:pointer;">💰 បញ្ចូលទឹកប្រាក់</button>
           <div id="adminFeedback" style="margin-top:10px; padding:10px; border-radius:8px; font-weight:700; font-size:13px; display:none;"></div>
         </div>
+
+        <!-- ⭐ Admin Deposit Requests Management -->
+        <div style="background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:12px; border-radius:10px; margin-top:12px; border:1px solid #b6d4fe;">
+          <div style="font-weight:800; color:#005fa3; font-size:13px; margin-bottom:8px;">💰 គ្រប់គ្រងសំណើបញ្ចូលទឹកប្រាក់</div>
+          <button class="btn btn-primary" onclick="N98.adminLoadDepositRequests()" style="width:100%; padding:10px; font-size:13px;">📋 បង្ហាញបញ្ជីសំណើ</button>
+          <div id="adminDepositReqList" style="margin-top:8px; font-size:12px; font-weight:700; line-height:1.8;"></div>
+        </div>
+
+        <!-- Admin Stats -->
         <div style="background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:12px; border-radius:10px; margin-top:12px;">
           <div style="font-weight:800; color:#005fa3; font-size:13px; margin-bottom:8px;">📊 ស្ថិតិប្រព័ន្ធ</div>
           <button class="btn btn-primary" onclick="N98.adminLoadStats()" style="width:100%; padding:10px; font-size:13px;">📈 ទាញស្ថិតិ</button>
           <div id="adminStats" style="margin-top:8px; font-size:12px; font-weight:700; color:#005fa3; line-height:1.8;"></div>
         </div>
+
+        <!-- Admin Withdrawals -->
         <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); padding:12px; border-radius:10px; margin-top:12px; border:1px solid #ff8b8b;">
           <div style="font-weight:800; color:#721c24; font-size:13px; margin-bottom:8px;">🏦 គ្រប់គ្រងការដកប្រាក់</div>
           <button class="btn" onclick="N98.adminLoadWithdrawals()" style="width:100%; padding:10px; font-size:13px; background:linear-gradient(135deg,#6f42c1,#5a32a3); color:white; border:none; border-radius:8px; cursor:pointer; font-weight:800;">📋 បង្ហាញបញ្ជីដកប្រាក់</button>
@@ -872,6 +909,7 @@
   </div>
 
   <!-- MODALS -->
+  <!-- ⭐ DEPOSIT MODAL ថ្មី -->
   <div class="modal" id="depositModal">
     <div class="modal-content">
       <span class="close" onclick="N98.closeModal('depositModal')">&times;</span>
@@ -886,6 +924,19 @@
         </div>
         <label>លេខទូរស័ព្ទ *</label>
         <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" minlength="9" maxlength="10" inputmode="numeric">
+        
+        <!-- ⭐ ជ្រើស USD/KHR -->
+        <label>រូបិយប័ណ្ណ *</label>
+        <select id="depCurrency" required style="width:100%; padding:12px; border:2px solid #dee2e6; border-radius:10px; font-size:14px; font-weight:800; background:#f8f9fa; margin-bottom:6px;">
+          <option value="USD">ដុល្លារ ($ USD)</option>
+          <option value="KHR">រៀល (៛ KHR)</option>
+        </select>
+        
+        <!-- ⭐ ចំនួនបញ្ចូល -->
+        <label>ចំនួនទឹកប្រាក់ *</label>
+        <input type="number" id="depAmount" required placeholder="បញ្ចូលចំនួន" step="any" min="0.01">
+        <div style="font-size:11px; color:#dc3545; font-weight:800; margin-bottom:8px; text-align:left;" id="depMinHint">⚠️ ចំនួនអប្បបរមា USD ≥ 5.00$</div>
+        
         <label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none; margin-top:14px;">ភស្តុតាង (Screenshot) * <span style="font-size:11px; color:#dc3545; font-weight:normal;"> (ត្រូវចុច ABA Bank ជាមុន)</span></label>
         <input type="file" id="depScreenshot" accept="image/*" required disabled>
         <button type="submit" class="btn btn-success" id="depSubmitBtn" disabled style="margin-top:12px;">🚀 បញ្ជាក់ការបញ្ចូលប្រាក់</button>
@@ -894,6 +945,7 @@
     </div>
   </div>
 
+  <!-- DIRECT BET MODAL -->
   <div class="modal" id="directBetModal">
     <div class="modal-content">
       <span class="close" onclick="N98.closeModal('directBetModal')">&times;</span>
@@ -917,7 +969,7 @@
     </div>
   </div>
 
-  <!-- ⭐ WITHDRAW MODAL - ថ្មី -->
+  <!-- WITHDRAW MODAL -->
   <div class="modal" id="withdrawModal">
     <div class="modal-content">
       <span class="close" onclick="N98.closeModal('withdrawModal')">&times;</span>
@@ -950,6 +1002,7 @@
     </div>
   </div>
 
+  <!-- GROUP MODAL -->
   <div class="modal" id="groupModal">
     <div class="modal-content" style="text-align:center;">
       <span class="close" onclick="N98.closeModal('groupModal')">&times;</span>
@@ -964,6 +1017,7 @@
     </div>
   </div>
 
+  <!-- ALERT MODAL -->
   <div class="modal" id="alertModal">
     <div class="modal-content alert-modal">
       <span class="alert-icon" id="alertIcon">🔔</span>
@@ -973,7 +1027,25 @@
     </div>
   </div>
 
-  <script>
+  <!-- ⭐ CONFIRM MODAL (ថ្មី - ជំនួស confirm()) -->
+  <div class="modal" id="confirmModal">
+    <div class="modal-content confirm-modal-content">
+      <span class="confirm-icon" id="confirmIcon">❓</span>
+      <h3 class="confirm-title" id="confirmTitle">តើអ្នកប្រាកដឬ?</h3>
+      <div id="confirmInfoContainer" style="display:none;">
+        <div class="confirm-info-box" id="confirmInfoBox"></div>
+      </div>
+      <p class="confirm-message" id="confirmMessage"></p>
+      <div class="confirm-buttons">
+        <button class="btn btn-confirm-cancel" onclick="N98.closeConfirm(false)" id="confirmCancelBtn">✕ បោះបង់</button>
+        <button class="btn btn-confirm-ok" onclick="N98.closeConfirm(true)" id="confirmOkBtn">✓ បញ្ជាក់</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+    <script>
     // ⭐ Audio សម្រាប់សំឡេងរោទិ៍
     const beepAudio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
     
@@ -995,9 +1067,12 @@
         MAIN_MODE_KEY: 'n98_main_mode',
         SOUND_KEY: 'n98_sound',
         TENMIN_INTERVAL_MIN: 10,
-        TENMIN_CLOSE_SECONDS: 30,
+        TENMIN_CLOSE_SECONDS: 60, // ⭐ បិទ ១ នាទី (60 វិនាទី) មុនលទ្ធផល
         BEEP_COUNT: 3,
-        BEEP_INTERVAL_SEC: 3
+        BEEP_INTERVAL_SEC: 3,
+        // ⭐ Deposit អប្បបរមា
+        MIN_DEPOSIT_USD: 5.00,
+        MIN_DEPOSIT_KHR: 20000
       };
 
       var ADMIN_PHONES = ['066817407', '098765432'];
@@ -1029,12 +1104,14 @@
       var intervals = { clock: null, refresh: null, status: null, rapid: null };
       var currentHistoryTab = 'bets-classic';
       var lastDrawId10 = '';
-      var beepPlayedForDraw = '';
       var soundEnabled = true;
       var withdrawCurrency = '';
       var lastBeepSlot12 = '';
       var lastBeepSlot16 = '';
       var lastBeepSlot10 = '';
+
+      // ⭐ Confirm Modal Callback
+      var confirmCallback = null;
 
       /* ============================================================
          HELPERS
@@ -1071,6 +1148,56 @@
           String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear(),
           d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear()
         ];
+      }
+
+      /* ============================================================
+         ⭐ CONFIRM MODAL (ជំនួស confirm())
+         ============================================================ */
+      function showConfirm(options, callback) {
+        // options: { icon, title, message, infoRows, okText, cancelText }
+        var modal = $('confirmModal');
+        if (!modal) { 
+          // Fallback ប្រសិនបើគ្មាន modal
+          if (confirm(options.message)) callback(true);
+          return;
+        }
+        $('confirmIcon').textContent = options.icon || '❓';
+        $('confirmTitle').textContent = options.title || 'តើអ្នកប្រាកដឬ?';
+        $('confirmMessage').textContent = options.message || '';
+        $('confirmOkBtn').textContent = options.okText || '✓ បញ្ជាក់';
+        $('confirmCancelBtn').textContent = options.cancelText || '✕ បោះបង់';
+        
+        // Info rows
+        var infoContainer = $('confirmInfoContainer');
+        var infoBox = $('confirmInfoBox');
+        if (options.infoRows && options.infoRows.length > 0) {
+          infoContainer.style.display = 'block';
+          var html = '';
+          for (var i = 0; i < options.infoRows.length; i++) {
+            var row = options.infoRows[i];
+            var cls = row.isTotal ? 'total' : '';
+            html += '<div class="confirm-info-row ' + cls + '">' +
+              '<span class="label">' + esc(row.label) + '</span>' +
+              '<span class="value">' + esc(row.value) + '</span>' +
+            '</div>';
+          }
+          infoBox.innerHTML = html;
+        } else {
+          infoContainer.style.display = 'none';
+        }
+        
+        confirmCallback = callback;
+        modal.style.display = 'block';
+      }
+
+      function closeConfirm(result) {
+        var modal = $('confirmModal');
+        if (modal) modal.style.display = 'none';
+        if (typeof confirmCallback === 'function') {
+          var cb = confirmCallback;
+          confirmCallback = null;
+          cb(!!result);
+        }
       }
 
       /* ============================================================
@@ -1138,7 +1265,6 @@
         } catch (e) {}
       }
 
-      // ⭐ Sound toggle
       function toggleSound() {
         soundEnabled = !soundEnabled;
         try { localStorage.setItem(CFG.SOUND_KEY, soundEnabled ? 'on' : 'off'); } catch (e) {}
@@ -1183,19 +1309,18 @@
         var m = now.getMinutes();
         var s = now.getSeconds();
         
-        // Classic: 12:00 → លឺនៅ 11:59:53, 11:59:56, 11:59:59
+        // Classic: 12:00 → 11:59:53, 11:59:56, 11:59:59
         if (h === 11 && m === 59 && (s === 53 || s === 56 || s === 59)) {
           var slot = '12_' + s;
           if (lastBeepSlot12 !== slot) { lastBeepSlot12 = slot; playBeep(); }
         }
-        // Classic: 16:00 → លឺនៅ 15:59:53, 15:59:56, 15:59:59
+        // Classic: 16:00 → 15:59:53, 15:59:56, 15:59:59
         if (h === 15 && m === 59 && (s === 53 || s === 56 || s === 59)) {
           var slot2 = '16_' + s;
           if (lastBeepSlot16 !== slot2) { lastBeepSlot16 = slot2; playBeep(); }
         }
-        // Rapid: 10 នាទី → លឺនៅវិនាទីទី 27, 24, 21 មុនចប់វគ្គ (ចុងក្រោយ 30 វិនាទី)
-        // វគ្គ 10 នាទី → បិទនៅ 30 វិនាទីចុងក្រោយ → លឺនៅ 9:27, 9:24, 9:21 (នាទីទី 9)
-        if (m % 10 === 9 && (s === 27 || s === 24 || s === 21)) {
+        // Rapid: លឺនៅវិនាទីទី 27, 24, 21 នៃនាទីទី 9 (ឧ. 10:09:21, 10:09:24, 10:09:27)
+        if (m % 10 === 9 && (s === 21 || s === 24 || s === 27)) {
           var slot3 = 'r_' + m + '_' + s;
           if (lastBeepSlot10 !== slot3) { lastBeepSlot10 = slot3; playBeep(); }
         }
@@ -1394,7 +1519,6 @@
         showToast(mode === 'classic' ? 'របៀប 12:00 / 16:00' : 'របៀប 10 នាទី', 'info', mode === 'classic' ? '🕛' : '⚡');
       }
 
-      // ⭐ បង្ហាញ History tabs តាម mode
       function updateHistoryTabsForMode(mode) {
         var tabs = document.querySelectorAll('.history-tab');
         var activeTab = null;
@@ -1410,7 +1534,6 @@
           }
         }
         
-        // ប្រសិនបើ active tab មិនស្ថិតក្នុង mode ថ្មី → ប្តូរទៅ tab ដំបូង
         if (!activeTab) {
           var firstTab = null;
           for (var j = 0; j < tabs.length; j++) {
@@ -1586,14 +1709,23 @@
       }
 
       function handleLogout() {
-        if (!confirm('តើអ្នកប្រាកដជាចង់ចាកចេញឬ?')) return;
-        localStorage.removeItem('lottery_user');
-        currentUser = null; numbers = []; numbers10 = [];
-        clearIntervals();
-        $('mainApp').style.display = 'none';
-        $('registerModal').style.display = 'block';
-        showLoginStep();
-        showToast('បានចាកចេញ', 'info', '👋');
+        // ⭐ ប្រើ Confirm Modal ថ្មី
+        showConfirm({
+          icon: '🚪',
+          title: 'ចាកចេញពីគណនី',
+          message: 'តើអ្នកប្រាកដជាចង់ចាកចេញឬ?',
+          okText: '🚪 ចាកចេញ',
+          cancelText: '✕ បោះបង់'
+        }, function(confirmed) {
+          if (!confirmed) return;
+          localStorage.removeItem('lottery_user');
+          currentUser = null; numbers = []; numbers10 = [];
+          clearIntervals();
+          $('mainApp').style.display = 'none';
+          $('registerModal').style.display = 'block';
+          showLoginStep();
+          showToast('បានចាកចេញ', 'info', '👋');
+        });
       }
 
       function clearIntervals() {
@@ -1621,7 +1753,6 @@
         updateBettingStatus();
         updateBettingClosed10();
         
-        // Restore main mode
         try {
           var savedMode = localStorage.getItem(CFG.MAIN_MODE_KEY);
           if (savedMode === 'rapid') {
@@ -1635,7 +1766,7 @@
         clearIntervals();
         intervals.clock = setInterval(function() {
           updateClock();
-          checkBeepBeforeDraw(); // ⭐ ពិនិត្យសំឡេង ៣ ដង
+          checkBeepBeforeDraw();
         }, CFG.CLOCK_MS);
         intervals.refresh = setInterval(function() {
           fetchResults();
@@ -1702,7 +1833,25 @@
         var note = $('adminNote').value.trim() || 'Admin deposit';
         if (!phone || phone.length < 9) { showToast('សូមបំពេញលេខទូរស័ព្ទ!', 'warning'); return; }
         if (!amount || amount <= 0) { showToast('សូមបំពេញចំនួន!', 'warning'); return; }
-        if (!confirm('បញ្ជាក់ការបញ្ចូលប្រាក់?\n\n📱 លេខ: ' + phone + '\n💰 ចំនួន: ' + amount + (currency === 'USD' ? '$' : '៛') + '\n📝 ' + note)) return;
+        
+        showConfirm({
+          icon: '💰',
+          title: 'បញ្ជាក់ការបញ្ចូលប្រាក់',
+          message: 'តើអ្នកប្រាកដជាចង់បញ្ចូលទឹកប្រាក់ឬ?',
+          infoRows: [
+            { label: '📱 លេខ', value: phone },
+            { label: '💰 ចំនួន', value: amount + (currency === 'USD' ? '$' : '៛') },
+            { label: '📝 ចំណាំ', value: note }
+          ],
+          okText: '✓ បញ្ចូលប្រាក់',
+          cancelText: '✕ បោះបង់'
+        }, function(confirmed) {
+          if (!confirmed) return;
+          executeAddDeposit(phone, amount, currency, note);
+        });
+      }
+
+      function executeAddDeposit(phone, amount, currency, note) {
         showLoading(true);
         var fb = $('adminFeedback');
         if (fb) { fb.style.display = 'none'; fb.textContent = ''; }
@@ -1766,6 +1915,7 @@
                 '🎯 ចាក់ (12/16): <b>' + s.totalBets + '</b><br>' +
                 '⚡ ចាក់ (10 នាទី): <b>' + s.totalBets10 + '</b><br>' +
                 '💰 ដាក់ប្រាក់: <b>' + s.totalDeposits + '</b><br>' +
+                '💰 សំណើដាក់ប្រាក់: <b>' + (s.totalDepositReq || 0) + '</b><br>' +
                 '🏦 ដកប្រាក់: <b>' + s.totalWithdrawals + '</b><br>' +
                 '📊 លទ្ធផល: <b>' + s.totalResults + '</b><br>' +
                 '📊 លទ្ធផល 10 នាទី: <b>' + s.totalResults10 + '</b>';
@@ -1811,37 +1961,159 @@
       }
 
       function adminApproveWithdraw(wdId) {
-        if (!confirm('អនុម័តការដកប្រាក់ ' + wdId + '?')) return;
-        showLoading(true);
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'approveWithdraw', withdrawId: wdId, adminUser: currentUser.userId }),
-          headers: { 'Content-Type': 'text/plain' }
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          showLoading(false);
-          if (data.ok) { showToast('បានអនុម័ត!', 'success'); adminLoadWithdrawals(); }
-          else showToast(data.error || 'មានបញ្ហា!', 'error');
-        })
-        .catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+        showConfirm({
+          icon: '✅',
+          title: 'អនុម័តការដកប្រាក់',
+          message: 'តើអ្នកប្រាកដជាចង់អនុម័តការដកប្រាក់នេះឬ?',
+          infoRows: [{ label: '🆔 ID', value: wdId }],
+          okText: '✓ អនុម័ត',
+          cancelText: '✕ បោះបង់'
+        }, function(confirmed) {
+          if (!confirmed) return;
+          showLoading(true);
+          fetchWithTimeout(WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'approveWithdraw', withdrawId: wdId, adminUser: currentUser.userId }),
+            headers: { 'Content-Type': 'text/plain' }
+          })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            showLoading(false);
+            if (data.ok) { showToast('បានអនុម័ត!', 'success'); adminLoadWithdrawals(); }
+            else showToast(data.error || 'មានបញ្ហា!', 'error');
+          })
+          .catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+        });
       }
 
       function adminRejectWithdraw(wdId) {
-        if (!confirm('បដិសេធការដកប្រាក់ ' + wdId + '?\nប្រាក់នឹងបង្វិលចូលវិញ')) return;
-        showLoading(true);
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'rejectWithdraw', withdrawId: wdId, adminUser: currentUser.userId }),
-          headers: { 'Content-Type': 'text/plain' }
-        })
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          showLoading(false);
-          if (data.ok) { showToast('បានបដិសេធ + បង្វិលប្រាក់!', 'success'); adminLoadWithdrawals(); }
-          else showToast(data.error || 'មានបញ្ហា!', 'error');
-        })
-        .catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+        showConfirm({
+          icon: '❌',
+          title: 'បដិសេធការដកប្រាក់',
+          message: 'តើអ្នកប្រាកដជាចង់បដិសេធការដកប្រាក់នេះឬ? ប្រាក់នឹងបង្វិលចូលវិញ។',
+          infoRows: [{ label: '🆔 ID', value: wdId }],
+          okText: '✓ បដិសេធ',
+          cancelText: '✕ បោះបង់'
+        }, function(confirmed) {
+          if (!confirmed) return;
+          showLoading(true);
+          fetchWithTimeout(WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'rejectWithdraw', withdrawId: wdId, adminUser: currentUser.userId }),
+            headers: { 'Content-Type': 'text/plain' }
+          })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            showLoading(false);
+            if (data.ok) { showToast('បានបដិសេធ + បង្វិលប្រាក់!', 'success'); adminLoadWithdrawals(); }
+            else showToast(data.error || 'មានបញ្ហា!', 'error');
+          })
+          .catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+        });
+      }
+
+      // ⭐ Admin - គ្រប់គ្រងការបញ្ចូលប្រាក់
+      function adminLoadDepositRequests() {
+        var el = $('adminDepositReqList');
+        if (!el) return;
+        el.innerHTML = '<span class="anim-spin">⏳</span> កំពុងទាញ...';
+        fetchWithTimeout(WEB_APP_URL + '?action=getAllDepositRequests&t=' + Date.now(), { cache: 'no-store' })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (!data.ok || !data.requests || data.requests.length === 0) {
+              el.innerHTML = '<div style="text-align:center; padding:10px; color:#6c757d;">មិនមានសំណើបញ្ចូលប្រាក់</div>';
+              return;
+            }
+            var html = '';
+            var pendingCount = 0;
+            for (var i = 0; i < data.requests.length; i++) {
+              var req = data.requests[i];
+              if (req.status !== 'pending') continue;
+              pendingCount++;
+              var amtStr = fmtAmount(req.amount, req.currency);
+              html += '<div style="background:white; border:1px solid #dee2e6; border-radius:8px; padding:8px; margin-bottom:6px;">' +
+                '<div style="font-weight:800; color:#005fa3; font-size:11px;">🆔 ' + esc(req.id) + '</div>' +
+                '<div style="font-size:11px;">📱 ' + esc(req.phone) + '</div>' +
+                '<div style="font-size:11px;">💰 <b style="color:#28a745;">' + esc(amtStr) + '</b> (' + esc(req.currency) + ')</div>' +
+                '<div style="font-size:10px; color:#6c757d;">' + esc(req.date) + '</div>' +
+                '<div style="margin-top:6px;">' +
+                  '<label style="font-size:10px; font-weight:800; color:#4a5568; display:block; margin-bottom:2px;">💰 ចំនួនអនុម័ត (កែបាន):</label>' +
+                  '<input type="number" id="approveAmt_' + esc(req.id) + '" value="' + req.amount + '" step="any" style="width:100%; padding:5px; border:1px solid #dee2e6; border-radius:5px; font-size:12px; font-weight:800; margin-bottom:4px;">' +
+                '</div>' +
+                '<div style="display:flex; gap:4px; margin-top:6px;">' +
+                  '<button onclick="N98.adminApproveDepositReq(\'' + esc(req.id) + '\', \'' + esc(req.currency) + '\')" style="flex:1; padding:5px; background:#28a745; color:white; border:none; border-radius:5px; font-weight:800; font-size:11px; cursor:pointer;">✅ អនុម័ត</button>' +
+                  '<button onclick="N98.adminRejectDepositReq(\'' + esc(req.id) + '\')" style="flex:1; padding:5px; background:#dc3545; color:white; border:none; border-radius:5px; font-weight:800; font-size:11px; cursor:pointer;">❌ បដិសេធ</button>' +
+                '</div>' +
+              '</div>';
+            }
+            if (pendingCount === 0) html = '<div style="text-align:center; padding:10px; color:#6c757d;">មិនមានសំណើរង់ចាំ</div>';
+            el.innerHTML = html;
+          })
+          .catch(function() { el.innerHTML = '❌ កំហុសតភ្ជាប់'; });
+      }
+
+      function adminApproveDepositReq(reqId, currency) {
+        var amtInput = $('approveAmt_' + reqId);
+        var overrideAmount = amtInput ? parseFloat(amtInput.value) : 0;
+        if (!overrideAmount || overrideAmount <= 0) { showToast('សូមបញ្ចូលចំនួនអនុម័ត!', 'warning'); return; }
+        
+        showConfirm({
+          icon: '💰',
+          title: 'អនុម័តការបញ្ចូលប្រាក់',
+          message: 'តើអ្នកប្រាកដជាចង់អនុម័តការបញ្ចូលប្រាក់នេះឬ?',
+          infoRows: [
+            { label: '🆔 ID', value: reqId },
+            { label: '💰 ចំនួន', value: fmtAmount(overrideAmount, currency), isTotal: true }
+          ],
+          okText: '✓ អនុម័ត',
+          cancelText: '✕ បោះបង់'
+        }, function(confirmed) {
+          if (!confirmed) return;
+          showLoading(true);
+          fetchWithTimeout(WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({ 
+              action: 'approveDepositRequest', 
+              requestId: reqId, 
+              overrideAmount: overrideAmount,
+              adminUser: currentUser.userId 
+            }),
+            headers: { 'Content-Type': 'text/plain' }
+          })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            showLoading(false);
+            if (data.ok) { showToast('បានអនុម័ត + បញ្ចូលប្រាក់!', 'success'); adminLoadDepositRequests(); fetchBalance(currentUser.phone); }
+            else showToast(data.error || 'មានបញ្ហា!', 'error');
+          })
+          .catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+        });
+      }
+
+      function adminRejectDepositReq(reqId) {
+        showConfirm({
+          icon: '❌',
+          title: 'បដិសេធការបញ្ចូលប្រាក់',
+          message: 'តើអ្នកប្រាកដជាចង់បដិសេធការបញ្ចូលប្រាក់នេះឬ?',
+          infoRows: [{ label: '🆔 ID', value: reqId }],
+          okText: '✓ បដិសេធ',
+          cancelText: '✕ បោះបង់'
+        }, function(confirmed) {
+          if (!confirmed) return;
+          showLoading(true);
+          fetchWithTimeout(WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'rejectDepositRequest', requestId: reqId, adminUser: currentUser.userId }),
+            headers: { 'Content-Type': 'text/plain' }
+          })
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            showLoading(false);
+            if (data.ok) { showToast('បានបដិសេធ!', 'success'); adminLoadDepositRequests(); }
+            else showToast(data.error || 'មានបញ្ហា!', 'error');
+          })
+          .catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+        });
       }
 
       /* ============================================================
@@ -2012,6 +2284,7 @@
         }
       }
 
+      // ⭐ submitBet - ប្រើ Confirm Modal ថ្មី
       function submitBet() {
         if (isBettingClosed(selectedTime)) { showToast('ការចាក់ត្រូវបានបិទ!', 'warning', '🔒'); return; }
         if (numbers.length === 0) { showToast('សូមជ្រើសរើសលេខ!', 'warning'); return; }
@@ -2021,20 +2294,24 @@
           : (amount >= CFG.MIN_KHR && amount <= CFG.MAX_KHR);
         if (!validAmount) { showToast('ចំនួនមិនត្រឹមត្រូវ!', 'warning'); return; }
         var total = numbers.length * amount;
-        var display = fmtTotal(total, currency);
         
         if (currency === 'USD' && balanceUSD < total) { showToast('សមតុល្យ USD មិនគ្រប់!', 'error', '💰'); return; }
         if (currency === 'KHR' && balanceKHR < total) { showToast('សមតុល្យ KHR មិនគ្រប់!', 'error', '💰'); return; }
+        
         $('directConfirmNumbers').textContent = numbers.join(', ');
-        $('directConfirmTotal').textContent = display;
+        $('directConfirmTotal').textContent = fmtTotal(total, currency);
         $('directPhone').value = fixPhoneNumber(currentUser.phone);
         $('directBalanceUSD').textContent = balanceUSD.toFixed(2) + '$';
         $('directBalanceKHR').textContent = Math.round(balanceKHR).toLocaleString() + '៛';
         $('directBetModal').style.display = 'block';
       }
 
+      // ⭐ openDepositModal - ថ្មី (មាន USD/KHR + ចំនួន)
       function openDepositModal() {
         $('depPhone').value = fixPhoneNumber(currentUser.phone);
+        $('depAmount').value = '';
+        $('depCurrency').value = 'USD';
+        updateDepositMinHint();
         var fileInput = $('depScreenshot');
         var label = $('depScreenshotLabel');
         fileInput.value = '';
@@ -2046,6 +2323,17 @@
         }
         $('depositModal').style.display = 'block';
         setTimeout(checkOnlineFormValidity, 100);
+      }
+
+      // ⭐ updateDepositMinHint - បង្ហាញ min deposit តាមរូបិយប័ណ្ណ
+      function updateDepositMinHint() {
+        var cur = $('depCurrency').value;
+        var hint = $('depMinHint');
+        if (hint) {
+          if (cur === 'USD') hint.textContent = '⚠️ ចំនួនអប្បបរមា USD ≥ ' + CFG.MIN_DEPOSIT_USD.toFixed(2) + '$';
+          else hint.textContent = '⚠️ ចំនួនអប្បបរមា KHR ≥ ' + CFG.MIN_DEPOSIT_KHR.toLocaleString() + '៛';
+        }
+        checkOnlineFormValidity();
       }
 
       function handleAbaClick(event) {
@@ -2065,23 +2353,41 @@
         }, 500);
       }
 
+      // ⭐ checkOnlineFormValidity - ពិនិត្យទាំងអស់ (phone + amount + screenshot)
       function checkOnlineFormValidity() {
         var phone = fixPhoneNumber($('depPhone').value);
+        var depAmount = parseFloat($('depAmount').value) || 0;
+        var depCur = $('depCurrency').value;
         var fileInput = $('depScreenshot');
         var file = fileInput.files[0];
         var btn = $('depSubmitBtn');
         if (!btn) return;
+        
         var hasPhone = phone && phone.length >= 9;
         var hasFile = file && file.size > 0;
         var isAbaEnabled = !fileInput.disabled;
-        var isValid = hasPhone && hasFile && isAbaEnabled;
+        
+        var amountOk = false;
+        if (depCur === 'USD') amountOk = depAmount >= CFG.MIN_DEPOSIT_USD;
+        else amountOk = depAmount >= CFG.MIN_DEPOSIT_KHR;
+        
+        var isValid = hasPhone && hasFile && isAbaEnabled && amountOk;
         btn.disabled = !isValid;
       }
 
+      // ⭐ បិទចាក់ ១ នាទីមុនលទ្ធផល
       function isBettingClosed(timeSlot) {
-        var h = new Date().getHours();
-        if (timeSlot === '12:00') return h >= 12;
-        if (timeSlot === '16:00') return h >= 16;
+        var now = new Date();
+        var h = now.getHours();
+        var m = now.getMinutes();
+        if (timeSlot === '12:00') {
+          // បិទនៅ 11:59:00 (ឬចាប់ពី 12:00)
+          return (h > 12) || (h === 12) || (h === 11 && m >= 59);
+        }
+        if (timeSlot === '16:00') {
+          // បិទនៅ 15:59:00 (ឬចាប់ពី 16:00)
+          return (h > 16) || (h === 16) || (h === 15 && m >= 59);
+        }
         return false;
       }
 
@@ -2095,8 +2401,8 @@
             var h = new Date().getHours();
             if (h >= 16) {
               titleEl.innerHTML = '🔒 ការចាក់ម៉ោង <strong style="color:#dc2626;">12:00</strong> និង <strong style="color:#dc2626;">16:00</strong> បានបិទ!';
-            } else if (h >= 12) {
-              titleEl.innerHTML = '🔒 ការចាក់ម៉ោង <strong style="color:#dc2626;">12:00</strong> បានបិទ!';
+            } else if (h >= 11) {
+              titleEl.innerHTML = '🔒 ការចាក់ម៉ោង <strong style="color:#dc2626;">12:00</strong> បានបិទ! (បិទ ១ នាទីមុនលទ្ធផល)';
             }
           } else {
             topBox.style.display = 'none';
@@ -2119,7 +2425,7 @@
         }
       }
 
-      // ⭐ WITHDRAW - ថ្មី (ដកប្រាក់គ្រប់ពេល)
+      // ⭐ Withdraw Modal
       function openWithdrawModal() {
         $('wdPhone').value = fixPhoneNumber(currentUser.phone);
         $('wdAmount').value = '';
@@ -2158,7 +2464,7 @@
         }
       }
 
-      // ⭐ Rapid Mode (10-min)
+           // ⭐ Rapid Mode (10-min)
       function setType10(t, evt) {
         betType10 = t;
         var btns = document.querySelectorAll('#rapidMode .type-btn');
@@ -2303,8 +2609,9 @@
         }
       }
 
+      // ⭐ submitBet10 - ប្រើ Confirm Modal ថ្មី
       function submitBet10() {
-        if (isBettingClosed10()) { showToast('ការចាក់ត្រូវបានបិទ (ចុងក្រោយ 30 វិនាទី)!', 'warning', '🔒'); return; }
+        if (isBettingClosed10()) { showToast('ការចាក់ត្រូវបានបិទ (ចុងក្រោយ 1 នាទី)!', 'warning', '🔒'); return; }
         if (numbers10.length === 0) { showToast('សូមជ្រើសរើសលេខ!', 'warning'); return; }
         if (amount10 <= 0) { showToast('សូមបញ្ចូលចំនួនទឹកប្រាក់!', 'warning'); return; }
         var validAmount = currency10 === 'USD'
@@ -2319,7 +2626,29 @@
         var total = numbers10.length * amount10;
         if (currency10 === 'USD' && balanceUSD < total) { showToast('សមតុល្យ USD មិនគ្រប់គ្រាន់!', 'error', '💰'); return; }
         if (currency10 === 'KHR' && balanceKHR < total) { showToast('សមតុល្យ KHR មិនគ្រប់គ្រាន់!', 'error', '💰'); return; }
-        if (!confirm('បញ្ជាក់ការចាក់ 10 នាទី?\n\nលេខ: ' + numbers10.join(', ') + '\nសរុប: ' + fmtTotal(total, currency10))) return;
+        
+        // ⭐ បង្ហាញ Confirm Modal ជំនួស confirm()
+        var infoRows = [
+          { label: '🎯 លេខ', value: numbers10.join(', ') },
+          { label: '🔢 ប្រភេទ', value: betType10 === 'two' ? '២ខ្ទង់' : '៣ខ្ទង់' },
+          { label: '💵 ចំនួន/លេខ', value: fmtAmount(amount10, currency10) },
+          { label: '💰 សរុប', value: fmtTotal(total, currency10), isTotal: true }
+        ];
+        
+        showConfirm({
+          icon: '⚡',
+          title: 'បញ្ជាក់ការចាក់ 10 នាទី',
+          message: 'តើអ្នកប្រាកដជាចង់ដាក់ភ្នាល់ឬ?',
+          infoRows: infoRows,
+          okText: '✓ បញ្ជាក់',
+          cancelText: '✕ បោះបង់'
+        }, function(confirmed) {
+          if (!confirmed) return;
+          executeSubmitBet10(total);
+        });
+      }
+
+      function executeSubmitBet10(total) {
         var btn = $('btnSubmit10');
         btn.disabled = true;
         btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
@@ -2362,12 +2691,15 @@
         updateBalanceStatusBox10();
       }
 
+      // ⭐ Rapid: បិទ ១ នាទីមុនចប់វគ្គ (60 វិនាទី)
       function isBettingClosed10() {
         var now = new Date();
         var sec = now.getSeconds();
         var min = now.getMinutes();
         var secondsIntoCycle = (min % CFG.TENMIN_INTERVAL_MIN) * 60 + sec;
-        return secondsIntoCycle >= (CFG.TENMIN_INTERVAL_MIN * 60 - CFG.TENMIN_CLOSE_SECONDS);
+        var totalSeconds = CFG.TENMIN_INTERVAL_MIN * 60;
+        var closeSeconds = CFG.TENMIN_CLOSE_SECONDS; // 60 វិនាទី
+        return secondsIntoCycle >= (totalSeconds - closeSeconds);
       }
 
       function updateBettingClosed10() {
@@ -2674,7 +3006,6 @@
         tbody.innerHTML = html;
       }
 
-      // ⭐ renderUserBetsFromServer - បន្ថែម column ម៉ោង
       function renderUserBetsFromServer(serverBets, mode) {
         var tbody = (mode === 'rapid') ? $('userHistoryBodyRapid') : $('userHistoryBodyClassic');
         if (!tbody) return;
@@ -2707,7 +3038,6 @@
 
           var modeBadge = b.payMethod === 'direct' ? '<span style="color:#28a745; font-size:10px; font-weight:800;">💵 ផ្ទាល់</span>' : '<span style="color:#0078D7; font-size:10px; font-weight:800;">🌐 អនឡាញ</span>';
           
-          // ⭐ បង្ហាញម៉ោង 12:00/16:00 (classic) ឬ drawId (rapid)
           var timeBadge = '';
           if (mode === 'classic' && b.drawTime) {
             timeBadge = '<div class="time-badge" style="margin-top:4px;">🕒 ' + esc(b.drawTime) + '</div>';
@@ -2843,14 +3173,22 @@
           });
         }
 
-        // Deposit form
+        // ⭐ Deposit form - ថ្មី (មាន USD/KHR + ចំនួន)
         var depositForm = $('depositForm');
         if (depositForm) {
           depositForm.addEventListener('submit', function(e) {
             e.preventDefault();
             var phone = fixPhoneNumber($('depPhone').value);
             var fileInput = $('depScreenshot');
-            if (!phone || !fileInput.files[0]) { showToast('សូមភ្ជាប់ភស្តុតាង!', 'warning'); return; }
+            var depAmount = parseFloat($('depAmount').value) || 0;
+            var depCur = $('depCurrency').value;
+            
+            if (!phone) { showToast('សូមបំពេញលេខទូរស័ព្ទ!', 'warning'); return; }
+            if (!depAmount || depAmount <= 0) { showToast('សូមបំពេញចំនួន!', 'warning'); return; }
+            if (depCur === 'USD' && depAmount < CFG.MIN_DEPOSIT_USD) { showToast('ចំនួនអប្បបរមា USD ≥ ' + CFG.MIN_DEPOSIT_USD.toFixed(2) + '$', 'warning'); return; }
+            if (depCur === 'KHR' && depAmount < CFG.MIN_DEPOSIT_KHR) { showToast('ចំនួនអប្បបរមា KHR ≥ ' + CFG.MIN_DEPOSIT_KHR.toLocaleString() + '៛', 'warning'); return; }
+            if (!fileInput.files[0]) { showToast('សូមភ្ជាប់ភស្តុតាង!', 'warning'); return; }
+            
             var btn = depositForm.querySelector('button[type="submit"]');
             btn.disabled = true;
             btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
@@ -2863,6 +3201,7 @@
                 method: 'POST',
                 body: JSON.stringify({
                   action: 'depositRequest', phone: phone, userId: currentUser.userId,
+                  amount: depAmount, currency: depCur,
                   imageBase64: base64
                 }),
                 headers: { 'Content-Type': 'text/plain' }
@@ -2891,7 +3230,7 @@
           });
         }
 
-        // ⭐ Withdraw form - ថ្មី
+        // Withdraw form
         var withdrawNewForm = $('withdrawNewForm');
         if (withdrawNewForm) {
           withdrawNewForm.addEventListener('submit', function(e) {
@@ -2957,6 +3296,10 @@
         if (depPhone) depPhone.addEventListener('input', checkOnlineFormValidity);
         var depScreenshot = $('depScreenshot');
         if (depScreenshot) depScreenshot.addEventListener('change', checkOnlineFormValidity);
+        var depAmountInput = $('depAmount');
+        if (depAmountInput) depAmountInput.addEventListener('input', checkOnlineFormValidity);
+        var depCurrencyInput = $('depCurrency');
+        if (depCurrencyInput) depCurrencyInput.addEventListener('change', updateDepositMinHint);
       }
 
       function resetBetForm() {
@@ -3042,7 +3385,11 @@
         adminLoadStats: adminLoadStats,
         adminLoadWithdrawals: adminLoadWithdrawals,
         adminApproveWithdraw: adminApproveWithdraw,
-        adminRejectWithdraw: adminRejectWithdraw
+        adminRejectWithdraw: adminRejectWithdraw,
+        adminLoadDepositRequests: adminLoadDepositRequests,
+        adminApproveDepositReq: adminApproveDepositReq,
+        adminRejectDepositReq: adminRejectDepositReq,
+        closeConfirm: closeConfirm
       };
 
       if (document.readyState === 'loading') {
