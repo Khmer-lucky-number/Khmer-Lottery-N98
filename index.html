@@ -26,20 +26,12 @@
     @keyframes slideInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes slideInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes badgePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-    @keyframes winGlow { 0% { box-shadow: 0 0 5px rgba(40,167,69,0.4); } 100% { box-shadow: 0 0 18px rgba(40,167,69,0.9); } }
     @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
     @keyframes particleFloat { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; } }
-    @keyframes newResultPop { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
+    
     .anim-bounce { animation: bounce 1.5s ease-in-out infinite; display: inline-block; }
     .anim-pulse { animation: pulse 1.2s ease-in-out infinite; display: inline-block; }
-    .anim-shake { animation: shake 0.8s ease-in-out infinite; display: inline-block; }
     .anim-spin { animation: spin 1.5s linear infinite; display: inline-block; }
-    .emoji-dice { animation: spin 4s linear infinite; display: inline-block; }
-    .emoji-money { animation: bounce 1.5s ease-in-out infinite; display: inline-block; }
-    .emoji-trophy { animation: bounce 1.2s ease-in-out infinite; display: inline-block; }
-    .emoji-rocket { animation: pulse 1.2s ease-in-out infinite; display: inline-block; }
 
     /* === PARTICLES === */
     .particles-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
@@ -47,17 +39,15 @@
 
     /* === HEADER === */
     header { background: linear-gradient(135deg, #0078D7 0%, #005fa3 50%, #6f42c1 100%); background-size: 200% 200%; animation: gradientShift 8s ease infinite; color: white; padding: 20px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,120,215,0.3); transition: all 0.5s; }
-    header.mode-10 { background: linear-gradient(135deg, #e91e63 0%, #c2185b 50%, #880e4f 100%); background-size: 200% 200%; animation: gradientShift 8s ease infinite; box-shadow: 0 4px 20px rgba(233,30,99,0.4); }
+    header.mode-10 { background: linear-gradient(135deg, #e91e63 0%, #c2185b 50%, #880e4f 100%); box-shadow: 0 4px 20px rgba(233,30,99,0.4); }
     header h1 { font-size: clamp(24px, 5vw, 38px); font-weight: 800; margin: 8px 0; text-shadow: 0 2px 8px rgba(0,0,0,0.3); position: relative; z-index: 1; }
     header p { font-size: clamp(13px, 2vw, 16px); opacity: 0.95; position: relative; z-index: 1; font-weight: 600; }
 
     /* === MODE TABS === */
     .mode-tabs { background: white; padding: 12px 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; position: sticky; top: 0; z-index: 110; box-shadow: 0 2px 12px rgba(0,0,0,0.1); border-bottom: 3px solid transparent; border-image: linear-gradient(90deg, #0078D7, #28a745, #ff9800, #6f42c1, #e91e63, #0078D7) 1; }
-    .mode-tab { flex: 1; min-width: 140px; max-width: 240px; padding: 14px 16px; border: 3px solid #dee2e6; background: white; border-radius: 14px; font-weight: 800; font-size: clamp(13px, 1.6vw, 15px); cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); color: #2d3748; display: flex; align-items: center; justify-content: center; gap: 8px; position: relative; }
-    .mode-tab:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    .mode-tab { flex: 1; min-width: 140px; max-width: 240px; padding: 14px 16px; border: 3px solid #dee2e6; background: white; border-radius: 14px; font-weight: 800; font-size: clamp(13px, 1.6vw, 15px); cursor: pointer; transition: all 0.4s; color: #2d3748; display: flex; align-items: center; justify-content: center; gap: 8px; }
     .mode-tab.active[data-mode="classic"] { background: linear-gradient(135deg, #0078D7, #005fa3); color: white; border-color: #0078D7; box-shadow: 0 6px 20px rgba(0,120,215,0.5); animation: glow 2s ease-in-out infinite; }
     .mode-tab.active[data-mode="rapid"] { background: linear-gradient(135deg, #e91e63, #880e4f); color: white; border-color: #e91e63; box-shadow: 0 6px 20px rgba(233,30,99,0.5); animation: glowPink 2s ease-in-out infinite; }
-    .mode-tab .badge-live { background: #ff1744; color: white; font-size: 9px; padding: 2px 6px; border-radius: 6px; animation: blink 1s linear infinite; font-weight: 800; }
 
     /* === NAV BAR === */
     .nav-bar { background: white; padding: 10px 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; position: sticky; top: 62px; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
@@ -68,6 +58,7 @@
     .btn-group { background: linear-gradient(135deg, #0088cc, #006699) !important; color: white !important; }
     .btn-logout { background: linear-gradient(135deg, #dc3545, #a71d2a) !important; color: white !important; }
     .btn-theme { background: linear-gradient(135deg, #6f42c1, #5a32a3) !important; color: white !important; }
+    .btn-telegram { background: linear-gradient(135deg, #0088cc, #006699) !important; color: white !important; }
 
     /* === SECTION === */
     .section { padding: 12px; max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
@@ -98,11 +89,6 @@
     /* === COUNTDOWN RAPID === */
     .countdown-rapid { background: linear-gradient(135deg, #2d1b3d, #1a0f1f); border: 3px solid #e91e63; border-radius: 20px; padding: 20px; margin: 12px 0; text-align: center; box-shadow: 0 8px 32px rgba(233,30,99,0.4); animation: glowPink 2s ease-in-out infinite; }
     .countdown-rapid .label { color: #ff8bb5; font-size: clamp(12px, 1.5vw, 14px); font-weight: 800; margin-bottom: 8px; }
-    .countdown-rapid .time-display { font-size: clamp(44px, 9vw, 72px); color: #ff1744; background: #1a0f1f; padding: 12px 24px; border-radius: 16px; display: inline-block; font-weight: 800; font-family: 'Courier New', monospace; text-shadow: 0 0 25px rgba(255,23,68,0.7); letter-spacing: 2px; animation: pulse 2s ease-in-out infinite; }
-    .countdown-rapid .next-draw { color: #e8eaf0; font-size: clamp(12px, 1.4vw, 14px); font-weight: 700; margin-top: 10px; }
-    .countdown-rapid .draw-number { color: #ff8bb5; font-weight: 800; }
-
-    /* === RING === */
     .ring-container { position: relative; width: 160px; height: 160px; margin: 12px auto; }
     .ring-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
     .ring-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 8; }
@@ -110,6 +96,8 @@
     .ring-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
     .ring-text .time { font-size: 36px; font-weight: 800; color: #ff1744; font-family: 'Courier New', monospace; text-shadow: 0 0 15px rgba(255,23,68,0.8); }
     .ring-text .label { font-size: 11px; color: #ff8bb5; font-weight: 700; margin-top: 2px; }
+    .countdown-rapid .next-draw { color: #e8eaf0; font-size: clamp(12px, 1.4vw, 14px); font-weight: 700; margin-top: 10px; }
+    .countdown-rapid .draw-number { color: #ff8bb5; font-weight: 800; }
 
     /* === LOTTERY BOX === */
     .lottery-box { background: white; padding: 16px; margin: 12px 0; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); animation: slideInUp 0.5s ease-out; transition: all 0.3s ease; }
@@ -123,7 +111,6 @@
     /* === NUMBERS === */
     .numbers { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
     .numbers div { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px 8px; text-align: center; font-weight: 800; font-size: 16px; color: #0f172a; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
-    .numbers div:hover { background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-2px); }
     .numbers div .letter { color: #64748b; font-size: 14px; font-weight: 700; }
     .number-result { color: #2563eb; font-size: 20px; font-weight: 800; text-shadow: 0 2px 4px rgba(37, 99, 235, 0.15); font-family: 'Courier New', monospace; }
 
@@ -148,20 +135,24 @@
     .text-respond { color: #d63000; font-weight: 800; }
 
     /* === SELECTORS === */
-    .mode-selector, .type-selector, .time-selector { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-    .mode-btn, .type-btn, .time-btn { flex: 1; min-width: 80px; padding: 10px 8px; border: 2px solid #dee2e6; background: white; font-weight: 800; border-radius: 10px; cursor: pointer; font-size: clamp(12px, 1.5vw, 14px); transition: all 0.3s; }
-    .mode-btn:hover, .type-btn:hover, .time-btn:hover:not(.closed) { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,120,215,0.2); border-color: #0078D7; }
-    .mode-btn.active, .type-btn.active, .time-btn.active { border-color: #0078D7; background: linear-gradient(135deg, #e8f4fd, #d4edda); color: #0078D7; }
+    .type-selector, .time-selector { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .type-btn, .time-btn { flex: 1; min-width: 80px; padding: 10px 8px; border: 2px solid #dee2e6; background: white; font-weight: 800; border-radius: 10px; cursor: pointer; font-size: clamp(12px, 1.5vw, 14px); transition: all 0.3s; }
+    .type-btn:hover, .time-btn:hover:not(.closed) { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,120,215,0.2); border-color: #0078D7; }
+    .type-btn.active, .time-btn.active { border-color: #0078D7; background: linear-gradient(135deg, #e8f4fd, #d4edda); color: #0078D7; }
     .time-btn.closed { opacity: 0.45; cursor: not-allowed; background: #f8f9fa !important; color: #999 !important; }
 
     /* === BALANCE === */
-    .balance-box { background: linear-gradient(135deg, #d4edda, #a8e6c0); border: 2px solid #28a745; border-radius: 14px; padding: 14px; margin: 12px 0; text-align: center; box-shadow: 0 4px 14px rgba(40,167,69,0.2); }
-    .balance-item { flex: 1; min-width: 130px; background: linear-gradient(135deg, #ffffff, #d4edda); border: 2px solid #28a745; border-radius: 10px; padding: 10px; text-align: center; }
+    .balance-box { background: linear-gradient(135deg, #d4edda, #a8e6c0); border: 2px solid #28a745; border-radius: 14px; padding: 14px; margin: 12px 0; box-shadow: 0 4px 14px rgba(40,167,69,0.2); }
+    .balance-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
+    .balance-item { flex: 1; min-width: 100px; background: linear-gradient(135deg, #ffffff, #d4edda); border: 2px solid #28a745; border-radius: 10px; padding: 10px; text-align: center; }
+    .balance-history { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: space-between; font-size: 11.5px; font-weight: 800; color: #155724; background: rgba(255,255,255,0.5); padding: 10px; border-radius: 8px; border: 1px dashed #28a745; }
+    .balance-history div { flex: 1; text-align: center; }
+    .btn-group-row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+    .btn-group-row .btn { flex: 1; min-width: 120px; text-align: center; }
 
     /* === LETTER CIRCLE === */
     .letter-selector { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
     .letter-circle { width: clamp(42px, 6vw, 52px); height: clamp(42px, 6vw, 52px); border-radius: 50%; border: 3px solid #dee2e6; background: linear-gradient(135deg, #f8f9fa, #e9ecef); color: #2d3748; font-size: clamp(15px, 2vw, 18px); font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.35s; }
-    .letter-circle:hover { border-color: #0078D7; background: linear-gradient(135deg, #e8f4fd, #d4edda); transform: translateY(-3px) scale(1.05); }
     .letter-circle.active { background: linear-gradient(135deg, #0078D7, #6f42c1); color: white; border-color: #0078D7; transform: scale(1.1); box-shadow: 0 6px 20px rgba(0,120,215,0.5); animation: glow 2s ease-in-out infinite; }
     .bet-box.rapid .letter-circle { border-color: rgba(233,30,99,0.4); background: rgba(255,255,255,0.05); color: #e8eaf0; }
     .bet-box.rapid .letter-circle.active { background: linear-gradient(135deg, #e91e63, #880e4f); border-color: #e91e63; }
@@ -171,25 +162,21 @@
     .bet-box.rapid .input-row { background: rgba(255,255,255,0.05); border-color: rgba(233,30,99,0.4); }
     .input-row input { flex: 1 1 120px; padding: 12px 14px; border: 2px solid #dee2e6; border-radius: 8px; font-size: clamp(14px, 1.5vw, 16px); font-weight: 800; min-width: 80px; letter-spacing: 2px; background: white; }
     .bet-box.rapid .input-row input { background: rgba(0,0,0,0.3); color: #ffffff; border-color: rgba(233,30,99,0.3); text-align: center; }
-    .input-row input:focus { border-color: #0078D7; outline: none; box-shadow: 0 0 0 4px rgba(0,120,215,0.15); }
 
     /* === SELECTED DISPLAY === */
     .selected-display { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; min-height: 36px; padding: 8px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #dee2e6; align-items: center; }
     .bet-box.rapid .selected-display { background: rgba(255,255,255,0.05); border-color: rgba(233,30,99,0.4); }
-    .selected-tag { background: linear-gradient(135deg, #0078D7, #6f42c1); color: white; padding: 4px 12px; border-radius: 14px; font-size: clamp(12px, 1.4vw, 13px); display: inline-flex; align-items: center; gap: 5px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,120,215,0.3); animation: fadeIn 0.3s ease-out; }
+    .selected-tag { background: linear-gradient(135deg, #0078D7, #6f42c1); color: white; padding: 4px 12px; border-radius: 14px; font-size: clamp(12px, 1.4vw, 13px); display: inline-flex; align-items: center; gap: 5px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,120,215,0.3); }
     .bet-box.rapid .selected-tag { background: linear-gradient(135deg, #e91e63, #880e4f); }
     .selected-tag .remove { cursor: pointer; font-weight: 800; color: #ff6b6b; font-size: 16px; background: rgba(255,255,255,0.25); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; }
-    .selected-tag .remove:hover { background: #ff1744; color: white; transform: rotate(90deg); }
 
     /* === AMOUNT === */
     .amount-buttons { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
     .btn-amount { background: linear-gradient(135deg, #17a2b8, #117a8b); color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 800; transition: all 0.3s; }
-    .btn-amount:hover { transform: translateY(-2px) scale(1.05); }
     .bet-box.rapid .btn-amount { background: linear-gradient(135deg, #e91e63, #c2185b); }
     .custom-amount { display: flex; gap: 8px; margin-top: 8px; background: linear-gradient(135deg, #ffffff, #e8f4fd); padding: 8px; border-radius: 10px; border: 2px solid #0078D7; flex-wrap: wrap; }
     .bet-box.rapid .custom-amount { background: rgba(255,255,255,0.05); border-color: rgba(233,30,99,0.4); }
     .custom-amount input { flex: 2 1 100px; padding: 8px 10px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 14px; font-weight: 800; min-width: 70px; }
-    .bet-box.rapid .custom-amount input { background: rgba(0,0,0,0.3); color: #fff; border-color: rgba(233,30,99,0.3); }
     .custom-amount select { flex: 1 1 70px; padding: 8px; border: 2px solid #dee2e6; border-radius: 8px; background: #f8f9fa; color: #0078D7; font-weight: 800; cursor: pointer; }
 
     /* === BET SUMMARY === */
@@ -202,9 +189,9 @@
     .bet-box.rapid .bet-summary .total { color: #ff8bb5; }
 
     /* === BALANCE STATUS BOX === */
-    .balance-status-box { margin-top: 12px; padding: 12px 14px; border-radius: 12px; border: 2px solid; display: none; animation: slideInUp 0.4s ease-out; }
+    .balance-status-box { margin-top: 12px; padding: 12px 14px; border-radius: 12px; border: 2px solid; display: none; }
     .balance-status-box.ok { background: linear-gradient(135deg, #d4edda, #a8e6c0); border-color: #28a745; }
-    .balance-status-box.warn { background: linear-gradient(135deg, #fff5f5, #ffe0e0); border-color: #dc3545; animation: shake 0.5s ease-out; }
+    .balance-status-box.warn { background: linear-gradient(135deg, #fff5f5, #ffe0e0); border-color: #dc3545; }
     .balance-status-box .header-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-weight: 800; font-size: 13px; }
     .balance-status-box.ok .header-row { color: #155724; }
     .balance-status-box.warn .header-row { color: #721c24; }
@@ -218,16 +205,13 @@
     .balance-status-box.ok .progress-fill { background: linear-gradient(90deg, #28a745, #4ade80); }
     .balance-status-box.warn .progress-fill { background: linear-gradient(90deg, #dc3545, #a71d2a); }
     .balance-status-box .hint { margin-top: 8px; font-size: 11px; font-weight: 700; text-align: center; padding: 6px; border-radius: 8px; background: rgba(255,255,255,0.5); }
-    .balance-status-box.warn .hint { color: #721c24; }
 
     /* === BUTTONS === */
     .btn { color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: clamp(12px, 1.4vw, 13px); margin: 3px; font-weight: 800; transition: all 0.3s; }
-    .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
     .btn:disabled { background: #ced4da !important; color: #6c757d !important; cursor: not-allowed; }
     .btn-success { background: linear-gradient(135deg, #28a745, #1e7e34); width: 100%; padding: 14px; font-size: clamp(13px, 1.5vw, 15px); }
     .btn-withdraw { background: linear-gradient(135deg, #6f42c1, #5a32a3); }
     .btn-primary { background: linear-gradient(135deg, #0078D7, #005fa3); }
-    .btn-telegram { background: linear-gradient(135deg, #0088cc, #006699); }
 
     /* === GUIDE === */
     .guide-box { background: linear-gradient(135deg, #eef7ff, #e8f4fd); border: 1px solid #b6d4fe; padding: 10px 12px; border-radius: 10px; margin-bottom: 10px; font-size: clamp(11px, 1.3vw, 13px); color: #084298; line-height: 1.7; font-weight: 600; }
@@ -235,9 +219,7 @@
 
     /* === HISTORY TABS (ថ្មី) === */
     .history-tabs-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; padding: 8px; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0; }
-    @media (max-width: 600px) { .history-tabs-container { grid-template-columns: repeat(2, 1fr); } }
     .history-tab { padding: 10px 8px; border: 2px solid transparent; background: white; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.3s; color: #475569; display: flex; align-items: center; justify-content: center; gap: 6px; text-align: center; }
-    .history-tab:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
     .history-tab.active { color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     .history-tab[data-tab="bets-classic"].active { background: linear-gradient(135deg, #0078D7, #005fa3); }
     .history-tab[data-tab="bets-rapid"].active { background: linear-gradient(135deg, #e91e63, #880e4f); }
@@ -258,7 +240,7 @@
     /* === STATUS BADGES === */
     .status-badge { padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 10px; display: inline-block; white-space: nowrap; }
     .status-pending { background: #ffeeba; color: #856404; }
-    .status-win { background: #d4edda; color: #155724; animation: winGlow 1s infinite alternate; }
+    .status-win { background: #d4edda; color: #155724; animation: glowGreen 1s infinite alternate; }
     .status-loss { background: #f8d7da; color: #721c24; }
     .status-paid { background: #cce5ff; color: #004085; }
     .status-approved { background: #d4edda; color: #155724; }
@@ -266,31 +248,13 @@
 
     /* === RESULTS GRID === */
     .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin: 14px 0; }
-    
-    /* កាតធម្មតា (គ្មានចលនាលោត) */
-    .result-card { 
-      background: linear-gradient(135deg, #2d1b3d, #1a0f1f); 
-      border: 2px solid #e91e63; 
-      border-radius: 14px; 
-      padding: 16px; 
-      box-shadow: 0 6px 20px rgba(233,30,99,0.25); 
-      position: relative; 
-    }
-    
-    /* កាតលទ្ធផលចុងក្រោយ (មានពន្លឺភ្លឺៗ និងចលនាដកដង្ហើមស្រាលៗ) */
-    .result-card.new-result { 
-      border-color: #4ade80; 
-      box-shadow: 0 0 20px rgba(74,222,128,0.6); 
-      animation: glowGreen 3s infinite alternate; /* ចលនាពន្លឺភ្លឺៗ */
-      background: linear-gradient(135deg, #1a3d2f, #0f1f1a); 
-    }
-
+    .result-card { background: linear-gradient(135deg, #2d1b3d, #1a0f1f); border: 2px solid #e91e63; border-radius: 14px; padding: 16px; box-shadow: 0 6px 20px rgba(233,30,99,0.25); position: relative; }
+    .result-card.new-result { border-color: #4ade80; box-shadow: 0 0 20px rgba(74,222,128,0.6); animation: glowGreen 3s infinite alternate; background: linear-gradient(135deg, #1a3d2f, #0f1f1a); }
     .result-card .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 2px solid rgba(233,30,99,0.4); }
     .result-card .draw-id { color: #ff8bb5; font-weight: 800; font-size: 15px; letter-spacing: 0.5px; }
     .result-card .time { color: #ffffff; font-size: 14px; font-weight: 800; background: rgba(233,30,99,0.3); padding: 3px 10px; border-radius: 8px; }
     .result-card .numbers-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 8px; }
-    .result-card .num-cell { background: linear-gradient(135deg, rgba(233,30,99,0.25), rgba(136,14,79,0.25)); border: 2px solid rgba(233,30,99,0.5); border-radius: 10px; padding: 10px 4px; text-align: center; font-weight: 800; color: #ff8bb5; transition: all 0.3s; }
-    .result-card .num-cell:hover { transform: scale(1.08); background: linear-gradient(135deg, rgba(233,30,99,0.4), rgba(136,14,79,0.4)); }
+    .result-card .num-cell { background: linear-gradient(135deg, rgba(233,30,99,0.25), rgba(136,14,79,0.25)); border: 2px solid rgba(233,30,99,0.5); border-radius: 10px; padding: 10px 4px; text-align: center; font-weight: 800; color: #ff8bb5; }
     .result-card .num-cell .letter { display: block; font-size: 11px; color: #ff1744; margin-bottom: 4px; font-weight: 800; }
     .result-card .num-cell .value { color: #ffffff; font-size: 20px; text-shadow: 0 0 12px rgba(255,255,255,0.5); font-family: 'Courier New', monospace; font-weight: 800; }
     .result-card .type-label { font-size: 13px; color: #ff8bb5; font-weight: 800; margin-top: 12px; margin-bottom: 4px; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
@@ -352,9 +316,8 @@
     .betting-closed-box .open-time strong { background: #FFF; padding: 2px 10px; border-radius: 6px; color: #991B1B; border: 1px solid #FCA5A5; }
 
     /* === WIN BADGE === */
-    .win-badge { display: inline-block; background: linear-gradient(135deg, #ff1744, #d50000); color: white; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 10px; margin-left: 6px; animation: badgePulse 1.5s ease-in-out infinite; box-shadow: 0 0 12px rgba(255,23,68,0.7); }
-    .btn-withdraw.has-win { background: linear-gradient(135deg, #ff1744, #d50000) !important; animation: glowRed 1.5s ease-in-out infinite; }
-
+    .win-badge { display: inline-block; background: linear-gradient(135deg, #ff1744, #d50000); color: white; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 10px; margin-left: 6px; animation: pulse 1.5s ease-in-out infinite; box-shadow: 0 0 12px rgba(255,23,68,0.7); }
+    
     /* === AMOUNT TAG === */
     .amount-tag { background: linear-gradient(135deg, #28a745, #1e7e34); color: white; padding: 2px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; display: inline-block; margin-top: 3px; }
     .date-badge { background: linear-gradient(135deg, #e8f4fd, #d4edda); color: #005fa3; padding: 2px 10px; border-radius: 8px; font-size: 10px; font-weight: 800; display: inline-block; margin-top: 3px; }
@@ -390,7 +353,7 @@
     body.dark-mode .selected-display,
     body.dark-mode .bet-summary { background: #2f3548; border-color: #4a5268; color: #e8eaf0; }
     body.dark-mode .history-tab { background: #2f3548; color: #e8eaf0; }
-    body.dark-mode .mode-btn, body.dark-mode .type-btn, body.dark-mode .time-btn { background: #2f3548; color: #e8eaf0; }
+    body.dark-mode .type-btn, body.dark-mode .time-btn { background: #2f3548; color: #e8eaf0; }
     body.dark-mode .history-table td { color: #e8eaf0; border-color: #3a4255; }
     body.dark-mode .guide-box { background: #1e2a3f; color: #a0c8e8; }
 
@@ -426,7 +389,6 @@
   </style>
 </head>
 <body>
-
   <!-- PARTICLES -->
   <div class="particles-bg" id="particlesBg"></div>
 
@@ -499,12 +461,14 @@
       <button class="mode-tab" data-mode="rapid" onclick="N98.switchMainMode('rapid', event)">🎯 10 នាទី <span class="badge-live">LIVE</span></button>
     </div>
 
+    <!-- ⭐ NAV BAR ថ្មី -->
     <nav class="nav-bar">
       <a href="#" class="active" onclick="N98.showSection('home', event); return false;"><span class="anim-pulse">🏠</span> ទំព័រដើម</a>
       <a href="#" onclick="N98.showSection('rules', event); return false;"><span class="anim-pulse">📋</span> ច្បាប់</a>
       <button class="btn-theme" onclick="N98.toggleTheme()" id="themeBtn">🌙 <span class="theme-label">Dark</span></button>
       <button class="btn-share" onclick="N98.copyLink()">🔗 ចែករំលែក</button>
       <button class="btn-group" onclick="N98.openGroup()">💬 ចូលក្រុម</button>
+      <button class="btn-telegram" onclick="N98.contactAdmin()">✉️ ទាក់ទង Admin</button>
       <button class="btn-logout" onclick="N98.handleLogout()">🚪 ចាកចេញ</button>
     </nav>
 
@@ -573,13 +537,23 @@
             <div class="header-row"><div class="icon">⏰</div><div><div class="title" id="bettingClosedTitle">🔒 ការចាក់ត្រូវបានបិទ!</div><div class="open-time">⏰ បើកវិញ <strong>00:00 រំលងយប់នេះ</strong></div></div></div>
           </div>
 
+          <!-- ⭐ BALANCE BOX ថ្មី -->
           <div class="balance-box" id="balanceBox">
             <div style="margin-bottom:10px; font-weight:800; color:#155724; font-size:14px;">💰 សមតុល្យរបស់អ្នក</div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <div class="balance-row">
               <div class="balance-item"><div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:6px;">💵 USD</div><div id="balanceAmountUSD" style="font-size:24px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0.00$</div></div>
               <div class="balance-item"><div style="font-size:11px; color:#155724; font-weight:800; margin-bottom:6px;">🇰🇭 KHR</div><div id="balanceAmountKHR" style="font-size:24px; color:#28a745; font-weight:800; font-family:'Courier New',monospace;">0៛</div></div>
             </div>
-            <button class="btn btn-primary" onclick="N98.openDepositModal()" style="width:100%; margin-top:12px; padding:12px; font-size:14px; border-radius:10px;">💰 បញ្ចូលទឹកប្រាក់</button>
+            <!-- ⭐ ប្រអប់បង្ហាញការឈ្នះ/ចាញ់សរុប -->
+            <div class="balance-history">
+              <div>💵 ឈ្នះសរុប: <span id="totalWinUSD" style="color:#28a745;">0.00$</span> / <span id="totalWinKHR">0៛</span></div>
+              <div>💸 ចាញ់សរុប: <span id="totalLossUSD" style="color:#dc3545;">0.00$</span> / <span id="totalLossKHR">0៛</span></div>
+            </div>
+            <!-- ⭐ ប៊ូតុងដាក់ជាមួយគ្នា -->
+            <div class="btn-group-row">
+              <button class="btn btn-primary" onclick="N98.openDepositModal()">💰 បញ្ចូលទឹកប្រាក់</button>
+              <button class="btn btn-withdraw" onclick="N98.openWithdraw('normal')">🏦 ដកប្រាក់រង្វាន់</button>
+            </div>
           </div>
 
           <div class="guide-box">💡 <strong>របៀបប្រើ៖</strong><br>១. ជ្រើស <strong>ពេលវេលា</strong> និង <strong>ប្រភេទ</strong><br>២. ចុច <strong>ប៉ុស្តិ៍ A, B, C, D, E</strong><br>៣. បញ្ចូលលេខ (ឧ. 01,02,03)<br>៤. ជ្រើសទឹកប្រាក់ → ចុច <strong>"ដាក់ភ្នាល់"</strong></div>
@@ -671,13 +645,23 @@
 
         <div class="bet-box rapid">
           <h2>⚡ ចាក់លេខវគ្គបន្ទាប់</h2>
+          
+          <!-- ⭐ BALANCE BOX ថ្មី (RAPID) -->
           <div class="balance-box" id="balanceBoxRapid" style="background:linear-gradient(135deg,#1e3a2f,#163d29); border-color:#4ade80;">
             <div style="margin-bottom:10px; font-weight:800; color:#7dd89a; font-size:14px;">💰 សមតុល្យរបស់អ្នក</div>
-            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <div class="balance-row">
               <div class="balance-item" style="background:rgba(255,255,255,0.05); border-color:rgba(40,167,69,0.5);"><div style="font-size:11px; color:#7dd89a; font-weight:800; margin-bottom:6px;">💵 USD</div><div id="balanceRapidUSD" style="font-size:24px; color:#4ade80; font-weight:800; font-family:'Courier New',monospace;">0.00$</div></div>
               <div class="balance-item" style="background:rgba(255,255,255,0.05); border-color:rgba(40,167,69,0.5);"><div style="font-size:11px; color:#7dd89a; font-weight:800; margin-bottom:6px;">🇰🇭 KHR</div><div id="balanceRapidKHR" style="font-size:24px; color:#4ade80; font-weight:800; font-family:'Courier New',monospace;">0៛</div></div>
             </div>
-            <button class="btn btn-primary" onclick="N98.openDepositModal()" style="width:100%; margin-top:12px; padding:12px; font-size:14px; border-radius:10px; background:linear-gradient(135deg,#e91e63,#880e4f);">💰 បញ្ចូលទឹកប្រាក់</button>
+            <!-- ⭐ ប្រអប់បង្ហាញការឈ្នះ/ចាញ់សរុប (RAPID) -->
+            <div class="balance-history" style="border-color:#4ade80; color:#7dd89a;">
+              <div>💵 ឈ្នះសរុប: <span id="totalWinUSDRapid" style="color:#4ade80;">0.00$</span> / <span id="totalWinKHRRapid">0៛</span></div>
+              <div>💸 ចាញ់សរុប: <span id="totalLossUSDRapid" style="color:#ff8b95;">0.00$</span> / <span id="totalLossKHRRapid">0៛</span></div>
+            </div>
+            <div class="btn-group-row">
+              <button class="btn btn-primary" onclick="N98.openDepositModal()" style="background:linear-gradient(135deg,#e91e63,#880e4f);">💰 បញ្ចូលទឹកប្រាក់</button>
+              <button class="btn btn-withdraw" onclick="N98.openWithdraw('normal')" style="background:linear-gradient(135deg,#e91e63,#880e4f);">🏦 ដកប្រាក់រង្វាន់</button>
+            </div>
           </div>
 
           <div class="guide-box">💡 <strong>របៀបចាក់ 10 នាទី៖</strong><br>១. ជ្រើស <strong>ប្រភេទ</strong> (២ ឬ ៣ ខ្ទង់)<br>២. ចុច <strong>ប៉ុស្តិ៍ A, B, C, D, E</strong><br>៣. បញ្ចូលលេខ (ឧ. 01, 02, 03)<br>៤. ជ្រើសទឹកប្រាក់ → ចុច <strong>"ដាក់ភ្នាល់"</strong></div>
@@ -761,7 +745,7 @@
         </div>
       </div>
 
-      <!-- HISTORY SECTION (ថ្មី - ៦ Tabs) -->
+      <!-- HISTORY SECTION (៦ Tabs) -->
       <div class="lottery-box" id="historySection" style="display:block; margin-top:20px;">
         <div class="time-box">📊 ប្រវត្តិទាំងអស់</div>
         
@@ -774,32 +758,26 @@
           <button class="history-tab" data-tab="results-rapid" onclick="N98.switchHistoryTab('results-rapid', event)">🎯 លទ្ធផល 10នាទី</button>
         </div>
 
-        <!-- Panel: Bets Classic -->
         <div class="history-panel active" id="panel-bets-classic">
           <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#0078D7,#005fa3);"><th>កាលបរិច្ឆេទ</th><th>លេខចាក់</th><th>ប្រភេទ</th><th>ចំនួន</th><th>ស្ថានភាព</th><th>រង្វាន់</th><th>សកម្មភាព</th></tr></thead><tbody id="userHistoryBodyClassic"><tr><td colspan="7" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
         </div>
 
-        <!-- Panel: Bets Rapid -->
         <div class="history-panel" id="panel-bets-rapid">
           <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#e91e63,#880e4f);"><th>កាលបរិច្ឆេទ</th><th>វគ្គ</th><th>លេខចាក់</th><th>ប្រភេទ</th><th>ចំនួន</th><th>ស្ថានភាព</th><th>រង្វាន់</th></tr></thead><tbody id="userHistoryBodyRapid"><tr><td colspan="7" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
         </div>
 
-        <!-- Panel: Withdrawals -->
         <div class="history-panel" id="panel-withdrawals">
           <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#6f42c1,#5a32a3);"><th>កាលបរិច្ឆេទ</th><th>លេខសំណើ</th><th>ចំនួន</th><th>ស្ថានភាព</th></tr></thead><tbody id="userWithdrawBody"><tr><td colspan="4" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
         </div>
 
-        <!-- Panel: Deposits -->
         <div class="history-panel" id="panel-deposits">
           <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#28a745,#1e7e34);"><th>កាលបរិច្ឆេទ</th><th>ចំនួន</th><th>រូបិយប័ណ្ណ</th><th>សមតុល្យក្រោយ</th><th>កំណត់សម្គាល់</th></tr></thead><tbody id="userDepositBody"><tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
         </div>
 
-        <!-- Panel: Results Classic -->
         <div class="history-panel" id="panel-results-classic">
           <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#ff9800,#e65100);"><th>កាលបរិច្ឆេទ</th><th>ម៉ោង</th><th>លទ្ធផល ២ខ្ទង់</th><th>លទ្ធផល ៣ខ្ទង់</th><th>ចេញលទ្ធផលនៅ</th></tr></thead><tbody id="historyBodyClassic"><tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
         </div>
 
-        <!-- Panel: Results Rapid -->
         <div class="history-panel" id="panel-results-rapid">
           <div style="overflow-x:auto;"><table class="history-table"><thead><tr style="background:linear-gradient(135deg,#ff1744,#d50000);"><th>កាលបរិច្ឆេទ</th><th>វគ្គ</th><th>លទ្ធផល ២ខ្ទង់</th><th>លទ្ធផល ៣ខ្ទង់</th><th>ចេញលទ្ធផលនៅ</th></tr></thead><tbody id="historyBodyRapid"><tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr></tbody></table></div>
         </div>
@@ -839,7 +817,7 @@
       </div>
 
       <!-- WITHDRAW SECTION -->
-      <div class="lottery-box" id="withdrawBox">
+      <div class="lottery-box" id="withdrawBox" style="display:none;">
         <div class="time-box"><span class="anim-pulse">🏦</span> ដកប្រាក់</div>
         <p id="withdrawNoticeText" style="font-size:13px; color:#4a5568; margin:6px 0; font-weight:600;">ដកបានបន្ទាប់ពី 12:00 និង 16:00</p>
         <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;">
@@ -849,7 +827,7 @@
         </div>
       </div>
 
-    </div> <!-- End Section -->
+    </div>
 
     <div class="footer"><span class="emoji-dice">🎲</span> © 2026 Khmer Lottery N98 — Classic + Rapid Edition 🏆</div>
   </div>
@@ -1186,6 +1164,60 @@
         updateSubmitButton10();
         updateBalanceStatusBox();
         updateBalanceStatusBox10();
+        calculateTotalWinLoss(); // ⭐ ហៅមកគណនាឈ្នះចាញ់សរុប
+      }
+
+      // ⭐ គណនាឈ្នះចាញ់សរុប
+      function calculateTotalWinLoss() {
+        if (!currentUser) return;
+        var actionUrl = 'getBets';
+        fetchWithTimeout(WEB_APP_URL + '?action=' + actionUrl + '&phone=' + encodeURIComponent(fixPhoneNumber(currentUser.phone)) + '&t=' + Date.now(), { cache: 'no-store' })
+          .then(r => r.json()).then(data => {
+            if (data.ok && data.bets) {
+              let wUSD = 0, wKHR = 0, lUSD = 0, lKHR = 0;
+              data.bets.forEach(b => {
+                let numCount = String(b.numbers).split(',').length;
+                let totalBet = b.amount * numCount;
+                if (b.status === 'win') {
+                   let rate = b.type === 'two' ? 70 : 500;
+                   let payout = b.payout || (b.amount * rate);
+                   if (b.currency === 'USD') wUSD += payout;
+                   else wKHR += payout;
+                } else if (b.status === 'loss') {
+                   if (b.currency === 'USD') lUSD += totalBet;
+                   else lKHR += totalBet;
+                }
+              });
+              if($('totalWinUSD')) $('totalWinUSD').textContent = wUSD.toFixed(2) + '$';
+              if($('totalWinKHR')) $('totalWinKHR').textContent = Math.round(wKHR).toLocaleString() + '៛';
+              if($('totalLossUSD')) $('totalLossUSD').textContent = lUSD.toFixed(2) + '$';
+              if($('totalLossKHR')) $('totalLossKHR').textContent = Math.round(lKHR).toLocaleString() + '៛';
+            }
+          }).catch(e => console.error(e));
+
+        fetchWithTimeout(WEB_APP_URL + '?action=getBets10&phone=' + encodeURIComponent(fixPhoneNumber(currentUser.phone)) + '&t=' + Date.now(), { cache: 'no-store' })
+          .then(r => r.json()).then(data => {
+            if (data.ok && data.bets) {
+              let wUSD = 0, wKHR = 0, lUSD = 0, lKHR = 0;
+              data.bets.forEach(b => {
+                let numCount = String(b.numbers).split(',').length;
+                let totalBet = b.amount * numCount;
+                if (b.status === 'win') {
+                   let rate = b.type === 'two' ? 70 : 500;
+                   let payout = b.payout || (b.amount * rate);
+                   if (b.currency === 'USD') wUSD += payout;
+                   else wKHR += payout;
+                } else if (b.status === 'loss') {
+                   if (b.currency === 'USD') lUSD += totalBet;
+                   else lKHR += totalBet;
+                }
+              });
+              if($('totalWinUSDRapid')) $('totalWinUSDRapid').textContent = wUSD.toFixed(2) + '$';
+              if($('totalWinKHRRapid')) $('totalWinKHRRapid').textContent = Math.round(wKHR).toLocaleString() + '៛';
+              if($('totalLossUSDRapid')) $('totalLossUSDRapid').textContent = lUSD.toFixed(2) + '$';
+              if($('totalLossKHRRapid')) $('totalLossKHRRapid').textContent = Math.round(lKHR).toLocaleString() + '៛';
+            }
+          }).catch(e => console.error(e));
       }
 
       function fetchUserBets() {
@@ -2196,11 +2228,10 @@
         for (var i = 0; i < displayCount; i++) {
           var r = cachedResults10[i];
           var isNew = (i === 0);
+          var latestBadge = isNew ? ' <span style="font-size:10px; color:#15803d; background:#dcfce7; padding:2px 6px; border-radius:4px; margin-left:6px; border:1px solid #86efac; vertical-align:middle;">លទ្ធផលចុងក្រោយ</span>' : '';
           var cell = function(letter, val) {
             return '<div class="num-cell"><span class="letter">' + letter + '</span><span class="value">' + esc(val || '--') + '</span></div>';
           };
-          var latestBadge = isNew ? ' <span style="font-size:10px; color:#15803d; background:#dcfce7; padding:2px 6px; border-radius:4px; margin-left:6px; border:1px solid #86efac; vertical-align:middle;">លទ្ធផលចុងក្រោយ</span>' : '';
-
           html += '<div class="result-card' + (isNew ? ' new-result' : '') + '">' +
             '<div class="header">' +
               '<span class="draw-id">#' + esc(r.drawId || '-') + latestBadge + '</span>' +
