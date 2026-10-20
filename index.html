@@ -2233,82 +2233,114 @@
         });
       }
 
-      function adminLoadDepositRequests() {
-        var el = $('adminDepositReqList');
-        if (!el) return;
-        el.innerHTML = '<span class="anim-spin">⏳</span> កំពុងទាញ...';
-        fetchWithTimeout(WEB_APP_URL + '?action=getAllDepositRequests&t=' + Date.now(), { cache: 'no-store' })
-          .then(safeJsonParse)
-          .then(function(data) {
-            if (!data.ok || !data.requests || data.requests.length === 0) {
-              el.innerHTML = '<div style="text-align:center; padding:10px; color:#6c757d;">មិនមានសំណើបញ្ចូលប្រាក់</div>';
-              return;
-            }
-            var html = '';
-            var pendingCount = 0;
-            for (var i = 0; i < data.requests.length; i++) {
-              var req = data.requests[i];
-              if (req.status !== 'pending') continue;
-              pendingCount++;
-              var amtStr = fmtAmount(req.amount, req.currency);
-              html += '<div style="background:white; border:1px solid #dee2e6; border-radius:8px; padding:8px; margin-bottom:6px;">' +
-                '<div style="font-weight:800; color:#005fa3; font-size:11px;">🆔 ' + esc(req.id) + '</div>' +
-                '<div style="font-size:11px;">📱 ' + esc(req.phone) + '</div>' +
-                '<div style="font-size:11px;">💰 <b style="color:#28a745;">' + esc(amtStr) + '</b> (' + esc(req.currency) + ')</div>' +
-                '<div style="font-size:10px; color:#6c757d;">' + esc(req.date) + '</div>' +
-                '<div style="margin-top:6px;">' +
-                  '<label style="font-size:10px; font-weight:800; color:#4a5568; display:block; margin-bottom:2px;">💰 ចំនួនអនុម័ត (កែបាន):</label>' +
-                  '<input type="number" id="approveAmt_' + esc(req.id) + '" value="' + req.amount + '" step="any" style="width:100%; padding:5px; border:1px solid #dee2e6; border-radius:5px; font-size:12px; font-weight:800; margin-bottom:4px;">' +
-                '</div>' +
-                '<div style="display:flex; gap:4px; margin-top:6px;">' +
-                  '<button onclick="N98.adminApproveDepositReq(\'' + esc(req.id) + '\', \'' + esc(req.currency) + '\')" style="flex:1; padding:5px; background:#28a745; color:white; border:none; border-radius:5px; font-weight:800; font-size:11px; cursor:pointer;">✅ អនុម័ត</button>' +
-                  '<button onclick="N98.adminRejectDepositReq(\'' + esc(req.id) + '\')" style="flex:1; padding:5px; background:#dc3545; color:white; border:none; border-radius:5px; font-weight:800; font-size:11px; cursor:pointer;">❌ បដិសេធ</button>' +
-                '</div>' +
-              '</div>';
-            }
-            if (pendingCount === 0) html = '<div style="text-align:center; padding:10px; color:#6c757d;">មិនមានសំណើរង់ចាំ</div>';
-            el.innerHTML = html;
-          })
-          .catch(function() { el.innerHTML = '❌ កំហុសតភ្ជាប់'; });
+function adminLoadDepositRequests() {
+  var el = $('adminDepositReqList');
+  if (!el) return;
+  el.innerHTML = '<span class="anim-spin">⏳</span> កំពុងទាញ...';
+  
+  fetchWithTimeout(WEB_APP_URL + '?action=getAllDepositRequests&t=' + Date.now(), { cache: 'no-store' })
+    .then(safeJsonParse)
+    .then(function(data) {
+      if (!data.ok || !data.requests || data.requests.length === 0) {
+        el.innerHTML = '<div style="text-align:center; padding:10px; color:#6c757d;">មិនមានសំណើបញ្ចូលប្រាក់</div>';
+        return;
       }
-
-      function adminApproveDepositReq(reqId, currency) {
-        var amtInput = $('approveAmt_' + reqId);
-        var overrideAmount = amtInput ? parseFloat(amtInput.value) : 0;
-        if (!overrideAmount || overrideAmount <= 0) { showToast('សូមបញ្ចូលចំនួនអនុម័ត!', 'warning'); return; }
+      
+      var html = '';
+      var pendingCount = 0;
+      
+      for (var i = 0; i < data.requests.length; i++) {
+        var req = data.requests[i];
         
-        showConfirm({
-          icon: '💰',
-          title: 'អនុម័តការបញ្ចូលប្រាក់',
-          message: 'តើអ្នកប្រាកដជាចង់អនុម័តការបញ្ចូលប្រាក់នេះឬ?',
-          infoRows: [
-            { label: '🆔 ID', value: reqId },
-            { label: '💰 ចំនួន', value: fmtAmount(overrideAmount, currency), isTotal: true }
-          ],
-          okText: '✓ អនុម័ត',
-          cancelText: '✕ បោះបង់'
-        }, function(confirmed) {
-          if (!confirmed) return;
-          showLoading(true);
-          fetchWithTimeout(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ 
-              action: 'approveDepositRequest', 
-              requestId: reqId, 
-              overrideAmount: overrideAmount,
-              adminUser: currentUser.userId 
-            }),
-            headers: { 'Content-Type': 'text/plain' }
-          })
-          .then(safeJsonParse)
-          .then(function(data) {
-            showLoading(false);
-            if (data.ok) { showToast('បានអនុម័ត + បញ្ចូលប្រាក់!', 'success'); adminLoadDepositRequests(); fetchBalance(currentUser.phone); }
-            else showToast(data.error || 'មានបញ្ហា!', 'error');
-          })
-          .catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
-        });
+        // ⭐ បង្ហាញតែសំណើដែលនៅរង់ចាំ (pending) ដើម្បីកុំឱ្យច្រឡំ
+        if (req.status !== 'pending') continue;
+        
+        pendingCount++;
+        var amtStr = fmtAmount(req.amount, req.currency);
+        
+        html += '<div style="background:white; border:2px solid #ffc107; border-radius:8px; padding:10px; margin-bottom:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">' +
+          '<div style="font-weight:800; color:#005fa3; font-size:13px;">🆔 ' + esc(req.id) + '</div>' +
+          '<div style="font-size:12px; margin-top:4px;">📱 លេខ: <b>' + esc(req.phone) + '</b></div>' +
+          '<div style="font-size:12px;">👤 UserID: <b>' + esc(req.userId || '-') + '</b></div>' +
+          '<div style="font-size:12px;">💰 ចំនួនស្នើ: <b style="color:#28a745;">' + esc(amtStr) + '</b></div>' +
+          '<div style="font-size:11px; color:#6c757d; margin-top:2px;">⏰ ' + esc(req.date) + '</div>' +
+          
+          '<div style="margin-top:8px; background:#f8f9fa; padding:8px; border-radius:6px;">' +
+            '<label style="font-size:11px; font-weight:800; color:#4a5568; display:block; margin-bottom:4px;">💰 ចំនួនអនុម័ត (អាចកែបាន):</label>' +
+            '<input type="number" id="approveAmt_' + esc(req.id) + '" value="' + req.amount + '" step="any" style="width:100%; padding:8px; border:2px solid #0078D7; border-radius:6px; font-size:14px; font-weight:800;">' +
+          '</div>' +
+          
+          '<div style="display:flex; gap:6px; margin-top:8px;">' +
+            '<button onclick="N98.adminApproveDepositReq(\'' + esc(req.id) + '\', \'' + esc(req.currency) + '\', \'' + esc(req.phone) + '\')" style="flex:1; padding:10px; background:linear-gradient(135deg,#28a745,#1e7e34); color:white; border:none; border-radius:6px; font-weight:800; font-size:12px; cursor:pointer;">✅ អនុម័ត (បញ្ចូលប្រាក់)</button>' +
+            '<button onclick="N98.adminRejectDepositReq(\'' + esc(req.id) + '\')" style="flex:1; padding:10px; background:linear-gradient(135deg,#dc3545,#a71d2a); color:white; border:none; border-radius:6px; font-weight:800; font-size:12px; cursor:pointer;">❌ បដិសេធ</button>' +
+          '</div>' +
+        '</div>';
       }
+      
+      if (pendingCount === 0) {
+        html = '<div style="text-align:center; padding:15px; color:#6c757d; background:#f8f9fa; border-radius:8px;">✅ គ្មានសំណើរង់ចាំទេ</div>';
+      }
+      
+      el.innerHTML = html;
+    })
+    .catch(function(err) { 
+      console.error(err);
+      el.innerHTML = '❌ កំហុសតភ្ជាប់'; 
+    });
+}
+
+// ⭐ ជំនួស Function adminApproveDepositReq ចាស់
+function adminApproveDepositReq(reqId, currency, phone) {
+  var amtInput = $('approveAmt_' + reqId);
+  var overrideAmount = amtInput ? parseFloat(amtInput.value) : 0;
+  
+  if (!overrideAmount || overrideAmount <= 0) { 
+    showToast('សូមបញ្ចូលចំនួនអនុម័តឱ្យបានត្រឹមត្រូវ!', 'warning'); 
+    return; 
+  }
+  
+  showConfirm({
+    icon: '💰',
+    title: 'អនុម័តការបញ្ចូលប្រាក់',
+    message: 'តើអ្នកប្រាកដជាចង់អនុម័តការបញ្ចូលប្រាក់នេះឬ? ប្រាក់នឹងចូលសមតុល្យអ្នកប្រើភ្លាមៗ។',
+    infoRows: [
+      { label: '🆔 ID', value: reqId },
+      { label: '📱 លេខ', value: phone || '-' },
+      { label: '💰 ចំនួន', value: fmtAmount(overrideAmount, currency), isTotal: true }
+    ],
+    okText: '✓ អនុម័ត',
+    cancelText: '✕ បោះបង់'
+  }, function(confirmed) {
+    if (!confirmed) return;
+    
+    showLoading(true);
+    fetchWithTimeout(WEB_APP_URL, {
+      method: 'POST',
+      body: JSON.stringify({ 
+        action: 'approveDepositRequest', 
+        requestId: reqId, 
+        overrideAmount: overrideAmount,
+        adminUser: currentUser.userId 
+      }),
+      headers: { 'Content-Type': 'text/plain' }
+    })
+    .then(safeJsonParse)
+    .then(function(data) {
+      showLoading(false);
+      if (data.ok) { 
+        showToast('បានអនុម័ត + បញ្ចូលប្រាក់ចូលសមតុល្យ!', 'success', '✅'); 
+        adminLoadDepositRequests(); // Refresh បញ្ជីថ្មី
+        fetchBalance(currentUser.phone); // Refresh សមតុល្យ Admin
+      }
+      else showToast(data.error || 'មានបញ្ហា!', 'error');
+    })
+    .catch(function(e) { 
+      console.error(e);
+      showLoading(false); 
+      showToast('មានបញ្ហាតភ្ជាប់!', 'error'); 
+    });
+  });
+}
 
       function adminRejectDepositReq(reqId) {
         showConfirm({
