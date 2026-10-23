@@ -1364,33 +1364,39 @@
         });
       }
 
-      // ⭐ POST ជាមួយ XMLHttpRequest (CORS ល្អជាង fetch សម្រាប់ Apps Script)
-      function postToServer(payload, onSuccess, onError) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', WEB_APP_URL, true);
-        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-        xhr.timeout = CFG.FETCH_TIMEOUT;
-        
-        xhr.onload = function() {
-          try {
-            var data = JSON.parse(xhr.responseText);
-            onSuccess(data);
-          } catch (parseErr) {
-            console.error('Parse error:', parseErr, xhr.responseText);
-            onError(new Error('ការឆ្លើយតបមិនត្រឹមត្រូវពី Server'));
-          }
-        };
-        
-        xhr.onerror = function() {
-          onError(new Error('មិនអាចភ្ជាប់ទៅ Server បានទេ'));
-        };
-        
-        xhr.ontimeout = function() {
-          onError(new Error('Timeout - Server មិនឆ្លើយតប'));
-        };
-        
-        xhr.send(JSON.stringify(payload));
+// ⭐ ប្រើ GET ជំនួស POST ដើម្បីដោះស្រាយ CORS
+function postToServer(payload, onSuccess, onError) {
+  try {
+    // បម្លែង payload ទៅ query string
+    var params = [];
+    for (var key in payload) {
+      if (payload.hasOwnProperty(key)) {
+        var val = payload[key];
+        if (val === null || val === undefined) continue;
+        // សម្រាប់ array ដូចជា numbers
+        if (Array.isArray(val)) {
+          params.push(encodeURIComponent(key) + '=' + encodeURIComponent(val.join(',')));
+        } else {
+          params.push(encodeURIComponent(key) + '=' + encodeURIComponent(String(val)));
+        }
       }
+    }
+    
+    var url = WEB_APP_URL + '?' + params.join('&');
+    
+    fetchWithTimeout(url, { cache: 'no-store' })
+      .then(safeJsonParse)
+      .then(function(data) {
+        onSuccess(data);
+      })
+      .catch(function(err) {
+        console.error('postToServer error:', err);
+        onError(err);
+      });
+  } catch (err) {
+    onError(err);
+  }
+}
 
       function safeJsonParse(response) {
         return response.text().then(function(text) {
@@ -3154,55 +3160,66 @@
           });
         }
 
-        var depositForm = $('depositForm');
-        if (depositForm) {
-          depositForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            var phone = fixPhoneNumber($('depPhone').value);
-            var fileInput = $('depScreenshot');
-            var depAmount = parseFloat($('depAmount').value) || 0;
-            var depCur = $('depCurrency').value;
+var depositForm = $('depositForm');
+if (depositForm) {
+  depositForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var phone = fixPhoneNumber($('depPhone').value);
+    var fileInput = $('depScreenshot');
+    var depAmount = parseFloat($('depAmount').value) || 0;
+    var depCur = $('depCurrency').value;
 
-            if (!phone) { showToast('សូមបំពេញលេខទូរស័ព្ទ!', 'warning'); return; }
-            if (!depAmount || depAmount <= 0) { showToast('សូមបំពេញចំនួន!', 'warning'); return; }
-            if (depCur === 'USD' && depAmount < CFG.MIN_DEPOSIT_USD) { showToast('ចំនួនអប្បបរមា USD ≥ ' + CFG.MIN_DEPOSIT_USD.toFixed(2) + '$', 'warning'); return; }
-            if (depCur === 'KHR' && depAmount < CFG.MIN_DEPOSIT_KHR) { showToast('ចំនួនអប្បបរមា KHR ≥ ' + CFG.MIN_DEPOSIT_KHR.toLocaleString() + '៛', 'warning'); return; }
-            if (!fileInput.files[0]) { showToast('សូមភ្ជាប់ភស្តុតាង!', 'warning'); return; }
+    if (!phone) { showToast('សូមបំពេញលេខទូរស័ព្ទ!', 'warning'); return; }
+    if (!depAmount || depAmount <= 0) { showToast('សូមបំពេញចំនួន!', 'warning'); return; }
+    if (depCur === 'USD' && depAmount < CFG.MIN_DEPOSIT_USD) { showToast('ចំនួនអប្បបរមា USD ≥ ' + CFG.MIN_DEPOSIT_USD.toFixed(2) + '$', 'warning'); return; }
+    if (depCur === 'KHR' && depAmount < CFG.MIN_DEPOSIT_KHR) { showToast('ចំនួនអប្បបរមា KHR ≥ ' + CFG.MIN_DEPOSIT_KHR.toLocaleString() + '៛', 'warning'); return; }
+    if (!fileInput.files[0]) { showToast('សូមភ្ជាប់ភស្តុតាង!', 'warning'); return; }
 
-            var btn = depositForm.querySelector('button[type="submit"]');
-            btn.disabled = true;
-            btn.innerHTML = 'កំពុងបញ្ជូន...';
-            showLoading(true, '⏳ កំពុងបញ្ជូនសំណើ...');
-            var reader = new FileReader();
-            reader.readAsDataURL(fileInput.files[0]);
-            reader.onload = function() {
-              var base64 = reader.result.split(',')[1];
-              
-              postToServer({ action: 'depositRequest', phone: phone, userId: currentUser.userId, amount: depAmount, currency: depCur, imageBase64: base64 },
-                function(data) {
-                  btn.disabled = false;
-                  btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
-                  showLoading(false);
-                  if (data.ok) {
-                    showToast('សំណើបញ្ចូលប្រាក់ត្រូវបានទទួលយក!', 'success', '🎉');
-                    closeModal('depositModal');
-                    showSection('home', null);
-                    depositForm.reset();
-                    $('depPhone').value = fixPhoneNumber(currentUser.phone);
-                    $('depSubmitBtn').disabled = true;
-                  } else showToast(data.error || 'មានបញ្ហា!', 'error');
-                },
-                function(err) {
-                  console.error(err);
-                  btn.disabled = false;
-                  btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
-                  showLoading(false);
-                  showAlert('មានបញ្ហាតភ្ជាប់', err.message || 'សូមពិនិត្យ WEB_APP_URL', '❌');
-                }
-              );
-            };
-          });
+    var btn = depositForm.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.innerHTML = 'កំពុងបញ្ជូន...';
+    showLoading(true, '⏳ កំពុងបញ្ជូនសំណើ...');
+    
+    var reader = new FileReader();
+    reader.readAsDataURL(fileInput.files[0]);
+    reader.onload = function() {
+      var base64 = reader.result.split(',')[1];
+      
+      // ⭐ ប្រើ postToServer ដែលប្រើ GET
+      postToServer({
+        action: 'depositRequest',
+        phone: phone,
+        userId: currentUser.userId,
+        amount: depAmount,
+        currency: depCur,
+        imageBase64: base64
+      },
+        function(data) {
+          btn.disabled = false;
+          btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
+          showLoading(false);
+          if (data.ok) {
+            showToast('សំណើបញ្ចូលប្រាក់ត្រូវបានទទួលយក!', 'success', '🎉');
+            closeModal('depositModal');
+            showSection('home', null);
+            depositForm.reset();
+            $('depPhone').value = fixPhoneNumber(currentUser.phone);
+            $('depSubmitBtn').disabled = true;
+          } else {
+            showToast(data.error || 'មានបញ្ហា!', 'error');
+          }
+        },
+        function(err) {
+          console.error('Deposit error:', err);
+          btn.disabled = false;
+          btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
+          showLoading(false);
+          showAlert('មានបញ្ហាតភ្ជាប់', err.message || 'សូមពិនិត្យ Internet ឬ Deploy ឡើងវិញ', '❌');
         }
+      );
+    };
+  });
+}
 
         var withdrawNewForm = $('withdrawNewForm');
         if (withdrawNewForm) {
