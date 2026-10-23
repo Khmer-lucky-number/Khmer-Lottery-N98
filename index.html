@@ -1083,7 +1083,6 @@
       var mainMode = 'classic';
       var isTVMode = false;
 
-      // Classic state
       var selectedTime = '12:00';
       var betType = 'two';
       var selectedLetter = '';
@@ -1091,7 +1090,6 @@
       var amount = 0;
       var currency = 'USD';
 
-      // Rapid state
       var betType10 = 'two';
       var selectedLetter10 = '';
       var numbers10 = [];
@@ -1099,7 +1097,6 @@
       var currency10 = 'USD';
       var currentDrawId10 = '';
 
-      // Shared
       var cachedResults = [];
       var cachedResults10 = [];
       var balanceUSD = 0;
@@ -1116,7 +1113,6 @@
 
       var confirmCallback = null;
 
-      /* ===== HELPERS ===== */
       function $(id) { return document.getElementById(id); }
 
       function fixPhoneNumber(phone) {
@@ -1151,7 +1147,6 @@
         ];
       }
 
-      /* ===== CONFIRM MODAL ===== */
       function showConfirm(options, callback) {
         var modal = $('confirmModal');
         if (!modal) { 
@@ -1196,7 +1191,6 @@
         }
       }
 
-      /* ===== TOAST & UI ===== */
       function showToast(message, type, icon) {
         type = type || 'info';
         var icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
@@ -1229,7 +1223,6 @@
         if (el) el.style.display = 'none';
       }
 
-      /* ===== THEME, SOUND & PARTICLES ===== */
       function toggleTheme() {
         var isDark = document.body.classList.toggle('dark-mode');
         try { localStorage.setItem(CFG.THEME_KEY, isDark ? 'dark' : 'light'); } catch (e) {}
@@ -1332,7 +1325,6 @@
         }
       }
 
-      /* ===== FETCH API & ERROR HANDLING ===== */
       function fetchWithTimeout(url, options, timeoutMs) {
         timeoutMs = timeoutMs || CFG.FETCH_TIMEOUT;
         return new Promise(function(resolve, reject) {
@@ -1503,7 +1495,6 @@
           });
       }
 
-      /* ===== TV MODE ===== */
       function toggleTVMode() {
         isTVMode = !isTVMode;
         document.body.classList.toggle('tv-mode-active', isTVMode);
@@ -1525,15 +1516,17 @@
         }
       }
 
-      /* ===== SCREENSHOT ===== */
-      function captureAndSendScreenshot(timeSlot) {
+      function manualCaptureScreenshot(timeSlot) {
         var targetId = timeSlot === '12:00' ? 'box12Container' : 'box16Container';
         var targetEl = $(targetId);
         if (!targetEl) return;
         
-        if (typeof html2canvas === 'undefined') return;
+        if (typeof html2canvas === 'undefined') {
+          showToast('html2canvas មិនទាន់ផ្ទុក', 'error');
+          return;
+        }
         
-        showToast('កំពុងថតអេក្រង់លទ្ធផល ' + timeSlot, 'info', '📸');
+        showToast('កំពុងថតអេក្រង់...', 'info', '📸');
         
         html2canvas(targetEl, {
           backgroundColor: '#ffffff',
@@ -1542,7 +1535,7 @@
           logging: false
         }).then(function(canvas) {
           var base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
-          var caption = '📸 <b>លទ្ធផលឆ្នោត N98 - ' + timeSlot + '</b>\n📅 ' + new Date().toLocaleDateString('en-GB') + '\n⏰ ' + new Date().toLocaleTimeString('en-GB');
+          var caption = '📸 <b>លទ្ធផលឆ្នោត N98 - ' + timeSlot + ' (Manual)</b>\n📅 ' + new Date().toLocaleDateString('en-GB') + '\n⏰ ' + new Date().toLocaleTimeString('en-GB');
           
           fetch(WEB_APP_URL, {
             method: 'POST',
@@ -1553,13 +1546,22 @@
               target: 'result'
             }),
             headers: { 'Content-Type': 'text/plain' }
-          }).then(safeJsonParse).then(function(data) {
-            if (data.ok) console.log('Screenshot sent successfully');
-          }).catch(function(err) { console.error('Screenshot upload error:', err); });
-        }).catch(function(err) { console.error('html2canvas error:', err); });
+          })
+          .then(safeJsonParse)
+          .then(function(data) {
+            if (data.ok) showToast('ថតអេក្រង់ និងផ្ញើជោគជ័យ!', 'success', '📸');
+            else showToast('បរាជ័យ: ' + (data.error || ''), 'error');
+          })
+          .catch(function(err) {
+            console.error(err);
+            showToast('មានបញ្ហាតភ្ជាប់!', 'error');
+          });
+        }).catch(function(err) {
+          console.error(err);
+          showToast('មានបញ្ហាក្នុងការថតអេក្រង់!', 'error');
+        });
       }
 
-      /* ===== MAIN MODE & NAVIGATION ===== */
       function switchMainMode(mode, evt) {
         if (isTVMode) return;
         mainMode = mode;
@@ -1672,7 +1674,6 @@
         else if (tabName === 'results-rapid') renderHistoryTableRapid();
       }
 
-      /* ===== REGISTER / LOGIN ===== */
       function showRegStep(stepId) {
         var steps = document.querySelectorAll('.reg-step');
         for (var i = 0; i < steps.length; i++) steps[i].classList.remove('active');
@@ -1872,7 +1873,6 @@
         showSection('home', null);
       }
 
-      /* ===== ADMIN ===== */
       function isAdmin() {
         if (!currentUser || !currentUser.phone) return false;
         var myPhone = fixPhoneNumber(currentUser.phone);
@@ -2209,7 +2209,6 @@
         });
       }
 
-      /* ===== CLASSIC MODE ===== */
       function setTime(t, evt) {
         if (isBettingClosed(t)) {
           showToast('ការចាក់ម៉ោង ' + t + ' ត្រូវបានបិទ!', 'warning', '🔒');
@@ -2365,7 +2364,7 @@
           if ($('balanceStatusShort')) { $('balanceStatusShort').textContent = fmt(0); $('balanceStatusShort').className = 'value success'; }
           if ($('balanceStatusHint')) {
             $('balanceStatusHint').textContent = '🎉 អ្នកអាចដាក់ភ្នាល់បាន!';
-            $('balanceStatusHint').style.animation = 'none'; // លុប spinner
+            $('balanceStatusHint').style.animation = 'none';
           }
           if ($('balanceProgressFill')) $('balanceProgressFill').style.width = '100%';
         } else {
@@ -2375,7 +2374,7 @@
           if ($('balanceStatusShort')) { $('balanceStatusShort').textContent = fmt(short); $('balanceStatusShort').className = 'value danger'; }
           if ($('balanceStatusHint')) {
             $('balanceStatusHint').textContent = '💡 សូមទាក់ទង Admin ដើម្បីបញ្ចូលប្រាក់';
-            $('balanceStatusHint').style.animation = 'none'; // លុប spinner
+            $('balanceStatusHint').style.animation = 'none';
           }
           if ($('balanceProgressFill')) $('balanceProgressFill').style.width = percent + '%';
         }
@@ -2553,7 +2552,6 @@
         }
       }
 
-      /* ===== RAPID MODE ===== */
       function setType10(t, evt) {
         betType10 = t;
         var btns = document.querySelectorAll('#rapidMode .type-btn');
@@ -2688,7 +2686,7 @@
           if ($('balanceStatusShort10')) { $('balanceStatusShort10').textContent = fmt(0); $('balanceStatusShort10').className = 'value success'; }
           if ($('balanceStatusHint10')) {
             $('balanceStatusHint10').textContent = '🎉 អ្នកអាចដាក់ភ្នាល់បាន!';
-            $('balanceStatusHint10').style.animation = 'none'; // លុប spinner
+            $('balanceStatusHint10').style.animation = 'none';
           }
           if ($('balanceProgressFill10')) $('balanceProgressFill10').style.width = '100%';
         } else {
@@ -2698,7 +2696,7 @@
           if ($('balanceStatusShort10')) { $('balanceStatusShort10').textContent = fmt(short); $('balanceStatusShort10').className = 'value danger'; }
           if ($('balanceStatusHint10')) {
             $('balanceStatusHint10').textContent = '💡 សូមទាក់ទង Admin ដើម្បីបញ្ចូលប្រាក់';
-            $('balanceStatusHint10').style.animation = 'none'; // លុប spinner
+            $('balanceStatusHint10').style.animation = 'none';
           }
           if ($('balanceProgressFill10')) $('balanceProgressFill10').style.width = percent + '%';
         }
