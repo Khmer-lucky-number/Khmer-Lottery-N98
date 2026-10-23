@@ -359,7 +359,7 @@
 
     .footer { background: linear-gradient(135deg, #1a2634, #0f1420); color: #adb5bd; text-align: center; padding: 16px; margin-top: 14px; border-top: 3px solid transparent; border-image: linear-gradient(90deg, #0078D7, #28a745, #ff9800, #6f42c1, #e91e63) 1; font-size: clamp(11px, 1.3vw, 13px); font-weight: 600; }
 
-    /* === TOAST (កែហើយ) === */
+    /* === TOAST === */
     .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
     .toast { background: white; color: #2d3748; padding: 14px 18px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; min-width: 260px; max-width: 360px; pointer-events: auto; animation: slideInDown 0.4s ease-out; border-left: 4px solid #0078D7; }
     .toast.success { border-left-color: #28a745; }
@@ -369,28 +369,18 @@
     .toast .toast-icon { font-size: 22px; flex-shrink: 0; }
     .toast .toast-text { flex: 1; line-height: 1.4; }
 
-    /* === LOADING (កែហើយ - លុប spinner ដែលជាប់) === */
+    /* === LOADING (បង្ហាញអត្ថបទជំនួស spinner) === */
     .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 9998; }
     .loading-overlay.active { display: flex; }
-    .loading-spinner { width: 60px; height: 60px; border: 5px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; }
-    /* ⭐ បង្ហាញសារ "កំពុងដំណើរការ" ជំនួស spinner ដែលជាប់ */
-    .loading-text { color: white; font-size: 18px; font-weight: 800; margin-top: 20px; text-align: center; }
+    .loading-text { color: white; font-size: 18px; font-weight: 800; text-align: center; padding: 20px; background: rgba(0,120,215,0.9); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
 
     .sound-toggle { background: linear-gradient(135deg, #17a2b8, #117a8b) !important; color: white !important; }
     .sound-toggle.muted { background: linear-gradient(135deg, #6c757d, #495057) !important; }
 
     /* === DARK MODE === */
     body.dark-mode { background: linear-gradient(135deg, #0f1420 0%, #1a1f2e 50%, #0f1420 100%); color: #e8eaf0; }
-    body.dark-mode .lottery-box,
-    body.dark-mode .bet-box,
-    body.dark-mode .modal-content,
-    body.dark-mode .clock-box,
-    body.dark-mode .nav-bar,
-    body.dark-mode .mode-tabs { background: #252b3d; color: #e8eaf0; }
-    body.dark-mode .numbers div,
-    body.dark-mode .input-row,
-    body.dark-mode .selected-display,
-    body.dark-mode .bet-summary { background: #2f3548; border-color: #4a5268; color: #e8eaf0; }
+    body.dark-mode .lottery-box, body.dark-mode .bet-box, body.dark-mode .modal-content, body.dark-mode .clock-box, body.dark-mode .nav-bar, body.dark-mode .mode-tabs { background: #252b3d; color: #e8eaf0; }
+    body.dark-mode .numbers div, body.dark-mode .input-row, body.dark-mode .selected-display, body.dark-mode .bet-summary { background: #2f3548; border-color: #4a5268; color: #e8eaf0; }
     body.dark-mode .history-tab { background: #2f3548; color: #e8eaf0; }
     body.dark-mode .mode-btn, body.dark-mode .type-btn, body.dark-mode .time-btn { background: #2f3548; color: #e8eaf0; }
     body.dark-mode .history-table td { color: #e8eaf0; border-color: #3a4255; }
@@ -401,7 +391,7 @@
     body.dark-mode .toast { background: #2f3548; color: #e8eaf0; }
     body.dark-mode .loading-overlay { background: rgba(0,0,0,0.8); }
 
-    /* === RESPONSIVE (កែហើយ - មើលឃើញពេញអេក្រង់) === */
+    /* === RESPONSIVE === */
     @media (max-width: 768px) {
       .numbers div { padding: 10px 4px; font-size: 14px; }
       .numbers div .number-result { font-size: 18px; }
@@ -432,15 +422,10 @@
     ::-webkit-scrollbar-track { background: #f0f4f8; }
     ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #0078D7, #6f42c1); border-radius: 4px; }
 
-    /* ⭐ TV MODE (កែហើយ - មើលឃើញពេញអេក្រង់) */
+    /* ⭐ TV MODE */
     .tv-mode-active .section { max-width: 100%; padding: 20px; }
-    .tv-mode-active .nav-bar,
-    .tv-mode-active .mode-tabs,
-    .tv-mode-active .user-info-bar,
-    .tv-mode-active .clock-box,
-    .tv-mode-active .status-bar { display: none !important; }
-    .tv-mode-active #classicMode .bet-box,
-    .tv-mode-active #rapidMode .bet-box { display: none !important; }
+    .tv-mode-active .nav-bar, .tv-mode-active .mode-tabs, .tv-mode-active .user-info-bar, .tv-mode-active .clock-box, .tv-mode-active .status-bar { display: none !important; }
+    .tv-mode-active #classicMode .bet-box, .tv-mode-active #rapidMode .bet-box { display: none !important; }
     .tv-mode-active .lottery-box { margin: 10px 0; padding: 20px; border-width: 4px; }
     .tv-mode-active .numbers div { padding: 20px 10px; font-size: 32px; }
     .tv-mode-active .numbers div .letter { font-size: 24px; }
@@ -460,11 +445,9 @@
   <!-- TOAST -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <!-- ⭐ LOADING OVERLAY (កែហើយ - លុប spinner ដែលជាប់) -->
+  <!-- LOADING OVERLAY (ជំនួស Spinner ដោយអត្ថបទ) -->
   <div class="loading-overlay" id="loadingOverlay">
-    <div style="text-align:center;">
-      <div class="loading-text" id="loadingText">⏳ កំពុងដំណើរការ...</div>
-    </div>
+    <div class="loading-text" id="loadingText">⏳ កំពុងដំណើរការ...</div>
   </div>
 
   <!-- TV MODE EXIT BUTTON -->
@@ -1045,30 +1028,31 @@
 
     (function() {
       'use strict';
+      // ⚠️ សូមប្រាកដថា URL នេះត្រូវនឹង URL ដែលអ្នកបាន Deploy ថ្មីពី Apps Script
       var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwwXnJzkjEi9uwv8DvIPMQ8ZgTjUqpOGfasATwP0sWNbDumyYtSylx1KMTev3iE8Xw4/exec';
 
-var CFG = {
-  REFRESH_MS: 30000,
-  REFRESH_10_MS: 5000,
-  CLOCK_MS: 1000,
-  STATUS_MS: 1000,
-  MIN_USD: 0.25, MAX_USD: 10,
-  MIN_KHR: 500, MAX_KHR: 40000,
-  MAX_NUMBERS: 10,
-  FETCH_TIMEOUT: 60000,  // ⭐ បង្កើនពី 20s ទៅ 60s
-  TOAST_DURATION: 4000,
-  THEME_KEY: 'n98_theme',
-  MAIN_MODE_KEY: 'n98_main_mode',
-  SOUND_KEY: 'n98_sound',
-  TENMIN_INTERVAL_MIN: 10,
-  TENMIN_CLOSE_SECONDS: 60,
-  BEEP_COUNT: 3,
-  BEEP_INTERVAL_SEC: 3,
-  MIN_DEPOSIT_USD: 5.00,
-  MIN_DEPOSIT_KHR: 20000,
-  MIN_WITHDRAW_USD: 1.00,
-  MIN_WITHDRAW_KHR: 4000
-};
+      var CFG = {
+        REFRESH_MS: 30000,
+        REFRESH_10_MS: 5000,
+        CLOCK_MS: 1000,
+        STATUS_MS: 1000,
+        MIN_USD: 0.25, MAX_USD: 10,
+        MIN_KHR: 500, MAX_KHR: 40000,
+        MAX_NUMBERS: 10,
+        FETCH_TIMEOUT: 60000,  // ⭐ បង្កើនពី 20s ទៅ 60s សម្រាប់ CORS
+        TOAST_DURATION: 4000,
+        THEME_KEY: 'n98_theme',
+        MAIN_MODE_KEY: 'n98_main_mode',
+        SOUND_KEY: 'n98_sound',
+        TENMIN_INTERVAL_MIN: 10,
+        TENMIN_CLOSE_SECONDS: 60,
+        BEEP_COUNT: 3,
+        BEEP_INTERVAL_SEC: 3,
+        MIN_DEPOSIT_USD: 5.00,
+        MIN_DEPOSIT_KHR: 20000,
+        MIN_WITHDRAW_USD: 1.00,
+        MIN_WITHDRAW_KHR: 4000
+      };
 
       var ADMIN_PHONES = ['066817407', '098765432'];
 
@@ -1190,7 +1174,7 @@ var CFG = {
       }
 
       // ============================================================
-      // TOAST & LOADING (កែហើយ - លុប spinner ដែលជាប់)
+      // TOAST & UI
       // ============================================================
       function showToast(message, type, icon) {
         type = type || 'info';
@@ -1208,7 +1192,7 @@ var CFG = {
         }, CFG.TOAST_DURATION);
       }
 
-      // ⭐ កែ showLoading ឱ្យបង្ហាញសារជំនួស spinner
+      // ⭐ កែ showLoading ឱ្យបង្ហាញអត្ថបទជំនួស spinner
       function showLoading(show, message) {
         var el = $('loadingOverlay');
         var txt = $('loadingText');
@@ -1216,7 +1200,7 @@ var CFG = {
         if (show) {
           if (txt) txt.textContent = message || '⏳ កំពុងដំណើរការ...';
           el.classList.add('active');
-          // ⭐ Auto-hide បន្ទាប់ពី 30 វិនាទី ដើម្បីកុំឱ្យជាប់
+          // Auto-hide បន្ទាប់ពី 30 វិនាទី
           setTimeout(function() {
             if (el.classList.contains('active')) el.classList.remove('active');
           }, 30000);
@@ -1342,33 +1326,71 @@ var CFG = {
       }
 
       // ============================================================
-      // FETCH API
+      // FETCH API (CORS FIX)
       // ============================================================
-function fetchWithTimeout(url, options, timeoutMs) {
-  timeoutMs = timeoutMs || CFG.FETCH_TIMEOUT;
-  return new Promise(function(resolve, reject) {
-    var timer = setTimeout(function() {
-      reject(new Error('TIMEOUT - Server មិនឆ្លើយតបក្នុងរយៈពេល ' + (timeoutMs/1000) + ' វិនាទី'));
-    }, timeoutMs);
-    fetch(url, options)
-      .then(function(res) {
-        clearTimeout(timer);
-        if (!res.ok) {
-          reject(new Error('HTTP Error: ' + res.status + ' ' + res.statusText));
-          return;
-        }
-        resolve(res);
-      })
-      .catch(function(err) {
-        clearTimeout(timer);
-        if (err.message === 'Failed to fetch') {
-          reject(new Error('មិនអាចភ្ជាប់ទៅ Server បានទេ។ សូមពិនិត្យ Internet ឬ Deploy ឡើងវិញ។'));
-        } else {
-          reject(err);
-        }
-      });
-  });
-}
+      function fetchWithTimeout(url, options, timeoutMs) {
+        timeoutMs = timeoutMs || CFG.FETCH_TIMEOUT;
+        return new Promise(function(resolve, reject) {
+          var timer = setTimeout(function() {
+            reject(new Error('TIMEOUT - Server មិនឆ្លើយតបក្នុងរយៈពេល ' + (timeoutMs/1000) + ' វិនាទី'));
+          }, timeoutMs);
+
+          var opts = options || {};
+          // ⭐ CORS Fix: ប្រើ mode 'cors' និង headers ត្រឹមត្រូវ
+          opts.mode = 'cors';
+          opts.credentials = 'omit';
+          if (opts.method === 'POST') {
+            opts.headers = { 'Content-Type': 'text/plain;charset=utf-8' };
+          }
+
+          fetch(url, opts)
+            .then(function(res) {
+              clearTimeout(timer);
+              if (!res.ok) {
+                reject(new Error('HTTP Error: ' + res.status + ' ' + res.statusText));
+                return;
+              }
+              resolve(res);
+            })
+            .catch(function(err) {
+              clearTimeout(timer);
+              console.error('Fetch error:', err);
+              if (err.message === 'Failed to fetch') {
+                reject(new Error('មិនអាចភ្ជាប់ទៅ Server បានទេ។ សូមពិនិត្យ Internet ឬ Deploy ឡើងវិញ។'));
+              } else {
+                reject(err);
+              }
+            });
+        });
+      }
+
+      // ⭐ POST ជាមួយ XMLHttpRequest (CORS ល្អជាង fetch សម្រាប់ Apps Script)
+      function postToServer(payload, onSuccess, onError) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', WEB_APP_URL, true);
+        xhr.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
+        xhr.timeout = CFG.FETCH_TIMEOUT;
+        
+        xhr.onload = function() {
+          try {
+            var data = JSON.parse(xhr.responseText);
+            onSuccess(data);
+          } catch (parseErr) {
+            console.error('Parse error:', parseErr, xhr.responseText);
+            onError(new Error('ការឆ្លើយតបមិនត្រឹមត្រូវពី Server'));
+          }
+        };
+        
+        xhr.onerror = function() {
+          onError(new Error('មិនអាចភ្ជាប់ទៅ Server បានទេ'));
+        };
+        
+        xhr.ontimeout = function() {
+          onError(new Error('Timeout - Server មិនឆ្លើយតប'));
+        };
+        
+        xhr.send(JSON.stringify(payload));
+      }
 
       function safeJsonParse(response) {
         return response.text().then(function(text) {
@@ -1434,7 +1456,7 @@ function fetchWithTimeout(url, options, timeoutMs) {
         var actionUrl = (currentHistoryTab === 'bets-rapid') ? 'getBets10' : 'getBets';
         var tbody = (currentHistoryTab === 'bets-rapid') ? $('userHistoryBodyRapid') : $('userHistoryBodyClassic');
 
-        if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:12px;"><span class="anim-spin">⏳</span> កំពុងផ្ទុក...</td></tr>';
+        if (tbody) tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>';
 
         fetchWithTimeout(WEB_APP_URL + '?action=' + actionUrl + '&phone=' + encodeURIComponent(fixPhoneNumber(currentUser.phone)) + '&t=' + Date.now(), { cache: 'no-store' })
           .then(safeJsonParse)
@@ -1446,7 +1468,7 @@ function fetchWithTimeout(url, options, timeoutMs) {
       function fetchUserWithdrawals() {
         if (!currentUser) return;
         var tbody = $('userWithdrawBody');
-        if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px;"><span class="anim-spin">⏳</span> កំពុងផ្ទុក...</td></tr>';
+        if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>';
         fetchWithTimeout(WEB_APP_URL + '?action=getWithdrawals&phone=' + encodeURIComponent(fixPhoneNumber(currentUser.phone)) + '&t=' + Date.now(), { cache: 'no-store' })
           .then(safeJsonParse)
           .then(function(data) {
@@ -1481,7 +1503,7 @@ function fetchWithTimeout(url, options, timeoutMs) {
       function fetchUserDeposits() {
         if (!currentUser) return;
         var tbody = $('userDepositBody');
-        if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px;"><span class="anim-spin">⏳</span> កំពុងផ្ទុក...</td></tr>';
+        if (tbody) tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px;">កំពុងផ្ទុក...</td></tr>';
         fetchWithTimeout(WEB_APP_URL + '?action=getDeposits&phone=' + encodeURIComponent(fixPhoneNumber(currentUser.phone)) + '&t=' + Date.now(), { cache: 'no-store' })
           .then(safeJsonParse)
           .then(function(data) {
@@ -1563,11 +1585,10 @@ function fetchWithTimeout(url, options, timeoutMs) {
         html2canvas(targetEl, { backgroundColor: '#ffffff', scale: 2, useCORS: true, logging: false }).then(function(canvas) {
           var base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
           var caption = '📸 <b>លទ្ធផលឆ្នោត N98 - ' + timeSlot + '</b>\n📅 ' + new Date().toLocaleDateString('en-GB') + '\n⏰ ' + new Date().toLocaleTimeString('en-GB');
-          fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'uploadScreenshot', imageBase64: base64, caption: caption, target: 'result' }),
-            headers: { 'Content-Type': 'text/plain' }
-          }).then(safeJsonParse).then(function(data) { if (data.ok) console.log('Screenshot sent'); }).catch(function(err) { console.error('Screenshot upload error:', err); });
+          postToServer({ action: 'uploadScreenshot', imageBase64: base64, caption: caption, target: 'result' },
+            function(data) { if (data.ok) console.log('Screenshot sent'); },
+            function(err) { console.error('Screenshot upload error:', err); }
+          );
         }).catch(function(err) { console.error('html2canvas error:', err); });
       }
 
@@ -1580,14 +1601,13 @@ function fetchWithTimeout(url, options, timeoutMs) {
         html2canvas(targetEl, { backgroundColor: '#ffffff', scale: 2, useCORS: true, logging: false }).then(function(canvas) {
           var base64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
           var caption = '📸 <b>លទ្ធផលឆ្នោត N98 - ' + timeSlot + ' (Manual)</b>\n📅 ' + new Date().toLocaleDateString('en-GB') + '\n⏰ ' + new Date().toLocaleTimeString('en-GB');
-          fetch(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'uploadScreenshot', imageBase64: base64, caption: caption, target: 'result' }),
-            headers: { 'Content-Type': 'text/plain' }
-          }).then(safeJsonParse).then(function(data) {
-            if (data.ok) showToast('ថតអេក្រង់ និងផ្ញើជោគជ័យ!', 'success', '📸');
-            else showToast('បរាជ័យ: ' + (data.error || ''), 'error');
-          }).catch(function(err) { showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+          postToServer({ action: 'uploadScreenshot', imageBase64: base64, caption: caption, target: 'result' },
+            function(data) {
+              if (data.ok) showToast('ថតអេក្រង់ និងផ្ញើជោគជ័យ!', 'success', '📸');
+              else showToast('បរាជ័យ: ' + (data.error || ''), 'error');
+            },
+            function(err) { showToast('មានបញ្ហាតភ្ជាប់!', 'error'); }
+          );
         }).catch(function(err) { showToast('មានបញ្ហាក្នុងការថតអេក្រង់!', 'error'); });
       }
 
@@ -1719,27 +1739,27 @@ function fetchWithTimeout(url, options, timeoutMs) {
         if (!/^(0[1-9][0-9]{7,8})$/.test(phone)) { showToast('លេខទូរស័ព្ទមិនត្រឹមត្រូវ', 'warning'); return; }
         if (!pin || pin.length !== 4 || !/^[0-9]{4}$/.test(pin)) { showToast('PIN ត្រូវមាន ៤ ខ្ទង់', 'warning'); return; }
         btn.disabled = true;
-        btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងចុះឈ្មោះ...';
+        btn.innerHTML = 'កំពុងចុះឈ្មោះ...';
         showLoading(true, '⏳ កំពុងចុះឈ្មោះ...');
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'register', phone: phone, pin: pin }),
-          headers: { 'Content-Type': 'text/plain' }
-        }).then(safeJsonParse).then(function(data) {
-          btn.disabled = false;
-          btn.innerHTML = 'បន្ត → <span class="emoji-rocket">🚀</span>';
-          showLoading(false);
-          if (data.ok) { showToast('ចុះឈ្មោះជោគជ័យ!', 'success', '🎉'); showIdStep(data.userId); }
-          else if (data.userId) {
-            if (data.verified) { showToast('មានគណនីរួចហើយ', 'info'); showLoginStep(); $('loginUserId').value = data.userId; }
-            else { showToast('មានគណនីរួចហើយ — សូមបញ្ជាក់ Code', 'info'); showIdStep(data.userId); }
-          } else showToast(data.error || 'មានបញ្ហា!', 'error');
-        }).catch(function(err) {
-          console.error(err); btn.disabled = false;
-          btn.innerHTML = 'បន្ត → <span class="emoji-rocket">🚀</span>';
-          showLoading(false);
-          showAlert('មានបញ្ហាតភ្ជាប់', err.message || 'សូមពិនិត្យ WEB_APP_URL និង Deploy ឡើងវិញ', '❌');
-        });
+        
+        postToServer({ action: 'register', phone: phone, pin: pin },
+          function(data) {
+            btn.disabled = false;
+            btn.innerHTML = 'បន្ត → <span class="emoji-rocket">🚀</span>';
+            showLoading(false);
+            if (data.ok) { showToast('ចុះឈ្មោះជោគជ័យ!', 'success', '🎉'); showIdStep(data.userId); }
+            else if (data.userId) {
+              if (data.verified) { showToast('មានគណនីរួចហើយ', 'info'); showLoginStep(); $('loginUserId').value = data.userId; }
+              else { showToast('មានគណនីរួចហើយ — សូមបញ្ជាក់ Code', 'info'); showIdStep(data.userId); }
+            } else showToast(data.error || 'មានបញ្ហា!', 'error');
+          },
+          function(err) {
+            console.error(err); btn.disabled = false;
+            btn.innerHTML = 'បន្ត → <span class="emoji-rocket">🚀</span>';
+            showLoading(false);
+            showAlert('មានបញ្ហាតភ្ជាប់', err.message || 'សូមពិនិត្យ WEB_APP_URL និង Deploy ឡើងវិញ', '❌');
+          }
+        );
       }
 
       function handleVerify() {
@@ -1748,25 +1768,25 @@ function fetchWithTimeout(url, options, timeoutMs) {
         var btn = $('regVerifyBtn');
         if (!code || code.length !== 4) { showToast('សូមបំពេញ Code ៤ ខ្ទង់!', 'warning'); return; }
         btn.disabled = true;
-        btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងផ្ទៀងផ្ទាត់...';
+        btn.innerHTML = 'កំពុងផ្ទៀងផ្ទាត់...';
         showLoading(true, '⏳ កំពុងផ្ទៀងផ្ទាត់...');
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'verifyCode', userId: userId, code: code }),
-          headers: { 'Content-Type': 'text/plain' }
-        }).then(safeJsonParse).then(function(data) {
-          btn.disabled = false; btn.innerHTML = 'បញ្ជាក់ ✓';
-          showLoading(false);
-          if (data.ok) {
-            currentUser = { userId: data.userId, phone: fixPhoneNumber(data.phone), verified: true };
-            localStorage.setItem('lottery_user', JSON.stringify(currentUser));
-            showToast('ការចុះឈ្មោះជោគជ័យ!', 'success', '🎉');
-            setTimeout(enterApp, 1000);
-          } else showToast(data.error || 'Code មិនត្រឹមត្រូវ!', 'error');
-        }).catch(function(err) {
-          console.error(err); btn.disabled = false; btn.innerHTML = 'បញ្ជាក់ ✓';
-          showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-        });
+        
+        postToServer({ action: 'verifyCode', userId: userId, code: code },
+          function(data) {
+            btn.disabled = false; btn.innerHTML = 'បញ្ជាក់ ✓';
+            showLoading(false);
+            if (data.ok) {
+              currentUser = { userId: data.userId, phone: fixPhoneNumber(data.phone), verified: true };
+              localStorage.setItem('lottery_user', JSON.stringify(currentUser));
+              showToast('ការចុះឈ្មោះជោគជ័យ!', 'success', '🎉');
+              setTimeout(enterApp, 1000);
+            } else showToast(data.error || 'Code មិនត្រឹមត្រូវ!', 'error');
+          },
+          function(err) {
+            console.error(err); btn.disabled = false; btn.innerHTML = 'បញ្ជាក់ ✓';
+            showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error');
+          }
+        );
       }
 
       function handleLogin() {
@@ -1775,26 +1795,26 @@ function fetchWithTimeout(url, options, timeoutMs) {
         var btn = $('loginBtn');
         if (!userId || !pin) { showToast('សូមបំពេញ ID និង PIN!', 'warning'); return; }
         btn.disabled = true;
-        btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងចូល...';
+        btn.innerHTML = 'កំពុងចូល...';
         showLoading(true, '⏳ កំពុងចូល...');
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({ action: 'loginWithPin', userId: userId, pin: pin }),
-          headers: { 'Content-Type': 'text/plain' }
-        }).then(safeJsonParse).then(function(data) {
-          btn.disabled = false; btn.innerHTML = 'ចូលប្រើ → <span class="emoji-rocket">🚀</span>';
-          showLoading(false);
-          if (data.ok) {
-            currentUser = { userId: data.userId, phone: fixPhoneNumber(data.phone), verified: true };
-            localStorage.setItem('lottery_user', JSON.stringify(currentUser));
-            showToast('ចូលប្រើជោគជ័យ!', 'success', '🎉');
-            setTimeout(enterApp, 800);
-          } else showToast(data.error || 'ID ឬ PIN មិនត្រឹមត្រូវ!', 'error');
-        }).catch(function(err) {
-          console.error(err); btn.disabled = false;
-          btn.innerHTML = 'ចូលប្រើ → <span class="emoji-rocket">🚀</span>';
-          showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-        });
+        
+        postToServer({ action: 'loginWithPin', userId: userId, pin: pin },
+          function(data) {
+            btn.disabled = false; btn.innerHTML = 'ចូលប្រើ → <span class="emoji-rocket">🚀</span>';
+            showLoading(false);
+            if (data.ok) {
+              currentUser = { userId: data.userId, phone: fixPhoneNumber(data.phone), verified: true };
+              localStorage.setItem('lottery_user', JSON.stringify(currentUser));
+              showToast('ចូលប្រើជោគជ័យ!', 'success', '🎉');
+              setTimeout(enterApp, 800);
+            } else showToast(data.error || 'ID ឬ PIN មិនត្រឹមត្រូវ!', 'error');
+          },
+          function(err) {
+            console.error(err); btn.disabled = false;
+            btn.innerHTML = 'ចូលប្រើ → <span class="emoji-rocket">🚀</span>';
+            showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error');
+          }
+        );
       }
 
       function handleLogout() {
@@ -1925,54 +1945,53 @@ function fetchWithTimeout(url, options, timeoutMs) {
         showLoading(true, '⏳ កំពុងបញ្ចូលប្រាក់...');
         var fb = $('adminFeedback');
         if (fb) { fb.style.display = 'none'; fb.textContent = ''; }
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-  action: 'addDeposit', phone: phone, amount: amount,
-  currency: currency, note: note, adminUser: currentUser.phone
-}),
-
-          headers: { 'Content-Type': 'text/plain' }
-        }).then(safeJsonParse).then(function(data) {
-          showLoading(false);
-          if (data.ok) {
-            if (fb) {
-              fb.style.display = 'block';
-              fb.style.background = 'linear-gradient(135deg,#d4edda,#a8e6c0)';
-              fb.style.color = '#155724';
-              fb.innerHTML = '✅ បញ្ចូលប្រាក់បានជោគជ័យ!<br>🆔 ' + data.depositId + '<br>💰 សមតុល្យថ្មី: ' +
-                (currency === 'USD' ? data.balanceUSD.toFixed(2) + '$' : data.balanceKHR.toLocaleString() + '៛');
+        
+        postToServer({
+          action: 'addDeposit', phone: phone, amount: amount,
+          currency: currency, note: note, adminUser: fixPhoneNumber(currentUser.phone)
+        },
+          function(data) {
+            showLoading(false);
+            if (data.ok) {
+              if (fb) {
+                fb.style.display = 'block';
+                fb.style.background = 'linear-gradient(135deg,#d4edda,#a8e6c0)';
+                fb.style.color = '#155724';
+                fb.innerHTML = '✅ បញ្ចូលប្រាក់បានជោគជ័យ!<br>🆔 ' + data.depositId + '<br>💰 សមតុល្យថ្មី: ' +
+                  (currency === 'USD' ? data.balanceUSD.toFixed(2) + '$' : data.balanceKHR.toLocaleString() + '៛');
+              }
+              showToast('បញ្ចូលប្រាក់ជោគជ័យ!', 'success', '💰');
+              $('adminAmount').value = '';
+              $('adminNote').value = '';
+              if (fixPhoneNumber(currentUser.phone) === phone) fetchBalance(phone);
+            } else {
+              if (fb) {
+                fb.style.display = 'block';
+                fb.style.background = 'linear-gradient(135deg,#fff5f5,#ffe0e0)';
+                fb.style.color = '#721c24';
+                fb.textContent = '❌ ' + (data.error || 'មានបញ្ហា!');
+              }
+              showToast(data.error || 'មានបញ្ហា!', 'error');
             }
-            showToast('បញ្ចូលប្រាក់ជោគជ័យ!', 'success', '💰');
-            $('adminAmount').value = '';
-            $('adminNote').value = '';
-            if (fixPhoneNumber(currentUser.phone) === phone) fetchBalance(phone);
-          } else {
+          },
+          function(err) {
+            console.error(err);
+            showLoading(false);
             if (fb) {
               fb.style.display = 'block';
               fb.style.background = 'linear-gradient(135deg,#fff5f5,#ffe0e0)';
               fb.style.color = '#721c24';
-              fb.textContent = '❌ ' + (data.error || 'មានបញ្ហា!');
+              fb.textContent = '❌ មានបញ្ហាតភ្ជាប់!';
             }
-            showToast(data.error || 'មានបញ្ហា!', 'error');
+            showToast(err.message || 'មានបញ្ហាតភ្ជាប់!', 'error');
           }
-        }).catch(function(err) {
-          console.error(err);
-          showLoading(false);
-          if (fb) {
-            fb.style.display = 'block';
-            fb.style.background = 'linear-gradient(135deg,#fff5f5,#ffe0e0)';
-            fb.style.color = '#721c24';
-            fb.textContent = '❌ មានបញ្ហាតភ្ជាប់!';
-          }
-          showToast(err.message || 'មានបញ្ហាតភ្ជាប់!', 'error');
-        });
+        );
       }
 
       function adminLoadStats() {
         var el = $('adminStats');
         if (!el) return;
-        el.innerHTML = '<span class="anim-spin">⏳</span> កំពុងទាញ...';
+        el.innerHTML = 'កំពុងទាញ...';
         fetchWithTimeout(WEB_APP_URL + '?action=stats&t=' + Date.now(), { cache: 'no-store' })
           .then(safeJsonParse).then(function(data) {
             if (data.ok && data.stats) {
@@ -1993,7 +2012,7 @@ function fetchWithTimeout(url, options, timeoutMs) {
       function adminLoadWithdrawals() {
         var el = $('adminWithdrawalsList');
         if (!el) return;
-        el.innerHTML = '<span class="anim-spin">⏳</span> កំពុងទាញ...';
+        el.innerHTML = 'កំពុងទាញ...';
         fetchWithTimeout(WEB_APP_URL + '?action=getAllWithdrawals&t=' + Date.now(), { cache: 'no-store' })
           .then(safeJsonParse).then(function(data) {
             if (!data.ok || !data.withdrawals || data.withdrawals.length === 0) {
@@ -2034,15 +2053,14 @@ function fetchWithTimeout(url, options, timeoutMs) {
         }, function(confirmed) {
           if (!confirmed) return;
           showLoading(true, '⏳ កំពុងអនុម័ត...');
-          fetchWithTimeout(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'approveWithdraw', withdrawId: wdId, adminUser: currentUser.phone }),
-            headers: { 'Content-Type': 'text/plain' }
-          }).then(safeJsonParse).then(function(data) {
-            showLoading(false);
-            if (data.ok) { showToast('បានអនុម័ត!', 'success'); adminLoadWithdrawals(); }
-            else showToast(data.error || 'មានបញ្ហា!', 'error');
-          }).catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+          postToServer({ action: 'approveWithdraw', withdrawId: wdId, adminUser: fixPhoneNumber(currentUser.phone) },
+            function(data) {
+              showLoading(false);
+              if (data.ok) { showToast('បានអនុម័ត!', 'success'); adminLoadWithdrawals(); }
+              else showToast(data.error || 'មានបញ្ហា!', 'error');
+            },
+            function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); }
+          );
         });
       }
 
@@ -2057,22 +2075,21 @@ function fetchWithTimeout(url, options, timeoutMs) {
         }, function(confirmed) {
           if (!confirmed) return;
           showLoading(true, '⏳ កំពុងបដិសេធ...');
-          fetchWithTimeout(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'rejectWithdraw', withdrawId: wdId, adminUser: currentUser.phone }),
-            headers: { 'Content-Type': 'text/plain' }
-          }).then(safeJsonParse).then(function(data) {
-            showLoading(false);
-            if (data.ok) { showToast('បានបដិសេធ + បង្វិលប្រាក់!', 'success'); adminLoadWithdrawals(); }
-            else showToast(data.error || 'មានបញ្ហា!', 'error');
-          }).catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+          postToServer({ action: 'rejectWithdraw', withdrawId: wdId, adminUser: fixPhoneNumber(currentUser.phone) },
+            function(data) {
+              showLoading(false);
+              if (data.ok) { showToast('បានបដិសេធ + បង្វិលប្រាក់!', 'success'); adminLoadWithdrawals(); }
+              else showToast(data.error || 'មានបញ្ហា!', 'error');
+            },
+            function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); }
+          );
         });
       }
 
       function adminLoadDepositRequests() {
         var el = $('adminDepositReqList');
         if (!el) return;
-        el.innerHTML = '<span class="anim-spin">⏳</span> កំពុងទាញ...';
+        el.innerHTML = 'កំពុងទាញ...';
 
         fetchWithTimeout(WEB_APP_URL + '?action=getAllDepositRequests&t=' + Date.now(), { cache: 'no-store' })
           .then(safeJsonParse).then(function(data) {
@@ -2127,23 +2144,23 @@ function fetchWithTimeout(url, options, timeoutMs) {
         }, function(confirmed) {
           if (!confirmed) return;
           showLoading(true, '⏳ កំពុងអនុម័ត...');
-          fetchWithTimeout(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-  action: 'approveDepositRequest',
-  requestId: reqId,
-  overrideAmount: overrideAmount,
-  adminUser: currentUser.phone
-}),
-            headers: { 'Content-Type': 'text/plain' }
-          }).then(safeJsonParse).then(function(data) {
-            showLoading(false);
-            if (data.ok) {
-              showToast('បានអនុម័ត + បញ្ចូលប្រាក់ចូលសមតុល្យ!', 'success', '✅');
-              adminLoadDepositRequests();
-              fetchBalance(currentUser.phone);
-            } else showToast(data.error || 'មានបញ្ហា!', 'error');
-          }).catch(function(e) { console.error(e); showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+          
+          postToServer({
+            action: 'approveDepositRequest',
+            requestId: reqId,
+            overrideAmount: overrideAmount,
+            adminUser: fixPhoneNumber(currentUser.phone)
+          },
+            function(data) {
+              showLoading(false);
+              if (data.ok) {
+                showToast('បានអនុម័ត + បញ្ចូលប្រាក់ចូលសមតុល្យ!', 'success', '✅');
+                adminLoadDepositRequests();
+                fetchBalance(currentUser.phone);
+              } else showToast(data.error || 'មានបញ្ហា!', 'error');
+            },
+            function(e) { console.error(e); showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); }
+          );
         });
       }
 
@@ -2158,15 +2175,14 @@ function fetchWithTimeout(url, options, timeoutMs) {
         }, function(confirmed) {
           if (!confirmed) return;
           showLoading(true, '⏳ កំពុងបដិសេធ...');
-          fetchWithTimeout(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'rejectDepositRequest', requestId: reqId, adminUser: currentUser.phone }),
-            headers: { 'Content-Type': 'text/plain' }
-          }).then(safeJsonParse).then(function(data) {
-            showLoading(false);
-            if (data.ok) { showToast('បានបដិសេធ!', 'success'); adminLoadDepositRequests(); }
-            else showToast(data.error || 'មានបញ្ហា!', 'error');
-          }).catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
+          postToServer({ action: 'rejectDepositRequest', requestId: reqId, adminUser: fixPhoneNumber(currentUser.phone) },
+            function(data) {
+              showLoading(false);
+              if (data.ok) { showToast('បានបដិសេធ!', 'success'); adminLoadDepositRequests(); }
+              else showToast(data.error || 'មានបញ្ហា!', 'error');
+            },
+            function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); }
+          );
         });
       }
 
@@ -2641,30 +2657,29 @@ function fetchWithTimeout(url, options, timeoutMs) {
       function executeSubmitBet10(total) {
         var btn = $('btnSubmit10');
         btn.disabled = true;
-        btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
+        btn.innerHTML = 'កំពុងបញ្ជូន...';
         showLoading(true, '⏳ កំពុងបញ្ជូន...');
-        fetchWithTimeout(WEB_APP_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'placeDirectBet10', phone: fixPhoneNumber(currentUser.phone),
-            userId: currentUser.userId, numbers: numbers10, type: betType10,
-            amount: amount10, currency: currency10, total: total, drawId: currentDrawId10
-          }),
-          headers: { 'Content-Type': 'text/plain' }
-        }).then(safeJsonParse).then(function(data) {
-          btn.disabled = false; btn.innerHTML = '⚡ ដាក់ភ្នាល់ឥឡូវ';
-          showLoading(false);
-          if (data.ok) {
-            showToast('ការចាក់ត្រូវបានទទួលយក!', 'success', '🎉');
-            resetForm10();
-            fetchBalance(currentUser.phone);
-            fetchUserBets();
-          } else showToast(data.error || 'មានបញ្ហា!', 'error');
-        }).catch(function(err) {
-          console.error(err);
-          btn.disabled = false; btn.innerHTML = '⚡ ដាក់ភ្នាល់ឥឡូវ';
-          showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error');
-        });
+        postToServer({
+          action: 'placeDirectBet10', phone: fixPhoneNumber(currentUser.phone),
+          userId: currentUser.userId, numbers: numbers10, type: betType10,
+          amount: amount10, currency: currency10, total: total, drawId: currentDrawId10
+        },
+          function(data) {
+            btn.disabled = false; btn.innerHTML = '⚡ ដាក់ភ្នាល់ឥឡូវ';
+            showLoading(false);
+            if (data.ok) {
+              showToast('ការចាក់ត្រូវបានទទួលយក!', 'success', '🎉');
+              resetForm10();
+              fetchBalance(currentUser.phone);
+              fetchUserBets();
+            } else showToast(data.error || 'មានបញ្ហា!', 'error');
+          },
+          function(err) {
+            console.error(err);
+            btn.disabled = false; btn.innerHTML = '⚡ ដាក់ភ្នាល់ឥឡូវ';
+            showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error');
+          }
+        );
       }
 
       function resetForm10() {
@@ -3094,39 +3109,45 @@ function fetchWithTimeout(url, options, timeoutMs) {
             if (currency === 'USD' && balanceUSD < total) { showToast('សមតុល្យ USD មិនគ្រប់!', 'error', '💰'); return; }
             if (currency === 'KHR' && balanceKHR < total) { showToast('សមតុល្យ KHR មិនគ្រប់!', 'error', '💰'); return; }
             btn.disabled = true;
-            btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
+            btn.innerHTML = 'កំពុងបញ្ជូន...';
             showLoading(true, '⏳ កំពុងបញ្ជូន...');
             fetchWithTimeout(WEB_APP_URL + '?action=getBalance&phone=' + encodeURIComponent(phone) + '&t=' + Date.now())
               .then(safeJsonParse).then(function(bal) {
                 if (bal.ok) { balanceUSD = parseFloat(bal.balanceUSD) || 0; balanceKHR = parseFloat(bal.balanceKHR) || 0; updateBalanceUI(); }
                 if (currency === 'USD' && balanceUSD < total) throw new Error('សមតុល្យ USD មិនគ្រប់គ្រាន់!');
                 if (currency === 'KHR' && balanceKHR < total) throw new Error('សមតុល្យ KHR មិនគ្រប់គ្រាន់!');
-                return fetch(WEB_APP_URL, {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    action: 'placeDirectBet', phone: phone, userId: currentUser.userId,
-                    numbers: numbers, type: betType, amount: amount,
-                    currency: currency, total: total, drawTime: selectedTime
-                  }),
-                  headers: { 'Content-Type': 'text/plain' }
-                });
-              }).then(safeJsonParse).then(function(data) {
-                btn.disabled = false;
-                btn.innerHTML = '<span class="anim-pulse">✅</span> បញ្ជាក់ការចាក់';
-                showLoading(false);
-                if (data.ok) {
-                  showToast('ការចាក់ត្រូវបានទទួលយក!', 'success', '🎉');
-                  closeModal('directBetModal');
-                  resetBetForm();
-                  fetchBalance(phone);
-                  fetchUserBets();
-                  directForm.reset();
-                  $('directPhone').value = fixPhoneNumber(currentUser.phone);
-                } else showToast(data.error || 'មានបញ្ហា!', 'error');
+                
+                postToServer({
+                  action: 'placeDirectBet', phone: phone, userId: currentUser.userId,
+                  numbers: numbers, type: betType, amount: amount,
+                  currency: currency, total: total, drawTime: selectedTime
+                },
+                  function(data) {
+                    btn.disabled = false;
+                    btn.innerHTML = '✅ បញ្ជាក់ការចាក់';
+                    showLoading(false);
+                    if (data.ok) {
+                      showToast('ការចាក់ត្រូវបានទទួលយក!', 'success', '🎉');
+                      closeModal('directBetModal');
+                      resetBetForm();
+                      fetchBalance(phone);
+                      fetchUserBets();
+                      directForm.reset();
+                      $('directPhone').value = fixPhoneNumber(currentUser.phone);
+                    } else showToast(data.error || 'មានបញ្ហា!', 'error');
+                  },
+                  function(err) {
+                    console.error(err);
+                    btn.disabled = false;
+                    btn.innerHTML = '✅ បញ្ជាក់ការចាក់';
+                    showLoading(false);
+                    showToast(err.message || 'មានបញ្ហាតភ្ជាប់!', 'error');
+                  }
+                );
               }).catch(function(err) {
                 console.error(err);
                 btn.disabled = false;
-                btn.innerHTML = '<span class="anim-pulse">✅</span> បញ្ជាក់ការចាក់';
+                btn.innerHTML = '✅ បញ្ជាក់ការចាក់';
                 showLoading(false);
                 showToast(err.message || 'មានបញ្ហាតភ្ជាប់!', 'error');
               });
@@ -3150,35 +3171,35 @@ function fetchWithTimeout(url, options, timeoutMs) {
 
             var btn = depositForm.querySelector('button[type="submit"]');
             btn.disabled = true;
-            btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
+            btn.innerHTML = 'កំពុងបញ្ជូន...';
             showLoading(true, '⏳ កំពុងបញ្ជូនសំណើ...');
             var reader = new FileReader();
             reader.readAsDataURL(fileInput.files[0]);
             reader.onload = function() {
               var base64 = reader.result.split(',')[1];
-              fetch(WEB_APP_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'depositRequest', phone: phone, userId: currentUser.userId, amount: depAmount, currency: depCur, imageBase64: base64 }),
-                headers: { 'Content-Type': 'text/plain' }
-              }).then(safeJsonParse).then(function(data) {
-                btn.disabled = false;
-                btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
-                showLoading(false);
-                if (data.ok) {
-                  showToast('សំណើបញ្ចូលប្រាក់ត្រូវបានទទួលយក!', 'success', '🎉');
-                  closeModal('depositModal');
-                  showSection('home', null);
-                  depositForm.reset();
-                  $('depPhone').value = fixPhoneNumber(currentUser.phone);
-                  $('depSubmitBtn').disabled = true;
-                } else showToast(data.error || 'មានបញ្ហា!', 'error');
-              }).catch(function(err) {
-                console.error(err);
-                btn.disabled = false;
-                btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
-                showLoading(false);
-                showAlert('មានបញ្ហាតភ្ជាប់', err.message || 'សូមពិនិត្យ WEB_APP_URL', '❌');
-              });
+              
+              postToServer({ action: 'depositRequest', phone: phone, userId: currentUser.userId, amount: depAmount, currency: depCur, imageBase64: base64 },
+                function(data) {
+                  btn.disabled = false;
+                  btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
+                  showLoading(false);
+                  if (data.ok) {
+                    showToast('សំណើបញ្ចូលប្រាក់ត្រូវបានទទួលយក!', 'success', '🎉');
+                    closeModal('depositModal');
+                    showSection('home', null);
+                    depositForm.reset();
+                    $('depPhone').value = fixPhoneNumber(currentUser.phone);
+                    $('depSubmitBtn').disabled = true;
+                  } else showToast(data.error || 'មានបញ្ហា!', 'error');
+                },
+                function(err) {
+                  console.error(err);
+                  btn.disabled = false;
+                  btn.innerHTML = '🚀 បញ្ជាក់ការបញ្ចូលប្រាក់';
+                  showLoading(false);
+                  showAlert('មានបញ្ហាតភ្ជាប់', err.message || 'សូមពិនិត្យ WEB_APP_URL', '❌');
+                }
+              );
             };
           });
         }
@@ -3201,35 +3222,35 @@ function fetchWithTimeout(url, options, timeoutMs) {
 
             var btn = $('wdSubmitBtn');
             btn.disabled = true;
-            btn.innerHTML = '<span class="anim-spin">⏳</span> កំពុងបញ្ជូន...';
+            btn.innerHTML = 'កំពុងបញ្ជូន...';
             showLoading(true, '⏳ កំពុងបញ្ជូន...');
             var reader = new FileReader();
             reader.readAsDataURL(qrInput.files[0]);
             reader.onload = function() {
               var base64 = reader.result.split(',')[1];
-              fetch(WEB_APP_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'withdrawRequest', phone: phone, userId: currentUser.userId, amount: wdAmount, currency: withdrawCurrency, imageBase64: base64 }),
-                headers: { 'Content-Type': 'text/plain' }
-              }).then(safeJsonParse).then(function(data) {
-                btn.disabled = false;
-                btn.innerHTML = '🏦 បញ្ជាក់ការដកប្រាក់';
-                showLoading(false);
-                if (data.ok) {
-                  showToast('ស្នើសុំដកប្រាក់បាន! ប្រាក់កាត់ហើយ', 'success', '🎉');
-                  closeModal('withdrawModal');
-                  withdrawNewForm.reset();
-                  withdrawCurrency = '';
-                  fetchBalance(phone);
-                  fetchUserWithdrawals();
-                } else showToast(data.error || 'មានបញ្ហា!', 'error');
-              }).catch(function(err) {
-                console.error(err);
-                btn.disabled = false;
-                btn.innerHTML = '🏦 បញ្ជាក់ការដកប្រាក់';
-                showLoading(false);
-                showAlert('មានបញ្ហាតភ្ជាប់', err.message || 'សូមពិនិត្យ WEB_APP_URL', '❌');
-              });
+              
+              postToServer({ action: 'withdrawRequest', phone: phone, userId: currentUser.userId, amount: wdAmount, currency: withdrawCurrency, imageBase64: base64 },
+                function(data) {
+                  btn.disabled = false;
+                  btn.innerHTML = '🏦 បញ្ជាក់ការដកប្រាក់';
+                  showLoading(false);
+                  if (data.ok) {
+                    showToast('ស្នើសុំដកប្រាក់បាន! ប្រាក់កាត់ហើយ', 'success', '🎉');
+                    closeModal('withdrawModal');
+                    withdrawNewForm.reset();
+                    withdrawCurrency = '';
+                    fetchBalance(phone);
+                    fetchUserWithdrawals();
+                  } else showToast(data.error || 'មានបញ្ហា!', 'error');
+                },
+                function(err) {
+                  console.error(err);
+                  btn.disabled = false;
+                  btn.innerHTML = '🏦 បញ្ជាក់ការដកប្រាក់';
+                  showLoading(false);
+                  showAlert('មានបញ្ហាតភ្ជាប់', err.message || 'សូមពិនិត្យ WEB_APP_URL', '❌');
+                }
+              );
             };
           });
         }
@@ -3343,3 +3364,4 @@ function fetchWithTimeout(url, options, timeoutMs) {
   </script>
 </body>
 </html>
+
