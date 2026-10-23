@@ -2158,16 +2158,17 @@
           if (!confirmed) return;
           
           showLoading(true);
-          fetchWithTimeout(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ 
-              action: 'approveDepositRequest', 
-              requestId: reqId, 
-              overrideAmount: overrideAmount,
-              adminUser: currentUser.userId 
-            }),
-            headers: { 'Content-Type': 'text/plain' }
-          })
+fetchWithTimeout(WEB_APP_URL, {
+  method: 'POST',
+  mode: 'no-cors', // ⭐ បន្ថែមនេះ
+  body: JSON.stringify({ 
+    action: 'approveDepositRequest', 
+    requestId: reqId, 
+    overrideAmount: overrideAmount,
+    adminUser: currentUser.userId 
+  }),
+  headers: { 'Content-Type': 'text/plain' }
+})
           .then(safeJsonParse)
           .then(function(data) {
             showLoading(false);
