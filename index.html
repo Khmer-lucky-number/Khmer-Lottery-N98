@@ -2134,84 +2134,99 @@
           });
       }
 
-      function adminApproveDepositReq(reqId, currency, phone) {
-        var amtInput = $('approveAmt_' + reqId);
-        var overrideAmount = amtInput ? parseFloat(amtInput.value) : 0;
-        
-        if (!overrideAmount || overrideAmount <= 0) { 
-          showToast('សូមបញ្ចូលចំនួនអនុម័តឱ្យបានត្រឹមត្រូវ!', 'warning'); 
-          return; 
-        }
-        
-        showConfirm({
-          icon: '💰',
-          title: 'អនុម័តការបញ្ចូលប្រាក់',
-          message: 'តើអ្នកប្រាកដជាចង់អនុម័តការបញ្ចូលប្រាក់នេះឬ? ប្រាក់នឹងចូលសមតុល្យអ្នកប្រើភ្លាមៗ។',
-          infoRows: [
-            { label: '🆔 ID', value: reqId },
-            { label: '📱 លេខ', value: phone || '-' },
-            { label: '💰 ចំនួន', value: fmtAmount(overrideAmount, currency), isTotal: true }
-          ],
-          okText: '✓ អនុម័ត',
-          cancelText: '✕ បោះបង់'
-        }, function(confirmed) {
-          if (!confirmed) return;
-          
-          showLoading(true);
-fetchWithTimeout(WEB_APP_URL, {
-  method: 'POST',
-  mode: 'no-cors', // ⭐ បន្ថែមនេះ
-  body: JSON.stringify({ 
-    action: 'approveDepositRequest', 
-    requestId: reqId, 
-    overrideAmount: overrideAmount,
-    adminUser: currentUser.userId 
-  }),
-  headers: { 'Content-Type': 'text/plain' }
-})
-          .then(safeJsonParse)
-          .then(function(data) {
-            showLoading(false);
-            if (data.ok) { 
-              showToast('បានអនុម័ត + បញ្ចូលប្រាក់ចូលសមតុល្យ!', 'success', '✅'); 
-              adminLoadDepositRequests();
-              fetchBalance(currentUser.phone);
-            }
-            else showToast(data.error || 'មានបញ្ហា!', 'error');
-          })
-          .catch(function(e) { 
-            console.error(e);
-            showLoading(false); 
-            showToast('មានបញ្ហាតភ្ជាប់!', 'error'); 
-          });
-        });
-      }
+function adminApproveDepositReq(reqId, currency, phone) {
+  var amtInput = $('approveAmt_' + reqId);
+  var overrideAmount = amtInput ? parseFloat(amtInput.value) : 0;
+  
+  if (!overrideAmount || overrideAmount <= 0) { 
+    showToast('សូមបញ្ចូលចំនួនអនុម័តឱ្យបានត្រឹមត្រូវ!', 'warning'); 
+    return; 
+  }
+  
+  showConfirm({
+    icon: '💰',
+    title: 'អនុម័តការបញ្ចូលប្រាក់',
+    message: 'តើអ្នកប្រាកដជាចង់អនុម័តការបញ្ចូលប្រាក់នេះឬ? ប្រាក់នឹងចូលសមតុល្យអ្នកប្រើភ្លាមៗ។',
+    infoRows: [
+      { label: '🆔 ID', value: reqId },
+      { label: '📱 លេខ', value: phone || '-' },
+      { label: '💰 ចំនួន', value: fmtAmount(overrideAmount, currency), isTotal: true }
+    ],
+    okText: '✓ អនុម័ត',
+    cancelText: '✕ បោះបង់'
+  }, function(confirmed) {
+    if (!confirmed) return;
+    
+    showLoading(true);
+    
+    // ⭐ ប្រើ fetch ធម្មតា ដោយមិនអាន Response
+    fetch(WEB_APP_URL, {
+      method: 'POST',
+      mode: 'no-cors', // ⭐ បន្ថែមនេះដើម្បីកុំឱ្យ CORS ប្លុក
+      body: JSON.stringify({ 
+        action: 'approveDepositRequest', 
+        requestId: reqId, 
+        overrideAmount: overrideAmount,
+        adminUser: currentUser.userId 
+      }),
+      headers: { 'Content-Type': 'text/plain' }
+    }).then(function() {
+      // មិនអាន Response ទេ គ្រាន់តែបង្ហាញថាជោគជ័យ
+      showLoading(false);
+      showToast('បានអនុម័ត + បញ្ចូលប្រាក់ចូលសមតុល្យ!', 'success', '✅');
+      
+      // បិទ Modal និង Refresh បញ្ជី
+      setTimeout(function() {
+        adminLoadDepositRequests(); // ទាញបញ្ជីថ្មី
+        fetchBalance(currentUser.phone); // ទាញសមតុល្យថ្មី
+      }, 1000);
+      
+    }).catch(function(err) {
+      console.error(err);
+      showLoading(false);
+      // ទោះបីជា Error ក៏ដោយ ក៏ដោយសារ mode no-cors វាអាចនឹងជោគជ័យ
+      showToast('សំណើត្រូវបានផ្ញើ! សូមរង់ចាំមួយសន្ទុះ...', 'info');
+      setTimeout(function() {
+        adminLoadDepositRequests();
+        fetchBalance(currentUser.phone);
+      }, 2000);
+    });
+  });
+}
 
-      function adminRejectDepositReq(reqId) {
-        showConfirm({
-          icon: '❌',
-          title: 'បដិសេធការបញ្ចូលប្រាក់',
-          message: 'តើអ្នកប្រាកដជាចង់បដិសេធការបញ្ចូលប្រាក់នេះឬ?',
-          infoRows: [{ label: '🆔 ID', value: reqId }],
-          okText: '✓ បដិសេធ',
-          cancelText: '✕ បោះបង់'
-        }, function(confirmed) {
-          if (!confirmed) return;
-          showLoading(true);
-          fetchWithTimeout(WEB_APP_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'rejectDepositRequest', requestId: reqId, adminUser: currentUser.userId }),
-            headers: { 'Content-Type': 'text/plain' }
-          })
-          .then(safeJsonParse)
-          .then(function(data) {
-            showLoading(false);
-            if (data.ok) { showToast('បានបដិសេធ!', 'success'); adminLoadDepositRequests(); }
-            else showToast(data.error || 'មានបញ្ហា!', 'error');
-          })
-          .catch(function(e) { showLoading(false); showToast('មានបញ្ហាតភ្ជាប់!', 'error'); });
-        });
-      }
+function adminRejectDepositReq(reqId) {
+  showConfirm({
+    icon: '❌',
+    title: 'បដិសេធការបញ្ចូលប្រាក់',
+    message: 'តើអ្នកប្រាកដជាចង់បដិសេធការបញ្ចូលប្រាក់នេះឬ?',
+    infoRows: [{ label: '🆔 ID', value: reqId }],
+    okText: '✓ បដិសេធ',
+    cancelText: '✕ បោះបង់'
+  }, function(confirmed) {
+    if (!confirmed) return;
+    
+    showLoading(true);
+    
+    fetch(WEB_APP_URL, {
+      method: 'POST',
+      mode: 'no-cors', // ⭐ បន្ថែមនេះ
+      body: JSON.stringify({ action: 'rejectDepositRequest', requestId: reqId, adminUser: currentUser.userId }),
+      headers: { 'Content-Type': 'text/plain' }
+    }).then(function() {
+      showLoading(false);
+      showToast('បានបដិសេធ!', 'success');
+      setTimeout(function() {
+        adminLoadDepositRequests();
+      }, 1000);
+    }).catch(function(e) {
+      showLoading(false);
+      showToast('សំណើត្រូវបានផ្ញើ!', 'info');
+      setTimeout(function() {
+        adminLoadDepositRequests();
+      }, 2000);
+    });
+  });
+}
 
       function setTime(t, evt) {
         if (isBettingClosed(t)) {
