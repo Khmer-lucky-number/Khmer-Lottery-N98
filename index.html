@@ -1045,30 +1045,30 @@
 
     (function() {
       'use strict';
-      var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwwXnJzkjEi9uwv8DvIPMQ8ZgTjUqpOGfasATwP0sWNbDumyYtSylx1KMTev3iE8Xw4/exec';
+      var WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxzMOkwkPi-hsXtMa_Vjd8o2aCFRt5qSdhF3177Z_nRjnn-ImIFahE3LRL-UbF34p9s/exec';
 
-      var CFG = {
-        REFRESH_MS: 30000,
-        REFRESH_10_MS: 5000,
-        CLOCK_MS: 1000,
-        STATUS_MS: 1000,
-        MIN_USD: 0.25, MAX_USD: 10,
-        MIN_KHR: 500, MAX_KHR: 40000,
-        MAX_NUMBERS: 10,
-        FETCH_TIMEOUT: 20000,
-        TOAST_DURATION: 4000,
-        THEME_KEY: 'n98_theme',
-        MAIN_MODE_KEY: 'n98_main_mode',
-        SOUND_KEY: 'n98_sound',
-        TENMIN_INTERVAL_MIN: 10,
-        TENMIN_CLOSE_SECONDS: 60,
-        BEEP_COUNT: 3,
-        BEEP_INTERVAL_SEC: 3,
-        MIN_DEPOSIT_USD: 5.00,
-        MIN_DEPOSIT_KHR: 20000,
-        MIN_WITHDRAW_USD: 1.00,
-        MIN_WITHDRAW_KHR: 4000
-      };
+var CFG = {
+  REFRESH_MS: 30000,
+  REFRESH_10_MS: 5000,
+  CLOCK_MS: 1000,
+  STATUS_MS: 1000,
+  MIN_USD: 0.25, MAX_USD: 10,
+  MIN_KHR: 500, MAX_KHR: 40000,
+  MAX_NUMBERS: 10,
+  FETCH_TIMEOUT: 60000,  // ⭐ បង្កើនពី 20s ទៅ 60s
+  TOAST_DURATION: 4000,
+  THEME_KEY: 'n98_theme',
+  MAIN_MODE_KEY: 'n98_main_mode',
+  SOUND_KEY: 'n98_sound',
+  TENMIN_INTERVAL_MIN: 10,
+  TENMIN_CLOSE_SECONDS: 60,
+  BEEP_COUNT: 3,
+  BEEP_INTERVAL_SEC: 3,
+  MIN_DEPOSIT_USD: 5.00,
+  MIN_DEPOSIT_KHR: 20000,
+  MIN_WITHDRAW_USD: 1.00,
+  MIN_WITHDRAW_KHR: 4000
+};
 
       var ADMIN_PHONES = ['066817407', '098765432'];
 
@@ -1344,19 +1344,31 @@
       // ============================================================
       // FETCH API
       // ============================================================
-      function fetchWithTimeout(url, options, timeoutMs) {
-        timeoutMs = timeoutMs || CFG.FETCH_TIMEOUT;
-        return new Promise(function(resolve, reject) {
-          var timer = setTimeout(function() { reject(new Error('TIMEOUT')); }, timeoutMs);
-          fetch(url, options)
-            .then(function(res) {
-              clearTimeout(timer);
-              if (!res.ok) { reject(new Error('HTTP Error: ' + res.status)); return; }
-              resolve(res);
-            })
-            .catch(function(err) { clearTimeout(timer); reject(err); });
-        });
-      }
+function fetchWithTimeout(url, options, timeoutMs) {
+  timeoutMs = timeoutMs || CFG.FETCH_TIMEOUT;
+  return new Promise(function(resolve, reject) {
+    var timer = setTimeout(function() {
+      reject(new Error('TIMEOUT - Server មិនឆ្លើយតបក្នុងរយៈពេល ' + (timeoutMs/1000) + ' វិនាទី'));
+    }, timeoutMs);
+    fetch(url, options)
+      .then(function(res) {
+        clearTimeout(timer);
+        if (!res.ok) {
+          reject(new Error('HTTP Error: ' + res.status + ' ' + res.statusText));
+          return;
+        }
+        resolve(res);
+      })
+      .catch(function(err) {
+        clearTimeout(timer);
+        if (err.message === 'Failed to fetch') {
+          reject(new Error('មិនអាចភ្ជាប់ទៅ Server បានទេ។ សូមពិនិត្យ Internet ឬ Deploy ឡើងវិញ។'));
+        } else {
+          reject(err);
+        }
+      });
+  });
+}
 
       function safeJsonParse(response) {
         return response.text().then(function(text) {
@@ -1916,9 +1928,10 @@
         fetchWithTimeout(WEB_APP_URL, {
           method: 'POST',
           body: JSON.stringify({
-            action: 'addDeposit', phone: phone, amount: amount,
-            currency: currency, note: note, adminUser: currentUser.userId
-          }),
+  action: 'addDeposit', phone: phone, amount: amount,
+  currency: currency, note: note, adminUser: currentUser.phone
+}),
+
           headers: { 'Content-Type': 'text/plain' }
         }).then(safeJsonParse).then(function(data) {
           showLoading(false);
@@ -2023,7 +2036,7 @@
           showLoading(true, '⏳ កំពុងអនុម័ត...');
           fetchWithTimeout(WEB_APP_URL, {
             method: 'POST',
-            body: JSON.stringify({ action: 'approveWithdraw', withdrawId: wdId, adminUser: currentUser.userId }),
+            body: JSON.stringify({ action: 'approveWithdraw', withdrawId: wdId, adminUser: currentUser.phone }),
             headers: { 'Content-Type': 'text/plain' }
           }).then(safeJsonParse).then(function(data) {
             showLoading(false);
@@ -2046,7 +2059,7 @@
           showLoading(true, '⏳ កំពុងបដិសេធ...');
           fetchWithTimeout(WEB_APP_URL, {
             method: 'POST',
-            body: JSON.stringify({ action: 'rejectWithdraw', withdrawId: wdId, adminUser: currentUser.userId }),
+            body: JSON.stringify({ action: 'rejectWithdraw', withdrawId: wdId, adminUser: currentUser.phone }),
             headers: { 'Content-Type': 'text/plain' }
           }).then(safeJsonParse).then(function(data) {
             showLoading(false);
@@ -2117,11 +2130,11 @@
           fetchWithTimeout(WEB_APP_URL, {
             method: 'POST',
             body: JSON.stringify({
-              action: 'approveDepositRequest',
-              requestId: reqId,
-              overrideAmount: overrideAmount,
-              adminUser: currentUser.userId
-            }),
+  action: 'approveDepositRequest',
+  requestId: reqId,
+  overrideAmount: overrideAmount,
+  adminUser: currentUser.phone
+}),
             headers: { 'Content-Type': 'text/plain' }
           }).then(safeJsonParse).then(function(data) {
             showLoading(false);
@@ -2147,7 +2160,7 @@
           showLoading(true, '⏳ កំពុងបដិសេធ...');
           fetchWithTimeout(WEB_APP_URL, {
             method: 'POST',
-            body: JSON.stringify({ action: 'rejectDepositRequest', requestId: reqId, adminUser: currentUser.userId }),
+            body: JSON.stringify({ action: 'rejectDepositRequest', requestId: reqId, adminUser: currentUser.phone }),
             headers: { 'Content-Type': 'text/plain' }
           }).then(safeJsonParse).then(function(data) {
             showLoading(false);
