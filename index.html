@@ -10,22 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    /* ===== RESET & BASE ===== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { 
-      font-family: 'Kantumruy Pro', sans-serif !important; 
-      background: linear-gradient(135deg, #f0f4f8 0%, #e8f4fd 50%, #f0f4f8 100%); 
-      background-attachment: fixed; 
-      -webkit-font-smoothing: antialiased; 
-      overflow-x: hidden; 
-      color: #1e293b;
-    }
-    button, input, select, textarea, .btn, .btn-amount, .reg-btn, .group-btn, .history-tab {
-      font-family: 'Kantumruy Pro', sans-serif !important;
-    }
+    body { font-family: 'Kantumruy Pro', sans-serif !important; background: linear-gradient(135deg, #f0f4f8 0%, #e8f4fd 50%, #f0f4f8 100%); background-attachment: fixed; -webkit-font-smoothing: antialiased; overflow-x: hidden; color: #1e293b; }
+    button, input, select, textarea, .btn, .btn-amount, .reg-btn, .group-btn, .history-tab { font-family: 'Kantumruy Pro', sans-serif !important; }
     
-    /* ===== ANIMATIONS ===== */
     @keyframes blink { 50% { opacity: 0; } }
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
     @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
@@ -53,17 +42,14 @@
     .emoji-trophy { animation: bounce 1.2s ease-in-out infinite; display: inline-block; }
     .emoji-rocket { animation: pulse 1.2s ease-in-out infinite; display: inline-block; }
 
-    /* ===== PARTICLES ===== */
     .particles-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
     .particle { position: absolute; font-size: 20px; opacity: 0; animation: particleFloat 15s linear infinite; }
 
-    /* ===== HEADER ===== */
     header { background: linear-gradient(135deg, #0078D7 0%, #005fa3 50%, #6f42c1 100%); background-size: 200% 200%; animation: gradientShift 8s ease infinite; color: white; padding: 20px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 4px 20px rgba(0,120,215,0.3); transition: all 0.5s; }
     header.mode-10 { background: linear-gradient(135deg, #e91e63 0%, #c2185b 50%, #880e4f 100%); background-size: 200% 200%; animation: gradientShift 8s ease infinite; box-shadow: 0 4px 20px rgba(233,30,99,0.4); }
     header h1 { font-size: clamp(24px, 5vw, 38px); font-weight: 800; margin: 8px 0; text-shadow: 0 2px 8px rgba(0,0,0,0.3); position: relative; z-index: 1; }
     header p { font-size: clamp(13px, 2vw, 16px); opacity: 0.95; position: relative; z-index: 1; font-weight: 600; }
 
-    /* ===== MODE TABS ===== */
     .mode-tabs { background: white; padding: 12px 15px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; position: sticky; top: 0; z-index: 110; box-shadow: 0 2px 12px rgba(0,0,0,0.1); border-bottom: 3px solid transparent; border-image: linear-gradient(90deg, #0078D7, #28a745, #ff9800, #6f42c1, #e91e63, #0078D7) 1; }
     .mode-tab { flex: 1; min-width: 140px; max-width: 240px; padding: 14px 16px; border: 3px solid #dee2e6; background: white; border-radius: 14px; font-weight: 800; font-size: clamp(13px, 1.6vw, 15px); cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); color: #2d3748; display: flex; align-items: center; justify-content: center; gap: 8px; position: relative; }
     .mode-tab:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
@@ -71,7 +57,6 @@
     .mode-tab.active[data-mode="rapid"] { background: linear-gradient(135deg, #e91e63, #880e4f); color: white; border-color: #e91e63; box-shadow: 0 6px 20px rgba(233,30,99,0.5); animation: glowPink 2s ease-in-out infinite; }
     .mode-tab .badge-live { background: #ff1744; color: white; font-size: 9px; padding: 2px 6px; border-radius: 6px; animation: blink 1s linear infinite; font-weight: 800; }
 
-    /* ===== NAV BAR ===== */
     .nav-bar { background: white; padding: 10px 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; position: sticky; top: 62px; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
     .nav-bar a, .nav-bar button { color: #333; text-decoration: none; font-weight: 700; padding: 8px 14px; border-radius: 8px; font-size: clamp(12px, 1.4vw, 13px); cursor: pointer; border: none; background: none; transition: all 0.3s; }
     .nav-bar a:hover, .nav-bar button:hover { background: linear-gradient(135deg, #0078D7, #005fa3); color: white; transform: translateY(-2px); }
@@ -83,40 +68,33 @@
     .btn-contact-admin { background: linear-gradient(135deg, #17a2b8, #117a8b) !important; color: white !important; }
     .btn-tv { background: linear-gradient(135deg, #ff1744, #d50000) !important; color: white !important; box-shadow: 0 0 10px rgba(255,23,68,0.5); animation: pulse 2s infinite; }
 
-    /* ===== SECTION ===== */
     .section { padding: 12px; max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
 
-    /* ===== USER INFO ===== */
     .user-info-bar { background: linear-gradient(135deg, #d4edda, #a8e6c0); padding: 12px 16px; border-radius: 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; border: 2px solid #28a745; box-shadow: 0 4px 14px rgba(40,167,69,0.2); }
     .user-info-bar .label { color: #155724; font-size: clamp(11px, 1.3vw, 13px); font-weight: 800; }
     .user-info-bar .value { color: #28a745; font-size: clamp(13px, 1.5vw, 16px); font-weight: 800; font-family: 'Courier New', monospace; letter-spacing: 1px; }
 
-    /* ===== CLOCK ===== */
     .clock-box { background: linear-gradient(135deg, #ffffff, #e8f4fd); border-radius: 14px; padding: 14px 18px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 2px solid #0078D7; flex-wrap: wrap; gap: 10px; box-shadow: 0 4px 16px rgba(0,120,215,0.15); }
     .clock-title { color: #4a5568; font-size: clamp(11px, 1.3vw, 13px); font-weight: 800; }
     .clock-time { color: #0078D7; font-size: clamp(22px, 3.5vw, 30px); font-weight: 800; font-family: 'Courier New', monospace; text-shadow: 0 0 12px rgba(0,120,215,0.3); }
     .clock-date { color: #2d3748; font-size: clamp(11px, 1.3vw, 13px); font-weight: 700; }
 
-    /* ===== STATUS BAR ===== */
     .status-bar { background: linear-gradient(135deg, #e8f4fd, #d4edda); padding: 8px 12px; border-radius: 10px; margin: 6px 0; border-left: 4px solid #0078D7; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); font-weight: 700; }
     .status-bar .label { font-weight: 800; color: #005fa3; font-size: clamp(11px, 1.3vw, 13px); }
     .status-bar .value { font-weight: 800; color: #28a745; font-size: clamp(12px, 1.4vw, 14px); }
     .status-bar .pending { color: #dc3545; animation: pulse 1.5s ease-in-out infinite; }
 
-    /* ===== COUNTDOWN CLASSIC ===== */
     .countdown { background: linear-gradient(135deg, #ffffff, #fff5f5); padding: 16px; border-radius: 14px; margin: 10px 0; border: 3px solid #dc3545; text-align: center; box-shadow: 0 4px 18px rgba(220,53,69,0.2); }
     .countdown .time-display { font-size: clamp(32px, 6vw, 46px); color: #dc3545; background: #fff5f5; padding: 6px 18px; border-radius: 10px; display: inline-block; margin-top: 6px; font-weight: 800; font-family: 'Courier New', monospace; text-shadow: 0 0 15px rgba(220,53,69,0.4); animation: pulse 2s ease-in-out infinite; }
     .countdown .next-time { font-size: clamp(12px, 1.4vw, 14px); color: #4a5568; margin-top: 6px; font-weight: 800; }
     .countdown .status-time { font-size: clamp(11px, 1.3vw, 13px); color: #0078D7; margin-top: 4px; font-weight: 700; }
 
-    /* ===== COUNTDOWN RAPID ===== */
     .countdown-rapid { background: linear-gradient(135deg, #2d1b3d, #1a0f1f); border: 3px solid #e91e63; border-radius: 20px; padding: 20px; margin: 12px 0; text-align: center; box-shadow: 0 8px 32px rgba(233,30,99,0.4); animation: glowPink 2s ease-in-out infinite; }
     .countdown-rapid .label { color: #ff8bb5; font-size: clamp(12px, 1.5vw, 14px); font-weight: 800; margin-bottom: 8px; }
     .countdown-rapid .time-display { font-size: clamp(44px, 9vw, 72px); color: #ff1744; background: #1a0f1f; padding: 12px 24px; border-radius: 16px; display: inline-block; font-weight: 800; font-family: 'Courier New', monospace; text-shadow: 0 0 25px rgba(255,23,68,0.7); letter-spacing: 2px; animation: pulse 2s ease-in-out infinite; }
     .countdown-rapid .next-draw { color: #e8eaf0; font-size: clamp(12px, 1.4vw, 14px); font-weight: 700; margin-top: 10px; }
     .countdown-rapid .draw-number { color: #ff8bb5; font-weight: 800; }
 
-    /* ===== RING ===== */
     .ring-container { position: relative; width: 160px; height: 160px; margin: 12px auto; }
     .ring-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
     .ring-bg { fill: none; stroke: rgba(255,255,255,0.1); stroke-width: 8; }
@@ -125,7 +103,6 @@
     .ring-text .time { font-size: 36px; font-weight: 800; color: #ff1744; font-family: 'Courier New', monospace; text-shadow: 0 0 15px rgba(255,23,68,0.8); }
     .ring-text .label { font-size: 11px; color: #ff8bb5; font-weight: 700; margin-top: 2px; }
 
-    /* ===== LOTTERY BOX ===== */
     .lottery-box { background: white; padding: 16px; margin: 12px 0; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.04); animation: slideInUp 0.5s ease-out; transition: all 0.3s ease; }
     .lottery-box:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
     .time-box { display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; color: #1e293b; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px dashed #cbd5e1; }
@@ -134,51 +111,39 @@
     .badge-completed { background: #f0fdf4; color: #15803d; border: 1px solid #86efac; box-shadow: 0 0 10px rgba(34, 197, 94, 0.2); animation: pulse 2s infinite; }
     .badge-waiting { background: #fff7ed; color: #c2410c; border: 1px solid #fdba74; }
 
-    /* ===== NUMBERS ===== */
     .numbers { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
     .numbers div { background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px 8px; text-align: center; font-weight: 800; font-size: 16px; color: #0f172a; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
     .numbers div:hover { background: #f1f5f9; border-color: #cbd5e1; transform: translateY(-2px); }
     .numbers div .letter { color: #64748b; font-size: 14px; font-weight: 700; }
     .number-result { color: #2563eb; font-size: 20px; font-weight: 800; text-shadow: 0 2px 4px rgba(37, 99, 235, 0.15); font-family: 'Courier New', monospace; }
 
-    /* ===== NEW RESULT GLOW ===== */
-    .lottery-box.new-result { 
-      border: 3px solid #4ade80; 
-      box-shadow: 0 0 25px rgba(74,222,128,0.5); 
-      animation: glowGreen 2s infinite alternate;
-      background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 100%);
-    }
+    .lottery-box.new-result { border: 3px solid #4ade80; box-shadow: 0 0 25px rgba(74,222,128,0.5); animation: glowGreen 2s infinite alternate; background: linear-gradient(180deg, #ecfdf5 0%, #ffffff 100%); }
     .lottery-box.new-result .time-box { border-bottom: 2px dashed #4ade80; color: #15803d; }
     .lottery-box.new-result .number-result { color: #15803d; text-shadow: 0 0 10px rgba(74,222,128,0.6); animation: livePulse 2s infinite; }
     .latest-badge { font-size: 10px; color: #15803d; background: #dcfce7; padding: 3px 8px; border-radius: 6px; margin-left: 8px; border: 1px solid #86efac; font-weight: 800; animation: badgePulse 1.5s infinite; }
 
-    /* ===== BET BOX ===== */
     .bet-box { background: white; border-radius: 16px; padding: 16px; margin: 12px 0; border: 2px solid #0078D7; box-shadow: 0 4px 20px rgba(0,120,215,0.12); position: relative; overflow: hidden; }
     .bet-box.rapid { border-color: #e91e63; box-shadow: 0 4px 20px rgba(233,30,99,0.25); background: linear-gradient(135deg, #2d1b3d, #1a0f1f); color: #e8eaf0; }
     .bet-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #0078D7, #28a745, #ff9800, #6f42c1, #e91e63); background-size: 200% 100%; animation: gradientShift 3s ease infinite; }
     .bet-box h2 { color: #0078D7; font-size: clamp(16px, 2.2vw, 20px); border-bottom: 2px solid #f0f4f8; padding-bottom: 10px; margin-bottom: 12px; font-weight: 800; }
     .bet-box.rapid h2 { color: #ff8bb5; border-bottom-color: rgba(233,30,99,0.3); }
 
-    /* ===== REWARD TABLE ===== */
     .reward-table { width: 100%; border-collapse: collapse; margin-bottom: 12px; border: 1px solid #dee2e6; border-radius: 8px; overflow: hidden; font-size: clamp(11px, 1.3vw, 13px); }
     .reward-table th { background: linear-gradient(135deg, #e8f4fd, #d4edda); color: #0078D7; padding: 8px 6px; font-weight: 800; }
     .reward-table td { padding: 7px 6px; text-align: center; font-weight: 700; border: 1px solid #dee2e6; }
     .text-respond { color: #d63000; font-weight: 800; }
 
-    /* ===== SELECTORS ===== */
     .mode-selector, .type-selector, .time-selector { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
     .mode-btn, .type-btn, .time-btn { flex: 1; min-width: 80px; padding: 10px 8px; border: 2px solid #dee2e6; background: white; font-weight: 800; border-radius: 10px; cursor: pointer; font-size: clamp(12px, 1.5vw, 14px); transition: all 0.3s; }
     .mode-btn:hover, .type-btn:hover, .time-btn:hover:not(.closed) { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,120,215,0.2); border-color: #0078D7; }
     .mode-btn.active, .type-btn.active, .time-btn.active { border-color: #0078D7; background: linear-gradient(135deg, #e8f4fd, #d4edda); color: #0078D7; }
     .time-btn.closed { opacity: 0.45; cursor: not-allowed; background: #f8f9fa !important; color: #999 !important; }
 
-    /* ===== BALANCE ===== */
     .balance-box { background: linear-gradient(135deg, #d4edda, #a8e6c0); border: 2px solid #28a745; border-radius: 14px; padding: 14px; margin: 12px 0; text-align: center; box-shadow: 0 4px 14px rgba(40,167,69,0.2); }
     .balance-item { flex: 1; min-width: 130px; background: linear-gradient(135deg, #ffffff, #d4edda); border: 2px solid #28a745; border-radius: 10px; padding: 10px; text-align: center; }
     .balance-buttons-row { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
     .balance-buttons-row .btn { flex: 1; min-width: 130px; padding: 12px; font-size: 14px; border-radius: 10px; }
 
-    /* ===== LETTER CIRCLE ===== */
     .letter-selector { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
     .letter-circle { width: clamp(42px, 6vw, 52px); height: clamp(42px, 6vw, 52px); border-radius: 50%; border: 3px solid #dee2e6; background: linear-gradient(135deg, #f8f9fa, #e9ecef); color: #2d3748; font-size: clamp(15px, 2vw, 18px); font-weight: 800; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.35s; }
     .letter-circle:hover { border-color: #0078D7; background: linear-gradient(135deg, #e8f4fd, #d4edda); transform: translateY(-3px) scale(1.05); }
@@ -186,14 +151,12 @@
     .bet-box.rapid .letter-circle { border-color: rgba(233,30,99,0.4); background: rgba(255,255,255,0.05); color: #e8eaf0; }
     .bet-box.rapid .letter-circle.active { background: linear-gradient(135deg, #e91e63, #880e4f); border-color: #e91e63; }
 
-    /* ===== INPUT ===== */
     .input-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; background: #f8f9fa; padding: 10px; border-radius: 10px; border: 2px dashed #0078D7; flex-wrap: wrap; }
     .bet-box.rapid .input-row { background: rgba(255,255,255,0.05); border-color: rgba(233,30,99,0.4); }
     .input-row input { flex: 1 1 120px; padding: 12px 14px; border: 2px solid #dee2e6; border-radius: 8px; font-size: clamp(14px, 1.5vw, 16px); font-weight: 800; min-width: 80px; letter-spacing: 2px; background: white; }
     .bet-box.rapid .input-row input { background: rgba(0,0,0,0.3); color: #ffffff; border-color: rgba(233,30,99,0.3); text-align: center; }
     .input-row input:focus { border-color: #0078D7; outline: none; box-shadow: 0 0 0 4px rgba(0,120,215,0.15); }
 
-    /* ===== SELECTED DISPLAY ===== */
     .selected-display { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; min-height: 36px; padding: 8px; background: #f8f9fa; border-radius: 8px; border: 2px dashed #dee2e6; align-items: center; }
     .bet-box.rapid .selected-display { background: rgba(255,255,255,0.05); border-color: rgba(233,30,99,0.4); }
     .selected-tag { background: linear-gradient(135deg, #0078D7, #6f42c1); color: white; padding: 4px 12px; border-radius: 14px; font-size: clamp(12px, 1.4vw, 13px); display: inline-flex; align-items: center; gap: 5px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,120,215,0.3); animation: fadeIn 0.3s ease-out; }
@@ -201,7 +164,6 @@
     .selected-tag .remove { cursor: pointer; font-weight: 800; color: #ff6b6b; font-size: 16px; background: rgba(255,255,255,0.25); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; }
     .selected-tag .remove:hover { background: #ff1744; color: white; transform: rotate(90deg); }
 
-    /* ===== AMOUNT ===== */
     .amount-buttons { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
     .btn-amount { background: linear-gradient(135deg, #17a2b8, #117a8b); color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 800; transition: all 0.3s; }
     .btn-amount:hover { transform: translateY(-2px) scale(1.05); }
@@ -212,7 +174,6 @@
     .bet-box.rapid .custom-amount input { background: rgba(0,0,0,0.3); color: #fff; border-color: rgba(233,30,99,0.3); }
     .custom-amount select { flex: 1 1 70px; padding: 8px; border: 2px solid #dee2e6; border-radius: 8px; background: #f8f9fa; color: #0078D7; font-weight: 800; cursor: pointer; }
 
-    /* ===== BET SUMMARY ===== */
     .bet-summary { background: linear-gradient(135deg, #f8f9fa, #e9ecef); padding: 10px 14px; border-radius: 10px; margin: 10px 0; border: 2px solid #0078D7; }
     .bet-box.rapid .bet-summary { background: rgba(255,255,255,0.05); border-color: rgba(233,30,99,0.4); }
     .bet-summary-item { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #dee2e6; font-size: clamp(12px, 1.4vw, 14px); font-weight: 700; }
@@ -221,7 +182,6 @@
     .bet-summary .total { font-weight: 800; color: #d63000; font-size: clamp(15px, 1.8vw, 17px); }
     .bet-box.rapid .bet-summary .total { color: #ff8bb5; }
 
-    /* ===== BALANCE STATUS BOX (កែសម្រួល - លុប Spinner) ===== */
     .balance-status-box { margin-top: 12px; padding: 12px 14px; border-radius: 12px; border: 2px solid; display: none; animation: slideInUp 0.4s ease-out; }
     .balance-status-box.ok { background: linear-gradient(135deg, #d4edda, #a8e6c0); border-color: #28a745; }
     .balance-status-box.warn { background: linear-gradient(135deg, #fff5f5, #ffe0e0); border-color: #dc3545; animation: shake 0.5s ease-out; }
@@ -240,7 +200,6 @@
     .balance-status-box .hint { margin-top: 8px; font-size: 11px; font-weight: 700; text-align: center; padding: 6px; border-radius: 8px; background: rgba(255,255,255,0.5); animation: none !important; }
     .balance-status-box.warn .hint { color: #721c24; }
 
-    /* ===== BUTTONS ===== */
     .btn { color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: clamp(12px, 1.4vw, 13px); margin: 3px; font-weight: 800; transition: all 0.3s; }
     .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
     .btn:disabled { background: #ced4da !important; color: #6c757d !important; cursor: not-allowed; }
@@ -249,11 +208,9 @@
     .btn-primary { background: linear-gradient(135deg, #0078D7, #005fa3); }
     .btn-telegram { background: linear-gradient(135deg, #0088cc, #006699); }
 
-    /* ===== GUIDE ===== */
     .guide-box { background: linear-gradient(135deg, #eef7ff, #e8f4fd); border: 1px solid #b6d4fe; padding: 10px 12px; border-radius: 10px; margin-bottom: 10px; font-size: clamp(11px, 1.3vw, 13px); color: #084298; line-height: 1.7; font-weight: 600; }
     .bet-box.rapid .guide-box { background: rgba(233,30,99,0.15); border-color: rgba(233,30,99,0.4); color: #ff8bb5; }
 
-    /* ===== HISTORY TABS ===== */
     .history-tabs-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; padding: 8px; background: #f8fafc; border-radius: 12px; border: 2px solid #e2e8f0; }
     @media (max-width: 600px) { .history-tabs-container { grid-template-columns: repeat(2, 1fr); } }
     .history-tab { padding: 10px 8px; border: 2px solid transparent; background: white; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; transition: all 0.3s; color: #475569; display: flex; align-items: center; justify-content: center; gap: 6px; text-align: center; }
@@ -269,13 +226,11 @@
     .history-panel { display: none; animation: fadeIn 0.4s ease-out; }
     .history-panel.active { display: block; }
 
-    /* ===== TABLES ===== */
     .history-table { width: 100%; border-collapse: collapse; margin-top: 6px; border-radius: 8px; overflow: hidden; font-size: clamp(10px, 1.2vw, 12px); }
     .history-table th { background: linear-gradient(135deg, #0078D7, #005fa3); color: white; padding: 8px 5px; text-align: center; font-weight: 800; }
     .history-table td { padding: 8px 5px; text-align: center; border-bottom: 1px solid #e9ecef; font-weight: 600; }
     .history-table tbody tr:hover { background: #f8f9fa; }
 
-    /* ===== STATUS BADGES ===== */
     .status-badge { padding: 3px 8px; border-radius: 6px; font-weight: 800; font-size: 10px; display: inline-block; white-space: nowrap; }
     .status-pending { background: #ffeeba; color: #856404; }
     .status-win { background: #d4edda; color: #155724; animation: winGlow 1s infinite alternate; }
@@ -284,7 +239,6 @@
     .status-approved { background: #d4edda; color: #155724; }
     .status-rejected { background: #f8d7da; color: #721c24; }
 
-    /* ===== RESULTS GRID ===== */
     .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; margin: 14px 0; }
     .result-card { background: linear-gradient(135deg, #2d1b3d, #1a0f1f); border: 2px solid #e91e63; border-radius: 14px; padding: 16px; box-shadow: 0 6px 20px rgba(233,30,99,0.25); position: relative; }
     .result-card.new-result { border-color: #4ade80; box-shadow: 0 0 20px rgba(74,222,128,0.6); animation: glowGreen 3s infinite alternate; background: linear-gradient(135deg, #1a3d2f, #0f1f1a); }
@@ -298,7 +252,6 @@
     .result-card .num-cell .value { color: #ffffff; font-size: 20px; text-shadow: 0 0 12px rgba(255,255,255,0.5); font-family: 'Courier New', monospace; font-weight: 800; }
     .result-card .type-label { font-size: 13px; color: #ff8bb5; font-weight: 800; margin-top: 12px; margin-bottom: 4px; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
 
-    /* ===== MODAL ===== */
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); overflow-y: auto; }
     .modal-content { background: white; margin: 4% auto; padding: 22px; border-radius: 20px; max-width: 480px; width: 94%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: slideInUp 0.4s ease-out; position: relative; }
     .modal-content h2 { color: #0078D7; font-size: clamp(18px, 2.3vw, 22px); margin-bottom: 14px; text-align: center; font-weight: 800; }
@@ -327,7 +280,6 @@
     .btn-confirm-ok { background: linear-gradient(135deg, #28a745, #1e7e34); }
     .btn-confirm-cancel { background: linear-gradient(135deg, #dc3545, #a71d2a); }
 
-    /* ===== REG MODAL ===== */
     .reg-modal-content { background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-radius: 24px; box-shadow: 0 25px 70px rgba(0,0,0,0.35); }
     .reg-step { display: none; animation: fadeIn 0.4s ease-out; }
     .reg-step.active { display: block; }
@@ -351,7 +303,6 @@
     .forgot-pin-box { text-align: center; margin-top: 16px; padding: 12px; background: #fff5f5; border: 1px dashed #ffb3b3; border-radius: 10px; font-size: 12px; font-weight: 700; }
     .forgot-pin-box a { color: #dc3545; font-weight: 800; text-decoration: none; }
 
-    /* ===== GROUP BUTTONS ===== */
     .group-buttons-box { margin-top: 18px; padding: 16px; background: linear-gradient(135deg, #e8f4fd, #d4edda); border-radius: 14px; border: 1px solid #b6d4fe; }
     .group-buttons-box .title { font-weight: 800; color: #005fa3; font-size: 14px; margin-bottom: 12px; text-align: center; animation: pulse 2s ease-in-out infinite; }
     .group-btn { display: block; text-decoration: none; padding: 14px; border-radius: 10px; text-align: center; font-weight: 800; font-size: 13px; color: white; margin-bottom: 10px; transition: all 0.3s; line-height: 1.5; }
@@ -362,7 +313,6 @@
     .group-btn.get-code { background: linear-gradient(135deg, #ff9800, #e65100); }
     .group-btn small { display: block; font-size: 11px; opacity: 0.95; font-weight: 500; margin-top: 3px; }
 
-    /* ===== BETTING CLOSED ===== */
     .betting-closed-box { display: none; background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%); border: 2px solid #EF4444; border-radius: 14px; padding: 12px 14px; margin: 12px 0; animation: slideInDown 0.4s ease-out; }
     .betting-closed-box .header-row { display: flex; align-items: center; gap: 10px; }
     .betting-closed-box .icon { font-size: 28px; flex-shrink: 0; animation: shake 0.8s ease-in-out infinite; }
@@ -370,19 +320,15 @@
     .betting-closed-box .open-time { color: #991B1B; font-size: clamp(11px, 1.3vw, 12.5px); font-weight: 700; margin-top: 3px; }
     .betting-closed-box .open-time strong { background: #FFF; padding: 2px 10px; border-radius: 6px; color: #991B1B; border: 1px solid #FCA5A5; }
 
-    /* ===== WIN BADGE ===== */
     .win-badge { display: inline-block; background: linear-gradient(135deg, #ff1744, #d50000); color: white; font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 10px; margin-left: 6px; animation: badgePulse 1.5s ease-in-out infinite; box-shadow: 0 0 12px rgba(255,23,68,0.7); }
     .btn-withdraw.has-win { background: linear-gradient(135deg, #ff1744, #d50000) !important; animation: glowRed 1.5s ease-in-out infinite; }
 
-    /* ===== AMOUNT TAG ===== */
     .amount-tag { background: linear-gradient(135deg, #28a745, #1e7e34); color: white; padding: 2px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; display: inline-block; margin-top: 3px; }
     .date-badge { background: linear-gradient(135deg, #e8f4fd, #d4edda); color: #005fa3; padding: 2px 10px; border-radius: 8px; font-size: 10px; font-weight: 800; display: inline-block; margin-top: 3px; }
     .time-badge { background: linear-gradient(135deg, #ff9800, #e65100); color: white; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; display: inline-block; }
 
-    /* ===== FOOTER ===== */
     .footer { background: linear-gradient(135deg, #1a2634, #0f1420); color: #adb5bd; text-align: center; padding: 16px; margin-top: 14px; border-top: 3px solid transparent; border-image: linear-gradient(90deg, #0078D7, #28a745, #ff9800, #6f42c1, #e91e63) 1; font-size: clamp(11px, 1.3vw, 13px); font-weight: 600; }
 
-    /* ===== TOAST ===== */
     .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
     .toast { background: white; color: #2d3748; padding: 14px 18px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 13px; min-width: 260px; max-width: 360px; pointer-events: auto; animation: slideInDown 0.4s ease-out; border-left: 4px solid #0078D7; }
     .toast.success { border-left-color: #28a745; }
@@ -392,27 +338,16 @@
     .toast .toast-icon { font-size: 22px; flex-shrink: 0; animation: bounce 1.5s ease-in-out infinite; }
     .toast .toast-text { flex: 1; line-height: 1.4; }
 
-    /* ===== LOADING ===== */
     .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 9998; }
     .loading-overlay.active { display: flex; }
     .loading-spinner { width: 60px; height: 60px; border: 5px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite; }
 
-    /* ===== SOUND TOGGLE ===== */
     .sound-toggle { background: linear-gradient(135deg, #17a2b8, #117a8b) !important; color: white !important; }
     .sound-toggle.muted { background: linear-gradient(135deg, #6c757d, #495057) !important; }
 
-    /* ===== DARK MODE ===== */
     body.dark-mode { background: linear-gradient(135deg, #0f1420 0%, #1a1f2e 50%, #0f1420 100%); color: #e8eaf0; }
-    body.dark-mode .lottery-box,
-    body.dark-mode .bet-box,
-    body.dark-mode .modal-content,
-    body.dark-mode .clock-box,
-    body.dark-mode .nav-bar,
-    body.dark-mode .mode-tabs { background: #252b3d; color: #e8eaf0; }
-    body.dark-mode .numbers div,
-    body.dark-mode .input-row,
-    body.dark-mode .selected-display,
-    body.dark-mode .bet-summary { background: #2f3548; border-color: #4a5268; color: #e8eaf0; }
+    body.dark-mode .lottery-box, body.dark-mode .bet-box, body.dark-mode .modal-content, body.dark-mode .clock-box, body.dark-mode .nav-bar, body.dark-mode .mode-tabs { background: #252b3d; color: #e8eaf0; }
+    body.dark-mode .numbers div, body.dark-mode .input-row, body.dark-mode .selected-display, body.dark-mode .bet-summary { background: #2f3548; border-color: #4a5268; color: #e8eaf0; }
     body.dark-mode .history-tab { background: #2f3548; color: #e8eaf0; }
     body.dark-mode .mode-btn, body.dark-mode .type-btn, body.dark-mode .time-btn { background: #2f3548; color: #e8eaf0; }
     body.dark-mode .history-table td { color: #e8eaf0; border-color: #3a4255; }
@@ -421,7 +356,6 @@
     body.dark-mode .confirm-title { color: #e8eaf0; }
     body.dark-mode .confirm-info-box { background: linear-gradient(135deg, #1e2a3f, #163d29); border-color: #4a8bc7; }
 
-    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .numbers div { padding: 10px 4px; font-size: 14px; }
       .numbers div .number-result { font-size: 18px; }
@@ -451,15 +385,9 @@
     ::-webkit-scrollbar-track { background: #f0f4f8; }
     ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #0078D7, #6f42c1); border-radius: 4px; }
 
-    /* ===== TV MODE ===== */
     .tv-mode-active .section { max-width: 100%; padding: 20px; }
-    .tv-mode-active .nav-bar,
-    .tv-mode-active .mode-tabs,
-    .tv-mode-active .user-info-bar,
-    .tv-mode-active .clock-box,
-    .tv-mode-active .status-bar { display: none !important; }
-    .tv-mode-active #classicMode .bet-box,
-    .tv-mode-active #rapidMode .bet-box { display: none !important; }
+    .tv-mode-active .nav-bar, .tv-mode-active .mode-tabs, .tv-mode-active .user-info-bar, .tv-mode-active .clock-box, .tv-mode-active .status-bar { display: none !important; }
+    .tv-mode-active #classicMode .bet-box, .tv-mode-active #rapidMode .bet-box { display: none !important; }
     .tv-mode-active .lottery-box { margin: 10px 0; padding: 20px; border-width: 4px; }
     .tv-mode-active .numbers div { padding: 20px 10px; font-size: 32px; }
     .tv-mode-active .numbers div .letter { font-size: 24px; }
@@ -474,20 +402,15 @@
 </head>
 <body>
 
-  <!-- PARTICLES -->
   <div class="particles-bg" id="particlesBg"></div>
 
-  <!-- TOAST & LOADING -->
   <div class="toast-container" id="toastContainer"></div>
   <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div></div>
 
-  <!-- TV MODE EXIT BUTTON -->
   <button id="tvModeExitBtn" onclick="N98.toggleTVMode()">❌ ចាកចេញពី TV Mode</button>
 
-  <!-- REGISTER / LOGIN MODAL -->
   <div class="modal" id="registerModal" style="display:block;">
     <div class="modal-content reg-modal-content" style="max-width:520px;">
-      <!-- Step 1 -->
       <div class="reg-step active" id="regStep1">
         <div class="reg-header">
           <div class="icon">🎲</div>
@@ -514,7 +437,6 @@
         
         <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b; font-weight:600;">មានគណនីរួចហើយ? <a href="#" onclick="N98.showLoginStep(); return false;" style="color:#0078D7; font-weight:800;">ចូលប្រើ</a></div>
       </div>
-      <!-- Step 2 -->
       <div class="reg-step" id="regStep2">
         <div class="reg-header"><div class="icon">✅</div><h2>ចុះឈ្មោះជោគជ័យ!</h2><p>សូមចំណាំ ID នេះទុក</p></div>
         <div class="id-display-box"><div class="label">🆔 ID របស់អ្នក</div><div class="id-value" id="displayUserId">------</div><div class="warning">⚠️ សូមចំណាំ ID នេះ<br>ប្រើសម្រាប់ចូលប្រើលើកក្រោយ</div></div>
@@ -525,7 +447,6 @@
           <a href="https://t.me/GetCodetouseN98" target="_blank" rel="noopener" class="group-btn get-code">🔑 ចុចទីនេះដើម្បីទទួល Code<small>Channel ផ្តល់ Code ចុះឈ្មោះ N98</small></a>
         </div>
       </div>
-      <!-- Step 3 -->
       <div class="reg-step" id="regStep3">
         <div class="reg-header"><div class="icon">🔑</div><h2>បញ្ជាក់ Code</h2><p>វាយ Code 4 ខ្ទង់ដែលបានពី Channel</p></div>
         <div class="reg-input-group"><label>🔑 Code 4 ខ្ទង់</label><input type="text" class="code-input" id="regCode" placeholder="----" maxlength="4" autocomplete="off"></div>
@@ -536,7 +457,6 @@
         </div>
         <div style="text-align:center; margin-top:16px; font-size:12px; color:#64748b; font-weight:600;"><a href="#" onclick="N98.showLoginStep(); return false;" style="color:#0078D7;">← ត្រឡប់ក្រោយ</a></div>
       </div>
-      <!-- Login -->
       <div class="reg-step" id="regLoginStep">
         <div class="reg-header"><div class="icon">🔐</div><h2>ចូលប្រើប្រាស់</h2><p>បញ្ចូល ID និង PIN</p></div>
         <div class="reg-input-group"><label>🆔 ID របស់អ្នក</label><input type="text" id="loginUserId" placeholder="------" maxlength="6" inputmode="numeric"></div>
@@ -548,7 +468,6 @@
     </div>
   </div>
 
-  <!-- MAIN APP -->
   <div id="mainApp" style="display:none;">
     <header id="mainHeader">
       <h1><span class="emoji-dice">🎲</span> ឆ្នោតខ្មែរ N98 <span class="emoji-trophy">🏆</span></h1>
@@ -588,7 +507,6 @@
 
       <div class="status-bar"><span class="label">📊 ស្ថានភាព</span><span class="value" id="resultStatusText">កំពុងផ្ទុក...</span></div>
 
-      <!-- CLASSIC MODE -->
       <div id="classicMode">
         <div class="countdown">
           <div style="display:flex; justify-content:center; align-items:center; gap:8px;"><span style="font-size:26px;" class="emoji-dice">🎲</span><span style="font-size:16px; color:#dc3545; font-weight:800;"><span class="anim-pulse">⏳</span> ម៉ោងប្រកាសលទ្ធផលបន្ទាប់</span></div>
@@ -597,7 +515,6 @@
           <div class="status-time" id="statusTimeLabel"></div>
         </div>
 
-        <!-- 12:00 BOX -->
         <div class="lottery-box" id="box12Container">
           <div class="time-box"><span class="anim-pulse">🕛</span> លទ្ធផល 12:00 <span class="badge" id="badge12">ព្រឹកពីរ</span> <span id="badge12Latest"></span></div>
           <div style="font-weight:800;color:#0078D7;font-size:13px;margin-top:8px;">🔢 ២ខ្ទង់</div>
@@ -615,7 +532,6 @@
           <div style="margin-top:8px;" id="date12"></div>
         </div>
 
-        <!-- 16:00 BOX -->
         <div class="lottery-box" id="box16Container">
           <div class="time-box"><span class="anim-pulse">🕓</span> លទ្ធផល 16:00 <span class="badge" id="badge16">ល្ងាចបី</span> <span id="badge16Latest"></span></div>
           <div style="font-weight:800;color:#0078D7;font-size:13px;margin-top:8px;">🔢 ២ខ្ទង់</div>
@@ -718,7 +634,6 @@
         </div>
       </div>
 
-      <!-- RAPID MODE -->
       <div id="rapidMode" style="display:none;">
         <div class="countdown-rapid">
           <div class="label">⚡ ការប្រកាសលទ្ធផលបន្ទាប់</div>
@@ -808,7 +723,6 @@
         </div>
       </div>
 
-      <!-- ADMIN PANEL -->
       <div class="lottery-box" id="adminPanel" style="display:none; border:2px solid #dc3545;">
         <div class="time-box" style="color:#dc3545;"><span class="anim-pulse">👑</span> ADMIN PANEL</div>
         <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px dashed #ff8b8b; padding:10px; border-radius:10px; margin:10px 0; font-size:12px; color:#721c24; font-weight:700;">🔐 ផ្ទាំងនេះសម្រាប់ Admin ប៉ុណ្ណោះ</div>
@@ -847,7 +761,6 @@
         </div>
       </div>
 
-      <!-- HISTORY SECTION -->
       <div class="lottery-box" id="historySection" style="display:block; margin-top:20px;">
         <div class="time-box">📊 ប្រវត្តិទាំងអស់</div>
         
@@ -885,7 +798,6 @@
         </div>
       </div>
 
-      <!-- RULES SECTION -->
       <div id="rulesSection" style="display:none;">
         <div class="bet-box">
           <h2>📋 ច្បាប់ និងរបៀបប្រើប្រាស់</h2>
@@ -918,12 +830,11 @@
         </div>
       </div>
 
-    </div> <!-- End Section -->
+    </div> 
 
     <div class="footer"><span class="emoji-dice">🎲</span> © 2026 Khmer Lottery N98 — Classic + Rapid Edition 🏆</div>
   </div>
 
-  <!-- MODALS -->
   <div class="modal" id="depositModal">
     <div class="modal-content">
       <span class="close" onclick="N98.closeModal('depositModal')">&times;</span>
@@ -1051,7 +962,6 @@
   </div>
 
   <script>
-    // ⭐ Audio សម្រាប់សំឡេងរោទិ៍
     const beepAudio = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
     
     (function() {
@@ -1454,10 +1364,11 @@
               else if (w.status === 'rejected') badge = '<span class="status-badge status-rejected">❌ បដិសេធ</span>';
               
               var amtDisplay = w.withdrawAmount ? fmtAmount(w.withdrawAmount, w.currency) : (w.reward || '0');
+              var typeLabel = w.type === 'Rapid' ? '<span style="font-size:9px;color:#e91e63;font-weight:bold;">[10នាទី]</span>' : '';
               
               html += '<tr>' +
                 '<td style="font-size:10px;">' + esc(w.date) + '</td>' +
-                '<td style="font-size:10px; color:#6f42c1; font-weight:800;">' + esc(w.id) + '</td>' +
+                '<td style="font-size:10px; color:#6f42c1; font-weight:800;">' + esc(w.id) + ' ' + typeLabel + '</td>' +
                 '<td><strong style="color:#28a745;">' + esc(amtDisplay) + '</strong></td>' +
                 '<td><strong>' + esc(w.currency || 'USD') + '</strong></td>' +
                 '<td>' + badge + '</td>' +
@@ -2014,8 +1925,9 @@
               if (w.status !== 'pending') continue;
               pendingCount++;
               var amtStr = w.withdrawAmount ? fmtAmount(w.withdrawAmount, w.currency) : (w.reward || '0');
+              var typeLabel = w.type === 'Rapid' ? '<span style="font-size:9px;color:#e91e63;font-weight:bold;">[10នាទី]</span>' : '';
               html += '<div style="background:white; border:1px solid #dee2e6; border-radius:8px; padding:8px; margin-bottom:6px;">' +
-                '<div style="font-weight:800; color:#6f42c1; font-size:11px;">🆔 ' + esc(w.id) + '</div>' +
+                '<div style="font-weight:800; color:#6f42c1; font-size:11px;">🆔 ' + esc(w.id) + ' ' + typeLabel + '</div>' +
                 '<div style="font-size:11px;">📱 ' + esc(w.phone) + '</div>' +
                 '<div style="font-size:11px;">💰 <b style="color:#28a745;">' + esc(amtStr) + '</b></div>' +
                 '<div style="font-size:10px; color:#6c757d;">' + esc(w.date) + '</div>' +
@@ -2156,13 +2068,10 @@
           cancelText: '✕ បោះបង់'
         }, function(confirmed) {
           if (!confirmed) return;
-          
           showLoading(true);
           
-          // ⭐ ប្រើ fetch ធម្មតា ដោយមិនអាន Response
-          fetch(WEB_APP_URL, {
+          fetchWithTimeout(WEB_APP_URL, {
             method: 'POST',
-            mode: 'no-cors', // ⭐ បន្ថែមនេះដើម្បីកុំឱ្យ CORS ប្លុក
             body: JSON.stringify({ 
               action: 'approveDepositRequest', 
               requestId: reqId, 
@@ -2170,23 +2079,22 @@
               adminUser: currentUser.userId 
             }),
             headers: { 'Content-Type': 'text/plain' }
-          }).then(function() {
+          })
+          .then(safeJsonParse)
+          .then(function(data) {
             showLoading(false);
-            showToast('បានអនុម័ត + បញ្ចូលប្រាក់ចូលសមតុល្យ!', 'success', '✅');
-            
-            setTimeout(function() {
-              adminLoadDepositRequests(); // ទាញបញ្ជីថ្មី
-              fetchBalance(currentUser.phone); // ទាញសមតុល្យថ្មី
-            }, 1000);
-            
-          }).catch(function(err) {
-            console.error(err);
-            showLoading(false);
-            showToast('សំណើត្រូវបានផ្ញើ! សូមរង់ចាំមួយសន្ទុះ...', 'info');
-            setTimeout(function() {
+            if (data.ok) {
+              showToast('បានអនុម័ត + បញ្ចូលប្រាក់ចូលសមតុល្យ!', 'success', '✅');
               adminLoadDepositRequests();
               fetchBalance(currentUser.phone);
-            }, 2000);
+            } else {
+              showToast(data.error || 'មានបញ្ហា!', 'error');
+            }
+          })
+          .catch(function(err) {
+            console.error(err);
+            showLoading(false);
+            showToast('មានបញ្ហាតភ្ជាប់!', 'error');
           });
         });
       }
@@ -2202,23 +2110,25 @@
         }, function(confirmed) {
           if (!confirmed) return;
           showLoading(true);
-          fetch(WEB_APP_URL, {
+          
+          fetchWithTimeout(WEB_APP_URL, {
             method: 'POST',
-            mode: 'no-cors', // ⭐ បន្ថែមនេះ
             body: JSON.stringify({ action: 'rejectDepositRequest', requestId: reqId, adminUser: currentUser.userId }),
             headers: { 'Content-Type': 'text/plain' }
-          }).then(function() {
+          })
+          .then(safeJsonParse)
+          .then(function(data) {
             showLoading(false);
-            showToast('បានបដិសេធ!', 'success');
-            setTimeout(function() {
+            if (data.ok) {
+              showToast('បានបដិសេធ!', 'success');
               adminLoadDepositRequests();
-            }, 1000);
-          }).catch(function(e) {
+            } else {
+              showToast(data.error || 'មានបញ្ហា!', 'error');
+            }
+          })
+          .catch(function(e) {
             showLoading(false);
-            showToast('សំណើត្រូវបានផ្ញើ!', 'info');
-            setTimeout(function() {
-              adminLoadDepositRequests();
-            }, 2000);
+            showToast('មានបញ្ហាតភ្ជាប់!', 'error');
           });
         });
       }
@@ -3109,25 +3019,38 @@
       function renderHistoryTableRapid() {
         var tbody = $('historyBodyRapid');
         if (!tbody) return;
+        
         if (!cachedResults10 || cachedResults10.length === 0) {
           tbody.innerHTML = '<tr><td colspan="5" style="color:#6c757d; padding:12px; font-weight:600;">មិនមានប្រវត្តិ 10 នាទី</td></tr>';
           return;
         }
+        
         var html = '';
         for (var i = 0; i < cachedResults10.length; i++) {
           var r = cachedResults10[i];
-          var fmt = function(res2D, res3D) {
-            if (!res2D || !res3D) return '--';
-            var t2 = 'A:' + res2D.A + ' B:' + res2D.B + ' C:' + res2D.C + ' D:' + res2D.D + ' E:' + res2D.E;
-            var t3 = 'A:' + res3D.A + ' B:' + res3D.B + ' C:' + res3D.C + ' D:' + res3D.D + ' E:' + res3D.E;
-            return '<div style="font-size:11px; margin-bottom:4px;"><b style="color:#0078D7;">2D:</b> ' + t2 + '</div>' +
-                   '<div style="font-size:11px;"><b style="color:#6f42c1;">3D:</b> ' + t3 + '</div>';
-          };
+          
+          var res2D = r.results2D || {};
+          var res3D = r.results3D || {};
+          var text2D = 'A:' + (res2D.A||'--') + ' B:' + (res2D.B||'--') + ' C:' + (res2D.C||'--') + ' D:' + (res2D.D||'--') + ' E:' + (res2D.E||'--');
+          var text3D = 'A:' + (res3D.A||'--') + ' B:' + (res3D.B||'--') + ' C:' + (res3D.C||'--') + ' D:' + (res3D.D||'--') + ' E:' + (res3D.E||'--');
+          
           html += '<tr style="border-bottom: 1px solid #e9ecef;">' +
-            '<td><strong>' + esc(r.date) + '</strong><br><span style="font-size:10px; color:#6c757d;">' + esc(r.time) + '</span></td>' +
-            '<td><span class="badge" style="background:#e91e63; color:#fff; border-radius:6px; font-size:10px;">#' + esc(r.drawId) + '</span></td>' +
-            '<td style="text-align:left;">' + fmt(r.results2D, r.results3D) + '</td>' +
-            '<td><span style="font-size:10px; color:#005fa3; font-weight:700;">' + esc(r.publishedAt || '-') + '</span></td>' +
+            '<td style="text-align:center;">' +
+              '<div style="font-weight:800; color:#1e293b;">' + esc(r.date || '--') + '</div>' +
+              '<div style="font-size:11px; color:#6c757d; font-weight:700;">' + esc(r.time || '--') + '</div>' +
+            '</td>' +
+            '<td style="text-align:center;">' +
+              '<span class="badge" style="background:#e91e63; color:#fff; border-radius:6px; font-size:11px; padding:4px 8px;">#' + esc(r.drawId || '--') + '</span>' +
+            '</td>' +
+            '<td style="text-align:left; font-size:11px; line-height:1.6;">' +
+              '<b style="color:#0078D7;">2D:</b> ' + text2D +
+            '</td>' +
+            '<td style="text-align:left; font-size:11px; line-height:1.6;">' +
+              '<b style="color:#6f42c1;">3D:</b> ' + text3D +
+            '</td>' +
+            '<td style="text-align:center; font-size:11px; color:#005fa3; font-weight:700;">' +
+              esc(r.publishedAt || '--') + 
+            '</td>' +
           '</tr>';
         }
         tbody.innerHTML = html;
@@ -3517,7 +3440,8 @@
         adminApproveDepositReq: adminApproveDepositReq,
         adminRejectDepositReq: adminRejectDepositReq,
         manualCaptureScreenshot: manualCaptureScreenshot,
-        closeConfirm: closeConfirm
+        closeConfirm: closeConfirm,
+        updateBalanceUI: updateBalanceUI
       };
 
       if (document.readyState === 'loading') {
