@@ -727,22 +727,32 @@
         <div class="time-box" style="color:#dc3545;"><span class="anim-pulse">👑</span> ADMIN PANEL</div>
         <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px dashed #ff8b8b; padding:10px; border-radius:10px; margin:10px 0; font-size:12px; color:#721c24; font-weight:700;">🔐 ផ្ទាំងនេះសម្រាប់ Admin ប៉ុណ្ណោះ</div>
         
-        <!-- Admin Balance Box -->
+        <!-- Admin Stats Box -->
         <div style="background:linear-gradient(135deg,#1e3a8a,#1e40af); border:2px solid #3b82f6; border-radius:14px; padding:16px; margin-bottom:16px; color:white;">
-          <div style="font-weight:800; font-size:15px; margin-bottom:10px; text-align:center;">💰 សមតុល្យ Admin (គណនីផ្ទាល់ខ្លួន)</div>
+          <div style="font-weight:800; font-size:15px; margin-bottom:10px; text-align:center;">📊 ស្ថិតិប្រព័ន្ធ (គណនាស្វ័យប្រវត្តិ)</div>
           <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:12px;">
             <div style="background:rgba(255,255,255,0.1); padding:10px 20px; border-radius:10px; text-align:center; flex:1;">
-              <div style="font-size:11px; color:#93c5fd; font-weight:800;">💵 USD</div>
-              <div id="adminBalanceUSD" style="font-size:22px; font-weight:800; font-family:'Courier New',monospace;">0.00$</div>
+              <div style="font-size:11px; color:#93c5fd; font-weight:800;">💵 ចំណូលសរុប (USD)</div>
+              <div id="adminTotalIncomeUSD" style="font-size:22px; font-weight:800; font-family:'Courier New',monospace;">0.00$</div>
             </div>
             <div style="background:rgba(255,255,255,0.1); padding:10px 20px; border-radius:10px; text-align:center; flex:1;">
-              <div style="font-size:11px; color:#93c5fd; font-weight:800;">🇰🇭 KHR</div>
-              <div id="adminBalanceKHR" style="font-size:22px; font-weight:800; font-family:'Courier New',monospace;">0៛</div>
+              <div style="font-size:11px; color:#93c5fd; font-weight:800;">💸 ចំណាយសរុប (USD)</div>
+              <div id="adminTotalExpenseUSD" style="font-size:22px; font-weight:800; font-family:'Courier New',monospace;">0.00$</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:12px;">
+            <div style="background:rgba(255,255,255,0.1); padding:10px 20px; border-radius:10px; text-align:center; flex:1;">
+              <div style="font-size:11px; color:#93c5fd; font-weight:800;">💰 ចំណេញសុទ្ធ (USD)</div>
+              <div id="adminNetProfitUSD" style="font-size:22px; font-weight:800; font-family:'Courier New',monospace; color:#4ade80;">0.00$</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.1); padding:10px 20px; border-radius:10px; text-align:center; flex:1;">
+              <div style="font-size:11px; color:#93c5fd; font-weight:800;">💰 ចំណេញសុទ្ធ (KHR)</div>
+              <div id="adminNetProfitKHR" style="font-size:22px; font-weight:800; font-family:'Courier New',monospace; color:#4ade80;">0៛</div>
             </div>
           </div>
           
           <div style="background:rgba(0,0,0,0.2); padding:12px; border-radius:10px;">
-            <label style="font-size:12px; font-weight:800; color:#fca5a5; display:block; margin-bottom:6px;">🔐 បញ្ជាក់ PIN Admin ដើម្បីបញ្ចូល/ដកប្រាក់</label>
+            <label style="font-size:12px; font-weight:800; color:#fca5a5; display:block; margin-bottom:6px;">🔐 បញ្ជាក់ PIN Super Admin ដើម្បីផ្ទេរប្រាក់</label>
             <div style="display:flex; gap:8px;">
               <input type="password" id="adminPinInput" placeholder="----" maxlength="4" inputmode="numeric" style="flex:1; padding:10px; border-radius:8px; border:none; font-size:16px; font-weight:800; text-align:center; letter-spacing:5px;">
               <button type="button" onclick="N98.verifyAdminPin()" id="adminPinVerifyBtn" style="padding:10px 16px; background:#f59e0b; color:white; border:none; border-radius:8px; font-weight:800; cursor:pointer;">បញ្ជាក់</button>
@@ -750,10 +760,10 @@
             <div id="adminPinStatus" style="font-size:11px; margin-top:6px; font-weight:700; color:#fca5a5; display:none;">❌ PIN មិនត្រឹមត្រូវ!</div>
           </div>
 
-          <!-- ផ្នែកបញ្ចូល/ដកប្រាក់ (លាក់ទុកមុនពេលបញ្ជាក់ PIN) -->
+          <!-- ផ្នែកផ្ទេរប្រាក់ (លាក់ទុកមុនពេលបញ្ជាក់ PIN) -->
           <div id="adminTransferSection" style="display:none; margin-top:12px; border-top:1px dashed rgba(255,255,255,0.3); padding-top:12px;">
-            <div style="font-weight:800; font-size:13px; margin-bottom:8px; color:#fcd34d;">🔄 ផ្ទេរទឹកប្រាក់ទៅអ្នកប្រើប្រាស់</div>
-            <input type="tel" id="adminTransferPhone" placeholder="លេខទូរស័ព្ទអ្នកប្រើ" inputmode="numeric" style="width:100%; padding:10px; border-radius:8px; border:none; margin-bottom:8px; font-weight:700;">
+            <div style="font-weight:800; font-size:13px; margin-bottom:8px; color:#fcd34d;">🔄 ផ្ទេរទឹកប្រាក់ទៅអ្នកប្រើប្រាស់/Admin</div>
+            <input type="tel" id="adminTransferPhone" placeholder="លេខទូរស័ព្ទអ្នកទទួល" inputmode="numeric" style="width:100%; padding:10px; border-radius:8px; border:none; margin-bottom:8px; font-weight:700;">
             <div style="display:flex; gap:8px; margin-bottom:8px;">
               <input type="number" id="adminTransferAmount" placeholder="ចំនួនទឹកប្រាក់" step="any" style="flex:2; padding:10px; border-radius:8px; border:none; font-weight:700;">
               <select id="adminTransferCurrency" style="flex:1; padding:10px; border-radius:8px; border:none; font-weight:800;">
@@ -2140,6 +2150,147 @@
           })
           .catch(function() { el.innerHTML = '❌ កំហុសតភ្ជាប់'; });
       }
+
+      // Admin Stats (សមតុល្យគណនាស្វ័យប្រវត្តិ)
+      function adminLoadStats() {
+        var el = $('adminStats');
+        if (!el) return;
+        el.innerHTML = '<span class="anim-spin">⏳</span> កំពុងទាញ...';
+        fetchWithTimeout(WEB_APP_URL + '?action=adminStats&t=' + Date.now(), { cache: 'no-store' })
+          .then(safeJsonParse)
+          .then(function(data) {
+            if (data.ok) {
+              if ($('adminTotalIncomeUSD')) $('adminTotalIncomeUSD').textContent = data.totalDepUSD.toFixed(2) + '$';
+              if ($('adminTotalExpenseUSD')) $('adminTotalExpenseUSD').textContent = data.totalWdUSD.toFixed(2) + '$';
+              if ($('adminNetProfitUSD')) $('adminNetProfitUSD').textContent = data.balanceUSD.toFixed(2) + '$';
+              if ($('adminNetProfitKHR')) $('adminNetProfitKHR').textContent = Math.round(data.balanceKHR).toLocaleString() + '៛';
+            } else {
+              el.innerHTML = '❌ មិនអាចទាញបាន';
+            }
+          })
+          .catch(function() { el.innerHTML = '❌ កំហុសតភ្ជាប់'; });
+      }
+
+      // Verify Admin PIN via API
+      function verifyAdminPin() {
+        var pinInput = $('adminPinInput').value.trim();
+        if (!pinInput) {
+          showToast('សូមបញ្ចូល PIN!', 'warning');
+          return;
+        }
+        
+        fetchWithTimeout(WEB_APP_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'verifyAdminPin', pin: pinInput, phone: currentUser.phone }),
+          headers: { 'Content-Type': 'text/plain' }
+        })
+        .then(safeJsonParse)
+        .then(function(data) {
+          var statusEl = $('adminPinStatus');
+          if (data.ok) {
+            isAdminPinVerified = true;
+            if (statusEl) {
+              statusEl.style.display = 'block';
+              statusEl.style.color = '#4ade80';
+              statusEl.textContent = '✅ បញ្ជាក់ PIN បានជោគជ័យ!';
+            }
+            $('adminTransferSection').style.display = 'block';
+            adminLoadStats();
+            $('adminPinInput').value = '';
+            $('adminPinInput').disabled = true;
+            $('adminPinVerifyBtn').disabled = true;
+            $('adminPinVerifyBtn').textContent = 'រួចរាល់';
+            $('adminPinVerifyBtn').style.background = '#6c757d';
+          } else {
+            if (statusEl) {
+              statusEl.style.display = 'block';
+              statusEl.style.color = '#fca5a5';
+              statusEl.textContent = '❌ ' + (data.error || 'PIN មិនត្រឹមត្រូវ!');
+            }
+          }
+        })
+        .catch(function(e) {
+          console.error(e);
+          showToast('មានបញ្ហាតភ្ជាប់!', 'error');
+        });
+      }
+
+      // Transfer Funds
+      function adminTransferFunds() {
+        if (!isAdminPinVerified) {
+          showToast('សូមបញ្ជាក់ PIN Admin ជាមុនសិន!', 'warning');
+          return;
+        }
+        
+        var targetPhone = fixPhoneNumber($('adminTransferPhone').value);
+        var amount = parseFloat($('adminTransferAmount').value);
+        var currency = $('adminTransferCurrency').value;
+        
+        if (!targetPhone || targetPhone.length < 9) {
+          showToast('សូមបំពេញលេខទូរស័ព្ទអ្នកទទួល!', 'warning');
+          return;
+        }
+        if (!amount || amount <= 0) {
+          showToast('សូមបំពេញចំនួនទឹកប្រាក់!', 'warning');
+          return;
+        }
+        
+        showConfirm({
+          icon: '🔄',
+          title: 'ផ្ទេរទឹកប្រាក់',
+          message: 'តើអ្នកប្រាកដជាចង់ផ្ទេរទឹកប្រាក់នេះឬ?',
+          infoRows: [
+            { label: '📱 ទៅកាន់លេខ', value: targetPhone },
+            { label: '💰 ចំនួន', value: amount + (currency === 'USD' ? '$' : '៛') }
+          ],
+          okText: '✓ ផ្ទេរប្រាក់',
+          cancelText: '✕ បោះបង់'
+        }, function(confirmed) {
+          if (!confirmed) return;
+          showLoading(true);
+          
+          fetchWithTimeout(WEB_APP_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'adminTransferFunds',
+              targetPhone: targetPhone,
+              amount: amount,
+              currency: currency,
+              note: 'Admin Transfer',
+              pin: $('adminPinInput').value.trim() || '1234'
+            }),
+            headers: { 'Content-Type': 'text/plain' }
+          })
+          .then(safeJsonParse)
+          .then(function(data) {
+            showLoading(false);
+            if (data.ok) {
+              showToast('ផ្ទេរប្រាក់បានជោគជ័យ!', 'success', '💰');
+              $('adminTransferAmount').value = '';
+              $('adminTransferPhone').value = '';
+              adminLoadStats();
+            } else {
+              showToast(data.error || 'មានបញ្ហា!', 'error');
+            }
+          })
+          .catch(function(err) {
+            console.error(err);
+            showLoading(false);
+            showToast('មានបញ្ហាតភ្ជាប់!', 'error');
+          });
+        });
+      }
+
+      // បន្ថែម isAdminPinVerified នៅក្នុង Global variables
+      var isAdminPinVerified = false;
+      
+      // បន្ថែមទៅក្នុង N98 export
+      window.N98 = {
+        // ... កូដចាស់ៗ
+        verifyAdminPin: verifyAdminPin,
+        adminTransferFunds: adminTransferFunds,
+        adminLoadStats: adminLoadStats
+      };
 
       function adminApproveWithdraw(wdId) {
         showConfirm({
