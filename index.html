@@ -1938,7 +1938,6 @@
                   '</div>' +
                 '</div>';
               } else {
-                // បង្ហាញប៊ូតុងពណ៌ប្រផេះសម្រាប់សំណើដែលដោះស្រាយរួច
                 html += '<div style="background:#f8f9fa; border:1px solid #dee2e6; border-radius:8px; padding:10px; margin-bottom:8px; opacity:0.8;">' +
                   '<div style="font-weight:800; color:#6c757d; font-size:12px;">🆔 ' + esc(w.id) + ' ' + typeLabel + '</div>' +
                   '<div style="font-size:12px; margin-top:4px; color:#6c757d;">📱 ' + esc(w.phone) + '</div>' +
@@ -2029,7 +2028,6 @@
               var amtStr = fmtAmount(req.amount, req.currency);
               
               if (req.status === 'pending') {
-                // សំណើថ្មីដែលមិនទាន់ដោះស្រាយ
                 html += '<div id="dep-req-' + esc(req.id) + '" style="background:white; border:2px solid #ffc107; border-radius:8px; padding:10px; margin-bottom:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">' +
                   '<div style="font-weight:800; color:#005fa3; font-size:13px;">🆔 ' + esc(req.id) + '</div>' +
                   '<div style="font-size:12px; margin-top:4px;">📱 លេខ: <b>' + esc(req.phone) + '</b></div>' +
@@ -2046,7 +2044,6 @@
                   '</div>' +
                 '</div>';
               } else {
-                // សំណើដែលបានដោះស្រាយរួច (បង្ហាញប៊ូតុងពណ៌ប្រផេះ)
                 html += '<div style="background:#f8f9fa; border:1px solid #dee2e6; border-radius:8px; padding:10px; margin-bottom:8px; opacity:0.8;">' +
                   '<div style="font-weight:800; color:#6c757d; font-size:13px;">🆔 ' + esc(req.id) + '</div>' +
                   '<div style="font-size:12px; margin-top:4px; color:#6c757d;">📱 លេខ: <b>' + esc(req.phone) + '</b></div>' +
