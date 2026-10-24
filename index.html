@@ -1760,6 +1760,10 @@
         updateBettingClosed10();
         
         try {
+          // បង្ខំឱ្យបង្ហាញ Classic ជានិច្ចនៅពេល Login ចូល
+          updateHistoryTabsForMode('classic');
+          // បើចង់រក្សាទុកម៉ូដចាស់ សូមប្រើកូដខាងក្រោមវិញ
+          /*
           var savedMode = localStorage.getItem(CFG.MAIN_MODE_KEY);
           if (savedMode === 'rapid') {
             var rapidTab = document.querySelector('.mode-tab[data-mode="rapid"]');
@@ -1767,8 +1771,9 @@
           } else {
             updateHistoryTabsForMode('classic');
           }
+          */
         } catch (e) { updateHistoryTabsForMode('classic'); }
-        
+
         clearIntervals();
         intervals.clock = setInterval(function() {
           updateClock();
@@ -2555,6 +2560,28 @@
           else if (dt.indexOf('16:00') !== -1) slot = '16:00';
           if (slot && isBettingClosed(slot)) btns[i].classList.add('closed');
           else btns[i].classList.remove('closed');
+        }
+      }
+
+      function updateTimeButtons() {
+        var btns = document.querySelectorAll('.time-selector .time-btn');
+        var closed12 = isBettingClosed('12:00');
+        var closed16 = isBettingClosed('16:00');
+
+        for (var i = 0; i < btns.length; i++) {
+          var dt = btns[i].getAttribute('data-time') || btns[i].textContent;
+          var slot = '';
+          if (dt.indexOf('12:00') !== -1) slot = '12:00';
+          else if (dt.indexOf('16:00') !== -1) slot = '16:00';
+          
+          if (slot === '12:00' && closed12) btns[i].classList.add('closed');
+          else if (slot === '16:00' && closed16) btns[i].classList.add('closed');
+          else btns[i].classList.remove('closed');
+        }
+
+        // ប្រសិនបើ 12:00 បិទ តែ 16:00 មិនទាន់បិទ ហើយអ្នកប្រើកំពុងជ្រើស 12:00 សូមប្តូរទៅ 16:00 ស្វ័យប្រវត្តិ
+        if (closed12 && !closed16 && selectedTime === '12:00') {
+          setTime('16:00', null);
         }
       }
 
