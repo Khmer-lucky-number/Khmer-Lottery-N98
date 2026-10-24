@@ -3113,7 +3113,7 @@
           
           var timeBadge = '';
           if (mode === 'classic' && b.drawTime) {
-            timeBadge = ''; // លុបចោលពាក្យ 🕒 16:00 នៅក្រោមកាលបរិច្ឆេទ
+            timeBadge = '<span class="time-badge">🕒 ' + esc(b.drawTime) + '</span>';
           } else if (mode === 'rapid' && b.drawId) {
             timeBadge = '<div style="font-size:10px; color:#e91e63; font-weight:800; margin-top:2px;">🎯 វគ្គ: ' + esc(b.drawId) + '</div>';
           }
@@ -3477,3 +3477,4 @@
   </script>
 </body>
 </html>
+      
