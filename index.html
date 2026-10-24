@@ -863,7 +863,6 @@
         <label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none; margin-top:14px;">បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) * <span style="font-size:11px; color:#dc3545; font-weight:normal;"> (ត្រូវចុច ABA Bank ជាមុន)</span></label>
         <input type="file" id="depScreenshot" accept="image/*" required disabled>
         <button type="submit" class="btn btn-success" id="depSubmitBtn" disabled style="margin-top:12px;">🚀 បញ្ជាក់ការបញ្ចូលប្រាក់</button>
-        
         <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px solid #ff8b8b; border-radius:10px; padding:12px 14px; margin-top:12px; font-size:11.5px; color:#721c24; line-height:1.7; text-align:left; font-weight:600;"><span class="anim-shake">⚠️</span> <strong>ការព្រមាន!</strong><br>• ការបង់ប្រាក់ត្រូវធ្វើតាម ABA Bank ជាមុន<br>• បញ្ជូនរូបភាព Screenshot ជូន Admin<br>• ប្រសិនបើមិនបង់ → Admin នឹងមិនអនុម័ត</div>
         
         <div style="font-size:11.5px; color:#dc3545; font-weight:800; text-align:center; margin-top:8px;">សូមផ្ទៀងផ្ទាត់លទ្ធផលឆ្នោតជាមួយនឹងការចាក់ឆ្នោតរបស់អ្នក!</div>
@@ -3114,7 +3113,7 @@
           
           var timeBadge = '';
           if (mode === 'classic' && b.drawTime) {
-            timeBadge = '<span class="time-badge">🕒 ' + esc(b.drawTime) + '</span>';
+            timeBadge = ''; // លុបចោលពាក្យ 🕒 16:00 នៅក្រោមកាលបរិច្ឆេទ
           } else if (mode === 'rapid' && b.drawId) {
             timeBadge = '<div style="font-size:10px; color:#e91e63; font-weight:800; margin-top:2px;">🎯 វគ្គ: ' + esc(b.drawId) + '</div>';
           }
