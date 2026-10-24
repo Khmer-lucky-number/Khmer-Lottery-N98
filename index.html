@@ -3112,10 +3112,15 @@
           var modeBadge = b.payMethod === 'direct' ? '<span style="color:#28a745; font-size:10px; font-weight:800;">💵 ផ្ទាល់</span>' : '<span style="color:#0078D7; font-size:10px; font-weight:800;">🌐 អនឡាញ</span>';
           
           var timeBadge = '';
-          if (mode === 'classic' && b.drawTime) {
-            timeBadge = esc(b.drawTime); 
-          } else if (mode === 'rapid' && b.drawId) {
+          if (mode === 'rapid' && b.drawId) {
             timeBadge = '<div style="font-size:10px; color:#e91e63; font-weight:800; margin-top:2px;">🎯 វគ្គ: ' + esc(b.drawId) + '</div>';
+          }
+
+          // កាត់យកតែម៉ោង និងនាទីពី b.date (ឧទាហរណ៍៖ "24/10/2026 14:45:17" កាត់យក "14:45")
+          var betTimeOnly = '';
+          if (b.date && b.date.indexOf(' ') !== -1) {
+            var timePart = b.date.split(' ')[1]; // យកផ្នែកខាងក្រោយដកឃ្លា
+            betTimeOnly = timePart.substring(0, 5); // កាត់យកត្រឹម 5 តួអក្សរ (HH:mm)
           }
 
           html += '<tr>' +
@@ -3124,7 +3129,7 @@
               '<div style="font-weight:700;">' + esc(b.date) + '</div>' + timeBadge +
             '</td>' +
             (mode === 'classic' 
-              ? '<td>' + (timeBadge || '-') + '</td>'
+              ? '<td style="font-weight:800; color:#d97706;">' + (betTimeOnly || '-') + '</td>'
               : '<td><span class="badge" style="background:#e91e63; color:#fff; padding:2px 6px; border-radius:6px; font-size:9px;">#' + esc(b.drawId || '-') + '</span></td>'
             ) +
             '<td><div style="margin-bottom:2px;">' + modeBadge + '</div><strong style="color:#0078D7;">' + esc(b.numbers) + '</strong></td>' +
