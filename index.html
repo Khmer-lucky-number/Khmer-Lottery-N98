@@ -1926,14 +1926,16 @@
               pendingCount++;
               var amtStr = w.withdrawAmount ? fmtAmount(w.withdrawAmount, w.currency) : (w.reward || '0');
               var typeLabel = w.type === 'Rapid' ? '<span style="font-size:9px;color:#e91e63;font-weight:bold;">[10នាទី]</span>' : '';
-              html += '<div style="background:white; border:1px solid #dee2e6; border-radius:8px; padding:8px; margin-bottom:6px;">' +
-                '<div style="font-weight:800; color:#6f42c1; font-size:11px;">🆔 ' + esc(w.id) + ' ' + typeLabel + '</div>' +
-                '<div style="font-size:11px;">📱 ' + esc(w.phone) + '</div>' +
-                '<div style="font-size:11px;">💰 <b style="color:#28a745;">' + esc(amtStr) + '</b></div>' +
+              
+              // បន្ថែម onclick ដើម្បីបិទប៊ូតុងភ្លាមៗ
+              html += '<div id="wd-req-' + esc(w.id) + '" style="background:white; border:1px solid #dee2e6; border-radius:8px; padding:10px; margin-bottom:8px;">' +
+                '<div style="font-weight:800; color:#6f42c1; font-size:12px;">🆔 ' + esc(w.id) + ' ' + typeLabel + '</div>' +
+                '<div style="font-size:12px; margin-top:4px;">📱 ' + esc(w.phone) + '</div>' +
+                '<div style="font-size:12px;">💰 <b style="color:#28a745;">' + esc(amtStr) + '</b></div>' +
                 '<div style="font-size:10px; color:#6c757d;">' + esc(w.date) + '</div>' +
-                '<div style="display:flex; gap:4px; margin-top:6px;">' +
-                  '<button onclick="N98.adminApproveWithdraw(\'' + esc(w.id) + '\')" style="flex:1; padding:5px; background:#28a745; color:white; border:none; border-radius:5px; font-weight:800; font-size:11px; cursor:pointer;">✅ អនុម័ត</button>' +
-                  '<button onclick="N98.adminRejectWithdraw(\'' + esc(w.id) + '\')" style="flex:1; padding:5px; background:#dc3545; color:white; border:none; border-radius:5px; font-weight:800; font-size:11px; cursor:pointer;">❌ បដិសេធ</button>' +
+                '<div style="display:flex; gap:6px; margin-top:8px;">' +
+                  '<button onclick="this.disabled=true; this.style.background=\'#ced4da\'; this.style.cursor=\'not-allowed\'; N98.adminApproveWithdraw(\'' + esc(w.id) + '\')" style="flex:1; padding:8px; background:linear-gradient(135deg,#28a745,#1e7e34); color:white; border:none; border-radius:6px; font-weight:800; font-size:12px; cursor:pointer;">✅ អនុម័ត</button>' +
+                  '<button onclick="document.getElementById(\'wd-req-' + esc(w.id) + '\').style.display=\'none\'; N98.adminRejectWithdraw(\'' + esc(w.id) + '\')" style="flex:1; padding:8px; background:linear-gradient(135deg,#dc3545,#a71d2a); color:white; border:none; border-radius:6px; font-weight:800; font-size:12px; cursor:pointer;">❌ បដិសេធ</button>' +
                 '</div>' +
               '</div>';
             }
@@ -2017,7 +2019,8 @@
               pendingCount++;
               var amtStr = fmtAmount(req.amount, req.currency);
               
-              html += '<div style="background:white; border:2px solid #ffc107; border-radius:8px; padding:10px; margin-bottom:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">' +
+              // បន្ថែម onclick ដើម្បីបិទប៊ូតុងភ្លាមៗ
+              html += '<div id="dep-req-' + esc(req.id) + '" style="background:white; border:2px solid #ffc107; border-radius:8px; padding:10px; margin-bottom:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">' +
                 '<div style="font-weight:800; color:#005fa3; font-size:13px;">🆔 ' + esc(req.id) + '</div>' +
                 '<div style="font-size:12px; margin-top:4px;">📱 លេខ: <b>' + esc(req.phone) + '</b></div>' +
                 '<div style="font-size:12px;">👤 UserID: <b>' + esc(req.userId || '-') + '</b></div>' +
@@ -2028,8 +2031,8 @@
                   '<input type="number" id="approveAmt_' + esc(req.id) + '" value="' + req.amount + '" step="any" style="width:100%; padding:8px; border:2px solid #0078D7; border-radius:6px; font-size:14px; font-weight:800;">' +
                 '</div>' +
                 '<div style="display:flex; gap:6px; margin-top:8px;">' +
-                  '<button onclick="N98.adminApproveDepositReq(\'' + esc(req.id) + '\', \'' + esc(req.currency) + '\', \'' + esc(req.phone) + '\')" style="flex:1; padding:10px; background:linear-gradient(135deg,#28a745,#1e7e34); color:white; border:none; border-radius:6px; font-weight:800; font-size:12px; cursor:pointer;">✅ អនុម័ត (បញ្ចូលប្រាក់)</button>' +
-                  '<button onclick="N98.adminRejectDepositReq(\'' + esc(req.id) + '\')" style="flex:1; padding:10px; background:linear-gradient(135deg,#dc3545,#a71d2a); color:white; border:none; border-radius:6px; font-weight:800; font-size:12px; cursor:pointer;">❌ បដិសេធ</button>' +
+                  '<button id="btn-approve-' + esc(req.id) + '" onclick="this.disabled=true; this.style.background=\'#ced4da\'; this.style.cursor=\'not-allowed\'; N98.adminApproveDepositReq(\'' + esc(req.id) + '\', \'' + esc(req.currency) + '\', \'' + esc(req.phone) + '\')" style="flex:1; padding:10px; background:linear-gradient(135deg,#28a745,#1e7e34); color:white; border:none; border-radius:6px; font-weight:800; font-size:12px; cursor:pointer;">✅ អនុម័ត (បញ្ចូលប្រាក់)</button>' +
+                  '<button onclick="document.getElementById(\'dep-req-' + esc(req.id) + '\').style.display=\'none\'; N98.adminRejectDepositReq(\'' + esc(req.id) + '\')" style="flex:1; padding:10px; background:linear-gradient(135deg,#dc3545,#a71d2a); color:white; border:none; border-radius:6px; font-weight:800; font-size:12px; cursor:pointer;">❌ បដិសេធ</button>' +
                 '</div>' +
               '</div>';
             }
