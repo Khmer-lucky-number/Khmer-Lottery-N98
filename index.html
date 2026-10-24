@@ -845,6 +845,10 @@
           <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" rel="noopener" id="abaBankBtn" onclick="N98.handleAbaClick(event)" style="font-size:15px; padding:16px; display:flex; align-items:center; justify-content:center; gap:10px; background:linear-gradient(135deg,#005fa3,#0078D7); color:white; text-decoration:none; border-radius:10px; font-weight:800;">
             <span style="font-size:22px;">🏦</span><span>បង់ប្រាក់តាម ABA Bank</span><span style="background:rgba(255,255,255,0.25); padding:3px 10px; border-radius:8px; font-size:11px;">KHQR</span>
           </a>
+<!-- បន្ថែមប៊ូតុងទាញយកនៅទីនេះ -->
+<button type="button" onclick="N98.downloadQR()" style="margin-top:10px; width:100%; padding:12px; background:linear-gradient(135deg,#28a745,#1e7e34); color:white; border:none; border-radius:10px; font-weight:800; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 10px rgba(40,167,69,0.3);">
+  <span style="font-size:18px;">📥</span> ទាញយករូបភាព QR Code
+</button>
           <div style="font-size:11.5px; color:#005fa3; margin-top:12px; font-weight:700;">⚡ បង់រួច សូមថតរូប (Screenshot)</div>
         </div>
         <label>លេខទូរស័ព្ទ *</label>
@@ -2393,6 +2397,32 @@
         }, 500);
       }
 
+      // បន្ថែម Function នេះសម្រាប់ការទាញយករូបភាព QR
+      function downloadQR() {
+        var qrUrl = 'https://pay.ababank.com/oRF8/yhtm93ei'; 
+        // ចំណាំ៖ ប្រសិនបើអ្នកមានរូបភាព QR ផ្ទាល់ខ្លួន សូមប្តូរតំណភ្ជាប់ខាងលើទៅជាតំណភ្ជាប់រូបភាពនោះ (ឧ. https://i.imgur.com/...)
+
+        showToast('កំពុងទាញយករូបភាព...', 'info', '⏳');
+        
+        fetch(qrUrl)
+          .then(response => response.blob())
+          .then(blob => {
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'ABA_KHQR_N98.jpg'; 
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            showToast('ទាញយករូបភាពបានជោគជ័យ!', 'success', '📥');
+          })
+          .catch(err => {
+            console.error('Download error:', err);
+            showToast('មានបញ្ហាក្នុងការទាញយក!', 'error', '❌');
+          });
+      }
+
       function checkOnlineFormValidity() {
         var phone = fixPhoneNumber($('depPhone').value);
         var depAmount = parseFloat($('depAmount').value) || 0;
@@ -3441,6 +3471,7 @@
         updateAmount: updateAmount,
         submitBet: submitBet,
         handleAbaClick: handleAbaClick,
+      downloadQR: downloadQR, 
         switchHistoryTab: switchHistoryTab,
         switchMainMode: switchMainMode,
         toggleTheme: toggleTheme,
