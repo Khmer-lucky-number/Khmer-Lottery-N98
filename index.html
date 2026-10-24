@@ -3113,6 +3113,7 @@
           
           var timeBadge = '';
           if (mode === 'classic' && b.drawTime) {
+            timeBadge = esc(b.drawTime); 
           } else if (mode === 'rapid' && b.drawId) {
             timeBadge = '<div style="font-size:10px; color:#e91e63; font-weight:800; margin-top:2px;">🎯 វគ្គ: ' + esc(b.drawId) + '</div>';
           }
