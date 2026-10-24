@@ -862,7 +862,7 @@
           <option value="KHR">រៀល (៛ KHR)</option>
         </select>
         
-        <label>ចំនួនទឹកប្រាក់ *</label>
+        <label>បញ្ជាក់ចំនួនទឹកប្រាក់របស់អ្នក *</label>
         <input type="number" id="depAmount" required placeholder="បញ្ចូលចំនួន" step="any" min="0.01" oninput="N98.checkContinueButtonState()">
         <div style="font-size:11px; color:#dc3545; font-weight:800; margin-bottom:8px; text-align:left;" id="depMinHint">⚠️ ចំនួនអប្បបរមា USD ≥ 5.00$</div>
         
@@ -2454,7 +2454,8 @@
         var btn = $('depContinueBtn');
         if (!btn) return;
 
-        if (hasClickedAba || hasClickedDownload || amountOk) {
+        // លក្ខខណ្ឌ៖ ត្រូវចុច ABA ឬ ទាញយក QR ហើយ ត្រូវបំពេញចំនួនទឹកប្រាក់ត្រឹមត្រូវ
+        if ((hasClickedAba || hasClickedDownload) && amountOk) {
           btn.disabled = false;
           btn.style.background = 'linear-gradient(135deg,#ff9800,#e65100)';
           btn.style.color = 'white';
