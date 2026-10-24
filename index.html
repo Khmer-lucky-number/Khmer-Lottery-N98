@@ -2382,6 +2382,7 @@
 
       function handleAbaClick(event) {
         if (event) event.preventDefault();
+        // បើកតំណភ្ជាប់ ABA Bank ដដែល
         window.open('https://pay.ababank.com/oRF8/yhtm93ei', '_blank', 'noopener');
         setTimeout(function() {
           var fileInput = $('depScreenshot');
@@ -2397,21 +2398,23 @@
         }, 500);
       }
 
-      // បន្ថែម Function នេះសម្រាប់ការទាញយករូបភាព QR
       function downloadQR() {
-        var qrUrl = 'https://pay.ababank.com/oRF8/yhtm93ei'; 
-        // ចំណាំ៖ ប្រសិនបើអ្នកមានរូបភាព QR ផ្ទាល់ខ្លួន សូមប្តូរតំណភ្ជាប់ខាងលើទៅជាតំណភ្ជាប់រូបភាពនោះ (ឧ. https://i.imgur.com/...)
-
+        // ប្រើប្រាស់តំណភ្ជាប់រូបភាពពិតប្រាកដដែលអ្នកបានផ្តល់ឱ្យ
+        var qrUrl = 'https://i.ibb.co/twtR2CPg/photo-2026-10-24-21-09-28.jpg';
+        
         showToast('កំពុងទាញយករូបភាព...', 'info', '⏳');
         
         fetch(qrUrl)
-          .then(response => response.blob())
+          .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.blob();
+          })
           .then(blob => {
             var url = window.URL.createObjectURL(blob);
             var a = document.createElement('a');
             a.style.display = 'none';
             a.href = url;
-            a.download = 'ABA_KHQR_N98.jpg'; 
+            a.download = 'ABA_KHQR_N98.jpg'; // ឈ្មោះឯកសារពេលទាញយក
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
@@ -2420,6 +2423,8 @@
           .catch(err => {
             console.error('Download error:', err);
             showToast('មានបញ្ហាក្នុងការទាញយក!', 'error', '❌');
+            // បើមានបញ្ហាក្នុងការទាញយក វានឹងបើករូបភាពនៅ Tab ថ្មីវិញ
+            window.open(qrUrl, '_blank');
           });
       }
 
