@@ -863,18 +863,20 @@
         </select>
         
         <label>ចំនួនទឹកប្រាក់ *</label>
-        <input type="number" id="depAmount" required placeholder="បញ្ចូលចំនួន" step="any" min="0.01">
+        <input type="number" id="depAmount" required placeholder="បញ្ចូលចំនួន" step="any" min="0.01" oninput="N98.checkContinueButtonState()">
         <div style="font-size:11px; color:#dc3545; font-weight:800; margin-bottom:8px; text-align:left;" id="depMinHint">⚠️ ចំនួនអប្បបរមា USD ≥ 5.00$</div>
         
-        <!-- ផ្នែកប៊ូតុងបន្ត និងការបញ្ចូលរូបភាព -->
+        <!-- ប៊ូតុងបន្ត -->
         <div style="background:linear-gradient(135deg,#fff3cd,#ffe69c); border:1px solid #ffc107; border-radius:10px; padding:12px; margin-top:14px; text-align:left;">
             <div style="font-weight:800; color:#856404; font-size:12px; margin-bottom:8px;">បន្ទាប់ពីបង់ប្រាក់រួច សូមចុចបន្ត ដើម្បីបើកការបញ្ចូលរូបភាពនៃប្រតិបត្តិការបង់ប្រាក់របស់អ្នក!</div>
-            <button type="button" id="depContinueBtn" onclick="N98.enableScreenshotUpload()" style="width:100%; padding:12px; background:linear-gradient(135deg,#ff9800,#e65100); color:white; border:none; border-radius:8px; font-weight:800; font-size:14px; cursor:pointer;">👉 បន្ត</button>
+            <button type="button" id="depContinueBtn" onclick="N98.enableScreenshotUpload()" disabled style="width:100%; padding:12px; background:#ced4da; color:#6c757d; border:none; border-radius:8px; font-weight:800; font-size:14px; cursor:not-allowed;">👉 បន្ត</button>
         </div>
 
         <label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none; margin-top:14px; display:block;">បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) *</label>
         <input type="file" id="depScreenshot" accept="image/*" required disabled style="width:100%; padding:10px; border:2px solid #dee2e6; border-radius:10px;">
+        
         <button type="submit" class="btn btn-success" id="depSubmitBtn" disabled style="margin-top:12px;">🚀 បញ្ជាក់ការបញ្ចូលប្រាក់</button>
+        
         <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px solid #ff8b8b; border-radius:10px; padding:12px 14px; margin-top:12px; font-size:11.5px; color:#721c24; line-height:1.7; text-align:left; font-weight:600;"><span class="anim-shake">⚠️</span> <strong>ការព្រមាន!</strong><br>• ការបង់ប្រាក់ត្រូវធ្វើតាម ABA Bank ជាមុន<br>• បញ្ជូនរូបភាព Screenshot ជូន Admin<br>• ប្រសិនបើមិនបង់ → Admin នឹងមិនអនុម័ត</div>
         
         <div style="font-size:11.5px; color:#dc3545; font-weight:800; text-align:center; margin-top:8px;">សូមផ្ទៀងផ្ទាត់លទ្ធផលឆ្នោតជាមួយនឹងការចាក់ឆ្នោតរបស់អ្នក!</div>
@@ -1039,6 +1041,10 @@
       var lastScreenshotTime = '';
 
       var confirmCallback = null;
+      
+      // អថេរសម្រាប់តាមដានសកម្មភាពក្នុង Modal ដាក់ប្រាក់
+      var hasClickedAba = false;
+      var hasClickedDownload = false;
 
       function $(id) { return document.getElementById(id); }
 
@@ -2372,8 +2378,20 @@
         if (label) {
           label.style.opacity = '0.5';
           label.style.pointerEvents = 'none';
-          label.innerHTML = 'បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) * <span style="font-size:11px; color:#dc3545;"> (ត្រូវចុច ABA Bank ជាមុន)</span>';
+          label.innerHTML = 'បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) *';
         }
+        
+        // Reset state ពេលបើក Modal ឡើងវិញ
+        hasClickedAba = false;
+        hasClickedDownload = false;
+        var btn = $('depContinueBtn');
+        if (btn) {
+          btn.disabled = true;
+          btn.style.background = '#ced4da';
+          btn.style.color = '#6c757d';
+          btn.style.cursor = 'not-allowed';
+        }
+
         $('depositModal').style.display = 'block';
         setTimeout(checkOnlineFormValidity, 100);
       }
@@ -2390,23 +2408,65 @@
 
       function handleAbaClick(event) {
         if (event) event.preventDefault();
-        // បើកតំណភ្ជាប់ ABA Bank ដដែល
         window.open('https://pay.ababank.com/oRF8/yhtm93ei', '_blank', 'noopener');
+        hasClickedAba = true;
+        checkContinueButtonState();
         setTimeout(function() {
-          var fileInput = $('depScreenshot');
-          var label = $('depScreenshotLabel');
-          if (fileInput) fileInput.disabled = false;
-          if (label) {
-            label.style.opacity = '1';
-            label.style.pointerEvents = 'auto';
-            label.innerHTML = 'បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) * <span style="font-size:11px; color:#28a745;"> ✅ អាចភ្ជាប់បាន</span>';
-          }
-          checkOnlineFormValidity();
           showToast('អាចភ្ជាប់រូបភាពបានហើយ!', 'info', '📷');
         }, 500);
       }
 
-      // បន្ថែម Function នេះដើម្បីបើកការបញ្ចូលរូបភាព
+      function downloadQR() {
+        var qrUrl = 'https://i.ibb.co/twtR2CPg/photo-2026-10-24-21-09-28.jpg';
+        hasClickedDownload = true;
+        checkContinueButtonState();
+        showToast('កំពុងទាញយករូបភាព...', 'info', '⏳');
+        
+        fetch(qrUrl)
+          .then(response => response.blob())
+          .then(blob => {
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'ABA_KHQR_N98.jpg';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            showToast('ទាញយករូបភាពបានជោគជ័យ!', 'success', '📥');
+          })
+          .catch(err => {
+            console.error('Download error:', err);
+            showToast('មានបញ្ហាក្នុងការទាញយក!', 'error', '❌');
+            window.open(qrUrl, '_blank');
+          });
+      }
+
+      function checkContinueButtonState() {
+        var amountInput = $('depAmount');
+        var depAmount = parseFloat(amountInput.value) || 0;
+        var depCur = $('depCurrency').value;
+        
+        var amountOk = false;
+        if (depCur === 'USD') amountOk = depAmount >= CFG.MIN_DEPOSIT_USD;
+        else amountOk = depAmount >= CFG.MIN_DEPOSIT_KHR;
+
+        var btn = $('depContinueBtn');
+        if (!btn) return;
+
+        if (hasClickedAba || hasClickedDownload || amountOk) {
+          btn.disabled = false;
+          btn.style.background = 'linear-gradient(135deg,#ff9800,#e65100)';
+          btn.style.color = 'white';
+          btn.style.cursor = 'pointer';
+        } else {
+          btn.disabled = true;
+          btn.style.background = '#ced4da';
+          btn.style.color = '#6c757d';
+          btn.style.cursor = 'not-allowed';
+        }
+      }
+
       function enableScreenshotUpload() {
         var fileInput = $('depScreenshot');
         var label = $('depScreenshotLabel');
@@ -2421,40 +2481,12 @@
         if (btn) {
           btn.disabled = true;
           btn.style.background = '#ced4da';
+          btn.style.color = '#6c757d';
+          btn.style.cursor = 'not-allowed';
           btn.textContent = '✅ បានបើកដំណើរការ';
         }
         checkOnlineFormValidity();
         showToast('អ្នកអាចភ្ជាប់រូបភាពបានហើយ!', 'info', '📷');
-      }
-
-      function downloadQR() {
-        // ប្រើប្រាស់តំណភ្ជាប់រូបភាពពិតប្រាកដដែលអ្នកបានផ្តល់ឱ្យ
-        var qrUrl = 'https://i.ibb.co/twtR2CPg/photo-2026-10-24-21-09-28.jpg';
-        
-        showToast('កំពុងទាញយករូបភាព...', 'info', '⏳');
-        
-        fetch(qrUrl)
-          .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.blob();
-          })
-          .then(blob => {
-            var url = window.URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'ABA_KHQR_N98.jpg'; // ឈ្មោះឯកសារពេលទាញយក
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            showToast('ទាញយករូបភាពបានជោគជ័យ!', 'success', '📥');
-          })
-          .catch(err => {
-            console.error('Download error:', err);
-            showToast('មានបញ្ហាក្នុងការទាញយក!', 'error', '❌');
-            // បើមានបញ្ហាក្នុងការទាញយក វានឹងបើករូបភាពនៅ Tab ថ្មីវិញ
-            window.open(qrUrl, '_blank');
-          });
       }
 
       function checkOnlineFormValidity() {
@@ -3176,10 +3208,15 @@
           var modeBadge = b.payMethod === 'direct' ? '<span style="color:#28a745; font-size:10px; font-weight:800;">💵 ផ្ទាល់</span>' : '<span style="color:#0078D7; font-size:10px; font-weight:800;">🌐 អនឡាញ</span>';
           
           var timeBadge = '';
-          if (mode === 'classic' && b.drawTime) {
-            timeBadge = esc(b.drawTime); 
-          } else if (mode === 'rapid' && b.drawId) {
+          if (mode === 'rapid' && b.drawId) {
             timeBadge = '<div style="font-size:10px; color:#e91e63; font-weight:800; margin-top:2px;">🎯 វគ្គ: ' + esc(b.drawId) + '</div>';
+          }
+
+          // កាត់យកតែម៉ោង និងនាទីពី b.date (ឧទាហរណ៍៖ "24/10/2026 14:45:17" កាត់យក "14:45")
+          var betTimeOnly = '';
+          if (b.date && b.date.indexOf(' ') !== -1) {
+            var timePart = b.date.split(' ')[1]; // យកផ្នែកខាងក្រោយដកឃ្លា
+            betTimeOnly = timePart.substring(0, 5); // កាត់យកត្រឹម 5 តួអក្សរ (HH:mm)
           }
 
           html += '<tr>' +
@@ -3188,7 +3225,7 @@
               '<div style="font-weight:700;">' + esc(b.date) + '</div>' + timeBadge +
             '</td>' +
             (mode === 'classic' 
-              ? '<td>' + (timeBadge || '-') + '</td>'
+              ? '<td style="font-weight:800; color:#d97706;">' + (betTimeOnly || '-') + '</td>'
               : '<td><span class="badge" style="background:#e91e63; color:#fff; padding:2px 6px; border-radius:6px; font-size:9px;">#' + esc(b.drawId || '-') + '</span></td>'
             ) +
             '<td><div style="margin-bottom:2px;">' + modeBadge + '</div><strong style="color:#0078D7;">' + esc(b.numbers) + '</strong></td>' +
@@ -3432,9 +3469,15 @@
         var depScreenshot = $('depScreenshot');
         if (depScreenshot) depScreenshot.addEventListener('change', checkOnlineFormValidity);
         var depAmountInput = $('depAmount');
-        if (depAmountInput) depAmountInput.addEventListener('input', checkOnlineFormValidity);
+        if (depAmountInput) depAmountInput.addEventListener('input', function() {
+            checkOnlineFormValidity();
+            checkContinueButtonState();
+        });
         var depCurrencyInput = $('depCurrency');
-        if (depCurrencyInput) depCurrencyInput.addEventListener('change', updateDepositMinHint);
+        if (depCurrencyInput) depCurrencyInput.addEventListener('change', function() {
+            updateDepositMinHint();
+            checkContinueButtonState();
+        });
       }
 
       function resetBetForm() {
@@ -3505,7 +3548,6 @@
         updateAmount: updateAmount,
         submitBet: submitBet,
         handleAbaClick: handleAbaClick,
-      downloadQR: downloadQR, 
         switchHistoryTab: switchHistoryTab,
         switchMainMode: switchMainMode,
         toggleTheme: toggleTheme,
@@ -3529,7 +3571,10 @@
         adminRejectDepositReq: adminRejectDepositReq,
         manualCaptureScreenshot: manualCaptureScreenshot,
         closeConfirm: closeConfirm,
-        updateBalanceUI: updateBalanceUI
+        updateBalanceUI: updateBalanceUI,
+        downloadQR: downloadQR,
+        enableScreenshotUpload: enableScreenshotUpload,
+        checkContinueButtonState: checkContinueButtonState
       };
 
       if (document.readyState === 'loading') {
