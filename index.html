@@ -845,14 +845,8 @@
           <a href="https://pay.ababank.com/oRF8/yhtm93ei" target="_blank" rel="noopener" id="abaBankBtn" onclick="N98.handleAbaClick(event)" style="font-size:15px; padding:16px; display:flex; align-items:center; justify-content:center; gap:10px; background:linear-gradient(135deg,#005fa3,#0078D7); color:white; text-decoration:none; border-radius:10px; font-weight:800;">
             <span style="font-size:22px;">🏦</span><span>បង់ប្រាក់តាម ABA Bank</span><span style="background:rgba(255,255,255,0.25); padding:3px 10px; border-radius:8px; font-size:11px;">KHQR</span>
           </a>
-          
-          <button type="button" onclick="N98.downloadQR()" style="margin-top:10px; width:100%; padding:12px; background:linear-gradient(135deg,#28a745,#1e7e34); color:white; border:none; border-radius:10px; font-weight:800; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 10px rgba(40,167,69,0.3);">
-            <span style="font-size:18px;">📥</span> ទាញយករូបភាព QR Code
-          </button>
-
           <div style="font-size:11.5px; color:#005fa3; margin-top:12px; font-weight:700;">⚡ បង់រួច សូមថតរូប (Screenshot)</div>
         </div>
-        
         <label>លេខទូរស័ព្ទ *</label>
         <input type="tel" id="depPhone" required placeholder="បញ្ចូលលេខទូរស័ព្ទ" minlength="9" maxlength="10" inputmode="numeric">
         
@@ -862,21 +856,13 @@
           <option value="KHR">រៀល (៛ KHR)</option>
         </select>
         
-        <label>បញ្ជាក់ចំនួនទឹកប្រាក់របស់អ្នក *</label>
-        <input type="number" id="depAmount" required placeholder="បញ្ចូលចំនួន" step="any" min="0.01" oninput="N98.checkContinueButtonState()">
+        <label>ចំនួនទឹកប្រាក់ *</label>
+        <input type="number" id="depAmount" required placeholder="បញ្ចូលចំនួន" step="any" min="0.01">
         <div style="font-size:11px; color:#dc3545; font-weight:800; margin-bottom:8px; text-align:left;" id="depMinHint">⚠️ ចំនួនអប្បបរមា USD ≥ 5.00$</div>
         
-        <!-- ប៊ូតុងបន្ត -->
-        <div style="background:linear-gradient(135deg,#fff3cd,#ffe69c); border:1px solid #ffc107; border-radius:10px; padding:12px; margin-top:14px; text-align:left;">
-            <div style="font-weight:800; color:#856404; font-size:12px; margin-bottom:8px;">បន្ទាប់ពីបង់ប្រាក់រួច សូមចុចបន្ត ដើម្បីបើកការបញ្ចូលរូបភាពនៃប្រតិបត្តិការបង់ប្រាក់របស់អ្នក!</div>
-            <button type="button" id="depContinueBtn" onclick="N98.enableScreenshotUpload()" disabled style="width:100%; padding:12px; background:#ced4da; color:#6c757d; border:none; border-radius:8px; font-weight:800; font-size:14px; cursor:not-allowed;">👉 បន្ត</button>
-        </div>
-
-        <label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none; margin-top:14px; display:block;">បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) *</label>
-        <input type="file" id="depScreenshot" accept="image/*" required disabled style="width:100%; padding:10px; border:2px solid #dee2e6; border-radius:10px;">
-        
+        <label id="depScreenshotLabel" style="opacity:0.5; pointer-events:none; margin-top:14px;">បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) * <span style="font-size:11px; color:#dc3545; font-weight:normal;"> (ត្រូវចុច ABA Bank ជាមុន)</span></label>
+        <input type="file" id="depScreenshot" accept="image/*" required disabled>
         <button type="submit" class="btn btn-success" id="depSubmitBtn" disabled style="margin-top:12px;">🚀 បញ្ជាក់ការបញ្ចូលប្រាក់</button>
-        
         <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px solid #ff8b8b; border-radius:10px; padding:12px 14px; margin-top:12px; font-size:11.5px; color:#721c24; line-height:1.7; text-align:left; font-weight:600;"><span class="anim-shake">⚠️</span> <strong>ការព្រមាន!</strong><br>• ការបង់ប្រាក់ត្រូវធ្វើតាម ABA Bank ជាមុន<br>• បញ្ជូនរូបភាព Screenshot ជូន Admin<br>• ប្រសិនបើមិនបង់ → Admin នឹងមិនអនុម័ត</div>
         
         <div style="font-size:11.5px; color:#dc3545; font-weight:800; text-align:center; margin-top:8px;">សូមផ្ទៀងផ្ទាត់លទ្ធផលឆ្នោតជាមួយនឹងការចាក់ឆ្នោតរបស់អ្នក!</div>
@@ -1041,10 +1027,6 @@
       var lastScreenshotTime = '';
 
       var confirmCallback = null;
-      
-      // អថេរសម្រាប់តាមដានសកម្មភាពក្នុង Modal ដាក់ប្រាក់
-      var hasClickedAba = false;
-      var hasClickedDownload = false;
 
       function $(id) { return document.getElementById(id); }
 
@@ -1760,10 +1742,6 @@
         updateBettingClosed10();
         
         try {
-          // បង្ខំឱ្យបង្ហាញ Classic ជានិច្ចនៅពេល Login ចូល
-          updateHistoryTabsForMode('classic');
-          // បើចង់រក្សាទុកម៉ូដចាស់ សូមប្រើកូដខាងក្រោមវិញ
-          /*
           var savedMode = localStorage.getItem(CFG.MAIN_MODE_KEY);
           if (savedMode === 'rapid') {
             var rapidTab = document.querySelector('.mode-tab[data-mode="rapid"]');
@@ -1771,9 +1749,8 @@
           } else {
             updateHistoryTabsForMode('classic');
           }
-          */
         } catch (e) { updateHistoryTabsForMode('classic'); }
-
+        
         clearIntervals();
         intervals.clock = setInterval(function() {
           updateClock();
@@ -2383,20 +2360,8 @@
         if (label) {
           label.style.opacity = '0.5';
           label.style.pointerEvents = 'none';
-          label.innerHTML = 'បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) *';
+          label.innerHTML = 'បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) * <span style="font-size:11px; color:#dc3545;"> (ត្រូវចុច ABA Bank ជាមុន)</span>';
         }
-        
-        // Reset state ពេលបើក Modal ឡើងវិញ
-        hasClickedAba = false;
-        hasClickedDownload = false;
-        var btn = $('depContinueBtn');
-        if (btn) {
-          btn.disabled = true;
-          btn.style.background = '#ced4da';
-          btn.style.color = '#6c757d';
-          btn.style.cursor = 'not-allowed';
-        }
-
         $('depositModal').style.display = 'block';
         setTimeout(checkOnlineFormValidity, 100);
       }
@@ -2414,85 +2379,18 @@
       function handleAbaClick(event) {
         if (event) event.preventDefault();
         window.open('https://pay.ababank.com/oRF8/yhtm93ei', '_blank', 'noopener');
-        hasClickedAba = true;
-        checkContinueButtonState();
         setTimeout(function() {
+          var fileInput = $('depScreenshot');
+          var label = $('depScreenshotLabel');
+          if (fileInput) fileInput.disabled = false;
+          if (label) {
+            label.style.opacity = '1';
+            label.style.pointerEvents = 'auto';
+            label.innerHTML = 'បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) * <span style="font-size:11px; color:#28a745;"> ✅ អាចភ្ជាប់បាន</span>';
+          }
+          checkOnlineFormValidity();
           showToast('អាចភ្ជាប់រូបភាពបានហើយ!', 'info', '📷');
         }, 500);
-      }
-
-      function downloadQR() {
-        var qrUrl = 'https://i.ibb.co/twtR2CPg/photo-2026-10-24-21-09-28.jpg';
-        hasClickedDownload = true;
-        checkContinueButtonState();
-        showToast('កំពុងទាញយករូបភាព...', 'info', '⏳');
-        
-        fetch(qrUrl)
-          .then(response => response.blob())
-          .then(blob => {
-            var url = window.URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'ABA_KHQR_N98.jpg';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            showToast('ទាញយករូបភាពបានជោគជ័យ!', 'success', '📥');
-          })
-          .catch(err => {
-            console.error('Download error:', err);
-            showToast('មានបញ្ហាក្នុងការទាញយក!', 'error', '❌');
-            window.open(qrUrl, '_blank');
-          });
-      }
-
-      function checkContinueButtonState() {
-        var amountInput = $('depAmount');
-        var depAmount = parseFloat(amountInput.value) || 0;
-        var depCur = $('depCurrency').value;
-        
-        var amountOk = false;
-        if (depCur === 'USD') amountOk = depAmount >= CFG.MIN_DEPOSIT_USD;
-        else amountOk = depAmount >= CFG.MIN_DEPOSIT_KHR;
-
-        var btn = $('depContinueBtn');
-        if (!btn) return;
-
-        // លក្ខខណ្ឌ៖ ត្រូវចុច ABA ឬ ទាញយក QR ហើយ ត្រូវបំពេញចំនួនទឹកប្រាក់ត្រឹមត្រូវ
-        if ((hasClickedAba || hasClickedDownload) && amountOk) {
-          btn.disabled = false;
-          btn.style.background = 'linear-gradient(135deg,#ff9800,#e65100)';
-          btn.style.color = 'white';
-          btn.style.cursor = 'pointer';
-        } else {
-          btn.disabled = true;
-          btn.style.background = '#ced4da';
-          btn.style.color = '#6c757d';
-          btn.style.cursor = 'not-allowed';
-        }
-      }
-
-      function enableScreenshotUpload() {
-        var fileInput = $('depScreenshot');
-        var label = $('depScreenshotLabel');
-        var btn = $('depContinueBtn');
-        
-        if (fileInput) fileInput.disabled = false;
-        if (label) {
-          label.style.opacity = '1';
-          label.style.pointerEvents = 'auto';
-          label.innerHTML = 'បញ្ចូលរូបថតអេក្រង់នៃប្រតិបត្តិការទូទាត់របស់អ្នក (Screenshot) * <span style="font-size:11px; color:#28a745;"> ✅ អាចភ្ជាប់បាន</span>';
-        }
-        if (btn) {
-          btn.disabled = true;
-          btn.style.background = '#ced4da';
-          btn.style.color = '#6c757d';
-          btn.style.cursor = 'not-allowed';
-          btn.textContent = '✅ បានបើកដំណើរការ';
-        }
-        checkOnlineFormValidity();
-        showToast('អ្នកអាចភ្ជាប់រូបភាពបានហើយ!', 'info', '📷');
       }
 
       function checkOnlineFormValidity() {
@@ -2560,28 +2458,6 @@
           else if (dt.indexOf('16:00') !== -1) slot = '16:00';
           if (slot && isBettingClosed(slot)) btns[i].classList.add('closed');
           else btns[i].classList.remove('closed');
-        }
-      }
-
-      function updateTimeButtons() {
-        var btns = document.querySelectorAll('.time-selector .time-btn');
-        var closed12 = isBettingClosed('12:00');
-        var closed16 = isBettingClosed('16:00');
-
-        for (var i = 0; i < btns.length; i++) {
-          var dt = btns[i].getAttribute('data-time') || btns[i].textContent;
-          var slot = '';
-          if (dt.indexOf('12:00') !== -1) slot = '12:00';
-          else if (dt.indexOf('16:00') !== -1) slot = '16:00';
-          
-          if (slot === '12:00' && closed12) btns[i].classList.add('closed');
-          else if (slot === '16:00' && closed16) btns[i].classList.add('closed');
-          else btns[i].classList.remove('closed');
-        }
-
-        // ប្រសិនបើ 12:00 បិទ តែ 16:00 មិនទាន់បិទ ហើយអ្នកប្រើកំពុងជ្រើស 12:00 សូមប្តូរទៅ 16:00 ស្វ័យប្រវត្តិ
-        if (closed12 && !closed16 && selectedTime === '12:00') {
-          setTime('16:00', null);
         }
       }
 
@@ -3236,15 +3112,10 @@
           var modeBadge = b.payMethod === 'direct' ? '<span style="color:#28a745; font-size:10px; font-weight:800;">💵 ផ្ទាល់</span>' : '<span style="color:#0078D7; font-size:10px; font-weight:800;">🌐 អនឡាញ</span>';
           
           var timeBadge = '';
-          if (mode === 'rapid' && b.drawId) {
+          if (mode === 'classic' && b.drawTime) {
+            timeBadge = esc(b.drawTime); 
+          } else if (mode === 'rapid' && b.drawId) {
             timeBadge = '<div style="font-size:10px; color:#e91e63; font-weight:800; margin-top:2px;">🎯 វគ្គ: ' + esc(b.drawId) + '</div>';
-          }
-
-          // កាត់យកតែម៉ោង និងនាទីពី b.date (ឧទាហរណ៍៖ "24/10/2026 14:45:17" កាត់យក "14:45")
-          var betTimeOnly = '';
-          if (b.date && b.date.indexOf(' ') !== -1) {
-            var timePart = b.date.split(' ')[1]; // យកផ្នែកខាងក្រោយដកឃ្លា
-            betTimeOnly = timePart.substring(0, 5); // កាត់យកត្រឹម 5 តួអក្សរ (HH:mm)
           }
 
           html += '<tr>' +
@@ -3253,7 +3124,7 @@
               '<div style="font-weight:700;">' + esc(b.date) + '</div>' + timeBadge +
             '</td>' +
             (mode === 'classic' 
-              ? '<td style="font-weight:800; color:#d97706;">' + (betTimeOnly || '-') + '</td>'
+              ? '<td>' + (timeBadge || '-') + '</td>'
               : '<td><span class="badge" style="background:#e91e63; color:#fff; padding:2px 6px; border-radius:6px; font-size:9px;">#' + esc(b.drawId || '-') + '</span></td>'
             ) +
             '<td><div style="margin-bottom:2px;">' + modeBadge + '</div><strong style="color:#0078D7;">' + esc(b.numbers) + '</strong></td>' +
@@ -3497,15 +3368,9 @@
         var depScreenshot = $('depScreenshot');
         if (depScreenshot) depScreenshot.addEventListener('change', checkOnlineFormValidity);
         var depAmountInput = $('depAmount');
-        if (depAmountInput) depAmountInput.addEventListener('input', function() {
-            checkOnlineFormValidity();
-            checkContinueButtonState();
-        });
+        if (depAmountInput) depAmountInput.addEventListener('input', checkOnlineFormValidity);
         var depCurrencyInput = $('depCurrency');
-        if (depCurrencyInput) depCurrencyInput.addEventListener('change', function() {
-            updateDepositMinHint();
-            checkContinueButtonState();
-        });
+        if (depCurrencyInput) depCurrencyInput.addEventListener('change', updateDepositMinHint);
       }
 
       function resetBetForm() {
@@ -3599,10 +3464,7 @@
         adminRejectDepositReq: adminRejectDepositReq,
         manualCaptureScreenshot: manualCaptureScreenshot,
         closeConfirm: closeConfirm,
-        updateBalanceUI: updateBalanceUI,
-        downloadQR: downloadQR,
-        enableScreenshotUpload: enableScreenshotUpload,
-        checkContinueButtonState: checkContinueButtonState
+        updateBalanceUI: updateBalanceUI
       };
 
       if (document.readyState === 'loading') {
