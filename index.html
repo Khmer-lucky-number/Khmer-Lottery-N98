@@ -313,7 +313,6 @@
     .group-btn.get-code { background: linear-gradient(135deg, #ff9800, #e65100); }
     .group-btn small { display: block; font-size: 11px; opacity: 0.95; font-weight: 500; margin-top: 3px; }
 
-    /* ប្រអប់បិទចាក់ថ្មី (ស្អាត និងខ្លី) */
     .betting-closed-compact { display: none; background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%); border: 2px solid #EF4444; border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; animation: slideInDown 0.4s ease-out; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15); }
     .betting-closed-compact .left-side { display: flex; align-items: center; gap: 10px; }
     .betting-closed-compact .icon { font-size: 24px; animation: shake 0.8s ease-in-out infinite; }
@@ -391,17 +390,7 @@
     ::-webkit-scrollbar-track { background: #f0f4f8; }
     ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #0078D7, #6f42c1); border-radius: 4px; }
 
-    .tv-mode-active .section { max-width: 100%; padding: 20px; }
-    .tv-mode-active .nav-bar, .tv-mode-active .mode-tabs, .tv-mode-active .user-info-bar, .tv-mode-active .clock-box, .tv-mode-active .status-bar { display: none !important; }
-    .tv-mode-active #classicMode .bet-box, .tv-mode-active #rapidMode .bet-box { display: none !important; }
-    .tv-mode-active .lottery-box { margin: 10px 0; padding: 20px; border-width: 4px; }
-    .tv-mode-active .numbers div { padding: 20px 10px; font-size: 32px; }
-    .tv-mode-active .numbers div .letter { font-size: 24px; }
-    .tv-mode-active .number-result { font-size: 48px; }
-    .tv-mode-active .countdown-rapid { padding: 30px; }
-    .tv-mode-active .countdown-rapid .time-display { font-size: 120px; }
-    .tv-mode-active .countdown-rapid .ring-container { width: 300px; height: 300px; }
-    .tv-mode-active .countdown-rapid .ring-text .time { font-size: 60px; }
+    /* TV Mode ត្រូវបានកែឱ្យបង្ហាញគ្រប់យ៉ាង */
     .tv-mode-active #tvModeExitBtn { display: block; position: fixed; top: 20px; right: 20px; z-index: 9999; }
     #tvModeExitBtn { display: none; position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 15px 30px; font-size: 20px; border-radius: 50px; background: #dc3545; color: white; border: none; cursor: pointer; box-shadow: 0 4px 20px rgba(220,53,69,0.5); }
   </style>
@@ -430,6 +419,11 @@
         <div class="reg-input-group">
           <label>🔐 បង្កើតលេខ PIN 4 ខ្ទង់</label>
           <input type="tel" id="regPin" placeholder="----" maxlength="4" inputmode="numeric">
+        </div>
+        
+        <div style="background:linear-gradient(135deg,#d4edda,#a8e6c0); border:2px solid #28a745; border-radius:10px; padding:12px; margin-top:10px; font-size:12px; color:#155724; line-height:1.7; font-weight:700; text-align:center;">
+          🎁 <b>ប្រាក់រង្វាន់ស្វាគមន៍!</b><br>
+          គណនីថ្មីទទួលបាន <b style="color:#d63000;">10.00$ និង 40,000៛</b> ភ្លាមៗ!
         </div>
         
         <div style="background:linear-gradient(135deg,#fff3cd,#ffe69c); border:1px solid #ffc107; border-radius:10px; padding:12px; margin-top:10px; font-size:11.5px; color:#856404; line-height:1.7; font-weight:600;">
@@ -583,7 +577,6 @@
 
           <div style="background:linear-gradient(135deg,#fff5f5,#ffe0e0); border:1px solid #ffb3b3; padding:8px; border-radius:8px; margin-bottom:10px; text-align:center;"><span style="color:#d63000; font-weight:800; font-size:13px;">⚠️ ចាក់ពី 500៛/0.25$ ដល់ 40,000៛/10$</span></div>
 
-          <!-- ប្រអប់បិទចាក់ថ្មី (ស្អាត និងខ្លី) ផ្លាស់ទីតាំងមកទីនេះ -->
           <div class="betting-closed-compact" id="bettingClosedCompact">
             <div class="left-side">
               <span class="icon">🔒</span>
@@ -861,7 +854,7 @@
             <p>• ម៉ោង 12:00: បិទនៅ 11:59 (១ នាទីមុនលទ្ធផល)</p>
             <p>• ម៉ោង 16:00: បិទនៅ 15:59 (១ នាទីមុនលទ្ធផល)</p>
             <p>• ឆ្នោត 10 នាទី: បិទ ១ នាទីមុនលទ្ធផល</p>
-            <p>• បន្ទាប់ពីលទ្ធផលចេញ → បើកចាក់វិញភ្លាមៗ</p>
+            <p>• បន្ទាប់ពីលទ្ធផលចេញ → បើកចាក់វិញនៅ 00:00 រំលងយប់នេះ</p>
 
             <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">📊 ៨. ប្រវត្តិ និងលទ្ធផល</h4>
             <p>• ប្រវត្តិចាក់ និងលទ្ធផលរក្សាទុក <strong>២ ថ្ងៃ</strong> ចុងក្រោយ</p>
@@ -882,7 +875,7 @@
 
     </div> 
 
-    <div class="footer"><span class="emoji-dice">🎲</span> © 2026 Khmer Lottery N98 — Classic + Rapid Edition 🏆</div>
+    <div class="footer"><span class="emoji-dice">🎲</span> © 2026 Khmer Lottery N98 — រក្សាសិទ្ធិគ្រប់យ៉ាងពីឆ្នោតខ្មែរ N98 <span class="emoji-trophy">🏆</span></div>
   </div>
 
   <div class="modal" id="depositModal">
@@ -1269,6 +1262,7 @@
         } catch (e) {}
       }
 
+      // កែសំឡេងរោទិ៍ ១៥ វិនាទីមុនលទ្ធផល
       function checkBeepBeforeDraw() {
         if (!soundEnabled) return;
         var now = new Date();
@@ -1276,24 +1270,25 @@
         var m = now.getMinutes();
         var s = now.getSeconds();
         
-        if (h === 11 && m === 59 && (s === 53 || s === 56 || s === 59)) {
-          var slot = '12_' + s;
-          if (lastBeepSlot12 !== slot) { lastBeepSlot12 = slot; playBeep(); }
+        // សម្រាប់ 12:00 (រោទិ៍នៅ 11:59:45)
+        if (h === 11 && m === 59 && s === 45) {
+          if (lastBeepSlot12 !== '12_main') { lastBeepSlot12 = '12_main'; playBeep(); }
         }
-        if (h === 15 && m === 59 && (s === 53 || s === 56 || s === 59)) {
-          var slot2 = '16_' + s;
-          if (lastBeepSlot16 !== slot2) { lastBeepSlot16 = slot2; playBeep(); }
+        // សម្រាប់ 16:00 (រោទិ៍នៅ 15:59:45)
+        if (h === 15 && m === 59 && s === 45) {
+          if (lastBeepSlot16 !== '16_main') { lastBeepSlot16 = '16_main'; playBeep(); }
         }
-        if (m % 10 === 9 && (s === 21 || s === 24 || s === 27)) {
-          var slot3 = 'r_' + m + '_' + s;
+        // សម្រាប់ 10 នាទី (រោទិ៍ 15 វិនាទីមុនចប់វគ្គ)
+        if (m % 10 === 9 && s === 45) {
+          var slot3 = 'r_' + m;
           if (lastBeepSlot10 !== slot3) { lastBeepSlot10 = slot3; playBeep(); }
         }
       }
 
-      function initParticles() {
+          function initParticles() {
         var container = $('particlesBg');
         if (!container) return;
-        var emojis = ['🎲', '💰', '🎯', '⭐', '🏆', '💎', '🎁', '🎰', '✨', '⚡', '🪙'];
+        var emojis = ['🎲', '💰', '🎯', '⭐', '🏆', '💎', '🎁', '🎰', '💕', '🌻', '🪙'];
         var count = window.innerWidth < 768 ? 10 : 16;
         for (var i = 0; i < count; i++) {
           var p = document.createElement('div');
@@ -2487,7 +2482,7 @@
           });
       }
 
-      function checkContinueButtonState() {
+  function checkContinueButtonState() {
         var amountInput = $('depAmount');
         var depAmount = parseFloat(amountInput.value) || 0;
         var depCur = $('depCurrency').value;
@@ -2568,7 +2563,7 @@
         return false;
       }
 
-      // គណនាម៉ោងរាប់ថយក្រោយសម្រាប់ការបិទចាក់
+      // គណនាម៉ោងរាប់ថយក្រោយសម្រាប់ការបិទចាក់ (កែឱ្យបើកវិញម៉ោង 00:00 រំលងយប់នេះ)
       function updateBettingStatus() {
         var now = new Date();
         var h = now.getHours();
@@ -2585,28 +2580,16 @@
         if (closed12 || closed16) {
           if (box) box.style.display = 'flex';
           
-          var nextOpenTime = null;
+          var nextOpenTime = new Date(now);
+          nextOpenTime.setHours(24, 0, 0, 0); // បើកវិញម៉ោង 00:00 រំលងយប់នេះ (ថ្ងៃស្អែក)
+          
           var closedText = '';
 
           if (closed12 && closed16) {
-            // បិទទាំងពីរ (ក្រោយម៉ោង 16:00) -> បើកវិញម៉ោង 12:00 ថ្ងៃស្អែក
-            var t12 = new Date(now);
-            t12.setDate(t12.getDate() + 1);
-            t12.setHours(12, 0, 0, 0);
-            nextOpenTime = t12;
             closedText = 'ការចាក់ម៉ោង 12:00 និង 16:00 ត្រូវបានបិទជាបណ្ដោះអាសន្ន!';
           } else if (closed12) {
-            // បិទតែ 12:00 -> បើកវិញម៉ោង 16:00 ថ្ងៃនេះ
-            var t16 = new Date(now);
-            t16.setHours(16, 0, 0, 0);
-            nextOpenTime = t16;
             closedText = 'ការចាក់ម៉ោង 12:00 ត្រូវបានបិទជាបណ្ដោះអាសន្ន!';
           } else if (closed16) {
-            // បិទតែ 16:00 -> បើកវិញម៉ោង 12:00 ថ្ងៃស្អែក
-            var t12b = new Date(now);
-            t12b.setDate(t12b.getDate() + 1);
-            t12b.setHours(12, 0, 0, 0);
-            nextOpenTime = t12b;
             closedText = 'ការចាក់ម៉ោង 16:00 ត្រូវបានបិទជាបណ្ដោះអាសន្ន!';
           }
 
